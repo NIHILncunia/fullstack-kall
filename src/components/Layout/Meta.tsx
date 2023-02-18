@@ -14,7 +14,7 @@ export function Meta({ meta, }: IMetaProps) {
     image, type, tags, section, created, updated,
   } = meta;
 
-  const siteTitle = `${title} - ${siteData.title}`;
+  const siteTitle = `${title} | ${siteData.title}`;
   const siteDescription = description || siteData.description;
   const siteURL = `${siteData.url}${url}`;
   const siteKeywords = keywords || siteData.keywords;

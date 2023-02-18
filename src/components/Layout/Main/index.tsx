@@ -1,4 +1,5 @@
 import React from 'react';
+import { mainStyle } from './mainStyle';
 
 interface IMain {
   children: React.ReactNode;
@@ -7,7 +8,7 @@ interface IMain {
 export function Main({ children, }: IMain) {
   return (
     <>
-      <main>{children}</main>
+      <main css={mainStyle}>{children}</main>
     </>
   );
 }

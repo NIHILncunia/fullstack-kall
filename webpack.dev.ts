@@ -1,8 +1,9 @@
 import path from 'path';
 import ReactRefreshPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
-import { Configuration as WebpackConfiguration } from 'webpack';
+import { Configuration as WebpackConfiguration, ProvidePlugin } from 'webpack';
 import { Configuration as WebpackDevServerConfiguration } from 'webpack-dev-server';
+import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 
 interface Configuration extends WebpackConfiguration {
   devServer?: WebpackDevServerConfiguration;
@@ -65,9 +66,21 @@ const config: Configuration = {
           'postcss-loader',
         ],
       },
+      {
+        test: /\.(ico|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        loader: 'url-loader',
+        options: {
+          name: '[hash].[ext]',
+          limit: 10000,
+        },
+      },
     ],
   },
   plugins: [
+    new CleanWebpackPlugin(),
+    new ProvidePlugin({
+      React: 'react',
+    }),
     new ReactRefreshPlugin({
       overlay: false,
     }),

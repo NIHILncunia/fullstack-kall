@@ -13,6 +13,7 @@ module.exports = {
       fontFamily: {
         sans: [ 'Noto Sans KR', 'sans-serif', ],
         fa: [ 'Font Awesome 5 Free', 'sans-serif', ],
+        nanum: [ 'nanumsquare', 'sans-serif', ],
       },
       screens: {
         xs: { max: '479px', },
@@ -129,6 +130,17 @@ module.exports = {
           700: '#434343',
           800: '#383838',
           900: '#000000',
+          base: '#333333',
+        },
+        point: {
+          base: '#d7e6ff',
+          pink: '#fff0fd',
+          link: '#3897f5',
+        },
+        'point-h': {
+          base: '#acccff',
+          pink: '#f9daf5',
+          link: '#1a7bdc',
         },
       },
     },

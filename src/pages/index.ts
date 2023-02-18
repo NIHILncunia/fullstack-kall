@@ -1,3 +1,4 @@
-export * from './HomePage';
-export * from './UsersPage';
-export * from './TodoDetailPage';
+export * from './Home';
+export * from './SIgnIn';
+export * from './SignUp';
+export * from './NotFound';
