@@ -8,6 +8,7 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import {
   Home, NotFound, SIgnIn, SignUp
 } from './pages';
+import { FindId } from './pages/Find';
 
 const queryClient = new QueryClient();
 
@@ -18,6 +19,7 @@ const ReduxApp = (
         <Route path='/' element={<Home />} />
         <Route path='/signin' element={<SIgnIn />} />
         <Route path='/signup' element={<SignUp />} />
+        <Route path='/find/id' element={<FindId />} />
 
         <Route path='/*' element={<NotFound />} />
       </Routes>

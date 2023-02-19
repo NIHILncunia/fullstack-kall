@@ -20,12 +20,12 @@ export const itemStyle = css`
     ${tw` m-[10px_0] `}
 
     &.item-name {
-      & strong {
-        ${tw` font-[700] text-[1.5rem] `}
+      & a {
+        ${tw` text-point-link `}
+        ${tw` hover:text-point-h-link hover:underline `}
 
-        & a {
-          ${tw` text-point-link `}
-          ${tw` hover:text-point-h-link hover:underline `}
+        & strong {
+          ${tw` font-[700] text-[1.5rem] `}
         }
       }
     }
