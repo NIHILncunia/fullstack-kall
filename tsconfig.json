@@ -4,6 +4,7 @@
     "module": "commonjs",
     "target": "ESNext",
     "esModuleInterop": true,
+    "resolveJsonModule": true,
     "jsx": "preserve",
     "jsxImportSource": "@emotion/react",
     "paths": {

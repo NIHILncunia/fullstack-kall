@@ -11,7 +11,7 @@ export interface ISiteData {
 
 export interface IMetaData {
   title: string;
-  url: string;
+  url?: string;
   description?: string;
   tags?: string;
   keywords?: string;

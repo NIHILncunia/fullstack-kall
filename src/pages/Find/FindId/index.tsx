@@ -2,16 +2,16 @@ import { Global } from '@emotion/react';
 import React, {
   FormEvent, MouseEvent, useCallback, useRef, useState
 } from 'react';
-import { useLocation } from 'react-router';
 import tw, { css } from 'twin.macro';
 import { AppLayout } from '@/layouts';
 import { Heading2 } from '@/components/Content';
 import { useInput } from '@/hooks';
+import {
+  buttonStyles, EmailButton, findIdFormStyle, findIdPageStyle, messageStyle, PhoneButton
+} from './style';
 
 export function FindId() {
   const [ findType, setFindType, ] = useState('email');
-
-  const location = useLocation();
 
   const nameRef = useRef<HTMLInputElement>();
   const emailRef = useRef<HTMLInputElement>();
@@ -28,11 +28,22 @@ export function FindId() {
   const onSubmitForm = useCallback((event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    console.log('POST to /users/find-id', {
-      name: name.value,
-      email: email.value,
-    });
-  }, [ name, email, ]);
+    let resObj: { name: string; email?: string; phone?: string; };
+
+    if (findType === 'email') {
+      resObj = {
+        name: name.value,
+        email: email.value,
+      };
+    } else {
+      resObj = {
+        name: name.value,
+        phone: phone.value,
+      };
+    }
+
+    console.log('POST to /users/find-id', resObj);
+  }, [ name, email, phone, ]);
 
   const globalStyles = css`
     main {
@@ -43,31 +54,62 @@ export function FindId() {
   return (
     <>
       <Global styles={globalStyles} />
-      <AppLayout title='아이디 찾기' url={location.pathname}>
-        <div id='find-id-page'>
+      <AppLayout title='아이디 찾기'>
+        <div id='find-id-page' css={findIdPageStyle}>
           <Heading2>아이디 찾기</Heading2>
-          <p>아이디를 찾는 방법을 선택해주세요.</p>
-          <div>
-            <button data-type='email' onClick={onClickType}>본인확인 이메일로 인증</button>
-            <button data-type='phone' onClick={onClickType}>등록된 휴대전화로 인증</button>
-
-            <form onSubmit={onSubmitForm}>
-              <label htmlFor='name'>
-                <span>이름</span><input type='text' {...name} />
-              </label>
-              {findType === 'email' && (
-                <label htmlFor='email'>
-                  <span>이메일</span><input type='email' {...email} />
-                </label>
-              )}
-              {findType === 'phone' && (
-                <label htmlFor='phone'>
-                  <span>휴대폰 번호</span><input type='text' {...phone} />
-                </label>
-              )}
-              <button>아이디 찾기</button>
-            </form>
+          <p css={messageStyle}>아이디를 찾는 방법을 선택해주세요.</p>
+          <div css={buttonStyles}>
+            <EmailButton
+              findType={findType}
+              data-type='email'
+              onClick={onClickType}
+              disabled={findType === 'email'}
+            >본인확인 이메일로 인증
+            </EmailButton>
+            <PhoneButton
+              findType={findType}
+              data-type='phone'
+              onClick={onClickType}
+              disabled={findType === 'phone'}
+            >등록된 휴대전화로 인증
+            </PhoneButton>
           </div>
+
+          <form onSubmit={onSubmitForm} css={findIdFormStyle}>
+            <label htmlFor='name'>
+              <span>이름</span>
+              <input
+                type='text'
+                required
+                ref={nameRef}
+                {...name}
+              />
+            </label>
+            {findType === 'email' && (
+              <label htmlFor='email'>
+                <span>이메일</span>
+                <input
+                  type='email'
+                  required
+                  ref={emailRef}
+                  {...email}
+                />
+              </label>
+            )}
+            {findType === 'phone' && (
+              <label htmlFor='phone'>
+                <span>휴대폰 번호</span>
+                <input
+                  type='text'
+                  required
+                  placeholder='-빼고 입력'
+                  ref={phoneRef}
+                  {...phone}
+                />
+              </label>
+            )}
+            <button>아이디 찾기</button>
+          </form>
         </div>
       </AppLayout>
     </>

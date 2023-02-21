@@ -7,7 +7,11 @@ export interface IProduct {
   info: string;
   date: Date;
   star: number;
-  tag: string;
+  tag: string[];
   image: string;
   cnt: number;
+}
+
+export interface IUser {
+  id: string;
 }

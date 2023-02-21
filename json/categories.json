@@ -1,0 +1,14 @@
+[
+  {
+    "id": "custom",
+    "category_name": "주문제작"
+  },
+  {
+    "id": "design",
+    "category_name": "디자인"
+  },
+  {
+    "id": "etc",
+    "category_name": "ETC"
+  }
+]

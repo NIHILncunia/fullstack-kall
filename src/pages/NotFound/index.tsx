@@ -30,7 +30,7 @@ export function NotFound() {
 
   return (
     <>
-      <AppLayout title='페이지를 찾을 수 없습니다.' url='/404'>
+      <AppLayout title='페이지를 찾을 수 없습니다.'>
         <div id='notfound-page' css={notFoundStyle}>
           <h2><span>{location.pathname}</span>에 대한 페이지가 존재하지 않습니다.</h2>
           <p><Link to='/'>홈페이지</Link>로 돌아가거나 주소를 다시 확인해주세요.</p>

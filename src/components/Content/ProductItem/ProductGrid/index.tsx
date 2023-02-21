@@ -1,18 +1,18 @@
 import React from 'react';
 import { IProduct } from '@/types/tables.typea';
-import { ProductItem } from '../ProductItem';
+import { ProductGridItem } from '../ProductGridItem';
 import { itemListStyle } from './style';
 
-interface IProductListProps {
+interface IProductGridProps {
   data: IProduct[];
 }
 
-export function ProductList({ data, }: IProductListProps) {
+export function ProductGrid({ data, }: IProductGridProps) {
   return (
     <>
       <div css={itemListStyle}>
         {data.map((item) => (
-          <ProductItem key={item.id} item={item} />
+          <ProductGridItem key={item.id} item={item} />
         ))}
       </div>
     </>

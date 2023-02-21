@@ -118,7 +118,7 @@ module.exports = {
     'react/no-invalid-html-attribute': 'off',
     'react/no-unused-class-component-methods': 'off',
     'react/button-has-type': 'off',
-    'react/no-unknown-property': [ 'error', { ignore: [ 'css', ], }, ],
+    'react/no-unknown-property': [ 'error', { ignore: [ 'css', 'tw', ], }, ],
 
     // 리액트 훅스 규칙
     'react-hooks/exhaustive-deps': 'off',

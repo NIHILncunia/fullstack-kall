@@ -1,35 +1,58 @@
 import axios from 'axios';
-import { ITodo, IUser } from '@/types/todos.types';
-import { IProduct } from '@/types/tables.typea';
+import { IProduct, IUser } from '@/types/tables.typea';
 
-const baseUrl = 'https://my-json-server.typicode.com/NIHILncunia/kall-api';
-
+/** 모든 상품을 가져옴 */
 export const getProducts = async () => {
-  const res = await axios.get<IProduct[]>(`${baseUrl}/products?_sort=date&_order=desc`);
+  const res = await axios.get<IProduct[]>('/json/products.json');
+  const { data, } = res;
 
-  return res.data;
+  return data;
 };
 
+/** 최신순으로 6개의 상품을 가져옴. 홈페이지 용 */
 export const getProductsHome = async () => {
-  const res = await axios.get<IProduct[]>(`${baseUrl}/products?_sort=date&_order=desc&_limit=6`);
+  const res = await axios.get<IProduct[]>('/json/products.json');
+  const { data, } = res;
 
-  return res.data;
+  return data
+    .slice(0, 6)
+    .sort((a, b) => {
+      const beforeDate = new Date(a.date).getTime();
+      const afterDate = new Date(b.date).getTime();
+
+      return afterDate - beforeDate;
+    });
 };
 
-export const getTodos = async () => {
-  const res = await axios.get<ITodo[]>(`${baseUrl}/todos`);
+/** 카테고리별로 상품을 가져옴 */
+export const getProductsByCategory = async (category: string) => {
+  const res = await axios.get<IProduct[]>('/json/products.json');
+  const { data, } = res;
 
-  return res.data;
+  return data.filter((item) => item.category_id === category);
 };
 
-export const getTodo = async (id: string) => {
-  const res = await axios.get<ITodo>(`${baseUrl}/todos/${id}`);
+/** 특정 상품 정보를 가져옴 */
+export const getProduct = async (id: number) => {
+  const res = await axios.get<IProduct[]>('/json/products.json');
+  const { data, } = res;
+  const [ product, ] = data.filter((item) => item.id === id);
 
-  return res.data;
+  return product;
 };
 
+/** 모든 유저 정보를 가져옴 */
 export const getUsers = async () => {
-  const res = await axios.get<IUser[]>(`${baseUrl}/users`);
+  const res = await axios.get<IUser[]>(`/json//users.json`);
 
   return res.data;
+};
+
+/** 특정 유저의 정보를 가져옴 */
+export const getUser = async (id: string) => {
+  const res = await axios.get<IUser[]>(`/json//users.json`);
+  const { data, } = res;
+  const [ user, ] = data.filter((item) => item.id === id);
+
+  return user;
 };

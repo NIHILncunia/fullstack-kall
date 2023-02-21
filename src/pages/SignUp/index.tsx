@@ -73,7 +73,7 @@ export function SignUp() {
           }
         `}
       />
-      <AppLayout title='회원가입' url='/signup'>
+      <AppLayout title='회원가입'>
         <div id='signup-page' css={signUpPageStyle}>
           <form css={formStyle} onSubmit={onSubmitForm}>
             <fieldset css={requiredInputStyle}>

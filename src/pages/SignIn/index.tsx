@@ -26,7 +26,7 @@ export function SIgnIn() {
           }
         `}
       />
-      <AppLayout title='로그인' url='/signin'>
+      <AppLayout title='로그인'>
         <div id='signin-page' css={signInPageStyle}>
           <div className='signin'>
             <Heading2>로그인</Heading2>

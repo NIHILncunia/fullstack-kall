@@ -8,13 +8,13 @@ export function Nav() {
       <nav css={navStyle}>
         <ul>
           <li>
-            <Link to='/product'>주문제작</Link>
+            <Link to='/products/custom'>주문제작</Link>
           </li>
           <li>
-            <Link to='/design'>디자인</Link>
+            <Link to='/products/design'>디자인</Link>
           </li>
           <li>
-            <Link to='/etc'>ETC</Link>
+            <Link to='/products/etc'>ETC</Link>
           </li>
           <li>
             <Link to='/community/guide'>커뮤니티</Link>
