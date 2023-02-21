@@ -1,5 +1,5 @@
 import React from 'react';
-import { IProduct } from '@/types/tables.typea';
+import { IProduct } from '@/types/tables.types';
 import { ProductGridItem } from '../ProductGridItem';
 import { itemListStyle } from './style';
 

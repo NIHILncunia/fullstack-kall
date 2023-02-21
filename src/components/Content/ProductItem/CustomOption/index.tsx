@@ -6,6 +6,9 @@ import { useInput } from '@/hooks';
 import { creamData, shapeData, sheetData } from '@/data/checkbox.data';
 import { ISelect } from '@/types/product.select.types';
 import { SelectItem } from '../SelectItem';
+import {
+  fileInputStyle, inputStyle, radioStyle, selectButton, selectedItemStyle
+} from './style';
 
 interface ICustomOptionProps {
   name: string;
@@ -82,52 +85,58 @@ export function CustomOption({
     <>
       <div>
         <form onSubmit={onSubmitForm}>
-          <div>
+          <div css={radioStyle}>
             <p>시트</p>
-            {sheetData.map((item) => (
-              <label key={item.value} htmlFor={item.label}>
-                <input
-                  type='radio'
-                  name='sheet'
-                  id={item.label}
-                  value={item.value}
-                  onChange={onChangeSheet}
-                />
-                <span>{item.label}</span>
-              </label>
-            ))}
+            <div>
+              {sheetData.map((item) => (
+                <label key={item.value} htmlFor={item.label}>
+                  <input
+                    type='radio'
+                    name='sheet'
+                    id={item.label}
+                    value={item.value}
+                    onChange={onChangeSheet}
+                  />
+                  <span>{item.label}</span>
+                </label>
+              ))}
+            </div>
           </div>
-          <div>
+          <div css={radioStyle}>
             <p>모양</p>
-            {shapeData.map((item) => (
-              <label key={item.value} htmlFor={item.label}>
-                <input
-                  type='radio'
-                  name='shape'
-                  id={item.label}
-                  value={item.value}
-                  onChange={onChangeShape}
-                />
-                <span>{item.label}</span>
-              </label>
-            ))}
+            <div>
+              {shapeData.map((item) => (
+                <label key={item.value} htmlFor={item.label}>
+                  <input
+                    type='radio'
+                    name='shape'
+                    id={item.label}
+                    value={item.value}
+                    onChange={onChangeShape}
+                  />
+                  <span>{item.label}</span>
+                </label>
+              ))}
+            </div>
           </div>
-          <div>
+          <div css={radioStyle}>
             <p>크림</p>
-            {creamData.map((item) => (
-              <label key={item.value} htmlFor={item.label}>
-                <input
-                  type='radio'
-                  name='cream'
-                  id={item.label}
-                  value={item.value}
-                  onChange={onChangeCream}
-                />
-                <span>{item.label}</span>
-              </label>
-            ))}
+            <div>
+              {creamData.map((item) => (
+                <label key={item.value} htmlFor={item.label}>
+                  <input
+                    type='radio'
+                    name='cream'
+                    id={item.label}
+                    value={item.value}
+                    onChange={onChangeCream}
+                  />
+                  <span>{item.label}</span>
+                </label>
+              ))}
+            </div>
           </div>
-          <div>
+          <div css={inputStyle}>
             <label htmlFor={word.id}>
               <span>원하는 문구를 입력하세요.</span>
               <input
@@ -138,7 +147,7 @@ export function CustomOption({
               />
             </label>
           </div>
-          <div>
+          <div css={fileInputStyle}>
             <span>이미지 업로드</span>
             <input
               type='file'
@@ -158,7 +167,7 @@ export function CustomOption({
               <button type='button' onClick={onCLickFileSelect}>파일 찾기</button>
             </div>
           </div>
-          <div>
+          <div css={inputStyle}>
             <label htmlFor={request.id}>
               <span>추가 요청사항</span>
               <input
@@ -169,14 +178,14 @@ export function CustomOption({
               />
             </label>
           </div>
-          <button>선택 완료</button>
+          <button css={selectButton}>선택 완료</button>
         </form>
-        <div className='items'>
-          <p>선택된 상품 총 {items.length}개</p>
+        <div className='items' css={selectedItemStyle}>
+          <p className='count'>선택된 상품 총 {items.length}개</p>
           {items.map((item) => (
             <SelectItem key={uuid()} id={item.id} item={item} items={items} setItems={setItems} />
           ))}
-          <p>결제 총액(배송비 미포함): {getTotalPrice().toLocaleString()}원</p>
+          <p className='total-price'>결제 총액(배송비 미포함): {getTotalPrice().toLocaleString()}원</p>
         </div>
       </div>
     </>

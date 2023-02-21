@@ -2,7 +2,7 @@ import React, {
   ChangeEvent, useCallback, useEffect, useState
 } from 'react';
 import { v4 as uuid } from 'uuid';
-import { IProduct } from '@/types/tables.typea';
+import { IProduct } from '@/types/tables.types';
 import { ProductGrid } from '../ProductItem';
 import { alignButtonStyle, tagControllerStyle } from './style';
 

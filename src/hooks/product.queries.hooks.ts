@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 import { useQuery } from 'react-query';
-import { IProduct } from '@/types/tables.typea';
+import { IProduct } from '@/types/tables.types';
 import { axiosInstance } from '@/data/axios.data';
 
 export const useProducts = () => {
@@ -11,6 +11,30 @@ export const useProducts = () => {
       const { data, } = await axiosInstance.get<IProduct[]>('/products.json');
 
       return data;
+    },
+    {
+      staleTime: 20000,
+    }
+  );
+
+  return data;
+};
+
+export const useProductsHome = () => {
+  const fallback = [];
+  const { data = fallback, } = useQuery<IProduct[], AxiosError>(
+    [ 'getProducts', ],
+    async () => {
+      const { data, } = await axiosInstance.get<IProduct[]>('/products.json');
+
+      return data
+        .slice(0, 6)
+        .sort((a, b) => {
+          const beforeDate = new Date(a.date).getTime();
+          const afterDate = new Date(b.date).getTime();
+
+          return afterDate - beforeDate;
+        });
     },
     {
       staleTime: 20000,

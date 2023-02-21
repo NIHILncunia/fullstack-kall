@@ -5,10 +5,12 @@ import { v4 as uuid } from 'uuid';
 import { FaHeart, FaShare } from 'react-icons/fa';
 import tw from 'twin.macro';
 import { AppLayout } from '@/layouts';
-import { IProduct } from '@/types/tables.typea';
-import { useProductsByCategory, useProductsById } from '@/hooks/queries.hooks';
+import { IProduct } from '@/types/tables.types';
+import { useProductsByCategory, useProductsById } from '@/hooks/product.queries.hooks';
 import { IsLoding, Heading3, ItemRate } from '@/components/Content';
-import { ProductItemPageStyle } from './style';
+import {
+  detailTopStyle, ProductItemPageStyle, topImageStyle, topInfoStyle
+} from './style';
 import {
   CustomOption, DesignOption, ETCOption, OtherItems
 } from '@/components/Content/ProductItem';
@@ -20,45 +22,44 @@ export function ProductItem() {
 
   const param = useParams();
 
-  const data = useProductsById(Number(param.id)) as IProduct;
-  const otherProduct = randomArray(useProductsByCategory(param.category) as IProduct[])
-    .slice(0, 5);
+  const product = useProductsById(Number(param.id)) as IProduct;
+  const otherProduct = randomArray(useProductsByCategory(param.category))
+    .slice(0, 5) as IProduct[];
 
   return (
     <>
-      <AppLayout title={data.name}>
+      <AppLayout title={product.name}>
         <div id='ptoduct-item-page' css={ProductItemPageStyle}>
           <IsLoding />
-          <div>{JSON.stringify(data)}</div>
-          <div className='detail-top'>
-            <div className='top-image'>
-              <img src={data.image} alt={data.name} />
+          <div className='detail-top' css={detailTopStyle}>
+            <div className='top-image' css={topImageStyle}>
+              <img src={product.image} alt={product.name} />
             </div>
-            <div className='top-info'>
+            <div className='top-info' css={topInfoStyle}>
               <div className='tags'>
-                {data.tag?.map((item) => (
+                {product.tag?.map((item) => (
                   <Link key={uuid()} to={`/search/${item}`}>#{item}</Link>
                 ))}
               </div>
               <div className='name'>
-                <h2>{data.name}</h2>
+                <h2>{product.name}</h2>
                 <div className='item-icons'>
                   <button aria-label='Add wishlist'><FaHeart /></button>
                   <button aria-label='Share this Product'><FaShare /></button>
                 </div>
               </div>
               <div className='rate'>
-                <ItemRate rate={data.star} />
+                <ItemRate rate={product.star} />
               </div>
               <div className='prices'>
-                <p className='item-price'>{data.price?.toLocaleString()}원</p>
-                <p className='delivery-price'>배송비3,000원 (주문 시 결제)</p>
+                <p className='item-price'>{product.price?.toLocaleString()}원</p>
+                <p className='delivery-price'>배송비 <strong>3,000원 (주문 시 결제)</strong></p>
               </div>
               {/* 여기에 주문제작 옵션 */}
               {param.category === 'custom' && (
                 <CustomOption
-                  name={data.name}
-                  price={data.price}
+                  name={product.name}
+                  price={product.price}
                   items={items}
                   setItems={setItems}
                 />
@@ -66,8 +67,8 @@ export function ProductItem() {
               {/* 여기에 디자인 옵션 */}
               {param.category === 'design' && (
                 <DesignOption
-                  name={data.name}
-                  price={data.price}
+                  name={product.name}
+                  price={product.price}
                   items={items}
                   setItems={setItems}
                 />
@@ -75,8 +76,8 @@ export function ProductItem() {
               {/* 여기에 기타물품 옵션 */}
               {param.category === 'etc' && (
                 <ETCOption
-                  name={data.name}
-                  price={data.price}
+                  name={product.name}
+                  price={product.price}
                   items={items}
                   setItems={setItems}
                 />
@@ -182,7 +183,9 @@ export function ProductItem() {
                 </li>
               </ul>
 
-              <div className='content' />
+              <div className='content'>
+                상품 후기 목록
+              </div>
             </section>
             <section id='questions'>
               <h3 className='hidden'>상품 문의</h3>
@@ -201,7 +204,9 @@ export function ProductItem() {
                 </li>
               </ul>
 
-              <div className='content' />
+              <div className='content'>
+                상품 문의 목록
+              </div>
             </section>
           </div>
         </div>

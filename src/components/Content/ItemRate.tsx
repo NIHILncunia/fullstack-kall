@@ -122,7 +122,7 @@ export function ItemRate({ rate, }: IItemRateProps) {
   }
 
   const starRateStyle = css`
-    ${tw` text-point-h-base flex flex-row items-center justify-center `}
+    ${tw` text-point-h-base inline-flex flex-row items-center justify-center `}
 
     & svg {
       ${tw` mb-[2px] `}

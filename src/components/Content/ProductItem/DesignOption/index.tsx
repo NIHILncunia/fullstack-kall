@@ -6,6 +6,9 @@ import { useInput } from '@/hooks';
 import { sizeData } from '@/data/checkbox.data';
 import { ISelect } from '@/types/product.select.types';
 import { SelectItem } from '../SelectItem';
+import {
+  inputStyle, radioStyle, selectButton, selectedItemStyle
+} from './style';
 
 interface IDesignOptionProps {
   name: string;
@@ -58,22 +61,24 @@ export function DesignOption({
     <>
       <div>
         <form onSubmit={onSubmitForm}>
-          <div>
+          <div css={radioStyle}>
             <p>크기</p>
-            {sizeData.map((item) => (
-              <label key={item.value} htmlFor={item.label}>
-                <input
-                  type='radio'
-                  name='size'
-                  id={item.label}
-                  value={item.value}
-                  onChange={onChangeSheet}
-                />
-                <span>{item.label}</span>
-              </label>
-            ))}
+            <div>
+              {sizeData.map((item) => (
+                <label key={item.value} htmlFor={item.label}>
+                  <input
+                    type='radio'
+                    name='size'
+                    id={item.label}
+                    value={item.value}
+                    onChange={onChangeSheet}
+                  />
+                  <span>{item.label}</span>
+                </label>
+              ))}
+            </div>
           </div>
-          <div>
+          <div css={inputStyle}>
             <label htmlFor={request.id}>
               <span>추가 요청사항</span>
               <input
@@ -84,14 +89,14 @@ export function DesignOption({
               />
             </label>
           </div>
-          <button>선택 완료</button>
+          <button css={selectButton}>선택 완료</button>
         </form>
-        <div className='items'>
-          <p>선택된 상품 총 {items.length}개</p>
+        <div className='items' css={selectedItemStyle}>
+          <p className='count'>선택된 상품 총 {items.length}개</p>
           {items.map((item) => (
             <SelectItem key={uuid()} id={item.id} item={item} items={items} setItems={setItems} />
           ))}
-          <p>결제 총액(배송비 미포함): {getTotalPrice().toLocaleString()}원</p>
+          <p className='total-price'>결제 총액(배송비 미포함): {getTotalPrice().toLocaleString()}원</p>
         </div>
       </div>
     </>

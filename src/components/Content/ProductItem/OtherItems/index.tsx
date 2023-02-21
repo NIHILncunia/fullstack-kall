@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { IProduct } from '@/types/tables.typea';
+import { IProduct } from '@/types/tables.types';
 import { ItemRate } from '../../ItemRate';
 
 interface IOtherItemsProps {

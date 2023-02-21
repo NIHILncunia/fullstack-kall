@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { IProduct, IUser } from '@/types/tables.typea';
+import { IProduct, IUser } from '@/types/tables.types';
 
 /** 모든 상품을 가져옴 */
 export const getProducts = async () => {
