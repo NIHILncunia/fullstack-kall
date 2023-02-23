@@ -4,7 +4,7 @@ import { SlideBlock } from '@/components/Content/Home';
 import { Heading2, IsLoding } from '@/components/Content';
 import { ProductGrid } from '@/components/Content/ProductItem';
 import { homePageStyle } from './style';
-import { useProductsHome } from '@/hooks/product.queries.hooks';
+import { useProductsHome } from '@/hooks/queries/product';
 
 export function Home() {
   const data = useProductsHome();

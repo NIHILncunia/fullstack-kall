@@ -2,6 +2,7 @@ import React, {
   ChangeEvent, FormEvent, useCallback, useRef, useState
 } from 'react';
 import { v4 as uuid } from 'uuid';
+import { useCookies } from 'react-cookie';
 import { useInput } from '@/hooks';
 import { creamData, shapeData, sheetData } from '@/data/checkbox.data';
 import { ISelect } from '@/types/product.select.types';
@@ -9,6 +10,7 @@ import { SelectItem } from '../SelectItem';
 import {
   fileInputStyle, inputStyle, radioStyle, selectButton, selectedItemStyle
 } from './style';
+import { ICart } from '@/types/tables.types';
 
 interface ICustomOptionProps {
   name: string;
@@ -20,6 +22,8 @@ interface ICustomOptionProps {
 export function CustomOption({
   name, price, items, setItems,
 }: ICustomOptionProps) {
+  const [ cookies, ] = useCookies([ 'id', ]);
+
   const [ sheet, setSheet, ] = useState(sheetData[0].value);
   const [ sheetLabel, setSheetLabel, ] = useState(sheetData[0].label);
   const [ shape, setShape, ] = useState(shapeData[0].value);
@@ -70,8 +74,6 @@ export function CustomOption({
     const requestOption = request.value ? `, 요청사항: ${request.value}` : '';
 
     const newItem = `${nameOption}${wordOption}${requestOption}`;
-
-    // 이 부분에 POST [/order] 처리 필요함.
 
     setItems((prev) => [ ...prev, {
       id: idRef.current++,
@@ -178,6 +180,9 @@ export function CustomOption({
               />
             </label>
           </div>
+          <p className='text-red-500 font-[700]'>
+            선택하지 않을 시 기본값(각 항목의 첫번째 값)으로 주문됩니다.
+          </p>
           <button css={selectButton}>선택 완료</button>
         </form>
         <div className='items' css={selectedItemStyle}>
@@ -185,7 +190,11 @@ export function CustomOption({
           {items.map((item) => (
             <SelectItem key={uuid()} id={item.id} item={item} items={items} setItems={setItems} />
           ))}
-          <p className='total-price'>결제 총액(배송비 미포함): {getTotalPrice().toLocaleString()}원</p>
+          {items && (
+            <p className='total-price'>
+              결제 총액(배송비 미포함): {getTotalPrice().toLocaleString()}원
+            </p>
+          )}
         </div>
       </div>
     </>

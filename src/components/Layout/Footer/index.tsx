@@ -9,7 +9,7 @@ export function Footer() {
         <div className='links' css={footerLinksStyle}>
           <Link to='/agreement'>이용약관</Link>
           <span>|</span><Link to='/privacy'>개인정보처리방침</Link>
-          <span>|</span><Link to='/community/guide'>이용안내</Link>
+          <span>|</span><Link to='/community/guide'>이용 가이드</Link>
         </div>
         <address className='site-address'>
           <p>

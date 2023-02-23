@@ -7,7 +7,7 @@ interface IHeading2Props {
 
 export function Heading2({ children, }: IHeading2Props) {
   const Heading2Style = css`
-    ${tw` pb-[20px] mb-[20px] border-b-[1px] border-solid border-b-black-base font-[700] text-[2rem] `}
+    ${tw` pb-[20px] mb-[20px] border-b-[1px] border-solid border-b-black-base font-[700] text-[2rem] text-black-base `}
   `;
 
   return (

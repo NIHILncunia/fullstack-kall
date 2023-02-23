@@ -71,3 +71,31 @@ export const topInfoStyle = css`
     }
   }
 `;
+
+export const sectionStyle = css`
+  ${tw` mb-[30px] nth-last-1:mb-0 text-[1.2rem] text-black-base `}
+
+  & > ul {
+    ${tw` flex `}
+
+    & > li {
+      ${tw` flex-[1] h-[50px] `}
+
+      & > a {
+        ${tw` block text-center leading-[50px] bg-point-base text-black-base/50 `}
+      }
+
+      &.select > a {
+        ${tw` bg-point-h-base text-black-base `}
+      }
+    }
+  }
+
+  & > div.content {
+    ${tw` border-2 border-solid border-point-h-base p-[20px] `}
+
+    & > p.info-message {
+      ${tw` mb-[30px] nth-last-1:mb-0 `}
+    }
+  }
+`;

@@ -17,7 +17,7 @@ export const itemStyle = css`
   }
 
   & p {
-    ${tw` m-[10px_0] `}
+    ${tw` m-[10px_0] nth-last-1:my-0 `}
 
     &.item-name {
       & a {
@@ -31,32 +31,3 @@ export const itemStyle = css`
     }
   }
 `;
-
-/**
-
-.item p {
-  margin: 10px 0;
-}
-
-.item .item-name strong {
-  font-weight: 700;
-  font-size: 1.5rem;
-}
-
-.item .item-name a {
-  color: var(--c-link);
-}
-
-.item .item-name a:hover {
-  color: var(--c-link-h);
-  text-decoration: underline;
-}
-
-.item .item-rating {
-  color: var(--c-point-h);
-}
-
-.item .item-rating .rating-number {
-  color: var(--black-3);
-}
- */

@@ -89,6 +89,9 @@ export function DesignOption({
               />
             </label>
           </div>
+          <p className='text-red-500 font-[700]'>
+            선택하지 않을 시 기본값(각 항목의 첫번째 값)으로 주문됩니다.
+          </p>
           <button css={selectButton}>선택 완료</button>
         </form>
         <div className='items' css={selectedItemStyle}>
@@ -96,7 +99,11 @@ export function DesignOption({
           {items.map((item) => (
             <SelectItem key={uuid()} id={item.id} item={item} items={items} setItems={setItems} />
           ))}
-          <p className='total-price'>결제 총액(배송비 미포함): {getTotalPrice().toLocaleString()}원</p>
+          {items && (
+            <p className='total-price'>
+              결제 총액(배송비 미포함): {getTotalPrice().toLocaleString()}원
+            </p>
+          )}
         </div>
       </div>
     </>

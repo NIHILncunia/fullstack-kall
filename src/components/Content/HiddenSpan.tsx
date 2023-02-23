@@ -1,5 +1,5 @@
 import React from 'react';
-import { css } from 'twin.macro';
+import tw, { css } from 'twin.macro';
 
 interface IHiddenSpanProps {
   children: React.ReactNode;
@@ -7,11 +7,7 @@ interface IHiddenSpanProps {
 
 export function HiddenSpan({ children, }: IHiddenSpanProps) {
   const spanStyle = css`
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
+    ${tw` absolute w-[1px] h-[1px] m-[1px] overflow-hidden `}
     clip-path: polygon(0 0, 0 0, 0 0);
   `;
 

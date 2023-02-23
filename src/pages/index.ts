@@ -6,3 +6,7 @@ export * from './Find/FindId';
 export * from './Find/FindPassword';
 export * from './Products';
 export * from './ProductItem';
+export * from './Privacy';
+export * from './Search';
+export * from './Agreement';
+export * from './Cart';

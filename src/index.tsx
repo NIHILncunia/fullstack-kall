@@ -6,9 +6,11 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import {
+  Agreement,
+  Cart,
   FindId,
   FindPassword,
-  Home, NotFound, ProductItem, Products, SIgnIn, SignUp
+  Home, NotFound, Privacy, ProductItem, Products, Search, SIgnIn, SignUp
 } from './pages';
 
 const queryClient = new QueryClient({
@@ -28,6 +30,10 @@ const ReduxApp = (
         {/* 홈페이지 */}
         <Route path='/' element={<Home />} />
 
+        {/* 개인정보처리방침 / 이용약관 */}
+        <Route path='/privacy' element={<Privacy />} />
+        <Route path='/agreement' element={<Agreement />} />
+
         {/* 로그인 / 회원가입 */}
         <Route path='/signin' element={<SIgnIn />} />
         <Route path='/signup' element={<SignUp />} />
@@ -36,13 +42,17 @@ const ReduxApp = (
         <Route path='/find/id' element={<FindId />} />
         <Route path='/find/password' element={<FindPassword />} />
 
-        {/* 상품 리스트 */}
+        {/* 상품 리스트 / 상품 상세 페이지 */}
         <Route path='/products/custom' element={<Products category='custom' />} />
         <Route path='/products/design' element={<Products category='design' />} />
         <Route path='/products/etc' element={<Products category='etc' />} />
-
-        {/* 상품 상세 페이지 */}
         <Route path='/products/:category/:id' element={<ProductItem />} />
+
+        {/* 장바구니 / 결제 */}
+        <Route path='/cart' element={<Cart />} />
+
+        {/* 검색 결과 페이지 */}
+        <Route path='/search' element={<Search />} />
 
         {/* 없는 페이지는 여기로 */}
         <Route path='/*' element={<NotFound />} />

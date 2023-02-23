@@ -1,25 +1,18 @@
 import tw, { css } from 'twin.macro';
 
-export const radioStyle = css`
-  ${tw` mb-[20px] `}
-
-  & > p {
-    ${tw` mb-[5px] `}
-  }
+export const countStyle = css`
+  ${tw` flex flex-col gap-[10px] mb-[20px] `}
 
   & > div {
-    ${tw` flex gap-[10px] `}
+    ${tw` flex gap-[10px] items-center `}
 
-    & input {
-      ${tw` hidden `}
+    & > input {
+      ${tw` p-[10px] w-[100px] bg-black-50 `}
     }
 
-    & input+span {
-      ${tw` p-[10px] bg-black-50 text-black-base block cursor-pointer border border-solid border-black-100 `}
-    }
+    & > button {
+      ${tw` p-[10px] bg-point-base block `}
 
-    & input:checked+span {
-      ${tw` bg-point-h-base text-white border-point-h-base `}
     }
   }
 `;
@@ -37,7 +30,11 @@ export const inputStyle = css`
   }
 `;
 
-export const selectButton = css`
+export const bottomMessageStyle = css`
+  ${tw` text-red-500 font-[700] mb-[10px] `}
+`;
+
+export const bottomButtonStyle = css`
   ${tw` mb-[30px] bg-point-base text-black-base p-[20px_10px] w-full `}
   ${tw` hover:text-white hover:bg-point-h-base `}
 `;
@@ -53,19 +50,7 @@ export const selectedItemStyle = css`
     ${tw` flex gap-[10px] mb-[5px] nth-last-1:mb-[30px] items-center `}
 
     & > p {
-      ${tw` nth-1:flex-[1]`}
-    }
-
-    & > div {
-      ${tw` flex items-center gap-[5px] `}
-
-      & > button {
-        ${tw` bg-point-base p-[5px] block w-[35px] `}
-      }
-
-      & > input {
-        ${tw` bg-black-50 p-[5px] w-[100px] text-center `}
-      }
+      ${tw` nth-1:flex-[1] `}
     }
 
     & > button {

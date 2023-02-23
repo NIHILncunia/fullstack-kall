@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import tw from 'twin.macro';
 import { IProduct } from '@/types/tables.types';
+import { otherItemStyle } from './style';
 import { ItemRate } from '../../ItemRate';
 
 interface IOtherItemsProps {
@@ -10,7 +12,7 @@ interface IOtherItemsProps {
 export function OtherItems({ data, }: IOtherItemsProps) {
   return (
     <>
-      <div>
+      <div css={otherItemStyle}>
         {data.map((item) => (
           <div key={item.id}>
             <div className='item-image'>
@@ -19,11 +21,15 @@ export function OtherItems({ data, }: IOtherItemsProps) {
               </Link>
             </div>
             <div className='item-info'>
-              <h4 className='item-name'>{item.name}</h4>
+              <h4 className='item-name'>
+                <Link to={`/products/${item.category_id}/${item.id}`}>
+                  <strong>{item.name}</strong>
+                </Link>
+              </h4>
               <p className='item-price'>
                 {item.price?.toLocaleString()}원
               </p>
-              <ItemRate rate={item.star} />
+              <ItemRate rate={item.star} styles={tw`text-[1.4rem]`} />
             </div>
           </div>
         ))}

@@ -64,6 +64,8 @@ export const selectButton = css`
 `;
 
 export const selectedItemStyle = css`
+  ${tw` mb-[30px] `}
+
   & > p.count {
     ${tw` font-[700] text-[1.5rem] mb-[10px] `}
   }
@@ -85,6 +87,10 @@ export const selectedItemStyle = css`
       & > input {
         ${tw` bg-black-50 p-[5px] w-[100px] text-center `}
       }
+    }
+
+    & > button {
+      ${tw` text-red-500 text-[1.5rem] `}
     }
   }
 

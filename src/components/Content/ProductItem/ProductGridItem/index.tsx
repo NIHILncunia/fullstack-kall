@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import tw from 'twin.macro';
 import { IProduct } from '@/types/tables.types';
 import { ItemRate } from '../../ItemRate';
 import { itemStyle } from './style';
@@ -23,7 +24,7 @@ export function ProductGridItem({ item, }: IProductGridItemProps) {
           </Link>
         </p>
         <p className='item-price'>{item.price.toLocaleString()}원</p>
-        <ItemRate rate={item.star} />
+        <ItemRate rate={item.star} styles={tw`text-[1.4rem]`} />
       </div>
     </>
   );

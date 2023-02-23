@@ -2,7 +2,7 @@ import React from 'react';
 import { AppLayout } from '@/layouts';
 import { Heading2, IsLoding, TagsProducts } from '@/components/Content';
 import { productsPageStyle } from './style';
-import { useProductsByCategory } from '@/hooks/product.queries.hooks';
+import { useProductsByCategory } from '@/hooks/queries/product';
 
 interface IProductsProps {
   category: string;

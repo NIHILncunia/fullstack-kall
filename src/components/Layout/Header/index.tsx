@@ -1,13 +1,22 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useCallback, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { FaSearch } from 'react-icons/fa';
 import kallLogo from '@/images/kall-logo.png';
 import { HiddenSpan } from '@/components/Content';
 import { haederBottomStyle, headerStyle, headerTopStyle } from './headerStyle';
 import { Nav } from '../Nav';
+import { useInput } from '@/hooks';
 
 export function Header() {
+  const navi = useNavigate();
+  const keywordRef = useRef<HTMLInputElement>();
+  const keyword = useInput(keywordRef, 'keyword');
+
+  const onSubmitSearch = useCallback(() => {
+    navi(`/search?q=${keyword.value}`);
+  }, [ keyword, ]);
+
   const [ cookies, ] = useCookies([ 'id', 'role', ]);
   const { id, role, } = cookies;
 
@@ -23,8 +32,13 @@ export function Header() {
           </h1>
           <Nav />
           <div className='header-search'>
-            <form>
-              <input type='search' placeholder='검색어를 입력하세요' />
+            <form onSubmit={onSubmitSearch}>
+              <input
+                type='search'
+                placeholder='검색어를 입력하세요'
+                ref={keywordRef}
+                {...keyword}
+              />
               <button>
                 <FaSearch />
               </button>

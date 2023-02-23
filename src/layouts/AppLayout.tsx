@@ -27,6 +27,10 @@ export const AppLayout = ({
   };
 
   const globalStyle = css`
+    :root {
+      ${tw` scroll-smooth `}
+    }
+
     * {
       ${tw` p-0 m-0 font-nanum font-[400] box-border `}
     }

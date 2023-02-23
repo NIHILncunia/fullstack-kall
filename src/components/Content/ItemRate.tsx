@@ -1,12 +1,14 @@
+import { SerializedStyles } from '@emotion/react';
 import React from 'react';
 import { FaRegStar, FaStarHalfAlt, FaStar } from 'react-icons/fa';
-import tw, { css } from 'twin.macro';
+import tw, { css, TwStyle } from 'twin.macro';
 
 interface IItemRateProps {
   rate: number;
+  styles?: SerializedStyles | TwStyle;
 }
 
-export function ItemRate({ rate, }: IItemRateProps) {
+export function ItemRate({ rate, styles, }: IItemRateProps) {
   let rateStar: React.ReactElement;
 
   if (rate >= 0.0 && rate < 0.5) {
@@ -123,6 +125,7 @@ export function ItemRate({ rate, }: IItemRateProps) {
 
   const starRateStyle = css`
     ${tw` text-point-h-base inline-flex flex-row items-center justify-center `}
+    ${styles}
 
     & svg {
       ${tw` mb-[2px] `}

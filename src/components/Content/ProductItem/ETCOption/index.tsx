@@ -5,6 +5,9 @@ import { v4 as uuid } from 'uuid';
 import { FaTimes } from 'react-icons/fa';
 import { useInput } from '@/hooks';
 import { ISelect } from '@/types/product.select.types';
+import {
+  bottomButtonStyle, bottomMessageStyle, countStyle, inputStyle, selectedItemStyle
+} from './style';
 
 interface IETCOptionProps {
   name: string;
@@ -66,7 +69,7 @@ export function ETCOption({
     <>
       <div>
         <form onSubmit={onSubmitForm}>
-          <div>
+          <div css={countStyle}>
             <span>수량</span>
             <div>
               <button type='button' onClick={onClickMinus}>-</button>
@@ -74,7 +77,7 @@ export function ETCOption({
               <button type='button' onClick={onClickPlus}>+</button>
             </div>
           </div>
-          <div>
+          <div css={inputStyle}>
             <label htmlFor={request.id}>
               <span>추가 요청사항</span>
               <input
@@ -87,14 +90,16 @@ export function ETCOption({
           </div>
           {
             isDisabled && items.length === 1 ? (
-              <div>수정 사항이 있으실 경우 선택 항목을 삭제 후 다시 선택해주세요.</div>
+              <p css={bottomMessageStyle}>
+                수정 사항이 있으실 경우 선택 항목을 삭제 후 다시 선택해주세요.
+              </p>
             ) : (
-              <button>선택 완료</button>
+              <button css={bottomButtonStyle}>선택 완료</button>
             )
           }
         </form>
-        <div className='items'>
-          <p>선택된 상품 총 {items.length}개</p>
+        <div className='items' css={selectedItemStyle}>
+          <p className='count'>선택된 상품 총 {items.length}개</p>
           {items.map((item) => (
             <div key={uuid()}>
               <p>{item.item}</p>
@@ -102,7 +107,11 @@ export function ETCOption({
               <button aria-label='delete-item' onClick={() => onClickDelete(item.id)}><FaTimes /></button>
             </div>
           ))}
-          <p>결제 총액(배송비 미포함): {getTotalPrice().toLocaleString()}원</p>
+          {items && (
+            <p className='total-price'>
+              결제 총액(배송비 미포함): {getTotalPrice().toLocaleString()}원
+            </p>
+          )}
         </div>
       </div>
     </>

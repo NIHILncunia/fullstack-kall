@@ -1,7 +1,8 @@
-import React, { useRef } from 'react';
-import { Link } from 'react-router-dom';
+import React, { FormEvent, useCallback, useRef } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Global } from '@emotion/react';
 import tw, { css } from 'twin.macro';
+import { useCookies } from 'react-cookie';
 import { AppLayout } from '@/layouts';
 import { Heading2, Heading3 } from '@/components/Content';
 import {
@@ -11,11 +12,23 @@ import kakaoLogin from '@/images/kakao_login_large_wide.png';
 import { useInput } from '@/hooks';
 
 export function SIgnIn() {
+  const navi = useNavigate();
   const idRef = useRef<HTMLInputElement>();
   const passwordRef = useRef<HTMLInputElement>();
 
   const id = useInput(idRef, 'id');
   const password = useInput(passwordRef, 'password');
+
+  const [ cookies, setCookie, ] = useCookies([ 'id', 'role', ]);
+
+  const onSubmitSignInForm = useCallback((event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    // 실제론 uewMutations를 용할 것.
+
+    setCookie('id', 'user_1');
+    setCookie('role', 'user');
+    navi('/');
+  }, []);
 
   return (
     <>
@@ -30,7 +43,7 @@ export function SIgnIn() {
         <div id='signin-page' css={signInPageStyle}>
           <div className='signin'>
             <Heading2>로그인</Heading2>
-            <form>
+            <form onSubmit={onSubmitSignInForm}>
               <div className='form-input' css={inputsStyle}>
                 <input
                   type='text'
