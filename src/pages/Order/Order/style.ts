@@ -55,6 +55,33 @@ export const toInfoStyle = css`
       ${tw` focus:border-point-h-base focus:bg-point-base/40 `}
       ${tw` placeholder:text-black-base/70 `}
     }
+
+    & > div.address-block {
+      ${tw` flex flex-col gap-[2px] w-full `}
+
+      & > div {
+        ${tw` flex gap-[2px] items-center nth-2:w-full `}
+
+        & > input {
+          ${tw` p-[10px] border border-solid bg-black-50 border-black-100 `}
+          ${tw` focus:border-point-h-base focus:bg-point-base/40 `}
+
+          &.zip-code {
+            ${tw` w-[100px] `}
+          }
+
+          &.address1,
+          &.address2 {
+            ${tw` flex-[1] `}
+          }
+        }
+
+        & > button {
+          ${tw` p-[10px] bg-point-base shrink-0 basis-[150px] block border border-solid border-point-base `}
+          ${tw` hover:bg-point-h-base hover:text-white hover:border-point-h-base `}
+        }
+      }
+    }
   }
 `;
 

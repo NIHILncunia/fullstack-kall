@@ -5,6 +5,7 @@ import React, {
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router';
 import tw from 'twin.macro';
+import useDaumPostcodePopup from 'react-daum-postcode/lib/useDaumPostcodePopup';
 import { AppLayout } from '@/layouts';
 import { Heading2, Heading3 } from '@/components/Content';
 import {
@@ -30,6 +31,7 @@ export function Order() {
 
   const [ cookies, ] = useCookies([ 'id', ]);
   const navigate = useNavigate();
+  const open = useDaumPostcodePopup();
 
   useEffect(() => {
     const cartToOrder = localStorage.getItem('cartToOrder');
@@ -40,23 +42,40 @@ export function Order() {
   const [ addressData, ] = useAddressesByUser(cookies.id);
 
   const nameRef = useRef<HTMLInputElement>();
-  const addressRef = useRef<HTMLInputElement>();
+  const zipCodeRef = useRef<HTMLInputElement>();
+  const address1Ref = useRef<HTMLInputElement>();
+  const address2Ref = useRef<HTMLInputElement>();
   const phoneRef = useRef<HTMLInputElement>();
   const reqRef = useRef<HTMLInputElement>();
   const mileageRef = useRef<HTMLInputElement>();
 
   const name = useInput(nameRef, 'name');
-  const address = useInput(addressRef, 'address');
+  const zipCode = useInput(zipCodeRef, 'zipCode');
+  const address1 = useInput(address1Ref, 'address1');
+  const address2 = useInput(address2Ref, 'address2');
   const phone = useInput(phoneRef, 'phone');
   const req = useInput(reqRef, 'req');
   const mileage = useInput(mileageRef, 'mileage');
 
+  const onClickOpen = useCallback(() => {
+    open({
+      onComplete: (data) => {
+        const fullAddress = `${data.address} (${data.buildingName})`;
+
+        zipCode.setValue(data.zonecode);
+        address1.setValue(fullAddress);
+      },
+    });
+  }, [ open, ]);
+
   const onClickButton = useCallback(() => {
     name.setValue(userData.name);
-    address.setValue(addressData.address_1);
+    zipCode.setValue(addressData.zip_code);
+    address1.setValue(addressData.address_1);
+    address2.setValue(addressData.address_2);
     phone.setValue(userData.phone_nb);
     setIsDisable(true);
-  }, [ name, address, phone, ]);
+  }, [ name, zipCode, address1, address2, phone, ]);
 
   const totalItemPrice = orderDetails
     .map((item) => item.price * item.amount)
@@ -161,13 +180,16 @@ export function Order() {
             </div>
             <div>
               <p>배송지</p>
-              <input
-                type='text'
-                placeholder='배송지를 입력하세요.'
-                readOnly={isDisable}
-                ref={addressRef}
-                {...address.data}
-              />
+              <div className='address-block'>
+                <div>
+                  <input className='zip-code' type='text' ref={zipCodeRef} {...zipCode.data} />
+                  <button type='button' onClick={onClickOpen}>우편번호 찾기</button>
+                </div>
+                <div>
+                  <input className='address1' type='text' ref={address1Ref} {...address1.data} />
+                  <input className='address2' type='text' ref={address2Ref} {...address2.data} />
+                </div>
+              </div>
             </div>
             <div>
               <p>연락처</p>

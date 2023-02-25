@@ -1,9 +1,10 @@
 import React, {
-  FormEvent, useCallback, useRef, useState
+  FormEvent, useCallback, useRef
 } from 'react';
 import { Link } from 'react-router-dom';
 import { Global } from '@emotion/react';
 import tw, { css } from 'twin.macro';
+import { useDaumPostcodePopup } from 'react-daum-postcode';
 import { AppLayout } from '@/layouts';
 import {
   addressInputStyle,
@@ -23,6 +24,10 @@ export function SignUp() {
   const passwordCheckRef = useRef<HTMLInputElement>();
   const phoneRef = useRef<HTMLInputElement>();
   const emailRef = useRef<HTMLInputElement>();
+  const zipCodeRef = useRef<HTMLInputElement>();
+  const address1Ref = useRef<HTMLInputElement>();
+  const address2Ref = useRef<HTMLInputElement>();
+  const birthdayRef = useRef<HTMLInputElement>();
 
   const name = useInput(nameRef, 'name');
   const id = useInput(idRef, 'user-id');
@@ -30,18 +35,26 @@ export function SignUp() {
   const passwordCheck = useInput(passwordCheckRef, 'password-check');
   const phone = useInput(phoneRef, 'phone');
   const email = useInput(emailRef, 'email');
-
-  const [ zipCode, setZipCode, ] = useState('');
-  const [ address, setAddress, ] = useState('');
-
-  const address2Ref = useRef<HTMLInputElement>();
+  const zipCode = useInput(zipCodeRef, 'zip-code');
+  const address1 = useInput(address1Ref, 'address1');
   const address2 = useInput(address2Ref, 'address2');
-
-  const birthdayRef = useRef<HTMLInputElement>();
   const birthday = useInput(birthdayRef, 'birthday');
 
   const root = useCheckbox();
   const agree = useCheckbox();
+
+  const open = useDaumPostcodePopup();
+
+  const onClickOpen = useCallback(() => {
+    open({
+      onComplete: (data) => {
+        const fullAddress = `${data.address} (${data.buildingName})`;
+
+        zipCode.setValue(data.zonecode);
+        address1.setValue(fullAddress);
+      },
+    });
+  }, [ open, ]);
 
   const onSubmitForm = useCallback((event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -54,15 +67,17 @@ export function SignUp() {
       email: email.data.value,
       birthday: birthday.data.value,
       root: root.items.toString(),
-      eventagree: agree.items.includes('eventAgree') ? 'o' : 'x',
+      eventagree: agree.items.includes('eventAgree')
+        ? 'O'
+        : 'X',
     });
 
     console.log(`${id.data.value}의 주소 정보 >> `, {
-      zipCode,
-      address,
+      zipCode: zipCode.data.value,
+      address1: address1.data.value,
       address2: address2.data.value,
     });
-  }, [ id, name, password, phone, email, birthday, root.items, agree.items, ]);
+  }, [ id, name, password, phone, email, birthday, root.items, agree.items, zipCode, address1, address2, ]);
 
   return (
     <>
@@ -143,10 +158,26 @@ export function SignUp() {
               <div css={addressInputStyle}>
                 <span>주소 <RequireMark /></span>
                 <div>
-                  <input className='zipcode' type='text' readOnly required placeholder='우편 번호' />
-                  <button>우편번호 찾기</button>
+                  <input
+                    className='zipcode'
+                    type='text'
+                    readOnly
+                    required
+                    placeholder='우편 번호'
+                    ref={zipCodeRef}
+                    {...zipCode.data}
+                  />
+                  <button type='button' onClick={onClickOpen}>우편번호 찾기</button>
                 </div>
-                <input className='address' type='text' readOnly required placeholder='주소' />
+                <input
+                  className='address'
+                  type='text'
+                  readOnly
+                  required
+                  placeholder='주소'
+                  ref={address1Ref}
+                  {...address1.data}
+                />
                 <input
                   className='address'
                   type='text'
