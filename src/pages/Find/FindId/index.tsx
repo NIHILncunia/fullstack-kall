@@ -32,13 +32,13 @@ export function FindId() {
 
     if (findType === 'email') {
       resObj = {
-        name: name.value,
-        email: email.value,
+        name: name.data.value,
+        email: email.data.value,
       };
     } else {
       resObj = {
-        name: name.value,
-        phone: phone.value,
+        name: name.data.value,
+        phone: phone.data.value,
       };
     }
 
@@ -82,7 +82,7 @@ export function FindId() {
                 type='text'
                 required
                 ref={nameRef}
-                {...name}
+                {...name.data}
               />
             </label>
             {findType === 'email' && (
@@ -92,7 +92,7 @@ export function FindId() {
                   type='email'
                   required
                   ref={emailRef}
-                  {...email}
+                  {...email.data}
                 />
               </label>
             )}
@@ -104,7 +104,7 @@ export function FindId() {
                   required
                   placeholder='-빼고 입력'
                   ref={phoneRef}
-                  {...phone}
+                  {...phone.data}
                 />
               </label>
             )}

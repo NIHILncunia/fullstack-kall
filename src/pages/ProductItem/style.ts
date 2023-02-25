@@ -52,7 +52,7 @@ export const topInfoStyle = css`
     ${tw` mb-[30px] `}
 
     & > p.item-price {
-      ${tw` mb-[10px] text-[2rem] font-[700] `}
+      ${tw` mb-[10px] text-[2rem] font-[900] `}
     }
 
     & > p.delivery-price {

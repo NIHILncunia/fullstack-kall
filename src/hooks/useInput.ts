@@ -8,6 +8,9 @@ export const useInput = (ref: React.MutableRefObject<HTMLInputElement>, id: stri
   }, [ ref, ]);
 
   return {
-    value, onChange, id,
+    data: {
+      value, onChange, id,
+    },
+    setValue,
   };
 };

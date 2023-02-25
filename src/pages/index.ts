@@ -10,3 +10,4 @@ export * from './Privacy';
 export * from './Search';
 export * from './Agreement';
 export * from './Cart';
+export * from './Order';

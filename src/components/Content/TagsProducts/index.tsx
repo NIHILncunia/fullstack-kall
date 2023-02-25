@@ -34,11 +34,26 @@ export function TagsProducts({ data, }: ITagsProductsProps) {
 
   useEffect(() => {
     const filteredData = data.filter((item) => {
-      return selectedTags.length === 0
-      || selectedTags.some((tag) => item.tag.includes(tag));
+      return selectedTags.length === 0 || selectedTags.some((tag) => item.tag.includes(tag));
     });
-    setProducts(filteredData);
-  }, [ data, selectedTags, ]);
+
+    let sortedData = filteredData;
+    if (align === 'popular') {
+      sortedData = [ ...filteredData, ]
+        .sort((a, b) => b.cnt - a.cnt);
+    } else if (align === 'rate') {
+      sortedData = [ ...filteredData, ]
+        .sort((a, b) => b.star - a.star);
+    } else if (align === 'high-price') {
+      sortedData = [ ...filteredData, ]
+        .sort((a, b) => b.price - a.price);
+    } else if (align === 'low-price') {
+      sortedData = [ ...filteredData, ]
+        .sort((a, b) => a.price - b.price);
+    }
+
+    setProducts(sortedData);
+  }, [ data, selectedTags, align, ]);
 
   const onChangeTag = useCallback((tag: string) => {
     setSelectedTags((prev) => (
@@ -55,17 +70,7 @@ export function TagsProducts({ data, }: ITagsProductsProps) {
   const onChangeAlign = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     const { value, } = event.target;
     setAlign(value);
-
-    if (value === 'popular') {
-      setProducts([ ...products, ].sort((a, b) => b.cnt - a.cnt));
-    } else if (value === 'rate') {
-      setProducts([ ...products, ].sort((a, b) => b.star - a.star));
-    } else if (value === 'high-price') {
-      setProducts([ ...products, ].sort((a, b) => b.price - a.price));
-    } else if (value === 'low-price') {
-      setProducts([ ...products, ].sort((a, b) => a.price - b.price));
-    }
-  }, [ products, ]);
+  }, []);
 
   return (
     <>

@@ -10,7 +10,7 @@ import {
   Cart,
   FindId,
   FindPassword,
-  Home, NotFound, Privacy, ProductItem, Products, Search, SIgnIn, SignUp
+  Home, NotFound, Order, OrderComplete, Privacy, ProductItem, Products, Search, SIgnIn, SignUp
 } from './pages';
 
 const queryClient = new QueryClient({
@@ -50,6 +50,8 @@ const ReduxApp = (
 
         {/* 장바구니 / 결제 */}
         <Route path='/cart' element={<Cart />} />
+        <Route path='/order' element={<Order />} />
+        <Route path='/order/complete' element={<OrderComplete />} />
 
         {/* 검색 결과 페이지 */}
         <Route path='/search' element={<Search />} />

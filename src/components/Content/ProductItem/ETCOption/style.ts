@@ -31,7 +31,7 @@ export const inputStyle = css`
 `;
 
 export const bottomMessageStyle = css`
-  ${tw` text-red-500 font-[700] mb-[10px] `}
+  ${tw` text-red-500 font-[900] mb-[10px] `}
 `;
 
 export const bottomButtonStyle = css`
@@ -43,7 +43,7 @@ export const selectedItemStyle = css`
   ${tw` mb-[30px] `}
 
   & > p.count {
-    ${tw` font-[700] text-[1.5rem] mb-[10px] `}
+    ${tw` font-[900] text-[1.5rem] mb-[10px] `}
   }
 
   & > div {
@@ -59,6 +59,6 @@ export const selectedItemStyle = css`
   }
 
   & > p.total-price {
-    ${tw` font-[700] text-[1.5rem] mb-[30px] `}
+    ${tw` font-[900] text-[1.5rem] mb-[30px] `}
   }
 `;

@@ -1,0 +1,102 @@
+[
+  {
+    "id": 1,
+    "user_id": "user_1",
+    "name": "name_1",
+    "address_name": "기본 배송지",
+    "phone_nb": "010-3187-5913",
+    "zip_code": "98919",
+    "address_1": "서울특별시 양재천로 9길 69-14",
+    "address_2": ""
+  },
+  {
+    "id": 2,
+    "user_id": "user_1",
+    "name": "name_2",
+    "address_name": "배송지 2",
+    "phone_nb": "010-1482-9412",
+    "zip_code": "28500",
+    "address_1": "서울특별시 언주로 99길 17-27",
+    "address_2": ""
+  },
+  {
+    "id": 3,
+    "user_id": "user_1",
+    "name": "name_3",
+    "address_name": "배송지 3",
+    "phone_nb": "010-6672-3341",
+    "zip_code": "55547",
+    "address_1": "서울특별시 삼성로 93길 48-60",
+    "address_2": ""
+  },
+  {
+    "id": 4,
+    "user_id": "user_1",
+    "name": "name_4",
+    "address_name": "배송지 4",
+    "phone_nb": "010-2106-6559",
+    "zip_code": "64410",
+    "address_1": "서울특별시 테헤란로 29길 32-21",
+    "address_2": ""
+  },
+  {
+    "id": 5,
+    "user_id": "user_1",
+    "name": "name_5",
+    "address_name": "배송지 5",
+    "phone_nb": "010-1614-6189",
+    "zip_code": "18181",
+    "address_1": "서울특별시 양재천로 90길 87-71",
+    "address_2": ""
+  },
+  {
+    "id": 6,
+    "user_id": "user_1",
+    "name": "name_6",
+    "address_name": "배송지 6",
+    "phone_nb": "010-5060-3991",
+    "zip_code": "46837",
+    "address_1": "서울특별시 테헤란로 33길 90-9",
+    "address_2": ""
+  },
+  {
+    "id": 7,
+    "user_id": "user_1",
+    "name": "name_7",
+    "address_name": "배송지 7",
+    "phone_nb": "010-2748-7368",
+    "zip_code": "39807",
+    "address_1": "서울특별시 양재천로 80길 21-35",
+    "address_2": ""
+  },
+  {
+    "id": 8,
+    "user_id": "user_1",
+    "name": "name_8",
+    "address_name": "배송지 8",
+    "phone_nb": "010-3688-6673",
+    "zip_code": "29181",
+    "address_1": "서울특별시 논현로 57길 31-100",
+    "address_2": ""
+  },
+  {
+    "id": 9,
+    "user_id": "user_1",
+    "name": "name_9",
+    "address_name": "배송지 9",
+    "phone_nb": "010-4260-3506",
+    "zip_code": "48463",
+    "address_1": "서울특별시 논현로 8길 51-87",
+    "address_2": ""
+  },
+  {
+    "id": 10,
+    "user_id": "user_1",
+    "name": "name_10",
+    "address_name": "배송지 10",
+    "phone_nb": "010-9377-7453",
+    "zip_code": "81899",
+    "address_1": "서울특별시 양재천로 72길 64-63",
+    "address_2": ""
+  }
+]

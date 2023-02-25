@@ -9,118 +9,18 @@ interface IItemRateProps {
 }
 
 export function ItemRate({ rate, styles, }: IItemRateProps) {
-  let rateStar: React.ReactElement;
+  const fullStarCount = Math.floor(rate); // 별점의 정수 부분
+  const halfStar = rate - fullStarCount >= 0.5; // 반 별점인지 여부
 
-  if (rate >= 0.0 && rate < 0.5) {
-    rateStar = (
-      <>
-        <FaRegStar />
-        <FaRegStar />
-        <FaRegStar />
-        <FaRegStar />
-        <FaRegStar />
-      </>
-    );
-  } else if (rate >= 0.5 && rate < 1.0) {
-    rateStar = (
-      <>
-        <FaStarHalfAlt />
-        <FaRegStar />
-        <FaRegStar />
-        <FaRegStar />
-        <FaRegStar />
-      </>
-    );
-  } else if (rate >= 1.0 && rate < 1.5) {
-    rateStar = (
-      <>
-        <FaStar />
-        <FaRegStar />
-        <FaRegStar />
-        <FaRegStar />
-        <FaRegStar />
-      </>
-    );
-  } else if (rate >= 1.5 && rate < 2.0) {
-    rateStar = (
-      <>
-        <FaStar />
-        <FaStarHalfAlt />
-        <FaRegStar />
-        <FaRegStar />
-        <FaRegStar />
-      </>
-    );
-  } else if (rate >= 2.0 && rate < 2.5) {
-    rateStar = (
-      <>
-        <FaStar />
-        <FaStar />
-        <FaRegStar />
-        <FaRegStar />
-        <FaRegStar />
-      </>
-    );
-  } else if (rate >= 2.5 && rate < 3.0) {
-    rateStar = (
-      <>
-        <FaStar />
-        <FaStar />
-        <FaStarHalfAlt />
-        <FaRegStar />
-        <FaRegStar />
-      </>
-    );
-  } else if (rate >= 3.0 && rate < 3.5) {
-    rateStar = (
-      <>
-        <FaStar />
-        <FaStar />
-        <FaStar />
-        <FaRegStar />
-        <FaRegStar />
-      </>
-    );
-  } else if (rate >= 3.5 && rate < 4.0) {
-    rateStar = (
-      <>
-        <FaStar />
-        <FaStar />
-        <FaStar />
-        <FaStarHalfAlt />
-        <FaRegStar />
-      </>
-    );
-  } else if (rate >= 4.0 && rate < 4.5) {
-    rateStar = (
-      <>
-        <FaStar />
-        <FaStar />
-        <FaStar />
-        <FaStar />
-        <FaRegStar />
-      </>
-    );
-  } else if (rate >= 4.5 && rate <= 5.0) {
-    rateStar = (
-      <>
-        <FaStar />
-        <FaStar />
-        <FaStar />
-        <FaStar />
-        <FaStarHalfAlt />
-      </>
-    );
-  } else {
-    rateStar = (
-      <>
-        <FaStar />
-        <FaStar />
-        <FaStar />
-        <FaStar />
-        <FaStar />
-      </>
-    );
+  const stars = []; // 별점을 담을 배열
+  for (let i = 0; i < 5; i++) {
+    if (i < fullStarCount) {
+      stars.push(<FaStar key={i} />);
+    } else if (i === fullStarCount && halfStar) {
+      stars.push(<FaStarHalfAlt key={i} />);
+    } else {
+      stars.push(<FaRegStar key={i} />);
+    }
   }
 
   const starRateStyle = css`
@@ -139,7 +39,7 @@ export function ItemRate({ rate, styles, }: IItemRateProps) {
   return (
     <>
       <p css={starRateStyle}>
-        {rateStar}
+        {stars}
         <span>({rate})</span>
       </p>
     </>

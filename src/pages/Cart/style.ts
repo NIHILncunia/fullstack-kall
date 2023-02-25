@@ -44,7 +44,7 @@ export const cartListStyle = css`
 
   & > div.list-header {
     & > div {
-      ${tw` bg-point-h-base font-[700] justify-center `}
+      ${tw` bg-point-h-base border border-point-h-base font-[900] justify-center `}
     }
   }
 
@@ -89,7 +89,7 @@ export const listStatStyle = css`
     ${tw` text-[1.5rem] `}
 
     & > p {
-      ${tw` font-[700] `}
+      ${tw` font-[900] `}
     }
   }
 `;

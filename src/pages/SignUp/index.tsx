@@ -13,7 +13,7 @@ import {
   formStyle, inputsStyle, legendStyle, requiredInputStyle, rootStyle, signUpButtonStyle, signUpPageStyle
 } from './style';
 import { useCheckbox, useInput } from '@/hooks';
-import { rootCheckBoxData } from '@/data/checkbox.data';
+import { rootCheckBoxData } from '@/data/select.data';
 import { RequireMark } from '@/components/Content';
 
 export function SignUp() {
@@ -47,20 +47,20 @@ export function SignUp() {
     event.preventDefault();
 
     console.log('회원가입 정보 >> ', {
-      user_id: id.value,
-      name: name.value,
-      password: password.value,
-      phone_nb: phone.value,
-      email: email.value,
-      birthday: birthday.value,
+      user_id: id.data.value,
+      name: name.data.value,
+      password: password.data.value,
+      phone_nb: phone.data.value,
+      email: email.data.value,
+      birthday: birthday.data.value,
       root: root.items.toString(),
       eventagree: agree.items.includes('eventAgree') ? 'o' : 'x',
     });
 
-    console.log(`${id.value}의 주소 정보 >> `, {
+    console.log(`${id.data.value}의 주소 정보 >> `, {
       zipCode,
       address,
-      address2: address2.value,
+      address2: address2.data.value,
     });
   }, [ id, name, password, phone, email, birthday, root.items, agree.items, ]);
 
@@ -86,7 +86,7 @@ export function SignUp() {
                     required
                     placeholder='이름을 입력해주세요'
                     ref={nameRef}
-                    {...name}
+                    {...name.data}
                   />
                 </label>
                 <label htmlFor='user-id'>
@@ -96,7 +96,7 @@ export function SignUp() {
                     required
                     placeholder='사용하실 아이디를 입력해주세요'
                     ref={idRef}
-                    {...id}
+                    {...id.data}
                   />
                 </label>
                 <label htmlFor='password'>
@@ -106,7 +106,7 @@ export function SignUp() {
                     required
                     placeholder='최소 7자리 이상'
                     ref={passwordRef}
-                    {...password}
+                    {...password.data}
                   />
                 </label>
                 <label htmlFor='password-check'>
@@ -116,7 +116,7 @@ export function SignUp() {
                     required
                     placeholder='최소 7자리 이상'
                     ref={passwordCheckRef}
-                    {...passwordCheck}
+                    {...passwordCheck.data}
                   />
                 </label>
                 <label htmlFor='phone'>
@@ -126,7 +126,7 @@ export function SignUp() {
                     required
                     placeholder='-를 빼고 입력하세요'
                     ref={phoneRef}
-                    {...phone}
+                    {...phone.data}
                   />
                 </label>
                 <label htmlFor='email'>
@@ -136,7 +136,7 @@ export function SignUp() {
                     required
                     placeholder='ex) example@example.com'
                     ref={emailRef}
-                    {...email}
+                    {...email.data}
                   />
                 </label>
               </div>
@@ -153,7 +153,7 @@ export function SignUp() {
                   required
                   placeholder='상세 주소'
                   ref={address2Ref}
-                  {...address2}
+                  {...address2.data}
                 />
               </div>
             </fieldset>
@@ -164,7 +164,7 @@ export function SignUp() {
                 <input
                   type='date'
                   ref={birthdayRef}
-                  {...birthday}
+                  {...birthday.data}
                 />
               </label>
               <div css={rootStyle}>

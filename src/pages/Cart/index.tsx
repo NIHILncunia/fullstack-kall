@@ -12,6 +12,7 @@ import {
   buttonsStyle,
   cartListStyle, cartPageStyle, listStatStyle, orderProgressStyle
 } from './style';
+import { IOrderDetail } from '@/types/tables.types';
 
 export function Cart() {
   const [ cookies, ] = useCookies([ 'id', ]);
@@ -68,17 +69,23 @@ export function Cart() {
   //   }
   }, [ selectedItems, ]);
 
-  const onClickOrder = useCallback(() => {
-  // // 선택된 항목이 없으면 무시
-  //   if (selectedItems.length === 0) return;
+  const onClickSelectOrder = useCallback(() => {
+    if (selectedItems.length === 0) {
+      return;
+    }
 
-    //   // 서버에 선택된 항목을 주문하는 API를 호출하고, 결과를 받아온다.
-    //   const result = await orderSelectedItems(selectedItems);
+    const orderItems: IOrderDetail[] = cartList.filter(
+      (item) => selectedItems.includes(item.id)
+    ).map((item, index) => {
+      // eslint-disable-next-line camelcase
+      const { id, user_id, ...orderItem } = item;
+      return { id: index + 1, ...orderItem, };
+    });
 
-  //   // 주문 페이지로 이동한다.
-  //   if (result.success) {
-  //     navigate('/order');
-  //   }
+    localStorage.setItem('cartToOrder', JSON.stringify(orderItems));
+
+    console.log('selectedCartItems >> ', orderItems);
+    navigate('/order');
   }, [ selectedItems, ]);
 
   const onClickOrderAll = useCallback(() => {
@@ -171,7 +178,7 @@ export function Cart() {
           </div>
           <div className='buttons' css={buttonsStyle}>
             <button onClick={onClickRemove}>선택 항목 삭제</button>
-            <button onClick={onClickOrder}>선택 항목 주문</button>
+            <button onClick={onClickSelectOrder}>선택 항목 주문</button>
             <button onClick={onClickOrderAll}>모든 항목 주문</button>
           </div>
         </div>

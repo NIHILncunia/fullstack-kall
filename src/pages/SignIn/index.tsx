@@ -50,14 +50,14 @@ export function SIgnIn() {
                   placeholder='아이디를 입력하세요.'
                   required
                   ref={idRef}
-                  {...id}
+                  {...id.data}
                 />
                 <input
                   type='text'
                   placeholder='비밀번호를 입력하세요.'
                   required
                   ref={passwordRef}
-                  {...password}
+                  {...password.data}
                 />
               </div>
               <div className='form-check' css={checksStyle}>

@@ -30,7 +30,7 @@ export function FindPassword() {
     e.preventDefault();
 
     try {
-      const res = await getUser(id.value);
+      const res = await getUser(id.data.value);
 
       setIsOpen(true);
       setError(false);
@@ -39,12 +39,12 @@ export function FindPassword() {
       setError(true);
       setMessage(<>일치하는 회원정보가 없습니다. 다시 확인해주세요.</>);
     }
-  }, [ id.value, ]);
+  }, [ id.data.value, ]);
 
   const onSubmitForm = useCallback((e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (password.value === passwordCheck.value) {
+    if (password.data.value === passwordCheck.data.value) {
       setComplete(true);
       setMessage((<>비밀번호 재설정이 완료되었습니다.<br />이제 로그인하세요.</>));
       setError(false);
@@ -52,7 +52,7 @@ export function FindPassword() {
       setError(true);
       setMessage(<>비밀번호가 일치하지 않습니다.</>);
     }
-  }, [ password.value, passwordCheck.value, ]);
+  }, [ password.data.value, passwordCheck.data.value, ]);
 
   const globalStyles = css`
     main {
@@ -71,7 +71,7 @@ export function FindPassword() {
           {!isOpen && (
             <>
               <form onSubmit={onSubmitOpen} css={formStyle}>
-                <input type='text' ref={idRef} required {...id} />
+                <input type='text' ref={idRef} required {...id.data} />
                 <button>다음</button>
               </form>
             </>
@@ -83,14 +83,14 @@ export function FindPassword() {
                 ref={passwordRef}
                 required
                 placeholder='7자리 이상'
-                {...password}
+                {...password.data}
               />
               <input
                 type='password'
                 ref={passwordCheckRef}
                 required
                 placeholder='7자리 이상'
-                {...passwordCheck}
+                {...passwordCheck.data}
               />
               <button>비밀번호 재설정</button>
             </form>

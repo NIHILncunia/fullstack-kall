@@ -4,7 +4,7 @@ import React, {
 import { v4 as uuid } from 'uuid';
 import { useCookies } from 'react-cookie';
 import { useInput } from '@/hooks';
-import { creamData, shapeData, sheetData } from '@/data/checkbox.data';
+import { creamData, shapeData, sheetData } from '@/data/select.data';
 import { ISelect } from '@/types/product.select.types';
 import { SelectItem } from '../SelectItem';
 import {
@@ -70,8 +70,8 @@ export function CustomOption({
     event.preventDefault();
 
     const nameOption = `${name} - ${sheetLabel}, ${shapeLabel}, ${creamLabel}`;
-    const wordOption = word.value ? `, 문구: ${word.value}` : '';
-    const requestOption = request.value ? `, 요청사항: ${request.value}` : '';
+    const wordOption = word.data.value ? `, 문구: ${word.data.value}` : '';
+    const requestOption = request.data.value ? `, 요청사항: ${request.data.value}` : '';
 
     const newItem = `${nameOption}${wordOption}${requestOption}`;
 
@@ -81,7 +81,7 @@ export function CustomOption({
       price,
       amount: 1,
     }, ]);
-  }, [ name, price, sheetLabel, shapeLabel, creamLabel, word.value, request.value, ]);
+  }, [ name, price, sheetLabel, shapeLabel, creamLabel, word.data.value, request.data.value, ]);
 
   return (
     <>
@@ -139,12 +139,12 @@ export function CustomOption({
             </div>
           </div>
           <div css={inputStyle}>
-            <label htmlFor={word.id}>
+            <label htmlFor={word.data.id}>
               <span>원하는 문구를 입력하세요.</span>
               <input
                 type='text'
                 ref={wordRef}
-                {...word}
+                {...word.data}
                 placeholder='한글은 12글자 영어는 15글자 가능합니다.'
               />
             </label>
@@ -170,17 +170,17 @@ export function CustomOption({
             </div>
           </div>
           <div css={inputStyle}>
-            <label htmlFor={request.id}>
+            <label htmlFor={request.data.id}>
               <span>추가 요청사항</span>
               <input
                 type='text'
                 ref={requestRef}
-                {...request}
+                {...request.data}
                 placeholder='방문수령 원하시면 1:1 문의를 이용해주세요.'
               />
             </label>
           </div>
-          <p className='text-red-500 font-[700]'>
+          <p className='text-red-500 font-[900]'>
             선택하지 않을 시 기본값(각 항목의 첫번째 값)으로 주문됩니다.
           </p>
           <button css={selectButton}>선택 완료</button>

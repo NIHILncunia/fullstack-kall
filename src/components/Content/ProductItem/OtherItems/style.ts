@@ -22,7 +22,7 @@ export const otherItemStyle = css`
           ${tw` hover:text-point-h-link hover:underline `}
 
           & > strong {
-            ${tw` font-[700] `}
+            ${tw` font-[900] `}
           }
         }
       }

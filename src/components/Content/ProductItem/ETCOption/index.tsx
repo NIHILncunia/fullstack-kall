@@ -45,7 +45,7 @@ export function ETCOption({
     event.preventDefault();
 
     const nameOption = `${name} - 수량: ${amount}`;
-    const requestOption = request.value ? `, 요청사항: ${request.value}` : '';
+    const requestOption = request.data.value ? `, 요청사항: ${request.data.value}` : '';
 
     const newItem = `${nameOption}${requestOption}`;
 
@@ -78,12 +78,12 @@ export function ETCOption({
             </div>
           </div>
           <div css={inputStyle}>
-            <label htmlFor={request.id}>
+            <label htmlFor={request.data.id}>
               <span>추가 요청사항</span>
               <input
                 type='text'
                 ref={requestRef}
-                {...request}
+                {...request.data}
                 placeholder='방문수령 원하시면 1:1 문의를 이용해주세요.'
               />
             </label>

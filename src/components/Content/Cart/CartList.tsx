@@ -3,6 +3,7 @@ import { FaCheck } from 'react-icons/fa';
 import { ICart } from '@/types/tables.types';
 import { useProductsById } from '@/hooks/queries/product';
 import { useCodeTable } from '@/hooks/queries/code.table';
+import { getItemString } from '@/utils';
 
 interface ICartlistProps {
   item: ICart;
@@ -15,26 +16,7 @@ export function CartList({ item, selectedItems, onChangeItemSelect, }: ICartlist
   const product = useProductsById(item.product_id);
   const codeTable = useCodeTable();
 
-  let nameOption: string;
-
-  switch (product.category_id) {
-    case 'custom':
-      nameOption = `${product.name} - 시트: ${codeTable[item?.option_sheet]}, 모양: ${codeTable[item?.option_shape]}, 크림: ${codeTable[item?.option_cream]}, 수량: ${item?.amount}`;
-      break;
-    case 'design':
-      nameOption = `${product.name} - 크기: ${codeTable[item?.option_size]}, 수량: ${item?.amount}`;
-      break;
-    case 'etc':
-      nameOption = `${product.name} - 수량: ${item?.amount}`;
-      break;
-    default:
-      break;
-  }
-
-  const letterOption = item?.option_lettering ? `, 문구: ${item?.option_lettering}` : '';
-  const itemTotalPrice = (item.amount * item.price).toLocaleString();
-
-  const itemString = `${nameOption}${letterOption}`;
+  const { itemString, itemTotalPrice, } = getItemString(codeTable, product, item);
 
   return (
     <>

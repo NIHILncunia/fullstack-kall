@@ -14,7 +14,7 @@ export function Header() {
   const keyword = useInput(keywordRef, 'keyword');
 
   const onSubmitSearch = useCallback(() => {
-    navi(`/search?q=${keyword.value}`);
+    navi(`/search?q=${keyword.data.value}`);
   }, [ keyword, ]);
 
   const [ cookies, ] = useCookies([ 'id', 'role', ]);
@@ -37,7 +37,7 @@ export function Header() {
                 type='search'
                 placeholder='검색어를 입력하세요'
                 ref={keywordRef}
-                {...keyword}
+                {...keyword.data}
               />
               <button>
                 <FaSearch />
