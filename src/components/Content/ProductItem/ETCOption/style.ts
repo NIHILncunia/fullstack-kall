@@ -24,8 +24,8 @@ export const inputStyle = css`
     ${tw` flex flex-col gap-[10px] `}
 
     & > input {
-      ${tw` w-full p-[10px] bg-black-50 placeholder:text-black-base/70 `}
-      ${tw` focus:border-b-[2px] focus:border-solid focus:border-b-point-h-base `}
+      ${tw` w-full p-[10px] bg-black-50 placeholder:text-black-base/70 border border-solid border-black-100 `}
+      ${tw` focus:bg-point-base/40 focus:border-point-base `}
     }
   }
 `;

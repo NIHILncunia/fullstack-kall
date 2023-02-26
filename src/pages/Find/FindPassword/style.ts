@@ -17,9 +17,9 @@ export const formStyle = css`
   ${tw` flex flex-col gap-[10px] text-[1.2rem] mb-[50px] `}
 
   & > input {
-    ${tw` bg-black-50 p-[10px] text-black-base `}
+    ${tw` bg-black-50 p-[10px] text-black-base border border-solid border-black-100 `}
     ${tw` placeholder:text-black-base/70 `}
-    ${tw` focus:border-b-[2px] focus:border-b-point-h-base focus:border-solid `}
+    ${tw` focus:bg-point-base/40 focus:border-point-base `}
   }
 
   & > button {

@@ -100,6 +100,30 @@ export interface IAddress {
   address_2: string;
 }
 
+export interface ICategory {
+  id: string;
+  category_name: string;
+}
+
+export interface INotice {
+  id: number;
+  category_id: string;
+  title: string;
+  content: string;
+  date: string;
+  cnt: number;
+}
+
+export interface IDirect {
+  id?: number;
+  user_id: string;
+  category_id: string;
+  title: string;
+  content: string;
+  comment: string;
+  date?: string;
+}
+
 export interface ICodeTable {
   'Ost_01': '일반',
   'Ost_02': '레드벨벳',

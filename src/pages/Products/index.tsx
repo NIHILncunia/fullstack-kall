@@ -3,6 +3,7 @@ import { AppLayout } from '@/layouts';
 import { Heading2, IsLoding, TagsProducts } from '@/components/Content';
 import { productsPageStyle } from './style';
 import { useProductsByCategory } from '@/hooks/queries/product';
+import { useCategoryById } from '@/hooks/queries/category';
 
 interface IProductsProps {
   category: string;
@@ -10,19 +11,14 @@ interface IProductsProps {
 
 export function Products({ category, }: IProductsProps) {
   const data = useProductsByCategory(category);
-
-  const categoryObj = {
-    custom: '주문제작 케이크',
-    design: '디자인 케이크',
-    etc: 'ETC',
-  };
+  const categoryName = useCategoryById(category).category_name;
 
   return (
     <>
-      <AppLayout title={categoryObj[category]}>
+      <AppLayout title={categoryName}>
         <div id='custom-cake-page' css={productsPageStyle}>
           <IsLoding />
-          <Heading2>{categoryObj[category]}</Heading2>
+          <Heading2>{categoryName}</Heading2>
           <TagsProducts data={data} />
         </div>
       </AppLayout>

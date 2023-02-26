@@ -43,9 +43,9 @@ export const findIdFormStyle = css`
     }
 
     & > input {
-      ${tw` w-full p-[10px] text-black-base bg-black-50 `}
+      ${tw` w-full p-[10px] text-black-base bg-black-50 border border-solid border-black-100 `}
       ${tw` placeholder:text-black-base/70 `}
-      ${tw` focus:border-solid focus:border-b-[2px] focus:border-b-point-h-base `}
+      ${tw` focus:bg-point-base/40 focus:border-point-base `}
     }
   }
 

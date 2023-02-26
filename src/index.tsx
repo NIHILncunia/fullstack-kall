@@ -8,6 +8,9 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import {
   Agreement,
   Cart,
+  CommunityArticle,
+  CommunityDirect,
+  CommunityVisit,
   FindId,
   FindPassword,
   Home, NotFound, Order, OrderComplete, Privacy, ProductItem, Products, Search, SIgnIn, SignUp
@@ -41,6 +44,22 @@ const ReduxApp = (
         {/* 아이디 찾기 / 비밀번호 찾기 */}
         <Route path='/find/id' element={<FindId />} />
         <Route path='/find/password' element={<FindPassword />} />
+
+        {/* 커뮤니티 페이지 */}
+        <Route
+          path='/community/guide'
+          element={<CommunityArticle title='이용 가이드' category='guide' />}
+        />
+        <Route
+          path='/community/notice'
+          element={<CommunityArticle title='공지사항' category='notice' />}
+        />
+        <Route
+          path='/community/question'
+          element={<CommunityArticle title='자주 묻는 질문' category='question' />}
+        />
+        <Route path='/community/direct' element={<CommunityDirect />} />
+        <Route path='/community/visit' element={<CommunityVisit />} />
 
         {/* 상품 리스트 / 상품 상세 페이지 */}
         <Route path='/products/custom' element={<Products category='custom' />} />

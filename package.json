@@ -13,7 +13,7 @@
   "homepage": "https://github.com/NIHILncunia/fullstack-kall#readme",
   "scripts": {
     "serve": "yarn run open && webpack serve --config webpack.dev.ts",
-    "prod": "webpack --config webpack.prod.ts",
+    "prod": "yarn run open && webpack --config webpack.prod.ts",
     "open": "start http://localhost:3000"
   },
   "keywords": [],
@@ -31,6 +31,7 @@
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
     "react-icons": "^4.7.1",
+    "react-kakao-maps-sdk": "^1.1.6",
     "react-query": "^3.39.3",
     "react-router": "^6.8.1",
     "react-router-dom": "^6.8.1",

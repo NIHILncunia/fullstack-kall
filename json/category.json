@@ -1,0 +1,26 @@
+[
+  {
+    "id": "custom",
+    "category_name": "주문제작 케이크"
+  },
+  {
+    "id": "design",
+    "category_name": "디자인 케이크"
+  },
+  {
+    "id": "etc",
+    "category_name": "ETC"
+  },
+  {
+    "id": "guide",
+    "category_name": "이용 가이드"
+  },
+  {
+    "id": "question",
+    "category_name": "자주 묻는 질문"
+  },
+  {
+    "id": "notice",
+    "category_name": "공지사항"
+  }
+]
