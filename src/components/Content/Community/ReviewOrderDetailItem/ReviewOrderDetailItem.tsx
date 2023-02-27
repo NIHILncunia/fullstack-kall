@@ -1,14 +1,15 @@
 import React from 'react';
 import { IOrderDetail } from '@/types/tables.types';
-import { useProductsById } from '@/hooks/queries/product';
 import { getItemString } from '@/utils';
+import { useProductsById } from '@/hooks/queries/product';
+import { itemStyle } from './style';
 import { useCategoryById } from '@/hooks/queries/category';
 
-interface IOrderDetailListProps {
+interface IReviewOrderDetailItemProps {
   item: IOrderDetail;
 }
 
-export function OrderDetailList({ item, }: IOrderDetailListProps) {
+export function ReviewOrderDetailItem({ item, }: IReviewOrderDetailItemProps) {
   const product = useProductsById(item.product_id);
   const sheet = useCategoryById(item.option_sheet).category_name;
   const shape = useCategoryById(item.option_shape).category_name;
@@ -23,13 +24,9 @@ export function OrderDetailList({ item, }: IOrderDetailListProps) {
   };
 
   const { itemString, itemTotalPrice, } = getItemString(selection, product, item);
-
   return (
     <>
-      <div className='list-content'>
-        <p>{itemString}</p>
-        <p>{itemTotalPrice}원</p>
-      </div>
+      <div css={itemStyle}>{itemString} - {itemTotalPrice}</div>
     </>
   );
 }

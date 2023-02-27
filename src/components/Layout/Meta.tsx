@@ -7,7 +7,7 @@ interface IMetaProps {
   meta: IMetaData;
 }
 
-export function Meta({ meta, }: IMetaProps) {
+function Meta({ meta, }: IMetaProps) {
   const {
     title, url, description, keywords, author,
     // eslint-disable-next-line no-unused-vars
@@ -60,3 +60,5 @@ export function Meta({ meta, }: IMetaProps) {
     </>
   );
 }
+
+export const MemoMeta = React.memo(Meta);

@@ -12,15 +12,87 @@
     "category_name": "ETC"
   },
   {
-    "id": "guide",
-    "category_name": "이용 가이드"
-  },
-  {
-    "id": "question",
-    "category_name": "자주 묻는 질문"
-  },
-  {
     "id": "notice",
     "category_name": "공지사항"
+  },
+  {
+    "id": "Ost_01",
+    "category_name": "일반"
+  },
+  {
+    "id": "Ost_02",
+    "category_name": "레드벨벳"
+  },
+  {
+    "id": "Ost_03",
+    "category_name": "블루베리"
+  },
+  {
+    "id": "Osp_01",
+    "category_name": "원형"
+  },
+  {
+    "id": "Osp_02",
+    "category_name": "사각형"
+  },
+  {
+    "id": "Osp_03",
+    "category_name": "하트"
+  },
+  {
+    "id": "Ocrm_01",
+    "category_name": "크림"
+  },
+  {
+    "id": "Ocrm_02",
+    "category_name": "빨강"
+  },
+  {
+    "id": "Ocrm_03",
+    "category_name": "초코"
+  },
+  {
+    "id": "Osize_01",
+    "category_name": "1호"
+  },
+  {
+    "id": "Osize_02",
+    "category_name": "2호"
+  },
+  {
+    "id": "Osize_03",
+    "category_name": "3호"
+  },
+  {
+    "id": "q_01",
+    "category_name": "로그인/계정"
+  },
+  {
+    "id": "q_02",
+    "category_name": "배송"
+  },
+  {
+    "id": "q_03",
+    "category_name": "결제"
+  },
+  {
+    "id": "q_04",
+    "category_name": "기타"
+  },
+  {
+    "id": "faq_01",
+    "category_name": "FAQ(로그인)"
+  },
+  {
+    "id": "faq_02",
+    "category_name": "FAQ(배송)"
+  },
+  {
+    "id": "faq_03",
+    "category_name": "FAQ(결제)"
+  },
+  {
+    "id": "faq_04",
+    "category_name": "FAQ(기타)"
   }
 ]

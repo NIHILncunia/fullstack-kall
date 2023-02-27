@@ -60,10 +60,10 @@ export function DirectForm() {
         <label htmlFor='category'>
           <span>카테고리</span>
           <select id='category' required value={category} onChange={onChangeCategory}>
-            <option value='faq_01'>로그인</option>
-            <option value='faq_02'>배송</option>
-            <option value='faq_03'>결제</option>
-            <option value='faq_04'>기타</option>
+            <option value='q_01'>로그인/계정</option>
+            <option value='q_02'>배송</option>
+            <option value='q_03'>결제</option>
+            <option value='q_04'>기타</option>
           </select>
         </label>
         <label htmlFor='content'>

@@ -38,3 +38,22 @@ export const useNoticeByCategory = (categoryId: string) => {
 
   return data as INotice[];
 };
+
+export const useNoticeById = (id: number) => {
+  const fallback = [];
+  const { data = fallback, } = useQuery<INotice, AxiosError>(
+    [ 'getNotice', id, ],
+    async () => {
+      const { data, } = await axiosInstance.get<INotice[]>('/notice.json');
+      const [ notice, ] = data.filter((item) => item.id === id);
+
+      return notice;
+    },
+    {
+      staleTime: 30000,
+      refetchInterval: 60000,
+    }
+  );
+
+  return data as INotice;
+};

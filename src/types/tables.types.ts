@@ -30,6 +30,7 @@ export interface IUser {
 export interface IReview {
   id?: number;
   user_id: string;
+  product_id: number;
   order_dnb: number;
   title: string;
   content: string;

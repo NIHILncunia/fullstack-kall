@@ -3,7 +3,7 @@ import tw, { css } from 'twin.macro';
 import { Global } from '@emotion/react';
 import { useLocation } from 'react-router';
 import {
-  Footer, Header, Main, Meta
+  Footer, Header, Main, MemoMeta
 } from '@/components/Layout';
 import { IAppLayoutProps, IMetaData } from '@/types/site.types';
 
@@ -50,7 +50,7 @@ export const AppLayout = ({
   return (
     <>
       <Global styles={globalStyle} />
-      <Meta meta={meta} />
+      <MemoMeta meta={meta} />
       <Header />
 
       <Main>

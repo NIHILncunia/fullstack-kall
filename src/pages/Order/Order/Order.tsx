@@ -138,7 +138,7 @@ export function Order() {
 
   return (
     <>
-      <AppLayout title='주문 및 결제'>
+      <AppLayout title='주문 및 결제'>AppLayout
         <div id='order-page' css={orderPageStyle}>
           <Heading2>주문 / 결제</Heading2>
           <div className='order-progress' css={orderProgressStyle}>

@@ -10,10 +10,11 @@ import {
   Cart,
   CommunityArticle,
   CommunityDirect,
+  CommunityReview,
   CommunityVisit,
   FindId,
   FindPassword,
-  Home, NotFound, Order, OrderComplete, Privacy, ProductItem, Products, Search, SIgnIn, SignUp
+  Home, NotFound, NoticeaArticle, Order, OrderComplete, Privacy, ProductItem, Products, ReviewArticle, Search, SIgnIn, SignUp
 } from './pages';
 
 const queryClient = new QueryClient({
@@ -60,6 +61,9 @@ const ReduxApp = (
         />
         <Route path='/community/direct' element={<CommunityDirect />} />
         <Route path='/community/visit' element={<CommunityVisit />} />
+        <Route path='/community/review' element={<CommunityReview />} />
+        <Route path='/community/notice/:id' element={<NoticeaArticle />} />
+        <Route path='/community/review/:id' element={<ReviewArticle />} />
 
         {/* 상품 리스트 / 상품 상세 페이지 */}
         <Route path='/products/custom' element={<Products category='custom' />} />
@@ -79,7 +83,7 @@ const ReduxApp = (
         <Route path='/*' element={<NotFound />} />
       </Routes>
     </BrowserRouter>
-    <ReactQueryDevtools initialIsOpen={false} position='bottom-right' />
+    <ReactQueryDevtools initialIsOpen={false} position='bottom-left' />
   </QueryClientProvider>
 );
 

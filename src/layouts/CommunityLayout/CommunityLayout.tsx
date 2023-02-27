@@ -18,7 +18,7 @@ export function CommunityLayout({ children, pageId, }: ICommunityLayoutProps) {
             <MenuLink link='/community/visit'>찾아오시는 길</MenuLink>
             <MenuLink link='/community/question'>자주 묻는 질문</MenuLink>
             <MenuLink link='/community/direct'>1:1 문의</MenuLink>
-            <MenuLink link='/community/review'>리뷰 게시판</MenuLink>
+            <MenuLink link='/community/review'>리뷰</MenuLink>
           </ul>
         </div>
         <div className='content-block' css={contentStyle}>
