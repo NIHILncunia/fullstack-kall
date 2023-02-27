@@ -47,18 +47,8 @@ const ReduxApp = (
         <Route path='/find/password' element={<FindPassword />} />
 
         {/* 커뮤니티 페이지 */}
-        <Route
-          path='/community/guide'
-          element={<CommunityArticle title='이용 가이드' category='guide' />}
-        />
-        <Route
-          path='/community/notice'
-          element={<CommunityArticle title='공지사항' category='notice' />}
-        />
-        <Route
-          path='/community/question'
-          element={<CommunityArticle title='자주 묻는 질문' category='question' />}
-        />
+        <Route path='/community/notice' element={<CommunityArticle title='공지사항' category='notice' />} />
+        <Route path='/community/faq' element={<CommunityArticle title='FAQ' />} />
         <Route path='/community/direct' element={<CommunityDirect />} />
         <Route path='/community/visit' element={<CommunityVisit />} />
         <Route path='/community/review' element={<CommunityReview />} />

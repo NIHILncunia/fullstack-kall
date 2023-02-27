@@ -9,26 +9,9 @@ export const useNotices = () => {
     [ 'getNotices', ],
     async () => {
       const { data, } = await axiosInstance.get<INotice[]>('/notice.json');
+      const notice = data.filter((item) => item.category_id === 'notice');
 
-      return data;
-    },
-    {
-      staleTime: 30000,
-      refetchInterval: 60000,
-    }
-  );
-
-  return data as INotice[];
-};
-
-export const useNoticeByCategory = (categoryId: string) => {
-  const fallback = [];
-  const { data = fallback, } = useQuery<INotice[], AxiosError>(
-    [ 'getNoticeByCategory', categoryId, ],
-    async () => {
-      const { data, } = await axiosInstance.get<INotice[]>('/notice.json');
-
-      return data.filter((item) => item.category_id === categoryId);
+      return notice;
     },
     {
       staleTime: 30000,
@@ -40,14 +23,54 @@ export const useNoticeByCategory = (categoryId: string) => {
 };
 
 export const useNoticeById = (id: number) => {
-  const fallback = [];
+  const fallback = {};
   const { data = fallback, } = useQuery<INotice, AxiosError>(
     [ 'getNotice', id, ],
     async () => {
       const { data, } = await axiosInstance.get<INotice[]>('/notice.json');
-      const [ notice, ] = data.filter((item) => item.id === id);
+      const notices = data.filter((item) => item.category_id === 'notice');
+      const [ notice, ] = notices.filter((item) => item.id === id);
 
       return notice;
+    },
+    {
+      staleTime: 30000,
+      refetchInterval: 60000,
+    }
+  );
+
+  return data as INotice;
+};
+
+export const useFAQ = () => {
+  const fallback = [];
+  const { data = fallback, } = useQuery<INotice[], AxiosError>(
+    [ 'getFAQ', ],
+    async () => {
+      const { data, } = await axiosInstance.get<INotice[]>('/notice.json');
+      const faq = data.filter((item) => item.category_id !== 'notice');
+
+      return faq;
+    },
+    {
+      staleTime: 30000,
+      refetchInterval: 60000,
+    }
+  );
+
+  return data as INotice[];
+};
+
+export const useFAQById = (id: number) => {
+  const fallback = {};
+  const { data = fallback, } = useQuery<INotice, AxiosError>(
+    [ 'getFAQ', id, ],
+    async () => {
+      const { data, } = await axiosInstance.get<INotice[]>('/notice.json');
+      const faqs = data.filter((item) => item.category_id !== 'notice');
+      const [ faq, ] = faqs.filter((item) => item.id === id);
+
+      return faq;
     },
     {
       staleTime: 30000,

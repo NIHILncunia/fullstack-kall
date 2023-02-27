@@ -17,7 +17,7 @@ export function Nav() {
             <Link to='/products/etc'>ETC</Link>
           </li>
           <li>
-            <Link to='/community/guide'>커뮤니티</Link>
+            <Link to='/community/notice'>커뮤니티</Link>
           </li>
         </ul>
       </nav>

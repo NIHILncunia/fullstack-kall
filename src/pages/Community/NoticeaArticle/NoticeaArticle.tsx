@@ -5,7 +5,9 @@ import { Link } from 'react-router-dom';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { AppLayout } from '@/layouts';
 import { IsLoding } from '@/components/Content';
-import { useNoticeByCategory, useNoticeById } from '@/hooks/queries/notice';
+import {
+  useNotices, useNoticeById, useFAQById, useFAQ
+} from '@/hooks/queries/notice';
 import { useCategoryById } from '@/hooks/queries/category';
 import {
   articleBottomStyle, articleContentStyle, articleTopStyle, goToBackStyle, noticeArticlePageStyle
@@ -14,27 +16,43 @@ import {
 export function NoticeaArticle() {
   const params = useParams();
   const notice = useNoticeById(Number(params.id));
-  const notices = useNoticeByCategory(notice?.category_id);
-  const category = useCategoryById(notice?.category_id);
+  const faq = useFAQById(Number(params.id));
+  const notices = useNotices();
+  const faqs = useFAQ();
+
+  const categoryId = 'id' in notice ? notice.category_id : faq.category_id;
+  const category = useCategoryById(categoryId);
+
+  console.log(notice);
+  console.log(faq);
+  console.log(category);
 
   const currentIndex = useMemo(() => {
-    return notices.findIndex((item) => item.id === Number(params.id));
-  }, [ notices, params, ]);
+    return 'id' in notice
+      ? notices.findIndex((item) => item.id === Number(params.id))
+      : faqs.findIndex((item) => item.id === Number(params.id));
+  }, [ notices, params, faqs, ]);
 
-  const prevItem = notices[currentIndex - 1];
-  const nextItem = notices[currentIndex + 1];
+  const prevItem = 'id' in notice ? notices[currentIndex - 1] : faqs[currentIndex - 1];
+  const nextItem = 'id' in notice ? notices[currentIndex + 1] : faqs[currentIndex + 1];
+
+  const title = 'id' in notice ? notice.title : faq.title;
+  const url = 'id' in notice ? 'notice' : 'faq';
+  const date = 'id' in notice ? notice.date : faq.date;
+  const content = 'id' in notice ? notice.content : faq.content;
+  const cnt = 'id' in notice ? notice.cnt : faq.cnt;
 
   return (
     <>
-      <AppLayout title={notice.title}>
+      <AppLayout title={title}>
         <div id='community-notice-article-page' css={noticeArticlePageStyle}>
           <IsLoding />
           <div className='go-to-back' css={goToBackStyle}>
-            <Link to={`/community/${notice.category_id}`}>목록으로</Link>
+            <Link to={`/community/${url}`}>목록으로</Link>
           </div>
           <div className='border border-solid border-black-200 divide-y divide-solid divide-black-200 mb-[30px]'>
             <div className='article-top' css={articleTopStyle}>
-              <h3>{notice.title}</h3>
+              <h3>{title}</h3>
               <div>
                 <p>
                   <span>카테고리</span>
@@ -42,15 +60,15 @@ export function NoticeaArticle() {
                 </p>
                 <p>
                   <span>작성일</span>
-                  <span>{moment(notice.date).format('YYYY-MM-DD HH:mm:ss')}</span>
+                  <span>{moment(date).format('YYYY-MM-DD HH:mm:ss')}</span>
                 </p>
                 <p>
                   <span>조회수</span>
-                  <span>{notice.cnt}</span>
+                  <span>{cnt}</span>
                 </p>
               </div>
             </div>
-            <div className='article-content' css={articleContentStyle}>{notice.content}</div>
+            <div className='article-content' css={articleContentStyle}>{content}</div>
           </div>
 
           <div className='article-bottom' css={articleBottomStyle}>

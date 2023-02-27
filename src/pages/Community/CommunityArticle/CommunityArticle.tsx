@@ -3,16 +3,17 @@ import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { AppLayout, CommunityLayout } from '@/layouts';
 import { Heading2 } from '@/components/Content';
-import { useNoticeByCategory } from '@/hooks/queries/notice';
+import { useFAQ, useNotices } from '@/hooks/queries/notice';
 import { articleListStyle } from './style';
 
 interface ICommunityArticleProps {
   title: string;
-  category: string;
+  category?: string;
 }
 
 export function CommunityArticle({ title, category, }: ICommunityArticleProps) {
-  const guideArticles = useNoticeByCategory(category);
+  const notices = useNotices();
+  const faqs = useFAQ();
 
   return (
     <>
@@ -26,7 +27,17 @@ export function CommunityArticle({ title, category, }: ICommunityArticleProps) {
               <p>작성일</p>
               <p>조회수</p>
             </div>
-            {guideArticles.map((item) => (
+            {category && notices.map((item) => (
+              <div key={item.id} className='list-content'>
+                <p>{item.id}</p>
+                <p>
+                  <Link to={`/community/notice/${item.id}`}>{item.title}</Link>
+                </p>
+                <p>{moment(item.date).format('YYYY-MM-DD HH:mm:ss')}</p>
+                <p>{item.cnt}</p>
+              </div>
+            ))}
+            {!category && faqs.map((item) => (
               <div key={item.id} className='list-content'>
                 <p>{item.id}</p>
                 <p>
