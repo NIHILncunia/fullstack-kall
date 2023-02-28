@@ -12,7 +12,6 @@ import {
 } from './style';
 import { useProductsById } from '@/hooks/queries/product';
 import { useOrderById, useOrderDetailByOrderId } from '@/hooks/queries/order';
-import { OrderDetailList } from '@/components/Content/OrderDetail';
 import { ReviewOrderDetailItem } from '@/components/Content/Community';
 
 export function ReviewArticle() {
@@ -30,8 +29,6 @@ export function ReviewArticle() {
 
   const prevItem = reviews[currentIndex - 1];
   const nextItem = reviews[currentIndex + 1];
-
-  console.log(orderDetail);
 
   return (
     <>
@@ -78,12 +75,14 @@ export function ReviewArticle() {
             </div>
           </div>
 
-          <div className='article-order-list' css={articleOrderListStyle}>
-            <p>이 상품과 함께 구매하신 상품 목록입니다.</p>
-            {orderDetail.map((item) => (
-              <ReviewOrderDetailItem key={item.id} item={item} />
-            ))}
-          </div>
+          {orderDetail.length !== 0 && (
+            <div className='article-order-list' css={articleOrderListStyle}>
+              <p>이 상품과 함께 구매하신 상품 목록입니다.</p>
+              {orderDetail.map((item) => (
+                <ReviewOrderDetailItem key={item.id} item={item} />
+              ))}
+            </div>
+          )}
 
           <div className='article-bottom' css={articleBottomStyle}>
             <div className='prev-link'>

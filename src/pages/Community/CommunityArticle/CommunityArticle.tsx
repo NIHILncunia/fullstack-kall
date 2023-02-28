@@ -5,6 +5,7 @@ import { AppLayout, CommunityLayout } from '@/layouts';
 import { Heading2 } from '@/components/Content';
 import { useFAQ, useNotices } from '@/hooks/queries/notice';
 import { articleListStyle } from './style';
+import { useCategory } from '@/hooks/queries/category';
 
 interface ICommunityArticleProps {
   title: string;
@@ -14,6 +15,12 @@ interface ICommunityArticleProps {
 export function CommunityArticle({ title, category, }: ICommunityArticleProps) {
   const notices = useNotices();
   const faqs = useFAQ();
+  const categories = useCategory();
+  const getCategoryName = (categoryId: string) => {
+    const [ category, ] = categories.filter((item) => item.id === categoryId);
+
+    return category.category_name;
+  };
 
   return (
     <>
@@ -41,7 +48,9 @@ export function CommunityArticle({ title, category, }: ICommunityArticleProps) {
               <div key={item.id} className='list-content'>
                 <p>{item.id}</p>
                 <p>
-                  <Link to={`/community/notice/${item.id}`}>{item.title}</Link>
+                  <Link to={`/community/notice/${item.id}`}>
+                    [{getCategoryName(item.category_id)}] - {item.title}
+                  </Link>
                 </p>
                 <p>{moment(item.date).format('YYYY-MM-DD HH:mm:ss')}</p>
                 <p>{item.cnt}</p>

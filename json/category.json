@@ -81,18 +81,18 @@
   },
   {
     "id": "faq_01",
-    "category_name": "FAQ(로그인)"
+    "category_name": "FAQ/로그인"
   },
   {
     "id": "faq_02",
-    "category_name": "FAQ(배송)"
+    "category_name": "FAQ/배송"
   },
   {
     "id": "faq_03",
-    "category_name": "FAQ(결제)"
+    "category_name": "FAQ/결제"
   },
   {
     "id": "faq_04",
-    "category_name": "FAQ(기타)"
+    "category_name": "FAQ/기타"
   }
 ]
