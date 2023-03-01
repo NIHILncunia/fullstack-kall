@@ -23,10 +23,6 @@ export function NoticeaArticle() {
   const categoryId = 'id' in notice ? notice.category_id : faq.category_id;
   const category = useCategoryById(categoryId);
 
-  console.log(notice);
-  console.log(faq);
-  console.log(category);
-
   const currentIndex = useMemo(() => {
     return 'id' in notice
       ? notices.findIndex((item) => item.id === Number(params.id))

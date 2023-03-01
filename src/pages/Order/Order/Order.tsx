@@ -116,7 +116,6 @@ export function Order() {
       };
 
       console.log('주문 테이블 레코드 생성 >> ', newOrder);
-      console.log(orderDetails);
       localStorage.setItem('orderData', JSON.stringify(newOrder));
       navigate('/order/complete');
     }

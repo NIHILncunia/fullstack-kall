@@ -26,7 +26,7 @@ export function SIgnIn() {
     // 실제론 uewMutations를 용할 것.
 
     setCookie('id', 'user_1');
-    setCookie('role', 'user');
+    setCookie('role', 'admin');
     navi('/');
   }, []);
 

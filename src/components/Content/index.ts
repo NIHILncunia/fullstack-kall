@@ -5,3 +5,4 @@ export * from './Heading3';
 export * from './RequireMark';
 export * from './TagsProducts';
 export * from './IsLoding';
+export * from './GoToTop/GoToTop';

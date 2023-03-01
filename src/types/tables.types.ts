@@ -86,6 +86,7 @@ export interface IOrder {
   request: string;
   date: string;
   mileage: number;
+  order_status: string;
   price: number;
   payment: string;
 }
@@ -99,6 +100,7 @@ export interface IAddress {
   zip_code: string;
   address_1: string;
   address_2: string;
+  status: string;
 }
 
 export interface ICategory {

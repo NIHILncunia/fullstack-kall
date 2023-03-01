@@ -8,7 +8,7 @@ import { formStyle } from './style';
 
 export function DirectForm() {
   const [ cookies, ] = useCookies([ 'id', ]);
-  const [ category, setCategory, ] = useState('faq_01');
+  const [ category, setCategory, ] = useState('q_01');
   const [ content, setContent, ] = useState(
     `구입하신 날짜:
 

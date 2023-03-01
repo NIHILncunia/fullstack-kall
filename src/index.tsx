@@ -14,7 +14,7 @@ import {
   CommunityVisit,
   FindId,
   FindPassword,
-  Home, NotFound, NoticeaArticle, Order, OrderComplete, Privacy, ProductItem, Products, ReviewArticle, Search, SIgnIn, SignUp
+  Home, MyPageMain, MyPageUserInfoEdit, NotFound, NoticeaArticle, Order, OrderComplete, Privacy, ProductItem, Products, ReviewArticle, Search, SIgnIn, SignUp
 } from './pages';
 
 const queryClient = new QueryClient({
@@ -45,6 +45,18 @@ const ReduxApp = (
         {/* 아이디 찾기 / 비밀번호 찾기 */}
         <Route path='/find/id' element={<FindId />} />
         <Route path='/find/password' element={<FindPassword />} />
+
+        {/* 마이페이지 */}
+        <Route path='/mypage/main' element={<MyPageMain />} />
+        <Route path='/mypage/edit' element={<MyPageUserInfoEdit />} />
+        <Route path='/withdrawal' />
+        <Route path='/mypage/mileage' />
+        <Route path='/mypage/address' />
+        <Route path='/mypage/delivery' />
+        <Route path='/mypage/order' />
+        <Route path='/mypage/review' />
+        <Route path='/mypage/question' />
+        <Route path='/mypage/wishlist' />
 
         {/* 커뮤니티 페이지 */}
         <Route path='/community/notice' element={<CommunityArticle title='공지사항' category='notice' />} />

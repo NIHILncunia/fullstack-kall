@@ -56,7 +56,7 @@ export function Header() {
                   role !== 'admin'
                     ? (
                       <li>
-                        <Link to='/mypage'>마이페이지</Link>
+                        <Link to='/mypage/main'>마이페이지</Link>
                       </li>
                     )
                     : (

@@ -17,8 +17,6 @@ export function ReviewItem({ item, }: IReviewItemProps) {
     return products.filter((product) => product.id === item.product_id);
   }, [ products, item, ]);
 
-  console.log(product);
-
   return (
     <>
       <div css={reviewItem}>

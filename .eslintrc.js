@@ -100,6 +100,7 @@ module.exports = {
     }, ],
 
     // 리액트 규칙
+    'react/jsx-curly-spacing': [ 'error', { when: 'never', children: true, }, ],
     'react/jsx-props-no-spreading': 'off',
     'react/forbid-prop-types': 'off',
     'react/jsx-filename-extension': [ 'error', {

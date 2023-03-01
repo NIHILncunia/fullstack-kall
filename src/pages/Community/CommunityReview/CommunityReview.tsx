@@ -8,7 +8,6 @@ import { communityReviewListStyle } from './style';
 export function CommunityReview() {
   const reviews = useReviews();
 
-  console.log(reviews);
   return (
     <>
       <AppLayout title='커뮤니티 - 리뷰'>

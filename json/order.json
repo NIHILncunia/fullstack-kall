@@ -11,11 +11,12 @@
     "date": "2023-02-27 13:25:00",
     "mileage": 3000,
     "price": 300000,
-    "payment": "card"
+    "payment": "card",
+    "order_status": "결제 대기중"
   },
   {
     "id": 2,
-    "user_id": "user_2",
+    "user_id": "user_1",
     "name": "User 2",
     "zip_code": "64908",
     "address_1": "Address 2",
@@ -25,11 +26,12 @@
     "date": "2023-02-27T03:03:21.165Z",
     "mileage": 1352,
     "price": 794830,
-    "payment": "card"
+    "payment": "card",
+    "order_status": "배송 준비중"
   },
   {
     "id": 3,
-    "user_id": "user_3",
+    "user_id": "user_1",
     "name": "User 3",
     "zip_code": "59031",
     "address_1": "Address 3",
@@ -39,11 +41,12 @@
     "date": "2023-02-27T03:03:21.165Z",
     "mileage": 5211,
     "price": 560546,
-    "payment": "card"
+    "payment": "card",
+    "order_status": "결제 대기중"
   },
   {
     "id": 4,
-    "user_id": "user_4",
+    "user_id": "user_1",
     "name": "User 4",
     "zip_code": "28013",
     "address_1": "Address 4",
@@ -53,11 +56,12 @@
     "date": "2023-02-27T03:03:21.165Z",
     "mileage": 9777,
     "price": 961664,
-    "payment": "card"
+    "payment": "card",
+    "order_status": "결제 대기중"
   },
   {
     "id": 5,
-    "user_id": "user_5",
+    "user_id": "user_1",
     "name": "User 5",
     "zip_code": "4099",
     "address_1": "Address 5",
@@ -67,11 +71,12 @@
     "date": "2023-02-27T03:03:21.165Z",
     "mileage": 3641,
     "price": 783966,
-    "payment": "card"
+    "payment": "card",
+    "order_status": "배송 완료"
   },
   {
     "id": 6,
-    "user_id": "user_6",
+    "user_id": "user_1",
     "name": "User 6",
     "zip_code": "21725",
     "address_1": "Address 6",
@@ -81,11 +86,12 @@
     "date": "2023-02-27T03:03:21.165Z",
     "mileage": 8655,
     "price": 676976,
-    "payment": "card"
+    "payment": "card",
+    "order_status": "배송 준비중"
   },
   {
     "id": 7,
-    "user_id": "user_7",
+    "user_id": "user_1",
     "name": "User 7",
     "zip_code": "93555",
     "address_1": "Address 7",
@@ -95,11 +101,12 @@
     "date": "2023-02-27T03:03:21.165Z",
     "mileage": 2167,
     "price": 149023,
-    "payment": "card"
+    "payment": "card",
+    "order_status": "배송 준비중"
   },
   {
     "id": 8,
-    "user_id": "user_8",
+    "user_id": "user_1",
     "name": "User 8",
     "zip_code": "75107",
     "address_1": "Address 8",
@@ -109,11 +116,12 @@
     "date": "2023-02-27T03:03:21.165Z",
     "mileage": 1332,
     "price": 168271,
-    "payment": "card"
+    "payment": "card",
+    "order_status": "배송중"
   },
   {
     "id": 9,
-    "user_id": "user_9",
+    "user_id": "user_1",
     "name": "User 9",
     "zip_code": "41548",
     "address_1": "Address 9",
@@ -123,7 +131,8 @@
     "date": "2023-02-27T03:03:21.165Z",
     "mileage": 7306,
     "price": 702483,
-    "payment": "card"
+    "payment": "card",
+    "order_status": "결제 대기중"
   },
   {
     "id": 10,
@@ -137,6 +146,7 @@
     "date": "2023-02-27T03:03:21.165Z",
     "mileage": 2573,
     "price": 904771,
-    "payment": "card"
+    "payment": "card",
+    "order_status": "배송중"
   }
 ]

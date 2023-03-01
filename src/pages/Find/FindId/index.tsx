@@ -42,7 +42,7 @@ export function FindId() {
       };
     }
 
-    console.log('POST to /users/find-id', resObj);
+    console.log('[POST /users/id]', resObj);
   }, [ name, email, phone, ]);
 
   const globalStyles = css`
