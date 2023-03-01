@@ -14,7 +14,7 @@ import {
   CommunityVisit,
   FindId,
   FindPassword,
-  Home, MyPageMain, MyPageUserInfoEdit, NotFound, NoticeaArticle, Order, OrderComplete, Privacy, ProductItem, Products, ReviewArticle, Search, SIgnIn, SignUp
+  Home, MyaPagePassEdit, MyPageMain, MyPageUserInfoEdit, NotFound, NoticeaArticle, Order, OrderComplete, Privacy, ProductItem, Products, ReviewArticle, Search, SIgnIn, SignUp, WithDrawal
 } from './pages';
 
 const queryClient = new QueryClient({
@@ -49,7 +49,8 @@ const ReduxApp = (
         {/* 마이페이지 */}
         <Route path='/mypage/main' element={<MyPageMain />} />
         <Route path='/mypage/edit' element={<MyPageUserInfoEdit />} />
-        <Route path='/withdrawal' />
+        <Route path='/withdrawal' element={<WithDrawal />} />
+        <Route path='/mypage/passedit' element={<MyaPagePassEdit />} />
         <Route path='/mypage/mileage' />
         <Route path='/mypage/address' />
         <Route path='/mypage/delivery' />
