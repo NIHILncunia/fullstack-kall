@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { Global } from '@emotion/react';
 import tw, { css } from 'twin.macro';
 import { useDaumPostcodePopup } from 'react-daum-postcode';
+import axios from 'axios';
 import { AppLayout } from '@/layouts';
 import {
   addressInputStyle,
@@ -59,7 +60,7 @@ export function SignUp() {
   const onSubmitForm = useCallback((event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    console.log('회원가입 정보 >> ', {
+    const newData = {
       user_id: id.data.value,
       name: name.data.value,
       password: password.data.value,
@@ -70,13 +71,17 @@ export function SignUp() {
       eventagree: agree.items.includes('eventAgree')
         ? 'O'
         : 'X',
-    });
+    };
 
-    console.log(`${id.data.value}의 주소 정보 >> `, {
-      zipCode: zipCode.data.value,
-      address1: address1.data.value,
-      address2: address2.data.value,
-    });
+    console.log('회원가입 정보 >> ', newData);
+
+    axios.post('http://localhost:8088/users', newData);
+
+    // console.log(`${id.data.value}의 주소 정보 >> `, {
+    //   zipCode: zipCode.data.value,
+    //   address1: address1.data.value,
+    //   address2: address2.data.value,
+    // });
   }, [ id, name, password, phone, email, birthday, root.items, agree.items, zipCode, address1, address2, ]);
 
   return (

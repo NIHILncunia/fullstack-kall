@@ -21,7 +21,7 @@ export const menuStyle = css`
     }
 
     & > div {
-      ${tw` mb-[10px] `}
+      ${tw` mb-[10px] flex flex-col `}
     }
   }
 `;

@@ -72,6 +72,12 @@ export function MyaPagePassEdit() {
     }
   }, [ newPass, user, ]);
 
+  const onClickReset = useCallback(() => {
+    currentPass.setValue('');
+    newPass.setValue('');
+    newPassCheck.setValue('');
+  }, [ currentPass, newPass, newPassCheck, ]);
+
   return (
     <>
       <AppLayout title='비밀번호 변경'>
@@ -129,7 +135,7 @@ export function MyaPagePassEdit() {
               )}
               <div>
                 <button>비밀번호 변경</button>
-                <button type='reset'>취소</button>
+                <button type='reset' onClick={onClickReset}>취소</button>
               </div>
             </form>
           )}

@@ -39,6 +39,7 @@ export function MyPageLayout({ pageId, children, }: IMyPageLayoutProps) {
             <p>PROFILE</p>
             <div>
               <MyPageLink link='/mypage/edit'>개인정보수정</MyPageLink>
+              <MyPageLink link='/mypage/address'>주소 관리</MyPageLink>
             </div>
             <p>ORDER</p>
             <div />
