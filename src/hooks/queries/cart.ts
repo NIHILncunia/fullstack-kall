@@ -13,11 +13,8 @@ export const useCartByUserId = (userId: string) => {
   const fallback = [];
   const { data = fallback, } = useQuery<ICart[], AxiosError>(
     [ 'getCart', userId, ],
-    () => getCartByUserId(userId),
-    {
-      staleTime: 30000,
-      refetchInterval: 60000,
-    }
+    () => getCartByUserId(userId)
+
   );
 
   return data as ICart[];

@@ -10,6 +10,7 @@ import {
 } from './style';
 import kakaoLogin from '@/images/kakao_login_large_wide.png';
 import { useInput } from '@/hooks';
+import { kallInstance } from '@/data/axios.data';
 
 export function SIgnIn() {
   const navi = useNavigate();
@@ -25,10 +26,21 @@ export function SIgnIn() {
     event.preventDefault();
     // 실제론 uewMutations를 용할 것.
 
-    setCookie('id', 'user_1');
-    setCookie('role', 'admin');
-    navi('/');
-  }, []);
+    const newData = {
+      id: id.data.value,
+      password: password.data.value,
+    };
+
+    console.log('로그인 데이터 >> ', newData);
+
+    kallInstance.post('/users/login', newData)
+      .then((res) => {
+        return res;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [ id, password, kallInstance, ]);
 
   return (
     <>

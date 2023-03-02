@@ -11,11 +11,8 @@ export const useOrders = () => {
       const { data, } = await axiosInstance.get<IOrder[]>('/order.json');
 
       return data;
-    },
-    {
-      staleTime: 30000,
-      refetchInterval: 60000,
     }
+
   );
 
   return data as IOrder[];
@@ -30,11 +27,8 @@ export const useOrderById = (id: number) => {
       const [ order, ] = data.filter((item) => item.id === id);
 
       return order;
-    },
-    {
-      staleTime: 30000,
-      refetchInterval: 60000,
     }
+
   );
 
   return data as IOrder;
@@ -48,11 +42,8 @@ export const useOrderDetails = () => {
       const { data, } = await axiosInstance.get<IOrderDetail[]>('/order_detail.json');
 
       return data;
-    },
-    {
-      staleTime: 30000,
-      refetchInterval: 60000,
     }
+
   );
 
   return data as IOrderDetail[];
@@ -69,11 +60,8 @@ export const useOrderDetailByOrderId = (orderId: number) => {
       ));
 
       return filteredData;
-    },
-    {
-      staleTime: 30000,
-      refetchInterval: 60000,
     }
+
   );
 
   return data as IOrderDetail[];

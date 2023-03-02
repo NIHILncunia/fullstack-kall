@@ -14,11 +14,8 @@ export const useProducts = () => {
   const fallback = [];
   const { data = fallback, } = useQuery<IProduct[], AxiosError>(
     [ 'getProducts', ],
-    getProducts,
-    {
-      staleTime: 30000,
-      refetchInterval: 60000,
-    }
+    getProducts
+
   );
 
   return data as IProduct[];
@@ -52,11 +49,8 @@ export const useProductsHome = () => {
 
           return afterDate - beforeDate;
         });
-    },
-    {
-      staleTime: 30000,
-      refetchInterval: 60000,
     }
+
   );
 
   return data as IProduct[];
@@ -72,11 +66,8 @@ export const useProductsByCategory = (category: string) => {
   const fallback = [];
   const { data = fallback, } = useQuery<IProduct[], AxiosError>(
     [ 'getProducts', category, ],
-    () => getProductsByCategory(category),
-    {
-      staleTime: 30000,
-      refetchInterval: 60000,
-    }
+    () => getProductsByCategory(category)
+
   );
 
   return data as IProduct[];
@@ -93,11 +84,8 @@ export const useProductsById = (id: number) => {
   const fallback = {};
   const { data = fallback, } = useQuery<IProduct, AxiosError>(
     [ 'getProduct', id, ],
-    () => getProductsById(id),
-    {
-      staleTime: 30000,
-      refetchInterval: 60000,
-    }
+    () => getProductsById(id)
+
   );
 
   return data as IProduct;
@@ -118,11 +106,8 @@ export const useOtherProducts = (id: number, category: string) => {
   const fallback = [];
   const { data = fallback, } = useQuery<IProduct[], AxiosError>(
     [ 'otherProducts', id, ],
-    () => getOtherProducts(id, category),
-    {
-      staleTime: 30000,
-      refetchInterval: 60000,
-    }
+    () => getOtherProducts(id, category)
+
   );
 
   return data as IProduct[];

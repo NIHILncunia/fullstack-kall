@@ -13,11 +13,8 @@ export const useReviews = () => {
   const fallback = [];
   const { data = fallback, } = useQuery<IReview[], AxiosError>(
     [ 'getReviews', ],
-    getReviews,
-    {
-      staleTime: 30000,
-      refetchInterval: 60000,
-    }
+    getReviews
+
   );
 
   return data as IReview[];
@@ -32,11 +29,8 @@ export const useReviewById = (id: number) => {
       const [ review, ] = data.filter((item) => item.id === id);
 
       return review;
-    },
-    {
-      staleTime: 30000,
-      refetchInterval: 60000,
     }
+
   );
 
   return data as IReview;

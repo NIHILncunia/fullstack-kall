@@ -52,19 +52,14 @@ export function Header() {
                 <li>
                   <Link to='/signout'>로그아웃</Link>
                 </li>
-                {
-                  role !== 'admin'
-                    ? (
-                      <li>
-                        <Link to='/mypage/main'>마이페이지</Link>
-                      </li>
-                    )
-                    : (
-                      <li>
-                        <Link to='/admin'>관리</Link>
-                      </li>
-                    )
-                }
+                <li>
+                  <Link to='/mypage/main'>마이페이지</Link>
+                </li>
+                {role === 'admin' && (
+                  <li>
+                    <Link to='/admin'>관리</Link>
+                  </li>
+                )}
                 <li>
                   <Link to='/cart'>장바구니</Link>
                 </li>

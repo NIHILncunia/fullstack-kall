@@ -12,11 +12,8 @@ export const useAddressesByUser = (userId: string) => {
       const userAddressData = data.filter((item) => item.user_id === userId);
 
       return userAddressData;
-    },
-    {
-      staleTime: 30000,
-      refetchInterval: 60000,
     }
+
   );
 
   return data as IAddress[];

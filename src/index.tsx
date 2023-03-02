@@ -16,11 +16,22 @@ import {
   FindPassword,
   Home, MyaPagePassEdit, MyPageAddress, MyPageMain, MyPageUserInfoEdit, NotFound, NoticeaArticle, Order, OrderComplete, Privacy, ProductItem, Products, ReviewArticle, Search, SIgnIn, SignUp, WithDrawal
 } from './pages';
+import { AdminMain, UserEditForm, UserManagement } from './pages/Admin';
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      onError: () => {
+      staleTime: 600000,
+      refetchInterval: 900000,
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false,
+      onError() {
+        console.log('안타깝게도 에러를 만났습니다!');
+      },
+    },
+    mutations: {
+      onError() {
         console.log('안타깝게도 에러를 만났습니다!');
       },
     },
@@ -31,6 +42,12 @@ const ReduxApp = (
   <QueryClientProvider client={queryClient}>
     <BrowserRouter>
       <Routes>
+        {/* 어드민 */}
+        {/* <Route path='/admin' element={} /> */}
+        <Route path='/admin' element={<AdminMain />} />
+        <Route path='/admin/users' element={<UserManagement />} />
+        <Route path='/admin/users/edit' element={<UserEditForm />} />
+
         {/* 홈페이지 */}
         <Route path='/' element={<Home />} />
 

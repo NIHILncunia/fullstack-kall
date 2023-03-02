@@ -1,12 +1,13 @@
 import React from 'react';
-import { useIsFetching } from 'react-query';
+import { useIsFetching, useIsMutating } from 'react-query';
 import tw, { css } from 'twin.macro';
 
 export function IsLoding() {
   const isloading = useIsFetching();
+  const isMutating = useIsMutating();
 
   const style = css`
-    ${isloading ? tw` block ` : tw` hidden `}
+    ${(isloading || isMutating) ? tw` block ` : tw` hidden `}
   `;
 
   return (

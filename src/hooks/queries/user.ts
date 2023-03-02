@@ -13,11 +13,8 @@ export const useUsers = () => {
   const fallback = [];
   const { data = fallback, } = useQuery<IUser[], AxiosError>(
     [ 'getUsers', ],
-    getUsers,
-    {
-      staleTime: 30000,
-      refetchInterval: 60000,
-    }
+    getUsers
+
   );
 
   return data as IUser[];
@@ -34,11 +31,8 @@ export const useUser = (id: string) => {
   const fallback = {};
   const { data = fallback, } = useQuery<IUser, AxiosError>(
     [ 'getUser', id, ],
-    () => getUser(id),
-    {
-      staleTime: 30000,
-      refetchInterval: 60000,
-    }
+    () => getUser(id)
+
   );
 
   return data as IUser;

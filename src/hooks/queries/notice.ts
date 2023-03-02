@@ -12,11 +12,8 @@ export const useNotices = () => {
       const notice = data.filter((item) => item.category_id === 'notice');
 
       return notice;
-    },
-    {
-      staleTime: 30000,
-      refetchInterval: 60000,
     }
+
   );
 
   return data as INotice[];
@@ -32,11 +29,8 @@ export const useNoticeById = (id: number) => {
       const [ notice, ] = notices.filter((item) => item.id === id);
 
       return notice;
-    },
-    {
-      staleTime: 30000,
-      refetchInterval: 60000,
     }
+
   );
 
   return data as INotice;
@@ -51,11 +45,8 @@ export const useFAQ = () => {
       const faq = data.filter((item) => item.category_id !== 'notice');
 
       return faq;
-    },
-    {
-      staleTime: 30000,
-      refetchInterval: 60000,
     }
+
   );
 
   return data as INotice[];
@@ -71,11 +62,8 @@ export const useFAQById = (id: number) => {
       const [ faq, ] = faqs.filter((item) => item.id === id);
 
       return faq;
-    },
-    {
-      staleTime: 30000,
-      refetchInterval: 60000,
     }
+
   );
 
   return data as INotice;

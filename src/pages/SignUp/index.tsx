@@ -1,7 +1,7 @@
 import React, {
   FormEvent, useCallback, useRef
 } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Global } from '@emotion/react';
 import tw, { css } from 'twin.macro';
 import { useDaumPostcodePopup } from 'react-daum-postcode';
@@ -46,6 +46,8 @@ export function SignUp() {
 
   const open = useDaumPostcodePopup();
 
+  const navi = useNavigate();
+
   const onClickOpen = useCallback(() => {
     open({
       onComplete: (data) => {
@@ -78,6 +80,7 @@ export function SignUp() {
     axios.post('http://localhost:8088/users', newData)
       .then((res) => {
         console.log(res);
+        navi('/signin');
       })
       .catch((error) => {
         console.error(error);

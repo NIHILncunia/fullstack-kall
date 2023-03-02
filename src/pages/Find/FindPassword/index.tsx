@@ -7,10 +7,10 @@ import tw, { css } from 'twin.macro';
 import { AppLayout } from '@/layouts';
 import { Heading2, Heading3 } from '@/components/Content';
 import { useInput } from '@/hooks';
-import { getUser } from '@/data/queries';
 import {
   findPasswordPageStyle, formStyle, Message, pStyle
 } from './style';
+import { getUser } from '@/hooks/queries/user';
 
 export function FindPassword() {
   const [ isOpen, setIsOpen, ] = useState(false);
