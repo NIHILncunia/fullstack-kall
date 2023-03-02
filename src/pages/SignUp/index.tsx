@@ -61,7 +61,7 @@ export function SignUp() {
     event.preventDefault();
 
     const newData = {
-      user_id: id.data.value,
+      id: id.data.value,
       name: name.data.value,
       password: password.data.value,
       phone_nb: phone.data.value,
