@@ -75,7 +75,13 @@ export function SignUp() {
 
     console.log('회원가입 정보 >> ', newData);
 
-    axios.post('http://localhost:8088/users', newData);
+    axios.post('http://localhost:8088/users', newData)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
 
     // console.log(`${id.data.value}의 주소 정보 >> `, {
     //   zipCode: zipCode.data.value,
