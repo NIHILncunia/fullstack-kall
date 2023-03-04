@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "팀프로젝트 3차 프론트",
   "main": "src/index.ts",
+  "proxy": "http://localhost:8088",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/NIHILncunia/fullstack-kall.git"

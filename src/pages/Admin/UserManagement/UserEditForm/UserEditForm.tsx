@@ -1,18 +1,22 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, {
+  useCallback, useEffect, useRef
+} from 'react';
 import { useLocation } from 'react-router';
 import queryString from 'query-string';
+import tw from 'twin.macro';
 import { AdminLayout, AppLayout } from '@/layouts';
 import { Heading2 } from '@/components/Content';
 import { useInput } from '@/hooks';
 import { useUpdateUser, useUserById } from '@/hooks/trueQuery/users';
 import { IUser } from '@/types/tables.types';
+import { userEditFormStyle } from './style';
 
 export function UserEditForm() {
   const location = useLocation();
   const qString = queryString.parse(location.search);
   const user = useUserById(qString.id as string);
 
-  const updateUser = useUpdateUser(user.id);
+  const { mutate: updateUser, message, } = useUpdateUser(user.id);
 
   const idRef = useRef<HTMLInputElement>();
   const nameRef = useRef<HTMLInputElement>();
@@ -42,9 +46,9 @@ export function UserEditForm() {
       role.setValue(user.role);
       status.setValue(user.status);
     }
-  }, [ id, name, email, phone, birthday, role, user, ]);
+  }, [ user, ]);
 
-  const onSubmitForm = useCallback((event: React.FormEvent<HTMLFormElement>) => {
+  const onSubmitForm = useCallback(async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const newData: IUser = {
@@ -57,17 +61,28 @@ export function UserEditForm() {
       status: role.data.value as ('활동계정' | '비활동계정'),
     };
 
-    console.log(newData);
+    console.log('유저 데이터 변경 >> ', newData);
 
     updateUser(newData);
+
+    console.log(message);
   }, [ id, name, email, phone, birthday, role, ]);
+
+  const onClickDelete = useCallback(() => {
+    const newData = {
+      user_id: id.data.value,
+      text: '관리자에 의한 강제 탈퇴',
+    };
+
+    console.log('[POST /withdrawal, newData]', newData);
+  }, [ id, ]);
 
   return (
     <>
       <AppLayout title={`${qString.id} 정보 수정`}>
         <AdminLayout pageId='admin-user-edit-page'>
           <Heading2>{qString.id} 정보 수정</Heading2>
-          <form onSubmit={onSubmitForm}>
+          <form onSubmit={onSubmitForm} css={userEditFormStyle}>
             <label htmlFor='id'>
               <span>아이디</span>
               <input type='text' ref={idRef} {...id.data} />
@@ -90,13 +105,26 @@ export function UserEditForm() {
             </label>
             <label htmlFor='role'>
               <span>권한</span>
-              <input type='text' ref={roleRef} {...role.data} />
+              <input type='text' list='role-list' ref={roleRef} {...role.data} />
+              <datalist id='role-list'>
+                <option value='user'>user</option>
+                <option value='admin'>admin</option>
+              </datalist>
             </label>
             <label htmlFor='status'>
               <span>상태</span>
-              <input type='text' ref={statusRef} {...status.data} />
+              <input type='text' list='staus-list' ref={statusRef} {...status.data} />
+              <datalist id='status-list'>
+                <option value='활동회원'>활동회원</option>
+                <option value='비활동회원'>비활동회원</option>
+                <option value='탈퇴'>탈퇴</option>
+              </datalist>
             </label>
-            <button>수정</button>
+            {message && <p css={tw`mt-[5px] font-[900]`}>{message}</p>}
+            <div>
+              <button>수정</button>
+              <button type='button' onClick={onClickDelete}>삭제</button>
+            </div>
           </form>
         </AdminLayout>
       </AppLayout>

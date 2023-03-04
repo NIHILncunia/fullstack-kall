@@ -2,6 +2,7 @@ import { AxiosError } from 'axios';
 import {
   useMutation, useQuery, useQueryClient
 } from 'react-query';
+import { useState } from 'react';
 import { kallInstance } from '@/data/axios.data';
 import { IUser } from '@/types/tables.types';
 
@@ -43,11 +44,13 @@ export const useUserById = (id: string) => {
 
 // ==================== 개별 데이터 업데이트하기 ====================
 export const useUpdateUser = (id: string) => {
+  const [ message, setMessage, ] = useState('');
+
   const queryClient = useQueryClient();
 
   const { mutate, } = useMutation(
     async (newData: IUser) => {
-      const { data, } = await kallInstance.put<IUser>(
+      const { data, } = await kallInstance.put<string>(
         `/admin/users/${id}`,
         newData
       );
@@ -55,14 +58,14 @@ export const useUpdateUser = (id: string) => {
       return data;
     },
     {
-      onSuccess: () => {
+      onSuccess: (data) => {
         queryClient.invalidateQueries([ 'getUserById', id, ]);
-        getUserById(id);
+        setMessage(data);
       },
     }
   );
 
-  return mutate;
+  return { mutate, message, };
 };
 
 // ==================== 다수 데이터 삭제하기 (어드민) ====================
@@ -82,7 +85,6 @@ export const useDeleteUsers = (idArray: string[]) => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries([ 'getUsers', ]);
-        getUsers();
       },
     }
   );

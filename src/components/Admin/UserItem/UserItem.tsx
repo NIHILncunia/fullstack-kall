@@ -35,13 +35,17 @@ export function UserItem({ item, value, setValue, }: IUserItemProps) {
     <>
       <div className='list-content' css={[ listContentStyle, isOpen && tw`mt-[30px]`, ]}>
         <p>
-          <input
-            type='checkbox'
-            name='user'
-            value={item.id}
-            onChange={() => onChangeUser(item.id)}
-            checked={value.includes(item.id)}
-          />
+          <label htmlFor={item.id}>
+            <input
+              type='checkbox'
+              name='user'
+              id={item.id}
+              value={item.id}
+              onChange={() => onChangeUser(item.id)}
+              checked={value.includes(item.id)}
+              css={tw`w-[30px] h-[30px] block`}
+            />
+          </label>
         </p>
         <p>{item.name}</p>
         <p onClick={onClickOpen}>{item.id}</p>

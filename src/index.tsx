@@ -38,7 +38,7 @@ const queryClient = new QueryClient({
   },
 });
 
-const ReduxApp = (
+const QueryApp = (
   <QueryClientProvider client={queryClient}>
     <BrowserRouter>
       <Routes>
@@ -109,4 +109,4 @@ const ReduxApp = (
 );
 
 const root = createRoot(document.querySelector('#root'));
-root.render(ReduxApp);
+root.render(QueryApp);
