@@ -33,7 +33,7 @@ export function UserItem({ item, value, setValue, }: IUserItemProps) {
 
   return (
     <>
-      <div className='list-content' css={[ listContentStyle, isOpen && tw`mt-[30px]`, ]}>
+      <div className='list-content' css={listContentStyle}>
         <p>
           <label htmlFor={item.id}>
             <input

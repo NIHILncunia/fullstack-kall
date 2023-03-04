@@ -68,7 +68,7 @@ export function AddressForm() {
           <button type='button' onClick={onClickButton}>우편번호 찾기</button>
         </div>
         <input type='text' readOnly required placeholder='주소' ref={address1Ref} {...address1.data} />
-        <input type='text' required placeholder='상세주소' ref={address2Ref} {...address2.data} />
+        <input type='text' placeholder='상세주소' ref={address2Ref} {...address2.data} />
         <button>주소 등록하기</button>
       </form>
     </>

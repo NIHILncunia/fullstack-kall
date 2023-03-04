@@ -8,27 +8,40 @@ interface IUserManageBlockProps {
 }
 
 export function UserManageBlock({ items, setItems, }: IUserManageBlockProps) {
-  const deleteUsers = useDeleteUsers(items);
-  const deleteAllUsers = useDeleteUsers(
-    JSON.parse(localStorage.getItem('allUserIds'))
-  );
+  const deleteUsers = useDeleteUsers();
+  const deleteAllUsers = useDeleteUsers();
+
   const onClickReset = useCallback(() => {
     setItems([]);
   }, []);
 
+  const onClickAllSelect = useCallback(() => {
+    setItems(JSON.parse(localStorage.getItem('allUserIds')) as string[]);
+  }, []);
+
   const onDeleteAllData = useCallback(() => {
-    deleteAllUsers();
+    const userDelData = {
+      idArray: JSON.parse(localStorage.getItem('allUserIds')) as string[],
+      text: '관리자에 의한 강제 탈퇴',
+    };
+    deleteAllUsers.mutate(userDelData);
   }, []);
 
   const onDeleteSelectData = useCallback(() => {
     if (items.length !== 0) {
-      deleteUsers();
+      const userDelData = {
+        idArray: items,
+        text: '관리자에 의한 강제 탈퇴',
+      };
+
+      deleteUsers.mutate(userDelData);
     }
-  }, []);
+  }, [ items, ]);
 
   return (
     <>
       <div css={buttonBlockStyle}>
+        <button onClick={onClickAllSelect}>전체 선택</button>
         <button onClick={onClickReset}>선택 취소</button>
         <button onClick={onDeleteAllData}>전체 삭제</button>
         <button onClick={onDeleteSelectData}>선택 삭제</button>

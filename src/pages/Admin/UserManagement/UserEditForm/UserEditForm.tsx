@@ -7,7 +7,7 @@ import tw from 'twin.macro';
 import { AdminLayout, AppLayout } from '@/layouts';
 import { Heading2 } from '@/components/Content';
 import { useInput } from '@/hooks';
-import { useUpdateUser, useUserById } from '@/hooks/trueQuery/users';
+import { useDeleteUser, useUpdateUser, useUserById } from '@/hooks/trueQuery/users';
 import { IUser } from '@/types/tables.types';
 import { userEditFormStyle } from './style';
 
@@ -16,7 +16,8 @@ export function UserEditForm() {
   const qString = queryString.parse(location.search);
   const user = useUserById(qString.id as string);
 
-  const { mutate: updateUser, message, } = useUpdateUser(user.id);
+  const updateUser = useUpdateUser(user.id);
+  const deleteUser = useDeleteUser(user.id);
 
   const idRef = useRef<HTMLInputElement>();
   const nameRef = useRef<HTMLInputElement>();
@@ -34,8 +35,6 @@ export function UserEditForm() {
   const role = useInput(roleRef, 'role');
   const status = useInput(statusRef, 'status');
 
-  console.log(user);
-
   useEffect(() => {
     if ('id' in user) {
       id.setValue(user.id);
@@ -52,30 +51,30 @@ export function UserEditForm() {
     event.preventDefault();
 
     const newData: IUser = {
+      ...user,
       id: id.data.value,
       name: name.data.value,
       email: email.data.value,
       phone_nb: phone.data.value,
       birthday: birthday.data.value,
       role: role.data.value as ('user' | 'admin'),
-      status: role.data.value as ('활동계정' | '비활동계정'),
+      status: status.data.value as ('활동계정' | '비활동계정'),
     };
 
     console.log('유저 데이터 변경 >> ', newData);
 
-    updateUser(newData);
-
-    console.log(message);
-  }, [ id, name, email, phone, birthday, role, ]);
+    updateUser.mutate(newData);
+  }, [ id, name, email, phone, birthday, role, updateUser, ]);
 
   const onClickDelete = useCallback(() => {
-    const newData = {
-      user_id: id.data.value,
+    const userDelData = {
+      id: id.data.value,
       text: '관리자에 의한 강제 탈퇴',
     };
 
-    console.log('[POST /withdrawal, newData]', newData);
-  }, [ id, ]);
+    console.log('[DELETE /users/{id}, userDelData]', userDelData);
+    deleteUser.mutate(userDelData);
+  }, [ id, deleteUser, ]);
 
   return (
     <>
@@ -120,7 +119,8 @@ export function UserEditForm() {
                 <option value='탈퇴'>탈퇴</option>
               </datalist>
             </label>
-            {message && <p css={tw`mt-[5px] font-[900]`}>{message}</p>}
+            {'message' in deleteUser && <p css={tw`mt-[5px] font-[900]`}>탈퇴처리 되었습니다.</p>}
+            {'message' in updateUser && <p css={tw`mt-[5px] font-[900]`}>수정되었습니다.</p>}
             <div>
               <button>수정</button>
               <button type='button' onClick={onClickDelete}>삭제</button>

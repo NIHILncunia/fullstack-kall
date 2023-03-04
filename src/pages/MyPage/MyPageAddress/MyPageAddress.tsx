@@ -1,12 +1,11 @@
 import React, { useCallback, useState } from 'react';
 import { useCookies } from 'react-cookie';
-import { IoMdRadioButtonOff, IoMdRadioButtonOn } from 'react-icons/io';
 import tw from 'twin.macro';
 import { AppLayout, MyPageLayout } from '@/layouts';
 import { Heading2, Heading3 } from '@/components/Content';
 import { addressButtonStyle, addressListStyle, defaultAddressStyle } from './style';
 import { useAddressesByUser, useUpdateDefaultAddress } from '@/hooks/trueQuery/address';
-import { AddressForm } from '@/components/Content/MyPage';
+import { AddressForm, AddressListItem } from '@/components/Content/MyPage';
 
 export function MyPageAddress() {
   const [ selectedAddress, setSelectedAddress, ] = useState<number>(null);
@@ -18,10 +17,6 @@ export function MyPageAddress() {
     .filter((item) => item.status === 'true');
   const otherAddress = address
     .filter((item) => item.status === 'false');
-
-  const onChnageAddress = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedAddress(Number(event.target.value));
-  }, []);
 
   const onClickDefault = useCallback(() => {
     if (selectedAddress === null) {
@@ -37,9 +32,6 @@ export function MyPageAddress() {
 
     setSelectedAddress(null);
   }, [ selectedAddress, otherAddress, ]);
-
-  console.log('otherAddress >> ', otherAddress);
-  console.log('defaultAddress >> ', defaultAddress);
 
   return (
     <>
@@ -82,29 +74,12 @@ export function MyPageAddress() {
               </div>
             )}
             {otherAddress?.map((item) => (
-              <div key={item.id} className='list-content'>
-                <p>
-                  <label htmlFor={item.id.toString()}>
-                    <input
-                      type='radio'
-                      id={item.id.toString()}
-                      name='address'
-                      value={item.id}
-                      onChange={onChnageAddress}
-                      checked={selectedAddress === item.id}
-                      hidden
-                    />
-                    <span>
-                      {selectedAddress === item.id && <IoMdRadioButtonOn />}
-                      {selectedAddress !== item.id && <IoMdRadioButtonOff />}
-                    </span>
-                  </label>
-                </p>
-                <p>{item.address_name}</p>
-                <p>{item.zip_code} - {item.address_1} {item.address_2}</p>
-                <button>수정</button>
-                <button>삭제</button>
-              </div>
+              <AddressListItem
+                key={item.id}
+                item={item}
+                selectedAddress={selectedAddress}
+                setSelectedAddress={setSelectedAddress}
+              />
             ))}
           </div>
           <p css={tw`font-[900] mt-[20px] text-blue-500 mb-[30px] text-center`}>

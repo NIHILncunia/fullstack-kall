@@ -4,7 +4,8 @@ import {
 } from 'react-query';
 import { useState } from 'react';
 import { kallInstance } from '@/data/axios.data';
-import { IUser } from '@/types/tables.types';
+import { IUser, IUserDel } from '@/types/tables.types';
+import { IUsersDeleteResponse } from '@/types/other.types';
 
 const getUsers = async () => {
   const { data, } = await kallInstance.get<IUser[]>('/users');
@@ -42,14 +43,48 @@ export const useUserById = (id: string) => {
   return data as IUser;
 };
 
-// ==================== 개별 데이터 업데이트하기 ====================
+// ==================== 회원 탈퇴 ====================
+export const useDeleteUser = (id: string) => {
+  const [ message, setMessage, ] = useState('');
+
+  const queryClient = useQueryClient();
+
+  const { mutate, } = useMutation<string, AxiosError, IUserDel>(
+    async (userDelData) => {
+      const { data, } = await kallInstance.delete<string>(
+        `/users/${id}`,
+        {
+          data: userDelData,
+        }
+      );
+
+      return data;
+    },
+    {
+      onSuccess: async (data) => {
+        const usersData = await getUsers();
+
+        queryClient.setQueryData(
+          [ 'getUsers', ],
+          usersData
+        );
+
+        setMessage(data);
+      },
+    }
+  );
+
+  return { mutate, message, };
+};
+
+// ==================== 개별 데이터 업데이트하기 (어드민) ====================
 export const useUpdateUser = (id: string) => {
   const [ message, setMessage, ] = useState('');
 
   const queryClient = useQueryClient();
 
-  const { mutate, } = useMutation(
-    async (newData: IUser) => {
+  const { mutate, } = useMutation<string, AxiosError, IUser>(
+    async (newData) => {
       const { data, } = await kallInstance.put<string>(
         `/admin/users/${id}`,
         newData
@@ -58,8 +93,15 @@ export const useUpdateUser = (id: string) => {
       return data;
     },
     {
-      onSuccess: (data) => {
-        queryClient.invalidateQueries([ 'getUserById', id, ]);
+      onSuccess: async (data) => {
+        const userData = await getUserById(id);
+        console.log(data);
+
+        queryClient.setQueryData(
+          [ 'getUserById', id, ],
+          userData
+        );
+
         setMessage(data);
       },
     }
@@ -69,25 +111,35 @@ export const useUpdateUser = (id: string) => {
 };
 
 // ==================== 다수 데이터 삭제하기 (어드민) ====================
-export const useDeleteUsers = (idArray: string[]) => {
+export const useDeleteUsers = () => {
   const queryClient = useQueryClient();
 
-  const { mutate, } = useMutation<string, AxiosError>(
-    async () => {
-      const { data, } = await kallInstance.delete<string>(
+  type UserDelData = {
+    idArray: string[];
+    text: string;
+  };
+
+  const { mutate, } = useMutation<IUsersDeleteResponse, AxiosError, UserDelData>(
+    async (userDelData: UserDelData) => {
+      const { data, } = await kallInstance.delete<IUsersDeleteResponse>(
         '/admin/users',
         {
-          data: idArray,
+          data: userDelData,
         }
       );
       return data;
     },
     {
-      onSuccess: () => {
-        queryClient.invalidateQueries([ 'getUsers', ]);
+      onSuccess: async () => {
+        const usersData = await getUsers();
+
+        queryClient.setQueryData(
+          [ 'getUsers', ],
+          usersData
+        );
       },
     }
   );
 
-  return mutate;
+  return { mutate, };
 };
