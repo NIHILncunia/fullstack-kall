@@ -1,6 +1,6 @@
 import React from 'react';
 import { AppLayout } from '@/layouts';
-import { Heading2, IsLoding, TagsProducts } from '@/components/Content';
+import { Heading2, TagsProducts } from '@/components/Content';
 import { productsPageStyle } from './style';
 import { useProductsByCategory } from '@/hooks/queries/product';
 import { useCategoryById } from '@/hooks/queries/category';
@@ -17,7 +17,6 @@ export function Products({ category, }: IProductsProps) {
     <>
       <AppLayout title={categoryName}>
         <div id='custom-cake-page' css={productsPageStyle}>
-          <IsLoding />
           <Heading2>{categoryName}</Heading2>
           <TagsProducts data={data} />
         </div>

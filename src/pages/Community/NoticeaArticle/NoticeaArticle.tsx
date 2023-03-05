@@ -4,7 +4,6 @@ import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { AppLayout } from '@/layouts';
-import { IsLoding } from '@/components/Content';
 import {
   useNotices, useNoticeById, useFAQById, useFAQ
 } from '@/hooks/queries/notice';
@@ -42,7 +41,6 @@ export function NoticeaArticle() {
     <>
       <AppLayout title={title}>
         <div id='community-notice-article-page' css={noticeArticlePageStyle}>
-          <IsLoding />
           <div className='go-to-back' css={goToBackStyle}>
             <Link to={`/community/${url}`}>목록으로</Link>
           </div>

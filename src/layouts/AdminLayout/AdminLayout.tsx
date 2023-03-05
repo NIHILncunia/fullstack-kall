@@ -14,6 +14,7 @@ export function AdminLayout({ pageId, children, }: IAdminLayoutProps) {
       <div id={pageId} css={tw`p-[50px] text-[1.2rem] text-black-base`}>
         <div className='admin-menu' css={adminMenuStyle}>
           <Link to='/admin/users'>회원 관리</Link>
+          <Link to='/admin/products'>상품 관리</Link>
         </div>
         <div className='admin-content'>
           {children}

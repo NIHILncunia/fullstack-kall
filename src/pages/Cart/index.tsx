@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router';
 import { AppLayout } from '@/layouts';
 import { useCartByUserId } from '@/hooks/queries/cart';
 import { CartList } from '@/components/Content/Cart';
-import { Heading2, IsLoding } from '@/components/Content';
+import { Heading2 } from '@/components/Content';
 import {
   buttonsStyle,
   cartListStyle, cartPageStyle, listStatStyle, orderProgressStyle
@@ -144,7 +144,6 @@ export function Cart() {
               <div>상품 / 옵션 정보</div>
               <div>상품금액</div>
             </div>
-            <IsLoding />
             {cartList.map((item) => (
               <Fragment key={item.id}>
                 <CartList

@@ -119,8 +119,12 @@ export function UserEditForm() {
                 <option value='탈퇴'>탈퇴</option>
               </datalist>
             </label>
-            {'message' in deleteUser && <p css={tw`mt-[5px] font-[900]`}>탈퇴처리 되었습니다.</p>}
-            {'message' in updateUser && <p css={tw`mt-[5px] font-[900]`}>수정되었습니다.</p>}
+            {deleteUser.message.length !== 0 && (
+              <p css={tw`mt-[5px] font-[900]`}>탈퇴처리 되었습니다.</p>
+            )}
+            {updateUser.message.length !== 0 && (
+              <p css={tw`mt-[5px] font-[900]`}>수정되었습니다.</p>
+            )}
             <div>
               <button>수정</button>
               <button type='button' onClick={onClickDelete}>삭제</button>

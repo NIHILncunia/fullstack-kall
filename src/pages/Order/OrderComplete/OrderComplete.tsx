@@ -7,7 +7,7 @@ import {
   detailListStyle,
   orderCompleteMessageStyle, orderCompletePageStyle, orderInfoStyle, orderProgressStyle
 } from './style';
-import { Heading2, Heading3, IsLoding } from '@/components/Content';
+import { Heading2, Heading3 } from '@/components/Content';
 import { useUser } from '@/hooks/queries/user';
 import { IOrder, IOrderDetail } from '@/types/tables.types';
 import { OrderDetailList } from '@/components/Content/OrderDetail';
@@ -44,7 +44,6 @@ export function OrderComplete() {
     <>
       <AppLayout title='주문 완료'>
         <div id='order-complete-page' css={orderCompletePageStyle}>
-          <IsLoding />
           <Heading2>주문이 완료되었습니다.</Heading2>
           <div className='order-progress' css={orderProgressStyle}>
             <p>01 장바구니</p>

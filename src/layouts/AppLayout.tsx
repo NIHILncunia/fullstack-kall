@@ -6,6 +6,7 @@ import {
   Footer, Header, Main, MemoMeta
 } from '@/components/Layout';
 import { IAppLayoutProps, IMetaData } from '@/types/site.types';
+import { IsLoading } from '@/components/Content';
 
 export const AppLayout = ({
   children, title, description, keywords, author, image, created, updated, tags, type, section,
@@ -54,6 +55,7 @@ export const AppLayout = ({
       <Header />
 
       <Main>
+        <IsLoading />
         {children}
       </Main>
 

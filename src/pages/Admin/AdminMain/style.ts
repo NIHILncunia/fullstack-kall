@@ -1,7 +1,7 @@
 import tw, { css } from 'twin.macro';
 
 export const adminLinkStyle = css`
-  ${tw` grid grid-cols-3 text-[2rem] `}
+  ${tw` grid grid-cols-3 text-[2rem] gap-[20px] `}
 
   & > a {
     ${tw` h-[200px] flex items-center justify-center border border-solid border-black-200 bg-black-50 font-[900] `}

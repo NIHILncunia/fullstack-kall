@@ -15,13 +15,13 @@ export const defaultInfoStyle = css`
 `;
 
 export const orderStatStyle = css`
-  ${tw` mb-[50px] flex items-center gap-[5px] `}
+  ${tw` mb-[50px] flex items-center gap-[20px] `}
 
   & > div {
     ${tw` flex-[1] `}
 
     & > a {
-      ${tw` border border-solid border-black-200 bg-black-50 p-[10px] flex flex-col gap-[5px] items-center justify-center `}
+      ${tw` border border-solid border-black-200 bg-black-50 p-[10px] flex flex-col gap-[20px] items-center justify-center `}
       ${tw` hover:bg-point-base/40 hover:border-point-h-base hover:text-blue-500 `}
 
       & > span {
@@ -32,16 +32,16 @@ export const orderStatStyle = css`
 `;
 
 export const mypageIconLinkStyle = css`
-  ${tw` flex flex-col gap-[5px] `}
+  ${tw` flex flex-col gap-[20px] `}
 
   & > div {
-    ${tw` flex gap-[5px] items-center `}
+    ${tw` flex gap-[20px] items-center `}
 
     & > div {
       ${tw` flex-[1] `}
 
       & > a {
-        ${tw` border border-solid border-black-200 bg-black-50 p-[10px] flex flex-col gap-[5px] items-center justify-center `}
+        ${tw` border border-solid border-black-200 bg-black-50 p-[10px] flex flex-col gap-[20px] items-center justify-center `}
         ${tw` hover:bg-point-base/40 hover:border-point-h-base hover:text-blue-500 `}
 
         & > span {

@@ -5,7 +5,7 @@ import moment from 'moment';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { AppLayout } from '@/layouts';
 import { useReviewById, useReviews } from '@/hooks/queries/review';
-import { IsLoding, ItemRate } from '@/components/Content';
+import { ItemRate } from '@/components/Content';
 import { useUser } from '@/hooks/queries/user';
 import {
   articleBottomStyle, articleContentStyle, articleOrderListStyle, articleRateStyle, articleTargetItemStyle, articleTopStyle, goToBackStyle, reviewArticlePageStyle
@@ -34,7 +34,6 @@ export function ReviewArticle() {
     <>
       <AppLayout title={review.title}>
         <div id='community-review-article-page' css={reviewArticlePageStyle}>
-          <IsLoding />
           <div className='go-to-back' css={goToBackStyle}>
             <Link to='/community/review'>목록으로</Link>
           </div>

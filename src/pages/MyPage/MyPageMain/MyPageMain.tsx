@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 import { AppLayout, MyPageLayout } from '@/layouts';
 import { useUser } from '@/hooks/queries/user';
 import { useAddressesByUser } from '@/hooks/queries/address';
-import { Heading2, Heading3, IsLoding } from '@/components/Content';
+import { Heading2, Heading3 } from '@/components/Content';
 import { useOrders } from '@/hooks/queries/order';
 import { defaultInfoStyle, mypageIconLinkStyle, orderStatStyle } from './style';
 
@@ -41,7 +41,6 @@ export function MyPageMain() {
     <>
       <AppLayout title='마이페이지'>
         <MyPageLayout pageId='mypage-main-page'>
-          <IsLoding />
           <Heading2>마이 페이지</Heading2>
 
           <Heading3>기본 프로필</Heading3>

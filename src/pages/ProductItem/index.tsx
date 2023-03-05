@@ -7,7 +7,7 @@ import tw, { css } from 'twin.macro';
 import { AppLayout } from '@/layouts';
 import { IProduct } from '@/types/tables.types';
 import { useOtherProducts, useProductsById } from '@/hooks/queries/product';
-import { IsLoding, Heading3, ItemRate } from '@/components/Content';
+import { Heading3, ItemRate } from '@/components/Content';
 import {
   detailTopStyle, ProductItemPageStyle, sectionStyle, topImageStyle, topInfoStyle
 } from './style';
@@ -34,7 +34,6 @@ export function ProductItem() {
     <>
       <AppLayout title={product.name}>
         <div id='ptoduct-item-page' css={ProductItemPageStyle}>
-          <IsLoding />
           <div className='detail-top' css={detailTopStyle}>
             <div className='top-image' css={topImageStyle}>
               <img src={product.image} alt={product.name} />
