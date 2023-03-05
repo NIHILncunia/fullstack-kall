@@ -65,3 +65,19 @@ export const detailImagesUploadStyle = css`
     }
   }
 `;
+
+export const textAreaInfoStyle = css`
+  & > textarea {
+    ${tw` p-[10px] w-[652px] border border-solid border-black-200 bg-black-50 outline-none resize-none h-[200px] `}
+    ${tw` focus:( bg-point-base/40 border-point-h-base ) `}
+  }
+`;
+
+export const postButtonStyle = css`
+  ${tw` w-[652px] `}
+
+  & > button {
+    ${tw` p-[20px_10px] bg-point-base w-[200px] `}
+    ${tw` hover:( bg-point-h-base text-white ) `}
+  }
+`;

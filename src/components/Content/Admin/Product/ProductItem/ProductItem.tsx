@@ -6,10 +6,13 @@ import { listItemEditStyle } from './style';
 
 interface IProductItemProps {
   item: IProduct;
+  selectedItems: number[];
+  setSelectedItems: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
-export function ProductItem({ item, }: IProductItemProps) {
+export function ProductItem({ item, selectedItems, setSelectedItems, }: IProductItemProps) {
   const [ isOpen, setIsOpen, ] = useState(false);
+
   const category = useCategoryById(item.category_id);
   const navi = useNavigate();
 
@@ -17,11 +20,29 @@ export function ProductItem({ item, }: IProductItemProps) {
     setIsOpen((prev) => !prev);
   }, []);
 
+  const onChangeCheck = useCallback((id: number) => {
+    setSelectedItems((prev) => (
+      prev.includes(id)
+        ? prev.filter((item) => item !== id)
+        : [ ...prev, id, ]
+    ));
+  }, []);
+
+  const onClickDelete = useCallback((id: number) => {
+    console.log(`[DELETE /products/${id}]`);
+  }, []);
+
   return (
     <>
       <div className='list-content'>
         <div>
-          <input type='checkbox' name='item' value={item?.id} />
+          <input
+            type='checkbox'
+            name='item'
+            value={item?.id}
+            onChange={() => onChangeCheck(item.id)}
+            checked={selectedItems.includes(item.id)}
+          />
         </div>
         <div>{category.category_name}</div>
         <div onClick={onClickOpen}>{item?.name}</div>
@@ -31,6 +52,7 @@ export function ProductItem({ item, }: IProductItemProps) {
       {isOpen && (
         <div className='list-item-edit' css={listItemEditStyle}>
           <button onClick={() => navi(`/admin/products/${item.id}/edit`)}>수정</button>
+          <button onClick={() => onClickDelete(item.id)}>삭제</button>
         </div>
       )}
     </>

@@ -37,18 +37,28 @@ export const useCreateProduct = () => {
     async (createData) => {
       const { data, } = await kallInstance.post<string>(
         '/products',
-        createData
+        createData.formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data;boundary="boundary"',
+          },
+          data: {
+            ...createData.productData,
+          },
+        }
       );
 
       return data;
     },
     {
-      onSuccess: async () => {
+      onSuccess: async (data) => {
         const productData = await getProducts();
         queryClient.setQueryData(
           [ 'getProducts', ],
           productData
         );
+
+        console.log(data);
       },
     }
   );

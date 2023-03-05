@@ -3,15 +3,19 @@ import React, {
 } from 'react';
 import { useParams } from 'react-router';
 import { FaTimes } from 'react-icons/fa';
+import tw from 'twin.macro';
 import { AdminLayout, AppLayout } from '@/layouts';
 import { useProductsById } from '@/hooks/queries/product';
 import { Heading2, Heading3 } from '@/components/Content';
 import { useInput } from '@/hooks';
 import { kallInstance } from '@/data/axios.data';
-import { basicInfoEditStyle, detailImagesEditStyle, imageEditStyle } from './style';
+import {
+  basicInfoEditStyle, detailImagesEditStyle, imageEditStyle, textAreaInfoStyle
+} from './style';
 
 export function ProductEdit() {
   const [ files, setFiles, ] = useState([]);
+  const [ text, setText, ] = useState('');
 
   const params = useParams();
   const productData = useProductsById(Number(params.id));
@@ -22,7 +26,6 @@ export function ProductEdit() {
 
   const nameRef = useRef<HTMLInputElement>();
   const tagRef = useRef<HTMLInputElement>();
-  const infoRef = useRef<HTMLInputElement>();
   const amountRef = useRef<HTMLInputElement>();
   const priceRef = useRef<HTMLInputElement>();
 
@@ -30,7 +33,6 @@ export function ProductEdit() {
 
   const name = useInput(nameRef, 'name');
   const tag = useInput(tagRef, 'tag');
-  const info = useInput(infoRef, 'info');
   const amount = useInput(amountRef, 'amount');
   const price = useInput(priceRef, 'price');
 
@@ -38,7 +40,7 @@ export function ProductEdit() {
     if ('id' in productData) {
       name.setValue(productData.name);
       tag.setValue(productData.tag.join(','));
-      info.setValue(productData.info);
+      setText(productData.info);
       amount.setValue(productData.amount.toString());
       price.setValue(productData.price.toString());
       image.setValue(productData.image);
@@ -99,6 +101,18 @@ export function ProductEdit() {
     setFiles((prev) => prev.filter((item) => item.id !== id));
   }, []);
 
+  const onClickDefaultUpdate = useCallback(() => {
+    const updateData = {
+      name: name.data.value,
+      tag: tag.data.value,
+      amount: Number(amount.data.value),
+      price: Number(price.data.value),
+      info: text,
+    };
+
+    console.log(`[PUT /products/${params.id}/info]`, updateData);
+  }, [ name, tag, amount, price, text, ]);
+
   return (
     <>
       <AppLayout title={`${productData?.name} - 상품 수정`}>
@@ -121,10 +135,6 @@ export function ProductEdit() {
               <span>상품 이름</span>
               <input type='text' ref={nameRef} {...name.data} />
             </label>
-            <label htmlFor='info'>
-              <span>상세 설명</span>
-              <input type='text' ref={infoRef} {...info.data} />
-            </label>
             <label htmlFor='tag'>
               <span>태그</span>
               <input type='text' ref={tagRef} {...tag.data} />
@@ -137,7 +147,17 @@ export function ProductEdit() {
               <span>가격</span>
               <input type='text' ref={priceRef} {...price.data} />
             </label>
-            <button>기본 정보 변경</button>
+            <div css={textAreaInfoStyle}>
+              <p css={tw`mt-[10px] mb-[2px] p-[10px] font-[900] bg-point-h-base`}>상세 설명</p>
+              <textarea
+                required
+                value={text}
+                onChange={(event) => {
+                  setText(event.target.value);
+                }}
+              />
+            </div>
+            <button onClick={onClickDefaultUpdate}>기본 정보 변경</button>
           </div>
 
           <Heading3>상세 설명 이미지 변경</Heading3>

@@ -65,3 +65,10 @@ export const detailImagesEditStyle = css`
     }
   }
 `;
+
+export const textAreaInfoStyle = css`
+  & > textarea {
+    ${tw` p-[10px] w-[652px] border border-solid border-black-200 bg-black-50 outline-none resize-none h-[200px] `}
+    ${tw` focus:( bg-point-base/40 border-point-h-base ) `}
+  }
+`;

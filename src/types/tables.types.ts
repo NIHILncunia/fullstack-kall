@@ -132,3 +132,15 @@ export interface IUserDel {
   text?: string;
   date?: string;
 }
+
+export interface IRefund {
+  id?: number;
+  order_dnb?: number;
+  user_id?: string;
+  title?: string;
+  content?: string;
+  image_1?: string;
+  image_2?: string;
+  status?: string;
+  date?: string;
+}
