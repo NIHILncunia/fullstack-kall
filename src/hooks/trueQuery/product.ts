@@ -1,7 +1,8 @@
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { AxiosError } from 'axios';
 import { kallInstance } from '@/data/axios.data';
 import { IProduct } from '@/types/tables.types';
+import { IQueryOptions } from '@/types/other.types';
 
 export const getProducts = async () => {
   const { data, } = await kallInstance.get<IProduct[]>('/products');
@@ -16,13 +17,25 @@ export const getProductById = async (id: number) => {
 };
 
 export const getProductsByCategory = async (categoryId: string) => {
-  const { data, } = await kallInstance.get<IProduct[]>(`/products?category_id=${categoryId}`);
+  const { data, } = await kallInstance.get<IProduct[]>(`/products/category?category_id=${categoryId}`);
 
   return data;
 };
 
 // ==================== 모든 데이터 가져오기 ====================
 // ==================== 개별 데이터 가져오기 ====================
+export const useProductById = (id: number, options?: IQueryOptions) => {
+  const { data = {}, } = useQuery<IProduct, AxiosError>(
+    [ 'getProductById', id, ],
+    () => getProductById(id),
+    {
+      enabled: options?.enabled ?? true,
+    }
+  );
+
+  return data as IProduct;
+};
+
 // ==================== 카테고리별 데이터 가져오기 ====================
 // ==================== 데이터 추가하기 ====================
 interface ICreateProduct {

@@ -7,3 +7,7 @@ export interface ICartItem extends ICart {
 export interface IUsersDeleteResponse {
   deleted: number;
 }
+
+export interface IQueryOptions {
+  enabled: boolean;
+}
