@@ -1,51 +1,85 @@
-import React, { useMemo } from 'react';
-import { useParams } from 'react-router';
+import React, { useCallback, useMemo } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import { useCookies } from 'react-cookie';
 import { AppLayout } from '@/layouts';
-import {
-  useNotices, useNoticeById, useFAQById, useFAQ
-} from '@/hooks/queries/notice';
-import { useCategoryById } from '@/hooks/queries/category';
 import {
   articleBottomStyle, articleContentStyle, articleTopStyle, goToBackStyle, noticeArticlePageStyle
 } from './style';
+import {
+  useFaqById, useFaqs, useNoticeById, useNotices
+} from '@/hooks/trueQuery/notice';
+import { useCategoryById } from '@/hooks/trueQuery/category';
 
 export function NoticeaArticle() {
+  const [ { role, }, ] = useCookies([ 'role', ]);
   const params = useParams();
   const notice = useNoticeById(Number(params.id));
-  const faq = useFAQById(Number(params.id));
+  const faq = useFaqById(Number(params.id));
   const notices = useNotices();
-  const faqs = useFAQ();
+  const faqs = useFaqs();
 
-  const categoryId = 'id' in notice ? notice.category_id : faq.category_id;
-  const category = useCategoryById(categoryId);
+  const navi = useNavigate();
+  const { pathname, } = useLocation();
+
+  const cond = notice && 'id' in notice;
+
+  const categoryId = cond ? notice.category_id : faq.category_id;
+  const category = useCategoryById(categoryId, {
+    enabled: !!categoryId,
+  });
 
   const currentIndex = useMemo(() => {
-    return 'id' in notice
+    return cond
       ? notices.findIndex((item) => item.id === Number(params.id))
       : faqs.findIndex((item) => item.id === Number(params.id));
-  }, [ notices, params, faqs, ]);
+  }, [ cond, notices, params, faqs, ]);
 
-  const prevItem = 'id' in notice ? notices[currentIndex - 1] : faqs[currentIndex - 1];
-  const nextItem = 'id' in notice ? notices[currentIndex + 1] : faqs[currentIndex + 1];
+  const prevItem = cond ? notices[currentIndex - 1] : faqs[currentIndex - 1];
+  const nextItem = cond ? notices[currentIndex + 1] : faqs[currentIndex + 1];
 
-  const title = 'id' in notice ? notice.title : faq.title;
-  const url = 'id' in notice ? 'notice' : 'faq';
-  const date = 'id' in notice ? notice.date : faq.date;
-  const content = 'id' in notice ? notice.content : faq.content;
-  const cnt = 'id' in notice ? notice.cnt : faq.cnt;
+  const id = cond ? notice.id : faq.id;
+  const title = cond ? notice.title : faq.title;
+  const url = cond ? 'notice' : 'faq';
+  const date = cond ? notice.date : faq.date;
+  const content = cond ? notice.content : faq.content;
+  const cnt = cond ? notice.cnt : faq.cnt;
 
   console.log('prevItem >> ', prevItem);
   console.log('nextItem >> ', nextItem);
+
+  const onClickEdit = useCallback(() => {
+    navi(`/admin/notice/${id}/edit`);
+  }, [ id, ]);
+
+  const onClickDelete = useCallback(() => {
+    console.log(`[DELETE /notices/${id}]`);
+  }, [ id, ]);
 
   return (
     <>
       <AppLayout title={title}>
         <div id='community-notice-article-page' css={noticeArticlePageStyle}>
           <div className='go-to-back' css={goToBackStyle}>
-            <Link to={`/community/${url}`}>목록으로</Link>
+            {
+              pathname.includes('community')
+                ? (
+                  <Link to={`/community/${url}`}>목록으로</Link>
+                )
+                : (
+                  <Link to={`/admin/${url}`}>목록으로</Link>
+                )
+            }
+            {
+              role === 'admin' && (
+                <>
+                  <button onClick={onClickEdit}>수정</button>
+                  <button onClick={onClickDelete}>삭제</button>
+                </>
+              )
+            }
           </div>
           <div className='border border-solid border-black-200 divide-y divide-solid divide-black-200 mb-[30px]'>
             <div className='article-top' css={articleTopStyle}>

@@ -3,9 +3,9 @@ import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { AppLayout, CommunityLayout } from '@/layouts';
 import { Heading2 } from '@/components/Content';
-import { useFAQ, useNotices } from '@/hooks/queries/notice';
 import { articleListStyle } from './style';
-import { useCategory } from '@/hooks/queries/category';
+import { useFaqs, useNotices } from '@/hooks/trueQuery/notice';
+import { useCategories } from '@/hooks/trueQuery/category';
 
 interface ICommunityArticleProps {
   title: string;
@@ -14,8 +14,9 @@ interface ICommunityArticleProps {
 
 export function CommunityArticle({ title, category, }: ICommunityArticleProps) {
   const notices = useNotices();
-  const faqs = useFAQ();
-  const categories = useCategory();
+  const faqs = useFaqs();
+  const categories = useCategories();
+
   const getCategoryName = (categoryId: string) => {
     const [ category, ] = categories.filter((item) => item.id === categoryId);
 

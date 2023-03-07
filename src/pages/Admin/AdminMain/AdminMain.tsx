@@ -16,6 +16,9 @@ export function AdminMain() {
             <Link to='/admin/orders'>주문 관리</Link>
             <Link to='/admin/refunds'>반품 관리</Link>
             <Link to='/admin/review'>리뷰 관리</Link>
+            <Link to='/admin/notice'>공지 관리</Link>
+            <Link to='/admin/question'>문의 관리</Link>
+            <Link to='/admin/direct'>1:1 관리</Link>
           </div>
         </AdminLayout>
       </AppLayout>

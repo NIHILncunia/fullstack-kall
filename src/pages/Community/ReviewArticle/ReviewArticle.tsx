@@ -45,13 +45,13 @@ export function ReviewArticle() {
     navi(
       cookies.role === 'admin'
         ? `/admin/review/${review.id}/edit`
-        : `mypage/review/${review.id}/edit`
+        : `/mypage/review/${review.id}/edit`
     );
   }, [ cookies, review, ]);
 
   const onClickDelete = useCallback(() => {
-    console.log(`[DELETE /reviews/${userData.id}]`);
-  }, [ userData, ]);
+    console.log(`[DELETE /reviews/${review.id}]`);
+  }, [ review, ]);
 
   const currentIndex = useMemo(() => {
     return reviews.findIndex((item) => item.id === Number(params.id));

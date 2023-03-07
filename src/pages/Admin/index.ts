@@ -13,3 +13,6 @@ export * from './AdminRefund/AdminRefund';
 export * from './AdminRefund/RefundItem/RefundItem';
 
 export * from './AdminReview/AdminReview';
+
+export * from './AdminNotice/AdminNotice';
+export * from './AdminNotice/NoticeCreate/NoticeCreate';

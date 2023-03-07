@@ -7,9 +7,14 @@ export const noticeArticlePageStyle = css`
 export const goToBackStyle = css`
   ${tw` text-left mb-[20px] `}
 
-  & > a {
+  & > a,
+  & > button {
     ${tw` inline-block w-[200px] p-[10px] border border-solid border-black-200 bg-black-50 text-center `}
     ${tw` hover:border-point-h-base hover:text-white hover:bg-point-h-base `}
+  }
+
+  & > button {
+    ${tw` ml-[20px] `}
   }
 `;
 

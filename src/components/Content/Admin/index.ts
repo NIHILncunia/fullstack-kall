@@ -7,3 +7,4 @@ export * from './Review/ReviewItem/ReviewItem';
 export * from './Review/ReviewCommentList/ReviewCommentList';
 export * from './Review/CommentItem/CommentItem';
 export * from './Review/CommentForm/CommentForm';
+export * from './Notice/NoticeListItem/NoticeListItem';
