@@ -5,7 +5,7 @@ import {
 import { useState } from 'react';
 import { kallInstance } from '@/data/axios.data';
 import { IUser, IUserDel } from '@/types/tables.types';
-import { IUsersDeleteResponse } from '@/types/other.types';
+import { IQueryOptions, IUsersDeleteResponse } from '@/types/other.types';
 
 const getUsers = async () => {
   const { data, } = await kallInstance.get<IUser[]>('/users');
@@ -32,11 +32,14 @@ export const useUsers = () => {
 };
 
 // ==================== 개별 데이터 가져오기 ====================
-export const useUserById = (id: string) => {
+export const useUserById = (id: string, options?: IQueryOptions) => {
   const fallback = {};
   const { data = fallback, } = useQuery<IUser, AxiosError>(
     [ 'getUserById', id, ],
-    () => getUserById(id)
+    () => getUserById(id),
+    {
+      enabled: options?.enabled ?? true,
+    }
 
   );
 

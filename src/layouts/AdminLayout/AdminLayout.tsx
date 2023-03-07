@@ -17,6 +17,7 @@ export function AdminLayout({ pageId, children, }: IAdminLayoutProps) {
           <Link to='/admin/products'>상품 관리</Link>
           <Link to='/admin/orders'>주문 관리</Link>
           <Link to='/admin/refunds'>반품 관리</Link>
+          <Link to='/admin/review'>리뷰 관리</Link>
         </div>
         <div className='admin-content'>
           {children}

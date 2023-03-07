@@ -3,3 +3,7 @@ export * from './Product/ProductItem/ProductItem';
 export * from './Order/OrderListItem/OrderListItem';
 export * from './Order/OrderDetailList/OrderDetailList';
 export * from './Refund/RefundListItem/RefundListItem';
+export * from './Review/ReviewItem/ReviewItem';
+export * from './Review/ReviewCommentList/ReviewCommentList';
+export * from './Review/CommentItem/CommentItem';
+export * from './Review/CommentForm/CommentForm';

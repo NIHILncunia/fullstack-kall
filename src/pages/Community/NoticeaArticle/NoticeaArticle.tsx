@@ -37,6 +37,9 @@ export function NoticeaArticle() {
   const content = 'id' in notice ? notice.content : faq.content;
   const cnt = 'id' in notice ? notice.cnt : faq.cnt;
 
+  console.log('prevItem >> ', prevItem);
+  console.log('nextItem >> ', nextItem);
+
   return (
     <>
       <AppLayout title={title}>

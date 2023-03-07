@@ -1,27 +1,57 @@
-import React, { useMemo } from 'react';
-import { useParams } from 'react-router';
+import React, { useCallback, useMemo } from 'react';
+import { useNavigate, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import { useCookies } from 'react-cookie';
 import { AppLayout } from '@/layouts';
-import { useReviewById, useReviews } from '@/hooks/queries/review';
 import { ItemRate } from '@/components/Content';
-import { useUser } from '@/hooks/queries/user';
 import {
   articleBottomStyle, articleContentStyle, articleOrderListStyle, articleRateStyle, articleTargetItemStyle, articleTopStyle, goToBackStyle, reviewArticlePageStyle
 } from './style';
-import { useProductsById } from '@/hooks/queries/product';
-import { useOrderById, useOrderDetailByOrderId } from '@/hooks/queries/order';
 import { ReviewOrderDetailItem } from '@/components/Content/Community';
+import { CommentForm, ReviewCommentList } from '@/components/Content/Admin';
+import { useReviewById, useReviews } from '@/hooks/trueQuery/review';
+import { useUserById } from '@/hooks/trueQuery/users';
+import { useProductById } from '@/hooks/trueQuery/product';
+import { useOrderById } from '@/hooks/trueQuery/order';
+import { useOrderDetailByOrderId } from '@/hooks/trueQuery/orderDetail';
+import { useReviewCommentByReviewId } from '@/hooks/trueQuery/reviewComment';
 
 export function ReviewArticle() {
+  const [ cookies, ] = useCookies([ 'id', 'role', ]);
   const params = useParams();
   const review = useReviewById(Number(params.id));
   const reviews = useReviews();
-  const userData = useUser(review.user_id);
-  const product = useProductsById(review.product_id);
-  const order = useOrderById(review.order_dnb);
-  const orderDetail = useOrderDetailByOrderId(order.id);
+  const userData = useUserById(review.user_id, {
+    enabled: 'id' in review,
+  });
+  const product = useProductById(review.product_id, {
+    enabled: 'id' in review,
+  });
+  const order = useOrderById(review.order_dnb, {
+    enabled: 'id' in review,
+  });
+  const orderDetail = useOrderDetailByOrderId(order.id, {
+    enabled: 'id' in order,
+  });
+  const reviewComments = useReviewCommentByReviewId(review.id, {
+    enabled: 'id' in review,
+  });
+
+  const navi = useNavigate();
+
+  const onClickEdit = useCallback(() => {
+    navi(
+      cookies.role === 'admin'
+        ? `/admin/review/${review.id}/edit`
+        : `mypage/review/${review.id}/edit`
+    );
+  }, [ cookies, review, ]);
+
+  const onClickDelete = useCallback(() => {
+    console.log(`[DELETE /reviews/${userData.id}]`);
+  }, [ userData, ]);
 
   const currentIndex = useMemo(() => {
     return reviews.findIndex((item) => item.id === Number(params.id));
@@ -35,7 +65,25 @@ export function ReviewArticle() {
       <AppLayout title={review.title}>
         <div id='community-review-article-page' css={reviewArticlePageStyle}>
           <div className='go-to-back' css={goToBackStyle}>
-            <Link to='/community/review'>목록으로</Link>
+            {
+              cookies.role === 'admin'
+                ? (
+                  <>
+                    <Link to='/admin/review'>목록으로</Link>
+                    <button onClick={onClickEdit}>수정</button>
+                    <button onClick={onClickDelete}>삭제</button>
+                  </>
+                )
+                : cookies.id === userData.id
+                  ? (
+                    <>
+                      <Link to='/community/review'>목록으로</Link>
+                      <button onClick={onClickEdit}>수정</button>
+                      <button onClick={onClickDelete}>삭제</button>
+                    </>
+                  )
+                  : <Link to='/community/review'>목록으로</Link>
+            }
           </div>
           <div className='border border-solid border-black-200 divide-y divide-solid divide-black-200 mb-[30px]'>
             <div className='article-top' css={articleTopStyle}>
@@ -53,6 +101,12 @@ export function ReviewArticle() {
             </div>
             <div className='article-content' css={articleContentStyle}>{review.content}</div>
           </div>
+
+          <CommentForm userId={cookies.id} reviewNb={review.id} />
+
+          {reviewComments.length !== 0 && (
+            <ReviewCommentList comments={reviewComments} />
+          )}
 
           <div className='article-rate' css={articleRateStyle}>
             <h4>평점</h4>

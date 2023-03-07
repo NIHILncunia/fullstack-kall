@@ -16,9 +16,9 @@ export const getOrderDetailById = async (id: number) => {
   return data;
 };
 
-export const getOrderDetailByUserId = async (userId: string) => {
+export const getOrderDetailByOrderId = async (orderId: number) => {
   const { data, } = await kallInstance
-    .get<IOrderDetail[]>(`/orderdetails/user?user_id=${userId}`);
+    .get<IOrderDetail[]>(`/orderdetails/order?order_id=${orderId}`);
 
   return data;
 };
@@ -44,10 +44,10 @@ export const useOrderDetailById = (id: number, options?: IQueryOptions) => {
   return data as IOrderDetail;
 };
 
-export const useOrderDetailByUserId = (userId: string, options?: IQueryOptions) => {
+export const useOrderDetailByOrderId = (orderId: number, options?: IQueryOptions) => {
   const { data = [], } = useQuery<IOrderDetail[], AxiosError>(
-    [],
-    () => getOrderDetailByUserId(userId),
+    [ 'getOrderDetailByOrderId', orderId, ],
+    () => getOrderDetailByOrderId(orderId),
     {
       enabled: options?.enabled ?? true,
     }

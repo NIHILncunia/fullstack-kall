@@ -11,3 +11,5 @@ export * from './AdminOrders/OrderDetail/OrderDetail';
 
 export * from './AdminRefund/AdminRefund';
 export * from './AdminRefund/RefundItem/RefundItem';
+
+export * from './AdminReview/AdminReview';
