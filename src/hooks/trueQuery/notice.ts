@@ -2,9 +2,16 @@ import { AxiosError } from 'axios';
 import { useQuery } from 'react-query';
 import { kallInstance } from '@/data/axios.data';
 import { INotice } from '@/types/tables.types';
+import { IQueryOptions } from '@/types/other.types';
 
 export const getAllNotice = async () => {
   const { data, } = await kallInstance.get<INotice[]>('/notices/all');
+
+  return data;
+};
+
+export const getAllNoticeById = async (id: number) => {
+  const { data, } = await kallInstance.get<INotice>(`/notices/all/${id}`);
 
   return data;
 };
@@ -40,6 +47,18 @@ export const useAllNotice = () => {
   );
 
   return data as INotice[];
+};
+
+export const useAllNoticeById = (id: number, options?: IQueryOptions) => {
+  const { data = {}, } = useQuery<INotice, AxiosError>(
+    [ 'getAllNoticeById', id, ],
+    () => getAllNoticeById(id),
+    {
+      enabled: options?.enabled ?? true,
+    }
+  );
+
+  return data as INotice;
 };
 
 export const useNotices = () => {

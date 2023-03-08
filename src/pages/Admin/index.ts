@@ -16,3 +16,8 @@ export * from './AdminReview/AdminReview';
 
 export * from './AdminNotice/AdminNotice';
 export * from './AdminNotice/NoticeCreate/NoticeCreate';
+export * from './AdminNotice/NoticeUpdate/NoticeUpdate';
+
+export * from './AdminQuestion/AdminQuestion';
+export * from './AdminQuestion/QuestionArticle/QuestionArticle';
+export * from './AdminQuestion/QuestionUpdate/QuestionUpdate';

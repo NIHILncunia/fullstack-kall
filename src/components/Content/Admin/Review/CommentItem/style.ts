@@ -20,12 +20,16 @@ export const commentItemStyle = css`
         & > button {
           ${tw` text-black-base cursor-pointer py-[10px] `}
           ${tw` hover:text-red-500 `}
-          ${tw` nth-1:mr-[10px] `}
+          ${tw` mr-[10px] `}
         }
 
         & > input {
           ${tw` p-[10px] bg-point-base/40 flex-[1] mr-[10px] `}
         }
+      }
+
+      &:nth-of-type(2) {
+        ${tw` p-[10px] `}
       }
 
       &:nth-of-type(3) {

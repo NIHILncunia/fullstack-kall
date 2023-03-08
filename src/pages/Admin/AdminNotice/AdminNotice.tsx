@@ -19,8 +19,12 @@ export function AdminNotice() {
   }, []);
 
   const onClickAllCheck = useCallback(() => {
-    setItems(notices.map((item) => item.id));
-  }, [ notices, ]);
+    setItems(
+      label === '공지사항'
+        ? notices.map((item) => item.id)
+        : faqs.map((item) => item.id)
+    );
+  }, [ label, notices, faqs, ]);
 
   const onClickReset = useCallback(() => {
     setItems([]);

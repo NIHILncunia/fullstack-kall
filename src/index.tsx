@@ -17,7 +17,7 @@ import {
   Home, MyaPagePassEdit, MyPageAddress, MyPageMain, MyPageUserInfoEdit, NotFound, NoticeaArticle, Order, OrderComplete, Privacy, ProductItem, Products, ReviewArticle, ReviewEditForm, Search, SIgnIn, SignUp, WithDrawal
 } from './pages';
 import {
-  AdminMain, AdminNotice, AdminOrders, AdminRefund, AdminReview, NoticeCreate, OrderDetail, ProductCreate, ProductEdit, ProductManagement, RefundItem, UserEditForm, UserManagement
+  AdminMain, AdminNotice, AdminOrders, AdminQuestion, AdminRefund, AdminReview, NoticeCreate, NoticeUpdate, OrderDetail, ProductCreate, ProductEdit, ProductManagement, QuestionArticle, QuestionUpdate, RefundItem, UserEditForm, UserManagement
 } from './pages/Admin';
 
 const queryClient = new QueryClient({
@@ -67,6 +67,11 @@ const QueryApp = (
         <Route path='/admin/notice' element={<AdminNotice />} />
         <Route path='/admin/notice/create' element={<NoticeCreate />} />
         <Route path='/admin/notice/:id' element={<NoticeaArticle />} />
+        <Route path='/admin/notice/:id/edit' element={<NoticeUpdate />} />
+
+        <Route path='/admin/question' element={<AdminQuestion />} />
+        <Route path='/admin/question/:id' element={<QuestionArticle />} />
+        <Route path='/admin/question/:id/edit' element={<QuestionUpdate />} />
 
         {/* 홈페이지 */}
         <Route path='/' element={<Home />} />

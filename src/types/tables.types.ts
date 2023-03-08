@@ -144,3 +144,13 @@ export interface IRefund {
   status?: string;
   date?: string;
 }
+
+export interface IQuestion {
+  id?: number;
+  product_id?: number;
+  user_id?: string;
+  title?: string;
+  content?: string;
+  comment?: string;
+  date?: string;
+}
