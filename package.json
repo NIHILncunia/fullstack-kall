@@ -13,7 +13,7 @@
   },
   "homepage": "https://github.com/NIHILncunia/fullstack-kall#readme",
   "scripts": {
-    "serve": "npm run open && webpack serve --config webpack.dev.ts",
+    "start": "npm run open && webpack serve --config webpack.dev.ts",
     "prod": "npm run open && webpack --config webpack.prod.ts",
     "open": "start http://localhost:3000"
   },
