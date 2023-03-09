@@ -21,3 +21,7 @@ export * from './AdminNotice/NoticeUpdate/NoticeUpdate';
 export * from './AdminQuestion/AdminQuestion';
 export * from './AdminQuestion/QuestionArticle/QuestionArticle';
 export * from './AdminQuestion/QuestionUpdate/QuestionUpdate';
+
+export * from './AdminDirect/AdminDirect';
+export * from './AdminDirect/DirectDetail/DirectDetail';
+export * from './AdminDirect/DirectUpdate/DirectUpdate';

@@ -9,3 +9,5 @@ export * from './Review/CommentItem/CommentItem';
 export * from './Review/CommentForm/CommentForm';
 export * from './Notice/NoticeListItem/NoticeListItem';
 export * from './Question/QuestionItem/QuestionItem';
+export * from './Direct/DirectItem/DirectItem';
+export * from './Direct/DirectDetailPage/DirectDetailPage';

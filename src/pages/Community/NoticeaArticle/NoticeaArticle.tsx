@@ -24,6 +24,9 @@ export function NoticeaArticle() {
   const navi = useNavigate();
   const { pathname, } = useLocation();
 
+  const listUrl = pathname.includes('admin')
+    ? `/admin/notice`
+    : `/community/notice`;
   const cond = notice && 'id' in notice;
 
   const categoryId = cond ? notice.category_id : faq.category_id;
@@ -46,9 +49,6 @@ export function NoticeaArticle() {
   const date = cond ? notice.date : faq.date;
   const content = cond ? notice.content : faq.content;
   const cnt = cond ? notice.cnt : faq.cnt;
-
-  console.log('prevItem >> ', prevItem);
-  console.log('nextItem >> ', nextItem);
 
   const onClickEdit = useCallback(() => {
     navi(`/admin/notice/${id}/edit`);
@@ -105,7 +105,7 @@ export function NoticeaArticle() {
           <div className='article-bottom' css={articleBottomStyle}>
             <div className='prev-link'>
               {prevItem && (
-                <Link to={`/community/notice/${prevItem.id}`}>
+                <Link to={`${listUrl}/${prevItem.id}`}>
                   <FaArrowLeft />
                   {prevItem.title}
                 </Link>
@@ -113,7 +113,7 @@ export function NoticeaArticle() {
             </div>
             <div className='next-link'>
               {nextItem && (
-                <Link to={`/community/notice/${nextItem.id}`}>
+                <Link to={`${listUrl}/${nextItem.id}`}>
                   {nextItem.title}
                   <FaArrowRight />
                 </Link>
