@@ -5,7 +5,6 @@ import { useInput } from '@/hooks';
 import {
   basicInfoUploadStyle, imageUploadStyle, postButtonStyle, textAreaInfoStyle
 } from './style';
-import { IProduct } from '@/types/tables.types';
 import { useCreateProduct } from '@/hooks/trueQuery/product';
 
 export function ProductCreate() {
@@ -38,11 +37,6 @@ export function ProductCreate() {
     setFile([ ...file, ]);
   }, [ fileRef, ]);
 
-  interface ICreateProduct {
-    productData: IProduct;
-    formData: FormData;
-  }
-
   type FormEvent = React.FormEvent<HTMLFormElement>;
 
   const onSubmitCreateProduct = useCallback((event: FormEvent) => {
@@ -60,12 +54,11 @@ export function ProductCreate() {
       price: Number(price.data.value),
     };
 
-    const createData: ICreateProduct = {
-      productData, formData,
-    };
+    formData.append('productData', new Blob([ JSON.stringify(productData), ], {
+      type: 'application/json',
+    }));
 
-    console.log('새로운 상품 데이터', createData);
-    createProduct.mutate(createData);
+    createProduct.mutate(formData);
   }, [ file, category, name, text, tag, price, ]);
 
   return (

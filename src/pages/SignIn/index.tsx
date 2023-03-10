@@ -15,6 +15,7 @@ import { useInput } from '@/hooks';
 import { useUserById } from '@/hooks/trueQuery/users';
 import { kallInstance } from '@/data/axios.data';
 import { passwordCheckExp } from '@/data/regexp';
+import { IUser } from '@/types/tables.types';
 
 export function SIgnIn() {
   const [ passwordError, setPasswordError, ] = useState(false);
@@ -51,14 +52,17 @@ export function SIgnIn() {
 
     console.log('로그인 데이터 >> ', newData);
 
-    kallInstance.post<string>('/users/login', newData)
+    kallInstance.post<IUser>('/users/login', newData, {
+      withCredentials: true,
+    })
       .then((res) => {
-        console.log('로그인 여부 >> ', res);
+        console.log('로그인 여부 >> ', res.data);
         const time = new Date();
         time.setFullYear(time.getFullYear() + 1);
 
-        if (res.data === 'ok') {
-          setCookie('id', id.data.value, {
+        if (res.data) {
+          localStorage.setItem('userData', JSON.stringify(res.data));
+          setCookie('id', res.data.id, {
             path: '/',
             expires: time,
           });

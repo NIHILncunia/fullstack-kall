@@ -4,10 +4,25 @@ import moment from 'moment';
 import { AppLayout, MyPageLayout } from '@/layouts';
 import { Heading2 } from '@/components/Content';
 import { useUserById } from '@/hooks/trueQuery/users';
+import { useOrderByUserId } from '@/hooks/trueQuery/order';
 
 export function MyPageMileage() {
   const [ { id, }, ] = useCookies([ 'id', ]);
   const userData = useUserById(id);
+  const orderDataByUserId = useOrderByUserId(userData.id, {
+    enabled: userData && 'id' in userData,
+  });
+
+  console.log(orderDataByUserId);
+
+  const mileageLog = orderDataByUserId.filter((item) => item.mileage !== 0)
+    .map((item) => (
+      <div className='list-content' key={item.id}>
+        <p>{item.date}</p>
+      </div>
+    ));
+
+  console.log(mileageLog);
 
   return (
     <>

@@ -102,25 +102,17 @@ export const useProductByCategoryId = (categoryId: string, options?: IQueryOptio
 };
 
 // ==================== 데이터 추가하기 ====================
-interface ICreateProduct {
-  productData: IProduct;
-  formData: FormData;
-}
-
 export const useCreateProduct = () => {
   const queryClient = useQueryClient();
 
-  const { mutate, } = useMutation<string, AxiosError, ICreateProduct>(
+  const { mutate, } = useMutation<string, AxiosError, FormData>(
     async (createData) => {
       const { data, } = await kallInstance.post<string>(
         '/products',
-        createData.formData,
+        createData,
         {
           headers: {
             'Content-Type': 'multipart/form-data;boundary="boundary"',
-          },
-          data: {
-            ...createData.productData,
           },
         }
       );
