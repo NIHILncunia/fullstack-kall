@@ -5,20 +5,20 @@ import { useParams } from 'react-router';
 import { FaTimes } from 'react-icons/fa';
 import tw from 'twin.macro';
 import { AdminLayout, AppLayout } from '@/layouts';
-import { useProductsById } from '@/hooks/queries/product';
 import { Heading2, Heading3 } from '@/components/Content';
 import { useInput } from '@/hooks';
 import { kallInstance } from '@/data/axios.data';
 import {
   basicInfoEditStyle, detailImagesEditStyle, imageEditStyle, textAreaInfoStyle
 } from './style';
+import { useProductById } from '@/hooks/trueQuery/product';
 
 export function ProductEdit() {
   const [ files, setFiles, ] = useState([]);
   const [ text, setText, ] = useState('');
 
   const params = useParams();
-  const productData = useProductsById(Number(params.id));
+  const productData = useProductById(Number(params.id));
 
   const imageRef = useRef<HTMLInputElement>();
   const fileRef = useRef<HTMLInputElement>();
@@ -39,7 +39,7 @@ export function ProductEdit() {
   useEffect(() => {
     if ('id' in productData) {
       name.setValue(productData.name);
-      tag.setValue(productData.tag.join(','));
+      tag.setValue(productData.tag);
       setText(productData.info);
       amount.setValue(productData.amount.toString());
       price.setValue(productData.price.toString());

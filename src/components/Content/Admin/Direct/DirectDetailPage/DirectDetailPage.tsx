@@ -116,7 +116,7 @@ export function DirectDetailPage() {
             </p>
             <p>
               <span>작성일</span>
-              <span>{moment(direct.date).format('YYYY-MM-DD HH:mm:ss')}</span>
+              <span>{moment(direct.date1).format('YYYY-MM-DD HH:mm:ss')}</span>
             </p>
           </div>
         </div>

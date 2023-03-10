@@ -2,15 +2,15 @@ import React from 'react';
 import { AppLayout } from '@/layouts';
 import { Heading2, TagsProducts } from '@/components/Content';
 import { productsPageStyle } from './style';
-import { useProductsByCategory } from '@/hooks/queries/product';
-import { useCategoryById } from '@/hooks/queries/category';
+import { useProductByCategoryId } from '@/hooks/trueQuery/product';
+import { useCategoryById } from '@/hooks/trueQuery/category';
 
 interface IProductsProps {
   category: string;
 }
 
 export function Products({ category, }: IProductsProps) {
-  const data = useProductsByCategory(category);
+  const data = useProductByCategoryId(category);
   const categoryName = useCategoryById(category).category_name;
 
   return (

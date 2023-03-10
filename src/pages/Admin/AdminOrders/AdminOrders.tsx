@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import tw from 'twin.macro';
 import { AdminLayout, AppLayout } from '@/layouts';
 import { Heading2 } from '@/components/Content';
-import { useOrders } from '@/hooks/queries/order';
 import { OrderListItem } from '@/components/Content/Admin';
 import { listHeaderStyle } from './style';
+import { useOrders } from '@/hooks/trueQuery/order';
 
 export function AdminOrders() {
   const [ items, setItems, ] = useState<number[]>([]);

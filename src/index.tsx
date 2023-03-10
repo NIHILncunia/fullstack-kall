@@ -14,7 +14,7 @@ import {
   CommunityVisit,
   FindId,
   FindPassword,
-  Home, MyaPagePassEdit, MyPageAddress, MyPageMain, MyPageUserInfoEdit, NotFound, NoticeaArticle, Order, OrderComplete, Privacy, ProductItem, Products, ReviewArticle, ReviewEditForm, Search, SIgnIn, SignUp, WithDrawal
+  Home, MyaPagePassEdit, MyPageAddress, MyPageMain, MyPageMileage, MyPageUserInfoEdit, NotFound, NoticeaArticle, Order, OrderComplete, Privacy, ProductItem, Products, ReviewArticle, ReviewEditForm, Search, SIgnIn, SignUp, WithDrawal
 } from './pages';
 import {
   AdminDirect,
@@ -99,8 +99,8 @@ const QueryApp = (
         <Route path='/withdrawal' element={<WithDrawal />} />
         <Route path='/mypage/passedit' element={<MyaPagePassEdit />} />
         <Route path='/mypage/address' element={<MyPageAddress />} />
+        <Route path='/mypage/mileage' element={<MyPageMileage />} />
 
-        <Route path='/mypage/mileage' />
         <Route path='/mypage/delivery' />
         <Route path='/mypage/order' />
         <Route path='/mypage/review' />

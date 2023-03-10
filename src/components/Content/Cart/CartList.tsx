@@ -1,9 +1,9 @@
 import React from 'react';
 import { FaCheck } from 'react-icons/fa';
 import { ICart } from '@/types/tables.types';
-import { useProductsById } from '@/hooks/queries/product';
 import { getItemString } from '@/utils';
-import { useCategoryById } from '@/hooks/queries/category';
+import { useProductById } from '@/hooks/trueQuery/product';
+import { useCategoryById } from '@/hooks/trueQuery/category';
 
 interface ICartlistProps {
   item: ICart;
@@ -13,7 +13,7 @@ interface ICartlistProps {
 }
 
 export function CartList({ item, selectedItems, onChangeItemSelect, }: ICartlistProps) {
-  const product = useProductsById(item.product_id);
+  const product = useProductById(item.product_id);
   const sheet = useCategoryById(item.option_sheet).category_name;
   const shape = useCategoryById(item.option_shape).category_name;
   const cream = useCategoryById(item.option_cream).category_name;

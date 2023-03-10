@@ -36,9 +36,9 @@ export const haederBottomStyle = css`
   & > ul {
     ${tw` flex flex-row gap-[20px] justify-end `}
 
-    & a {
+    & a,
+    & button {
       ${tw` text-point-link font-[600] `}
-
       ${tw` hover:text-point-h-link hover:underline `}
     }
   }

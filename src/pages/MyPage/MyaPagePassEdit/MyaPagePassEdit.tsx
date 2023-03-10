@@ -6,16 +6,16 @@ import tw from 'twin.macro';
 import { AppLayout, MyPageLayout } from '@/layouts';
 import { PassCheck } from '@/components/Content/MyPage';
 import { Heading2 } from '@/components/Content';
-import { useUser } from '@/hooks/queries/user';
 import { useInput } from '@/hooks';
 import { passEditFormStyle } from './style';
+import { useUserById } from '@/hooks/trueQuery/users';
 
 export function MyaPagePassEdit() {
   const [ isPassError, setIsPassError, ] = useState(false);
   const [ isNewPassError, setIsNewPassError, ] = useState(false);
   const [ isUser, setIsUser, ] = useState(true);
   const [ cookies, ] = useCookies([ 'id', ]);
-  const user = useUser(cookies.id);
+  const user = useUserById(cookies.id);
 
   const currentPassRef = useRef<HTMLInputElement>();
   const newPassRef = useRef<HTMLInputElement>();

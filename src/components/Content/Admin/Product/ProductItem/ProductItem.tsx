@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { IProduct } from '@/types/tables.types';
-import { useCategoryById } from '@/hooks/queries/category';
 import { listItemEditStyle } from './style';
+import { useCategoryById } from '@/hooks/trueQuery/category';
 
 interface IProductItemProps {
   item: IProduct;

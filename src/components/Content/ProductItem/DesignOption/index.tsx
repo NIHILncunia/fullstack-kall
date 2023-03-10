@@ -1,7 +1,8 @@
 import React, {
-  ChangeEvent, FormEvent, useCallback, useRef, useState
+  ChangeEvent, FormEvent, useCallback, useEffect, useRef, useState
 } from 'react';
 import { v4 as uuid } from 'uuid';
+import { useLocation } from 'react-router';
 import { useInput } from '@/hooks';
 import { sizeData } from '@/data/select.data';
 import { ISelect } from '@/types/product.select.types';
@@ -22,7 +23,11 @@ export function DesignOption({
 }: IDesignOptionProps) {
   const [ size, setSize, ] = useState(sizeData[0].value);
   const [ sizeLabel, setSizeLabel, ] = useState(sizeData[0].label);
+
+  const { pathname, } = useLocation();
+
   const idRef = useRef(1);
+  const sizeRef = useRef<HTMLInputElement[]>([]);
 
   const requestRef = useRef<HTMLInputElement>();
   const request = useInput(requestRef, 'request');
@@ -57,6 +62,12 @@ export function DesignOption({
     }, ]);
   }, [ name, price, sizeLabel, request.data.value, ]);
 
+  useEffect(() => {
+    setSize('');
+    requestRef.current.value = '';
+    idRef.current = 1;
+  }, [ pathname, ]);
+
   return (
     <>
       <div>
@@ -64,7 +75,7 @@ export function DesignOption({
           <div css={radioStyle}>
             <p>크기</p>
             <div>
-              {sizeData.map((item) => (
+              {sizeData.map((item, index) => (
                 <label key={item.value} htmlFor={item.label}>
                   <input
                     type='radio'
@@ -72,6 +83,8 @@ export function DesignOption({
                     id={item.label}
                     value={item.value}
                     onChange={onChangeSheet}
+                    ref={(element) => { sizeRef.current[index] = element; }}
+                    checked={item.value === size}
                   />
                   <span>{item.label}</span>
                 </label>

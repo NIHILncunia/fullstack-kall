@@ -1,8 +1,9 @@
 import React, {
-  ChangeEvent, FormEvent, useCallback, useRef, useState
+  ChangeEvent, FormEvent, useCallback, useEffect, useRef, useState
 } from 'react';
 import { v4 as uuid } from 'uuid';
 import { useCookies } from 'react-cookie';
+import { useLocation } from 'react-router';
 import { useInput } from '@/hooks';
 import { creamData, shapeData, sheetData } from '@/data/select.data';
 import { ISelect } from '@/types/product.select.types';
@@ -23,6 +24,7 @@ export function CustomOption({
   name, price, items, setItems,
 }: ICustomOptionProps) {
   const [ cookies, ] = useCookies([ 'id', ]);
+  const { pathname, } = useLocation();
 
   const [ sheet, setSheet, ] = useState(sheetData[0].value);
   const [ sheetLabel, setSheetLabel, ] = useState(sheetData[0].label);
@@ -32,6 +34,12 @@ export function CustomOption({
   const [ creamLabel, setCreamLabel, ] = useState(creamData[0].label);
   const fileRef = useRef<HTMLInputElement>();
   const [ file, setFile, ] = useState('');
+
+  const sheetRef = useRef<HTMLInputElement[]>([]);
+  const shapeRef = useRef<HTMLInputElement[]>([]);
+  const creamRef = useRef<HTMLInputElement[]>([]);
+
+  console.log(sheetRef);
 
   const wordRef = useRef<HTMLInputElement>();
   const requestRef = useRef<HTMLInputElement>();
@@ -83,6 +91,23 @@ export function CustomOption({
     }, ]);
   }, [ name, price, sheetLabel, shapeLabel, creamLabel, word.data.value, request.data.value, ]);
 
+  useEffect(() => {
+    word.setValue('');
+    setFile('');
+    request.setValue('');
+    setSheet(sheetData[0].value);
+    setSheetLabel(sheetData[0].label);
+    setShape(shapeData[0].value);
+    setShapeLabel(shapeData[0].label);
+    setCream(creamData[0].value);
+    setCreamLabel(creamData[0].label);
+
+    wordRef.current.value = '';
+    requestRef.current.value = '';
+    fileRef.current.value = '';
+    idRef.current = 1;
+  }, [ pathname, ]);
+
   return (
     <>
       <div>
@@ -90,7 +115,7 @@ export function CustomOption({
           <div css={radioStyle}>
             <p>시트</p>
             <div>
-              {sheetData.map((item) => (
+              {sheetData.map((item, index) => (
                 <label key={item.value} htmlFor={item.label}>
                   <input
                     type='radio'
@@ -98,6 +123,8 @@ export function CustomOption({
                     id={item.label}
                     value={item.value}
                     onChange={onChangeSheet}
+                    ref={(element) => { sheetRef.current[index] = element; }}
+                    checked={item.value === sheet}
                   />
                   <span>{item.label}</span>
                 </label>
@@ -107,7 +134,7 @@ export function CustomOption({
           <div css={radioStyle}>
             <p>모양</p>
             <div>
-              {shapeData.map((item) => (
+              {shapeData.map((item, index) => (
                 <label key={item.value} htmlFor={item.label}>
                   <input
                     type='radio'
@@ -115,6 +142,8 @@ export function CustomOption({
                     id={item.label}
                     value={item.value}
                     onChange={onChangeShape}
+                    ref={(element) => { shapeRef.current[index] = element; }}
+                    checked={item.value === shape}
                   />
                   <span>{item.label}</span>
                 </label>
@@ -124,7 +153,7 @@ export function CustomOption({
           <div css={radioStyle}>
             <p>크림</p>
             <div>
-              {creamData.map((item) => (
+              {creamData.map((item, index) => (
                 <label key={item.value} htmlFor={item.label}>
                   <input
                     type='radio'
@@ -132,6 +161,8 @@ export function CustomOption({
                     id={item.label}
                     value={item.value}
                     onChange={onChangeCream}
+                    ref={(element) => { creamRef.current[index] = element; }}
+                    checked={item.value === cream}
                   />
                   <span>{item.label}</span>
                 </label>

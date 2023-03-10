@@ -56,7 +56,7 @@ export function ProductCreate() {
       category_id: category.data.value,
       name: name.data.value,
       info: text,
-      tag: tag.data.value as unknown as string[],
+      tag: tag.data.value,
       price: Number(price.data.value),
     };
 

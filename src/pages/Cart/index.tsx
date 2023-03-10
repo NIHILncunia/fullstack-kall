@@ -5,7 +5,6 @@ import { useCookies } from 'react-cookie';
 import { FaAngleRight, FaCheck } from 'react-icons/fa';
 import { useNavigate } from 'react-router';
 import { AppLayout } from '@/layouts';
-import { useCartByUserId } from '@/hooks/queries/cart';
 import { CartList } from '@/components/Content/Cart';
 import { Heading2 } from '@/components/Content';
 import {
@@ -13,6 +12,7 @@ import {
   cartListStyle, cartPageStyle, listStatStyle, orderProgressStyle
 } from './style';
 import { IOrderDetail } from '@/types/tables.types';
+import { useCartByUserId } from '@/hooks/trueQuery/cart';
 
 export function Cart() {
   const [ cookies, ] = useCookies([ 'id', ]);

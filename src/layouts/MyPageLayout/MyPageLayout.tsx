@@ -40,6 +40,7 @@ export function MyPageLayout({ pageId, children, }: IMyPageLayoutProps) {
             <div>
               <MyPageLink link='/mypage/edit'>개인정보수정</MyPageLink>
               <MyPageLink link='/mypage/address'>주소 관리</MyPageLink>
+              <MyPageLink link='/mypage/mileage'>마일리지 내역</MyPageLink>
             </div>
             <p>ORDER</p>
             <div />

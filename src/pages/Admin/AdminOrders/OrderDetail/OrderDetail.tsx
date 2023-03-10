@@ -4,11 +4,12 @@ import React, {
 import { useParams } from 'react-router';
 import { AdminLayout, AppLayout } from '@/layouts';
 import { Heading2, Heading3 } from '@/components/Content';
-import { useOrderById, useOrderDetailByOrderId } from '@/hooks/queries/order';
 import { useInput } from '@/hooks';
 import { IOrder } from '@/types/tables.types';
 import { orderDetailListStyle, orderUpdateStyle } from './style';
 import { OrderDetailList } from '@/components/Content/Admin';
+import { useOrderById } from '@/hooks/trueQuery/order';
+import { useOrderDetailByOrderId } from '@/hooks/trueQuery/orderDetail';
 
 export function OrderDetail() {
   const [ status, setStatus, ] = useState('');
@@ -17,7 +18,9 @@ export function OrderDetail() {
 
   const params = useParams();
   const order = useOrderById(Number(params.id));
-  const orderDetail = useOrderDetailByOrderId(order?.id);
+  const orderDetail = useOrderDetailByOrderId(order?.id, {
+    enabled: 'id' in order,
+  });
 
   const userIdRef = useRef<HTMLInputElement>();
   const nameRef = useRef<HTMLInputElement>();

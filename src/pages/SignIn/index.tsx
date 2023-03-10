@@ -1,4 +1,6 @@
-import React, { FormEvent, useCallback, useRef } from 'react';
+import React, {
+  FormEvent, useCallback, useRef, useState
+} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Global } from '@emotion/react';
 import tw, { css } from 'twin.macro';
@@ -10,21 +12,37 @@ import {
 } from './style';
 import kakaoLogin from '@/images/kakao_login_large_wide.png';
 import { useInput } from '@/hooks';
+import { useUserById } from '@/hooks/trueQuery/users';
 import { kallInstance } from '@/data/axios.data';
+import { passwordCheckExp } from '@/data/regexp';
 
 export function SIgnIn() {
+  const [ passwordError, setPasswordError, ] = useState(false);
+  const [ loginError, setLoginError, ] = useState(false);
+
   const navi = useNavigate();
   const idRef = useRef<HTMLInputElement>();
   const passwordRef = useRef<HTMLInputElement>();
+
+  console.log(passwordCheckExp);
 
   const id = useInput(idRef, 'id');
   const password = useInput(passwordRef, 'password');
 
   const [ cookies, setCookie, ] = useCookies([ 'id', 'role', ]);
+  const userData = useUserById(cookies.id, {
+    enabled: !!cookies.id,
+  });
 
   const onSubmitSignInForm = useCallback((event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // 실제론 uewMutations를 용할 것.
+
+    if (passwordCheckExp.test(password.data.value) === false) {
+      setPasswordError(true);
+    } else {
+      setPasswordError(false);
+    }
 
     const newData = {
       id: id.data.value,
@@ -33,14 +51,29 @@ export function SIgnIn() {
 
     console.log('로그인 데이터 >> ', newData);
 
-    kallInstance.post('/users/login', newData)
+    kallInstance.post<string>('/users/login', newData)
       .then((res) => {
-        return res;
+        console.log('로그인 여부 >> ', res);
+        const time = new Date();
+        time.setFullYear(time.getFullYear() + 1);
+
+        if (res.data === 'ok') {
+          setCookie('id', id.data.value, {
+            path: '/',
+            expires: time,
+          });
+          setCookie('role', userData.role || 'admin', {
+            path: '/',
+            expires: time,
+          });
+          navi('/');
+        }
       })
       .catch((error) => {
         console.error(error);
+        setLoginError(true);
       });
-  }, [ id, password, kallInstance, ]);
+  }, [ id, password, userData, kallInstance, passwordCheckExp, ]);
 
   return (
     <>
@@ -65,13 +98,15 @@ export function SIgnIn() {
                   {...id.data}
                 />
                 <input
-                  type='text'
-                  placeholder='비밀번호를 입력하세요.'
+                  type='password'
+                  placeholder='7자리 이상의 비밀번호를 입력하세요.'
                   required
                   ref={passwordRef}
                   {...password.data}
                 />
               </div>
+              {loginError && (<p>로그인에 실패하였습니다.</p>)}
+              {passwordError && (<p>비밀번호는 공백이 없는 7자리 이상이어야 합니다.</p>)}
               <div className='form-check' css={checksStyle}>
                 <label htmlFor='id-save'>
                   <input type='checkbox' id='id-save' /> 아이디 저장

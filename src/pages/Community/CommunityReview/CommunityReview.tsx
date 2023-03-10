@@ -1,9 +1,9 @@
 import React from 'react';
 import { AppLayout, CommunityLayout } from '@/layouts';
 import { Heading2 } from '@/components/Content';
-import { useReviews } from '@/hooks/queries/review';
 import { ReviewItem } from '@/components/Content/Community';
 import { communityReviewListStyle } from './style';
+import { useReviews } from '@/hooks/trueQuery/review';
 
 export function CommunityReview() {
   const reviews = useReviews();

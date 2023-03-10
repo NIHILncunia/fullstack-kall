@@ -8,15 +8,15 @@ import {
 } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { AppLayout, MyPageLayout } from '@/layouts';
-import { useUser } from '@/hooks/queries/user';
-import { useAddressesByUser } from '@/hooks/queries/address';
 import { Heading2, Heading3 } from '@/components/Content';
-import { useOrders } from '@/hooks/queries/order';
 import { defaultInfoStyle, mypageIconLinkStyle, orderStatStyle } from './style';
+import { useUserById } from '@/hooks/trueQuery/users';
+import { useAddressesByUser } from '@/hooks/trueQuery/address';
+import { useOrders } from '@/hooks/trueQuery/order';
 
 export function MyPageMain() {
   const [ cookies, ] = useCookies([ 'id', 'role', ]);
-  const user = useUser(cookies.id);
+  const user = useUserById(cookies.id);
   const [ address, ] = useAddressesByUser(user?.id)
     .filter((item) => item.status === 'true');
   const orders = useOrders();

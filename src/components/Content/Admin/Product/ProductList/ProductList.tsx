@@ -4,10 +4,10 @@ import React, {
   useEffect, useRef, useState
 } from 'react';
 import { useNavigate } from 'react-router';
-import { useProducts } from '@/hooks/queries/product';
 import { IProduct } from '@/types/tables.types';
 import { ProductItem } from '../ProductItem/ProductItem';
 import { itemCategoryButtonStyle, itemControllButtonStyle, productListStyle } from './style';
+import { useProducts } from '@/hooks/trueQuery/product';
 
 export function ProductList() {
   const [ cate, setCate, ] = useState('');

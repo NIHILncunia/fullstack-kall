@@ -119,7 +119,7 @@ export function QuestionArticle() {
                 </p>
                 <p>
                   <span>작성일</span>
-                  <span>{moment(question.date).format('YYYY-MM-DD HH:mm:ss')}</span>
+                  <span>{moment(question.date1).format('YYYY-MM-DD HH:mm:ss')}</span>
                 </p>
               </div>
             </div>

@@ -17,8 +17,14 @@ export function Header() {
     navi(`/search?q=${keyword.data.value}`);
   }, [ keyword, ]);
 
-  const [ cookies, ] = useCookies([ 'id', 'role', ]);
+  const [ cookies, setCookie, removeCookie, ] = useCookies([ 'id', 'role', ]);
   const { id, role, } = cookies;
+
+  const onClickSignOut = useCallback(() => {
+    removeCookie('id');
+    removeCookie('role');
+    navi('/');
+  }, []);
 
   return (
     <>
@@ -50,7 +56,7 @@ export function Header() {
             {id ? (
               <>
                 <li>
-                  <Link to='/signout'>로그아웃</Link>
+                  <button onClick={onClickSignOut}>로그아웃</button>
                 </li>
                 <li>
                   <Link to='/mypage/main'>마이페이지</Link>

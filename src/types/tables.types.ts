@@ -7,7 +7,7 @@ export interface IProduct {
   info?: string;
   date?: Date;
   star?: number;
-  tag?: string[];
+  tag?: string;
   image?: string;
   cnt?: number;
 }
@@ -24,7 +24,7 @@ export interface IUser {
   role?: 'user' | 'admin';
   mileage?: number;
   date?: string;
-  status?: '활동계정' | '비활동계정';
+  status?: '활동계정' | '비활동계정' | '탈퇴계정';
 }
 
 export interface IReview {
@@ -34,6 +34,8 @@ export interface IReview {
   order_dnb?: number;
   title?: string;
   content?: string;
+  image1?: string;
+  image2?: string;
   star?: number;
   date?: string;
 }
@@ -72,6 +74,7 @@ export interface IOrderDetail {
   option_size?: 'Osize_01' | 'Osize_02' | 'Osize_03';
   option_image?: string;
   amount?: number;
+  status?: string;
   price?: number;
 }
 
@@ -124,7 +127,8 @@ export interface IDirect {
   title?: string;
   content?: string;
   comment?: string;
-  date?: string;
+  date1?: string;
+  date2?: string;
 }
 
 export interface IUserDel {
@@ -152,5 +156,6 @@ export interface IQuestion {
   title?: string;
   content?: string;
   comment?: string;
+  date1?: string;
   date?: string;
 }

@@ -13,7 +13,7 @@ const getUsers = async () => {
   return data;
 };
 
-const getUserById = async (id: string) => {
+export const getUserById = async (id: string) => {
   const { data, } = await kallInstance.get<IUser>(`/users/${id}`);
 
   return data;

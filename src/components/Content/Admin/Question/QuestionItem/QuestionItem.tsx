@@ -34,7 +34,7 @@ export function QuestionItem({ item, items, setItems, }: IQuestionItemProps) {
           <Link to={`/admin/question/${item.id}`}>{item.title}</Link>
         </div>
         <div>{item.user_id}</div>
-        <div>{moment(item.date).format('YYYY-MM-DD HH:mm:ss')}</div>
+        <div>{moment(item.date1).format('YYYY-MM-DD HH:mm:ss')}</div>
       </div>
     </>
   );

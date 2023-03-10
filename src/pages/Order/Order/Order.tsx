@@ -12,11 +12,11 @@ import {
   fromInfoStyle, itemListStyle, orderPageStyle, orderProgressStyle, payInfoStyle, paymentStyle, toInfoButtonStyle, toInfoStyle
 } from './style';
 import { useInput } from '@/hooks';
-import { useUser } from '@/hooks/queries/user';
-import { useAddressesByUser } from '@/hooks/queries/address';
 import { IOrderDetail } from '@/types/tables.types';
 import { OrderDetailList } from '@/components/Content/OrderDetail';
 import { cardData } from '@/data/select.data';
+import { useUserById } from '@/hooks/trueQuery/users';
+import { useAddressesByUser } from '@/hooks/trueQuery/address';
 
 export function Order() {
   const [ isDisable, setIsDisable, ] = useState(false);
@@ -38,7 +38,7 @@ export function Order() {
     setOrderDetails(JSON.parse(cartToOrder));
   }, []);
 
-  const userData = useUser(cookies.id);
+  const userData = useUserById(cookies.id);
   const [ addressData, ] = useAddressesByUser(cookies.id);
 
   const nameRef = useRef<HTMLInputElement>();

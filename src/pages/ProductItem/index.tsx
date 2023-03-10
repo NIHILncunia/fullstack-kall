@@ -1,12 +1,11 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
 import { FaHeart, FaShare } from 'react-icons/fa';
 import tw, { css } from 'twin.macro';
 import { AppLayout } from '@/layouts';
-import { IProduct } from '@/types/tables.types';
-import { useOtherProducts, useProductsById } from '@/hooks/queries/product';
+import { useProductById, useRecentProducts } from '@/hooks/trueQuery/product';
 import { Heading3, ItemRate } from '@/components/Content';
 import {
   detailTopStyle, ProductItemPageStyle, sectionStyle, topImageStyle, topInfoStyle
@@ -20,15 +19,18 @@ export function ProductItem() {
   const [ items, setItems, ] = useState<ISelect[]>([]);
 
   const param = useParams();
-  const products = useOtherProducts(Number(param.id), param.category);
+  const products = useRecentProducts(param.category, Number(param.id));
 
-  const product = useProductsById(Number(param.id)) as IProduct;
-  const otherProduct = useMemo(() => products, [ products, ]);
+  const product = useProductById(Number(param.id));
 
   const hiddenStyle = css`
     ${tw` absolute w-[1px] h-[1px] m-[1px] overflow-hidden `}
     clip-path: polygon(0 0, 0 0, 0 0);
   `;
+
+  useEffect(() => {
+    setItems([]);
+  }, [ param, ]);
 
   return (
     <>
@@ -40,7 +42,7 @@ export function ProductItem() {
             </div>
             <div className='top-info' css={topInfoStyle}>
               <div className='tags'>
-                {product.tag?.map((item) => (
+                {product.tag?.split(',').map((item) => (
                   <Link key={uuid()} to={`/search/${item}`}>#{item}</Link>
                 ))}
               </div>
@@ -94,7 +96,7 @@ export function ProductItem() {
 
           <div className='other-items'>
             <Heading3>다른 상품 추천</Heading3>
-            <OtherItems data={otherProduct} />
+            <OtherItems data={products} />
           </div>
 
           <div>

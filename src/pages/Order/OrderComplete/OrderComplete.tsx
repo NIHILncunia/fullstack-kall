@@ -8,9 +8,9 @@ import {
   orderCompleteMessageStyle, orderCompletePageStyle, orderInfoStyle, orderProgressStyle
 } from './style';
 import { Heading2, Heading3 } from '@/components/Content';
-import { useUser } from '@/hooks/queries/user';
 import { IOrder, IOrderDetail } from '@/types/tables.types';
 import { OrderDetailList } from '@/components/Content/OrderDetail';
+import { useUserById } from '@/hooks/trueQuery/users';
 
 export function OrderComplete() {
   const [ orderData, setOrderData, ] = useState<IOrder>(null);
@@ -19,7 +19,7 @@ export function OrderComplete() {
   const navigate = useNavigate();
 
   const [ cookies, ] = useCookies([ 'id', ]);
-  const userData = useUser(cookies.id);
+  const userData = useUserById(cookies.id);
 
   useEffect(() => {
     const orderDataString = localStorage.getItem('orderData');

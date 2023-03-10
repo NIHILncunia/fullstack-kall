@@ -4,16 +4,16 @@ import React, {
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router';
 import tw from 'twin.macro';
-import { useUser } from '@/hooks/queries/user';
 import { useInput } from '@/hooks';
 import { userInfoEditStyle } from './style';
+import { useUserById } from '@/hooks/trueQuery/users';
 
 export function UserInfoEditForm() {
   const [ emailError, setEmailError, ] = useState(false);
   const [ phoneError, setPhoneError, ] = useState(false);
 
   const [ cookies, ] = useCookies([ 'id', ]);
-  const user = useUser(cookies.id);
+  const user = useUserById(cookies.id);
   const navi = useNavigate();
 
   const idRef = useRef<HTMLInputElement>();

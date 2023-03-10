@@ -8,7 +8,7 @@ import { Heading2, ItemRate } from '@/components/Content';
 import { useProductById } from '@/hooks/trueQuery/product';
 import { orderDetailDataStyle, refundDataStyle } from './style';
 import { getItemString } from '@/utils';
-import { useCategoryById } from '@/hooks/queries/category';
+import { useCategoryById } from '@/hooks/trueQuery/category';
 
 export function RefundItem() {
   const [ isEdit, setIsEdit, ] = useState(false);

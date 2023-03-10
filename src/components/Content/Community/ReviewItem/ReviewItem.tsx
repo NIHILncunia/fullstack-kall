@@ -2,9 +2,9 @@ import React, { useMemo } from 'react';
 import tw from 'twin.macro';
 import { Link } from 'react-router-dom';
 import { IReview } from '@/types/tables.types';
-import { useProducts } from '@/hooks/queries/product';
 import { ItemRate } from '../../ItemRate';
 import { reviewItem } from './style';
+import { useProducts } from '@/hooks/trueQuery/product';
 
 interface IReviewItemProps {
   item: IReview;

@@ -15,9 +15,15 @@ export function TagsProducts({ data, }: ITagsProductsProps) {
   const [ align, setAlign, ] = useState('');
   const [ products, setProducts, ] = useState<IProduct[]>([]);
 
+  const tags = data
+    .map((item) => item.tag)
+    .join()
+    .replace(/ /gi, '')
+    .split(',');
+
   const allTags = Array.from(new Set(
-    data.flatMap((item) => {
-      return item.tag;
+    tags.flatMap((item) => {
+      return item;
     })
   )).sort((a, b) => {
     const aNumber = Number(a.match(/\d+/));

@@ -10,7 +10,7 @@ import { useInput } from '@/hooks';
 import {
   findPasswordPageStyle, formStyle, Message, pStyle
 } from './style';
-import { getUser } from '@/hooks/queries/user';
+import { getUserById } from '@/hooks/trueQuery/users';
 
 export function FindPassword() {
   const [ isOpen, setIsOpen, ] = useState(false);
@@ -30,7 +30,7 @@ export function FindPassword() {
     e.preventDefault();
 
     try {
-      const res = await getUser(id.data.value);
+      const res = await getUserById(id.data.value);
 
       setIsOpen(true);
       setError(false);

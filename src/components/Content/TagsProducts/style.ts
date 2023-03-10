@@ -8,7 +8,7 @@ export const tagControllerStyle = css`
   }
 
   & > div.tags {
-    ${tw` flex gap-[10px] mb-[10px] `}
+    ${tw` flex gap-[10px] mb-[10px] flex-wrap `}
 
     & > label {
       & > input+span {
