@@ -24,6 +24,12 @@ export const getReviewByOrderDnb = async (orderDnb: number) => {
   return data;
 };
 
+export const getReviewByUserId = async (userId: string) => {
+  const { data, } = await kallInstance.get<IReview[]>(`/reviews/user?user_id=${userId}`);
+
+  return data;
+};
+
 export const useReviews = () => {
   const fallback = [];
   const { data = fallback, } = useQuery<IReview[], AxiosError>(
@@ -48,10 +54,22 @@ export const useReviewById = (id: number, options?: IQueryOptions) => {
   return data as IReview;
 };
 
-export const useReviewByOrderDnb = (orderDnb: number, options: IQueryOptions) => {
+export const useReviewByOrderDnb = (orderDnb: number, options?: IQueryOptions) => {
   const { data = [], } = useQuery<IReview[], AxiosError>(
     [ 'getReviewByOrderDnb', orderDnb, ],
     () => getReviewByOrderDnb(orderDnb),
+    {
+      enabled: options?.enabled ?? true,
+    }
+  );
+
+  return data as IReview[];
+};
+
+export const useReviewByUserId = (userId: string, options?: IQueryOptions) => {
+  const { data = [], } = useQuery<IReview[], AxiosError>(
+    [ 'getReviewByUserId', userId, ],
+    () => getReviewByUserId(userId),
     {
       enabled: options?.enabled ?? true,
     }

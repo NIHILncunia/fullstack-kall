@@ -10,7 +10,8 @@ interface IMyPageLayoutProps {
 }
 
 export function MyPageLayout({ pageId, children, }: IMyPageLayoutProps) {
-  const [ isCrrent, setIsCurrent, ] = useState(false);
+  const [ isMain, setIsMain, ] = useState(false);
+  const [ isWish, setIsWish, ] = useState(false);
   const navi = useNavigate();
   const { pathname, } = useLocation();
 
@@ -18,9 +19,15 @@ export function MyPageLayout({ pageId, children, }: IMyPageLayoutProps) {
     navi('/mypage/main');
   }, []);
 
+  const onClickWisiList = useCallback(() => {
+    navi('/mypage/wishlist');
+  }, []);
+
   useEffect(() => {
     if (pathname === '/mypage/main') {
-      setIsCurrent(true);
+      setIsMain(true);
+    } else if (pathname === '/mypage/wishlist') {
+      setIsWish(true);
     }
   }, [ pathname, ]);
 
@@ -30,7 +37,7 @@ export function MyPageLayout({ pageId, children, }: IMyPageLayoutProps) {
         <div css={menuStyle}>
           <div>
             <p
-              className={isCrrent ? 'current' : 'dash'}
+              className={isMain ? 'current' : 'dash'}
               onClick={onClickDashBoard}
               css={tw`mb-[10px]`}
             >
@@ -48,8 +55,15 @@ export function MyPageLayout({ pageId, children, }: IMyPageLayoutProps) {
               <MyPageLink link='/mypage/delivery'>배송 내역</MyPageLink>
             </div>
             <p>BOARD</p>
-            <div />
-            <p>WISH LIST</p>
+            <div>
+              <MyPageLink link='/mypage/review'>리뷰 목록</MyPageLink>
+            </div>
+            <p
+              className={isWish ? 'current' : 'dash'}
+              onClick={onClickWisiList}
+            >
+              WISH LIST
+            </p>
           </div>
         </div>
         <div css={contentStyle}>{children}</div>

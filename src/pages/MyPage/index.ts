@@ -6,3 +6,4 @@ export * from './MyPageMileage/MyPageMileage';
 export * from './MyPageOrder/MyPageOrder';
 export * from './MyPageOrder/OrderDetailPage/OrderDetailPage';
 export * from './MypageDelivery/MypageDelivery';
+export * from './MypageReview/MypageReview';

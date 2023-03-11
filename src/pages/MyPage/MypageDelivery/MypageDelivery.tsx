@@ -31,7 +31,7 @@ export function MypageDelivery() {
   return (
     <>
       <AppLayout title='배송 내역'>
-        <MyPageLayout pageId='mypage-delivery-[age'>
+        <MyPageLayout pageId='mypage-delivery-page'>
           <Heading2>배송 내역</Heading2>
 
           <div css={buttonControlls}>

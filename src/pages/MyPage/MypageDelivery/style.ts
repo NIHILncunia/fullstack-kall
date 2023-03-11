@@ -10,7 +10,7 @@ export const buttonControlls = css`
 `;
 
 export const deliveryList = css`
-  ${tw` flex flex-col gap-[2px] `}
+  ${tw` flex flex-col gap-[2px] pb-[150px] `}
 
   & > div:not(div.list-detail) {
     ${tw` flex items-stretch gap-[2px] `}

@@ -48,7 +48,7 @@ export function SIgnIn() {
     }
 
     const newData = {
-      id: id.data.value,
+      userId: id.data.value,
       password: password.data.value,
     };
 
