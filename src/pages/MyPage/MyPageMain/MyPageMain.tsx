@@ -22,11 +22,11 @@ export function MyPageMain() {
   const orders = useOrders();
 
   const beforePay = useMemo(() => {
-    return orders.filter((item) => item.order_status === '결제 대기중');
+    return orders.filter((item) => item.order_status === '결제대기중');
   }, [ orders, ]);
 
   const prepareingDelivery = useMemo(() => {
-    return orders.filter((item) => item.order_status === '배송 준비중');
+    return orders.filter((item) => item.order_status === '배송준비중');
   }, [ orders, ]);
 
   const onDelivery = useMemo(() => {
@@ -34,7 +34,7 @@ export function MyPageMain() {
   }, [ orders, ]);
 
   const deliveryComplete = useMemo(() => {
-    return orders.filter((item) => item.order_status === '배송 완료');
+    return orders.filter((item) => item.order_status === '배송완료');
   }, [ orders, ]);
 
   return (

@@ -141,7 +141,7 @@ export function SIgnIn() {
           </div>
 
           <div className='signin-question' css={signinQuestionStyle}>
-            <Link to='/community/guide'>로그인에 문제가 있으신가요?</Link>
+            <Link to='/community/notice'>로그인에 문제가 있으신가요?</Link>
           </div>
         </div>
       </AppLayout>

@@ -33,6 +33,8 @@ export function OrderDetailItem({ item, }: IOrderDetailItemProps) {
   const cream = useCategoryById(item.option_cream).category_name;
   const size = useCategoryById(item.option_size).category_name;
 
+  console.log(item);
+
   const selection = {
     sheet,
     shape,
@@ -126,7 +128,8 @@ export function OrderDetailItem({ item, }: IOrderDetailItemProps) {
         <div>
           <p>{itemString}</p>
           <p>{itemTotalPrice}원</p>
-          <ItemRate rate={product.star} />
+          <p>{item.status}</p>
+          <ItemRate rate={product.star} styles={tw`justify-start`} />
           <div>
             <button onClick={(event) => {
               event.preventDefault();

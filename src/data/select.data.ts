@@ -32,3 +32,7 @@ export const sizeData = [
 export const cardData = [
   '신한카드', '현대카드', '우리카드', '롯데카드', '삼성카드',
 ];
+
+export const payString = {
+  card: '카드결제',
+};

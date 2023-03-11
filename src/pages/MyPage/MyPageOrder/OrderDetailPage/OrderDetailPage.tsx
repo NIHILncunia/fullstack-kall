@@ -7,6 +7,7 @@ import { useOrderById } from '@/hooks/trueQuery/order';
 import { useOrderDetailByOrderId } from '@/hooks/trueQuery/orderDetail';
 import { OrderDetailItem } from './OrderDetailItem';
 import { buttonControllsStyle, orderDetailInfoTableStyle, orderDetailItemsStyle } from './style';
+import { payString } from '@/data/select.data';
 
 export function OrderDetailPage() {
   const { id, } = useParams<{ id?: string }>();
@@ -41,7 +42,7 @@ export function OrderDetailPage() {
               {order.address_2}
             </div>
             <div className='table-header'>주문방법</div>
-            <div className='table-content'>{order.payment}</div>
+            <div className='table-content'>{payString[order.payment]}</div>
             <div className='table-header'>사용 마일리지</div>
             <div className='table-content'>{order.mileage}</div>
             <div className='table-header'>주문 금액</div>
