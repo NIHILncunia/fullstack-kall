@@ -1,5 +1,6 @@
-import { useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { AxiosError } from 'axios';
+import { useState } from 'react';
 import { kallInstance } from '@/data/axios.data';
 import { IRefund } from '@/types/tables.types';
 
@@ -51,7 +52,33 @@ export const useRefundByUserId = (userId: string) => {
   return data as IRefund[];
 };
 
-// ====================  ====================
+// ==================== 반품 요청 ====================
+export const useCreateRefund = (userId: string) => {
+  const [ message, setMessage, ] = useState('');
+  const queryClient = useQueryClient();
+
+  const { mutate, } = useMutation<string, AxiosError, FormData>(
+    async (refundData) => {
+      const { data, } = await kallInstance.post<string>('/refunds', refundData);
+
+      return data;
+    },
+    {
+      onSuccess: async (data) => {
+        const userRefund = getRefundByUserId(userId);
+
+        queryClient.setQueryData(
+          [ 'getRefundByUserId', userId, ],
+          userRefund
+        );
+
+        setMessage(data);
+      },
+    }
+  );
+
+  return { mutate, message, };
+};
 // ====================  ====================
 // ====================  ====================
 // ====================  ====================

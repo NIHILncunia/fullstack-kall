@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Global } from '@emotion/react';
 import tw, { css } from 'twin.macro';
 import { useCookies } from 'react-cookie';
+import { AxiosError } from 'axios';
 import { AppLayout } from '@/layouts';
 import { Heading2, Heading3 } from '@/components/Content';
 import {
@@ -15,11 +16,12 @@ import { useInput } from '@/hooks';
 import { useUserById } from '@/hooks/trueQuery/users';
 import { kallInstance } from '@/data/axios.data';
 import { passwordCheckExp } from '@/data/regexp';
-import { IUser } from '@/types/tables.types';
+import { ILoginResponse } from '@/types/other.types';
 
 export function SIgnIn() {
   const [ passwordError, setPasswordError, ] = useState(false);
   const [ loginError, setLoginError, ] = useState(false);
+  const [ errorMessage, setErrorMessage, ] = useState('');
 
   const navi = useNavigate();
   const idRef = useRef<HTMLInputElement>();
@@ -52,30 +54,33 @@ export function SIgnIn() {
 
     console.log('로그인 데이터 >> ', newData);
 
-    kallInstance.post<IUser>('/users/login', newData, {
-      withCredentials: true,
-    })
+    kallInstance.post<ILoginResponse>('/users/login', newData)
       .then((res) => {
         console.log('로그인 여부 >> ', res.data);
         const time = new Date();
         time.setFullYear(time.getFullYear() + 1);
 
         if (res.data) {
-          localStorage.setItem('userData', JSON.stringify(res.data));
-          setCookie('id', res.data.id, {
+          const { user, token, } = res.data;
+
+          localStorage.setItem('token', JSON.stringify(token));
+          localStorage.setItem('user', JSON.stringify(user));
+          setCookie('id', user.id, {
             path: '/',
             expires: time,
           });
-          setCookie('role', userData.role || 'admin', {
+          setCookie('role', user.role, {
             path: '/',
             expires: time,
           });
           navi('/');
         }
       })
-      .catch((error) => {
+      .catch((error: AxiosError<{message: string}>) => {
         console.error(error);
+
         setLoginError(true);
+        setErrorMessage(error.response.data.message);
       });
   }, [ id, password, userData, kallInstance, passwordCheckExp, ]);
 
@@ -109,7 +114,7 @@ export function SIgnIn() {
                   {...password.data}
                 />
               </div>
-              {loginError && (<p>로그인에 실패하였습니다.</p>)}
+              {loginError && (<p>{errorMessage}</p>)}
               {passwordError && (<p>비밀번호는 공백이 없는 7자리 이상이어야 합니다.</p>)}
               <div className='form-check' css={checksStyle}>
                 <label htmlFor='id-save'>

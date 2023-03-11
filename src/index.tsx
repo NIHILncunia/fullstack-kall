@@ -14,7 +14,7 @@ import {
   CommunityVisit,
   FindId,
   FindPassword,
-  Home, MyaPagePassEdit, MyPageAddress, MyPageMain, MyPageMileage, MyPageUserInfoEdit, NotFound, NoticeaArticle, Order, OrderComplete, Privacy, ProductItem, Products, ReviewArticle, ReviewEditForm, Search, SIgnIn, SignUp, WithDrawal
+  Home, MyaPagePassEdit, MyPageAddress, MyPageMain, MyPageMileage, MyPageOrder, MyPageUserInfoEdit, NotFound, NoticeaArticle, Order, OrderComplete, OrderDetailPage, Privacy, ProductItem, Products, ReviewArticle, ReviewEditForm, Search, SIgnIn, SignUp, WithDrawal
 } from './pages';
 import {
   AdminDirect,
@@ -100,9 +100,10 @@ const QueryApp = (
         <Route path='/mypage/passedit' element={<MyaPagePassEdit />} />
         <Route path='/mypage/address' element={<MyPageAddress />} />
         <Route path='/mypage/mileage' element={<MyPageMileage />} />
+        <Route path='/mypage/order' element={<MyPageOrder />} />
+        <Route path='/mypage/order/:id' element={<OrderDetailPage />} />
 
         <Route path='/mypage/delivery' />
-        <Route path='/mypage/order' />
         <Route path='/mypage/review' />
         <Route path='/mypage/question' />
         <Route path='/mypage/wishlist' />

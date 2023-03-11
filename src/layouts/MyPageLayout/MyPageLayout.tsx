@@ -43,7 +43,9 @@ export function MyPageLayout({ pageId, children, }: IMyPageLayoutProps) {
               <MyPageLink link='/mypage/mileage'>마일리지 내역</MyPageLink>
             </div>
             <p>ORDER</p>
-            <div />
+            <div>
+              <MyPageLink link='/mypage/order'>주문 내역</MyPageLink>
+            </div>
             <p>BOARD</p>
             <div />
             <p>WISH LIST</p>

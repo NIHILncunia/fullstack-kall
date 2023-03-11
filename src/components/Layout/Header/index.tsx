@@ -21,8 +21,8 @@ export function Header() {
   const { id, role, } = cookies;
 
   const onClickSignOut = useCallback(() => {
-    removeCookie('id');
-    removeCookie('role');
+    removeCookie('id', { path: '/', expires: new Date(), });
+    removeCookie('role', { path: '/', expires: new Date(), });
     navi('/');
   }, []);
 

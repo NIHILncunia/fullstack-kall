@@ -20,7 +20,7 @@ export function MyPageLink({ link, children, }: IMyPageLinkProps) {
 
   const linkStyle = css`
     ${tw` text-black-600 `}
-    ${pathname === link ? currentStyle : normalStyle}
+    ${pathname.includes(link) ? currentStyle : normalStyle}
   `;
 
   return (

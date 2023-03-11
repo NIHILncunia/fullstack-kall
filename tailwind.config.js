@@ -145,8 +145,18 @@ module.exports = {
       },
     },
   },
+  /**
+   * &:first-of-type
+  &:last-of-type
+  &:not(:first-of-type)
+  &:not(:last-of-type)
+   */
   plugins: [
     plugin(({ addVariant, }) => {
+      addVariant('first', [ '&:first-of-type', ]);
+      addVariant('last', [ '&:last-of-type', ]);
+      addVariant('not-first', [ '&:not(:first-of-type)', ]);
+      addVariant('not-last', [ '&:not(:last-of-type)', ]);
       addVariant('hocus', [ '&:hover', '&:focus', ]);
       addVariant('nth-1', '&:nth-of-type(1)');
       addVariant('nth-2', '&:nth-of-type(2)');

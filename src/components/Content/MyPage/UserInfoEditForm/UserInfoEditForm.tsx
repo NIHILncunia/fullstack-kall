@@ -69,7 +69,7 @@ export function UserInfoEditForm() {
   }, [ phone, user, ]);
 
   const onClickCancel = useCallback(() => {
-    navi(-1);
+    navi('/mypage/main');
   }, []);
 
   return (
