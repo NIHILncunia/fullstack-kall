@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import tw from 'twin.macro';
 import { useUserById } from '@/hooks/trueQuery/users';
-import { useDirectById, useDirects } from '@/hooks/trueQuery/direct';
+import { useDirectById, useDirectByUserId, useDirects } from '@/hooks/trueQuery/direct';
 import {
   articleBottomStyle, articleContentStyle, articleTopStyle, commentAdminStyle, goToBackStyle
 } from './style';
@@ -20,17 +20,20 @@ export function DirectDetailPage() {
   const [ isClick, setIsClick, ] = useState(false);
   const [ isClick2, setIsClick2, ] = useState(false);
 
-  const [ { role, }, ] = useCookies([ 'role', ]);
-  const { id, } = useParams();
   const { pathname, } = useLocation();
-  const editUrl = pathname.includes('admin')
+  const cond = pathname.includes('admin');
+
+  const [ { id: userId, role, }, ] = useCookies([ 'id', 'role', ]);
+  const { id, } = useParams();
+  const editUrl = cond
     ? `/admin/direct/${id}/edit`
     : `/mypage/direct/${id}/edit`;
-  const listUrl = pathname.includes('admin')
+  const listUrl = cond
     ? `/admin/direct`
     : `/mypage/direct`;
 
   const directs = useDirects();
+  const myDirect = useDirectByUserId(userId);
   const direct = useDirectById(Number(id));
   const userData = useUserById(direct.user_id, {
     enabled: 'id' in direct,
@@ -52,11 +55,13 @@ export function DirectDetailPage() {
   }, [ id, ]);
 
   const currentIndex = useMemo(() => {
-    return directs.findIndex((item) => item.id === Number(id));
-  }, [ directs, id, ]);
+    return cond
+      ? directs.findIndex((item) => item.id === Number(id))
+      : myDirect.findIndex((item) => item.id === Number(id));
+  }, [ directs, myDirect, id, ]);
 
-  const prevItem = directs[currentIndex - 1];
-  const nextItem = directs[currentIndex + 1];
+  const prevItem = cond ? directs[currentIndex - 1] : myDirect[currentIndex - 1];
+  const nextItem = cond ? directs[currentIndex + 1] : myDirect[currentIndex + 1];
 
   const onChangeAddComment = useCallback((event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(event.target.value);
@@ -94,10 +99,14 @@ export function DirectDetailPage() {
     }
   }, [ isClick2, text2, ]);
 
+  const backLink = cond
+    ? `/admin/direct`
+    : `/mypage/question?current=direct`;
+
   return (
     <>
       <div className='go-to-back' css={goToBackStyle}>
-        <Link to={listUrl}>목록으로</Link>
+        <Link to={backLink}>목록으로</Link>
         <button onClick={onClickEdit}>수정</button>
         <button onClick={onCLickDelete}>삭제</button>
       </div>
@@ -112,7 +121,7 @@ export function DirectDetailPage() {
             </p>
             <p>
               <span>작성자</span>
-              <span>{userData.name}({userData.id})</span>
+              <span>{userData.name}({userData.userId})</span>
             </p>
             <p>
               <span>작성일</span>
@@ -124,40 +133,49 @@ export function DirectDetailPage() {
       </div>
 
       <div className='article-comment'>
-        <div css={tw`font-[900] text-[1.5rem] mb-[10px]`}>관리자 답변</div>
         {
           direct.comment
             ? (
               role === 'admin'
                 ? (
-                  <div css={commentAdminStyle}>
-                    <textarea
-                      value={text}
-                      onChange={onChangeAddComment}
-                      disabled={isClick === false}
-                      className={isClick ? 'edit' : ''}
-                    />
-                    <button onClick={onClickAddComment}>{label}</button>
-                  </div>
+                  <>
+                    <div css={tw`font-[900] text-[1.5rem] mb-[10px]`}>관리자 답변</div>
+                    <div css={commentAdminStyle}>
+                      <textarea
+                        value={text}
+                        onChange={onChangeAddComment}
+                        disabled={isClick === false}
+                        className={isClick ? 'edit' : ''}
+                      />
+                      <button onClick={onClickAddComment}>{label}</button>
+                    </div>
+                  </>
                 )
                 : (
-                  <div css={tw`p-[10px] border border-black-200 bg-black-50 mb-[30px]`}>
-                    {direct.comment}
-                  </div>
+                  <>
+                    <div css={tw`font-[900] text-[1.5rem] mb-[10px]`}>관리자 답변</div>
+                    <div css={tw`p-[10px] border border-black-200 bg-black-50 mb-[10px]`}>
+                      {direct.comment}
+                    </div>
+                    <p css={tw`text-right font-[900] text-[1.4rem] mb-[30px]`}>{direct.date2}</p>
+                  </>
                 )
             )
             : (
               role === 'admin'
                 ? (
-                  <div>
-                    <textarea
-                      value={text2}
-                      onChange={onChangeUpdateComment}
-                      disabled={isClick2 === false}
-                      className={isClick2 ? 'edit' : ''}
-                    />
-                    <button onClick={onClickUpdateComment}>{label2}</button>
-                  </div>
+                  <>
+                    <div css={tw`font-[900] text-[1.5rem] mb-[10px]`}>관리자 답변</div>
+                    <div>
+                      <textarea
+                        value={text2}
+                        onChange={onChangeUpdateComment}
+                        disabled={isClick2 === false}
+                        className={isClick2 ? 'edit' : ''}
+                      />
+                      <button onClick={onClickUpdateComment}>{label2}</button>
+                    </div>
+                  </>
                 )
                 : ''
             )

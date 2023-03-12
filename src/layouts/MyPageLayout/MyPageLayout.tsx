@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
-import tw from 'twin.macro';
+import tw, { css } from 'twin.macro';
 import { MyPageLink } from '@/components/Layout/MyPageLayout';
 import { contentStyle, menuStyle, mypageLayoutStyle } from './style';
 
@@ -31,6 +31,10 @@ export function MyPageLayout({ pageId, children, }: IMyPageLayoutProps) {
     }
   }, [ pathname, ]);
 
+  const mypageQyestionStyle = css`
+    ${pathname.includes('/mypage/question') && tw` text-point-link font-[900] `}
+  `;
+
   return (
     <>
       <div id={pageId} css={mypageLayoutStyle}>
@@ -56,7 +60,13 @@ export function MyPageLayout({ pageId, children, }: IMyPageLayoutProps) {
             </div>
             <p>BOARD</p>
             <div>
-              <MyPageLink link='/mypage/review'>리뷰 목록</MyPageLink>
+              <MyPageLink link='/mypage/review'>리뷰 내역</MyPageLink>
+              <MyPageLink
+                link='/mypage/question?current=question'
+                styles={mypageQyestionStyle}
+              >
+                문의 내역
+              </MyPageLink>
             </div>
             <p
               className={isWish ? 'current' : 'dash'}

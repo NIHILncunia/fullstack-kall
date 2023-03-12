@@ -17,6 +17,7 @@ import { useUserById } from '@/hooks/trueQuery/users';
 import { kallInstance } from '@/data/axios.data';
 import { passwordCheckExp } from '@/data/regexp';
 import { ILoginResponse } from '@/types/other.types';
+import { IUser } from '@/types/tables.types';
 
 export function SIgnIn() {
   const [ passwordError, setPasswordError, ] = useState(false);
@@ -26,8 +27,6 @@ export function SIgnIn() {
   const navi = useNavigate();
   const idRef = useRef<HTMLInputElement>();
   const passwordRef = useRef<HTMLInputElement>();
-
-  console.log(passwordCheckExp);
 
   const id = useInput(idRef, 'id');
   const password = useInput(passwordRef, 'password');
@@ -47,7 +46,7 @@ export function SIgnIn() {
       setPasswordError(false);
     }
 
-    const newData = {
+    const newData: IUser = {
       userId: id.data.value,
       password: password.data.value,
     };
@@ -65,7 +64,7 @@ export function SIgnIn() {
 
           localStorage.setItem('token', JSON.stringify(token));
           localStorage.setItem('user', JSON.stringify(user));
-          setCookie('id', user.id, {
+          setCookie('id', user.userId, {
             path: '/',
             expires: time,
           });

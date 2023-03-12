@@ -7,3 +7,7 @@ export * from './MyPageOrder/MyPageOrder';
 export * from './MyPageOrder/OrderDetailPage/OrderDetailPage';
 export * from './MypageDelivery/MypageDelivery';
 export * from './MypageReview/MypageReview';
+export * from './MypageReview/CreateReview';
+export * from './MypageQuestion/MypageQuestion';
+export * from './MypageQuestion/CreateQuestion';
+export * from './MypageWishlist/MypageWishlist';

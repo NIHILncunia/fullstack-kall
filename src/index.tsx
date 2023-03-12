@@ -12,9 +12,11 @@ import {
   CommunityDirect,
   CommunityReview,
   CommunityVisit,
+  CreateQuestion,
+  CreateReview,
   FindId,
   FindPassword,
-  Home, MyaPagePassEdit, MyPageAddress, MypageDelivery, MyPageMain, MyPageMileage, MyPageOrder, MypageReview, MyPageUserInfoEdit, NotFound, NoticeaArticle, Order, OrderComplete, OrderDetailPage, Privacy, ProductItem, Products, ReviewArticle, ReviewEditForm, Search, SIgnIn, SignUp, WithDrawal
+  Home, MyaPagePassEdit, MyPageAddress, MypageDelivery, MyPageMain, MyPageMileage, MyPageOrder, MypageQuestion, MypageReview, MyPageUserInfoEdit, MypageWishlist, NotFound, NoticeaArticle, Order, OrderComplete, OrderDetailPage, Privacy, ProductItem, Products, ReviewArticle, ReviewEditForm, Search, SIgnIn, SignUp, WithDrawal
 } from './pages';
 import {
   AdminDirect,
@@ -104,9 +106,15 @@ const QueryApp = (
         <Route path='/mypage/order/:id' element={<OrderDetailPage />} />
         <Route path='/mypage/delivery' element={<MypageDelivery />} />
         <Route path='/mypage/review' element={<MypageReview />} />
-
-        <Route path='/mypage/question' />
-        <Route path='/mypage/wishlist' />
+        <Route path='/mypage/review/create' element={<CreateReview />} />
+        <Route path='/mypage/review/:id/edit' element={<ReviewEditForm />} />
+        <Route path='/mypage/question' element={<MypageQuestion />} />
+        <Route path='/mypage/question/:id' element={<QuestionArticle />} />
+        <Route path='/mypage/direct/create' element={<CreateQuestion />} />
+        <Route path='/mypage/direct/:id' element={<DirectDetail />} />
+        <Route path='/mypage/question/:id/edit' element={<QuestionUpdate />} />
+        <Route path='/mypage/direct/:id/edit' element={<DirectUpdate />} />
+        <Route path='/mypage/wishlist' element={<MypageWishlist />} />
 
         {/* 커뮤니티 페이지 */}
         <Route path='/community/notice' element={<CommunityArticle title='공지사항' category='notice' />} />

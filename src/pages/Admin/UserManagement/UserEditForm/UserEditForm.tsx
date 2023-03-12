@@ -16,8 +16,8 @@ export function UserEditForm() {
   const qString = queryString.parse(location.search);
   const user = useUserById(qString.id as string);
 
-  const updateUser = useUpdateUser(user.id);
-  const deleteUser = useDeleteUser(user.id);
+  const updateUser = useUpdateUser(user.userId);
+  const deleteUser = useDeleteUser(user.userId);
 
   const idRef = useRef<HTMLInputElement>();
   const nameRef = useRef<HTMLInputElement>();
@@ -37,10 +37,10 @@ export function UserEditForm() {
 
   useEffect(() => {
     if ('id' in user) {
-      id.setValue(user.id);
+      id.setValue(user.userId);
       name.setValue(user.name);
       email.setValue(user.email);
-      phone.setValue(user.phone_nb);
+      phone.setValue(user.phoneNb);
       birthday.setValue(user.birthday);
       role.setValue(user.role);
       status.setValue(user.status);
@@ -52,10 +52,10 @@ export function UserEditForm() {
 
     const newData: IUser = {
       ...user,
-      id: id.data.value,
+      userId: id.data.value,
       name: name.data.value,
       email: email.data.value,
-      phone_nb: phone.data.value,
+      phoneNb: phone.data.value,
       birthday: birthday.data.value,
       role: role.data.value as ('user' | 'admin'),
       status: status.data.value as ('활동계정' | '비활동계정'),

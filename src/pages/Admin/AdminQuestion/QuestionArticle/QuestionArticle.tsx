@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import tw from 'twin.macro';
 import moment from 'moment';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
-import { useQuestionById, useQuestions } from '@/hooks/trueQuery/question';
+import { useQuestionById, useQuestionByUserId, useQuestions } from '@/hooks/trueQuery/question';
 import { AppLayout } from '@/layouts';
 import {
   articleBottomStyle, articleContentStyle, articleTopStyle, commentAdminStyle, goToBackStyle
@@ -23,10 +23,13 @@ export function QuestionArticle() {
   const { pathname, } = useLocation();
   const navi = useNavigate();
 
-  const [ { role, }, ] = useCookies([ 'id', 'role', ]);
+  const pageCond = pathname.includes('mypage');
+
+  const [ { id, role, }, ] = useCookies([ 'id', 'role', ]);
 
   const question = useQuestionById(Number(questionId));
   const questions = useQuestions();
+  const myQuestion = useQuestionByUserId(id);
   const userData = useUserById(question.user_id, {
     enabled: 'id' in question,
   });
@@ -47,14 +50,16 @@ export function QuestionArticle() {
   }, [ questionId, ]);
 
   const currentIndex = useMemo(() => {
-    return questions.findIndex((item) => item.id === Number(questionId));
+    return pageCond
+      ? myQuestion.findIndex((item) => item.id === Number(questionId))
+      : questions.findIndex((item) => item.id === Number(questionId));
   }, [ questions, questionId, ]);
 
-  const prevItem = questions[currentIndex - 1];
-  const nextItem = questions[currentIndex + 1];
+  const prevItem = pageCond ? myQuestion[currentIndex - 1] : questions[currentIndex - 1];
+  const nextItem = pageCond ? myQuestion[currentIndex + 1] : questions[currentIndex + 1];
 
   const url = (questionId: number) => {
-    return pathname.includes('mypage')
+    return pageCond
       ? `/mypage/question/${questionId}`
       : `/admin/question/${questionId}`;
   };
@@ -94,15 +99,15 @@ export function QuestionArticle() {
         <div id='question-article-page' css={tw`py-[50px] text-[1.2rem] text-black-base`}>
           <div className='go-to-back' css={goToBackStyle}>
             {
-              pathname.includes('mypage')
+              pageCond
                 ? (
-                  <Link to='/mypage/question'>목록으로</Link>
+                  <Link to='/mypage/question?current=question'>목록으로</Link>
                 )
                 : (
                   <Link to='/admin/question'>목록으로</Link>
                 )
             }
-            {role === 'admin' && (
+            {(role === 'admin' || id === userData.userId) && (
               <>
                 <button onClick={onClickEdit}>수정</button>
                 <button onClick={onClickDelete}>삭제</button>
@@ -115,7 +120,7 @@ export function QuestionArticle() {
               <div>
                 <p>
                   <span>작성자</span>
-                  <span>{userData.name}({userData.id})</span>
+                  <span>{userData.name}({userData.userId})</span>
                 </p>
                 <p>
                   <span>작성일</span>
@@ -144,7 +149,8 @@ export function QuestionArticle() {
           {(role === 'user' && !cond) && (
             <>
               <div css={tw`font-[900] text-[1.5rem] mb-[10px]`}>관리자 답변</div>
-              <div css={tw`p-[10px] text-justify break-all border border-black-200 bg-black-50 mb-[30px]`}>{question.comment}</div>
+              <div css={tw`p-[10px] text-justify break-all border border-black-200 bg-black-50 mb-[10px]`}>{question.comment}</div>
+              <p css={tw`text-right font-[900] text-[1.4rem] mb-[30px]`}>{question.date2}</p>
             </>
           )}
 

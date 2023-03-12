@@ -3,6 +3,7 @@ import React, {
 } from 'react';
 import { useCookies } from 'react-cookie';
 import tw from 'twin.macro';
+import { useNavigate } from 'react-router';
 import { IOrderDetail } from '@/types/tables.types';
 import { useProductById } from '@/hooks/trueQuery/product';
 import { getItemString } from '@/utils';
@@ -23,10 +24,12 @@ export function OrderDetailItem({ item, }: IOrderDetailItemProps) {
   const [ files, setFiles, ] = useState([]);
   const [ inputError, setInputError, ] = useState(false);
 
+  const navi = useNavigate();
+
   const fileRef = useRef<HTMLInputElement>();
   const fileInputRef = useRef<HTMLInputElement>();
 
-  const [ { id: userId, }, ] = useCookies([ 'id', ]);
+  const [ { id: userId, }, setCookie, ] = useCookies([ 'id', 'odId', 'pId', ]);
   const product = useProductById(Number(item.product_id));
   const sheet = useCategoryById(item.option_sheet).category_name;
   const shape = useCategoryById(item.option_shape).category_name;
@@ -121,6 +124,12 @@ export function OrderDetailItem({ item, }: IOrderDetailItemProps) {
     }
   }, [ isRefund, title, content, files, ]);
 
+  const onClickCreateReview = useCallback(() => {
+    setCookie('odId', item.id, { path: '/', });
+    setCookie('pId', product.id, { path: '/', });
+    navi('/mypage/review/create');
+  }, [ item, product, ]);
+
   return (
     <>
       <div className='detail-item'>
@@ -131,6 +140,9 @@ export function OrderDetailItem({ item, }: IOrderDetailItemProps) {
           <p>{item.status}</p>
           <ItemRate rate={product.star} styles={tw`justify-start`} />
           <div>
+            {item.status === '배송완료' && (
+              <button onClick={onClickCreateReview} css={tw`mr-[20px]`}>리뷰 작성</button>
+            )}
             <button onClick={(event) => {
               event.preventDefault();
 

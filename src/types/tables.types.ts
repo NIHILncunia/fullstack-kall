@@ -13,10 +13,10 @@ export interface IProduct {
 }
 
 export interface IUser {
-  id?: string;
+  userId?: string;
   name?: string;
   password?: string;
-  phone_nb?: string;
+  phoneNb?: string;
   email?: string;
   birthday?: string;
   root?: string;
@@ -157,5 +157,12 @@ export interface IQuestion {
   content?: string;
   comment?: string;
   date1?: string;
+  date2?: string;
+}
+
+export interface IWish {
+  id?: number;
+  user_id?: string;
+  product_id?: number;
   date?: string;
 }

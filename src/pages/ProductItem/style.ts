@@ -40,6 +40,10 @@ export const topInfoStyle = css`
 
       & > button {
         ${tw` p-[10px] text-black-200 rounded-[50%] border-[2px] border-solid border-black-200 text-[1.5rem] `}
+
+        &.wishlist {
+          ${tw` text-red-500 border-red-500 `}
+        }
       }
     }
   }
@@ -97,5 +101,33 @@ export const sectionStyle = css`
     & > p.info-message {
       ${tw` mb-[30px] nth-last-1:mb-0 `}
     }
+  }
+`;
+
+export const reviewList = css`
+  ${tw` flex items-center gap-[5px] `}
+
+  & > div {
+    ${tw` p-[10px] border border-black-200 bg-black-50 `}
+    
+    &.link {
+      ${tw` nth-1:( p-0 shrink-0 flex-[1] ) `}
+      ${tw` nth-1:hover:( border-point-h-base bg-point-base/40 ) `}
+
+      &:nth-of-type(1) > a {
+        ${tw` p-[10px] block `}
+      }
+    }
+
+    &:not(div.link) {
+      ${tw` nth-1:( shrink-0 flex-[1] flex items-center gap-[20px] ) `}
+
+      & > span {
+        ${tw` flex-[1] shrink-0 `}
+      }
+    }
+
+    ${tw` nth-2:( shrink-0 w-[150px] flex items-center justify-center ) `}
+    ${tw` nth-3:( shrink-0 w-[250px] flex items-center justify-center ) `}
   }
 `;

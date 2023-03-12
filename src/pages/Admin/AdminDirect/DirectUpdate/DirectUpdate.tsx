@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import tw from 'twin.macro';
-import { useNavigate, useParams } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router';
 import { useCookies } from 'react-cookie';
 import { AppLayout } from '@/layouts';
 import { Heading2 } from '@/components/Content';
@@ -13,6 +13,7 @@ export function DirectUpdate() {
   const [ category, setCategory, ] = useState('q_01');
 
   const { id, } = useParams();
+  const { pathname, } = useLocation();
   const direct = useDirectById(Number(id));
   const [ cookies, ] = useCookies([ 'id', ]);
   const navi = useNavigate();
@@ -46,7 +47,11 @@ export function DirectUpdate() {
     };
 
     console.log(`[UPDATE /directs/${id}`, updateData);
-    navi('/admin/direct');
+    navi(
+      pathname.includes('admin')
+        ? '/admin/direct'
+        : '/mypage/question?current=direct'
+    );
   }, [ title, content, category, cookies, ]);
 
   return (

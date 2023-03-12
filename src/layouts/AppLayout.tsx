@@ -36,13 +36,6 @@ export const AppLayout = ({
       ${tw` p-0 m-0 font-nanum font-[400] box-border `}
     }
 
-    /* 반응형을 위한 개발용 스타일 */
-    body {
-      ${tw` md:bg-red-50 `}
-      ${tw` sm:bg-red-100 `}
-      ${tw` xs:bg-red-200 `}
-    }
-
     input {
       ${tw` outline-none `}
     }

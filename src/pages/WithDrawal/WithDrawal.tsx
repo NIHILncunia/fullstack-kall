@@ -22,7 +22,7 @@ export function WithDrawal() {
       text,
     };
 
-    console.log('유저 탈퇴 정보 >> ', newData);
+    console.log('[POST /withdrawal]', newData);
   }, [ text, cookies, ]);
 
   return (

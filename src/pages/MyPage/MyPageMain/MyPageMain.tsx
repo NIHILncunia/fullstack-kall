@@ -17,9 +17,11 @@ import { useOrders } from '@/hooks/trueQuery/order';
 export function MyPageMain() {
   const [ cookies, ] = useCookies([ 'id', 'role', ]);
   const user = useUserById(cookies.id);
-  const [ address, ] = useAddressesByUser(user?.id)
+  const [ address, ] = useAddressesByUser(user?.userId)
     .filter((item) => item.status === 'true');
   const orders = useOrders();
+
+  console.log('user >> ', user);
 
   const beforePay = useMemo(() => {
     return orders.filter((item) => item.order_status === '결제대기중');
@@ -47,7 +49,7 @@ export function MyPageMain() {
           <div className='default-info' css={defaultInfoStyle}>
             <p>
               <span>아이디</span>
-              <span>{user.id}</span>
+              <span>{user.userId}</span>
             </p>
             <p>
               <span>이름</span>
@@ -59,7 +61,7 @@ export function MyPageMain() {
             </p>
             <p>
               <span>휴대폰</span>
-              <span>{user.phone_nb}</span>
+              <span>{user.phoneNb}</span>
             </p>
             <p>
               <span>기본 배송지</span>
@@ -133,11 +135,11 @@ export function MyPageMain() {
               <div>
                 <Link to='/mypage/review'>
                   <FaClipboardList size={150} />
-                  <span>리뷰 목록</span>
+                  <span>리뷰 내역</span>
                 </Link>
               </div>
               <div>
-                <Link to='/mypage/question'>
+                <Link to='/mypage/question?current=question'>
                   <FaClipboardList size={150} />
                   <span>문의 목록</span>
                 </Link>

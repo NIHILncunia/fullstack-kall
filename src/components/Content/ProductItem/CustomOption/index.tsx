@@ -11,7 +11,6 @@ import { SelectItem } from '../SelectItem';
 import {
   fileInputStyle, inputStyle, radioStyle, selectButton, selectedItemStyle
 } from './style';
-import { ICart } from '@/types/tables.types';
 
 interface ICustomOptionProps {
   name: string;
@@ -38,8 +37,6 @@ export function CustomOption({
   const sheetRef = useRef<HTMLInputElement[]>([]);
   const shapeRef = useRef<HTMLInputElement[]>([]);
   const creamRef = useRef<HTMLInputElement[]>([]);
-
-  console.log(sheetRef);
 
   const wordRef = useRef<HTMLInputElement>();
   const requestRef = useRef<HTMLInputElement>();

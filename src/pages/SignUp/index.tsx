@@ -4,11 +4,8 @@ import React, {
 import { Link, useNavigate } from 'react-router-dom';
 import { Global } from '@emotion/react';
 import tw, { css } from 'twin.macro';
-import { useDaumPostcodePopup } from 'react-daum-postcode';
-import axios from 'axios';
 import { AppLayout } from '@/layouts';
 import {
-  addressInputStyle,
   agreementStyle,
   birthdayStyle,
   chooseInputStyle,
@@ -17,6 +14,7 @@ import {
 import { useCheckbox, useInput } from '@/hooks';
 import { rootCheckBoxData } from '@/data/select.data';
 import { RequireMark } from '@/components/Content';
+import { kallInstance } from '@/data/axios.data';
 
 export function SignUp() {
   const nameRef = useRef<HTMLInputElement>();
@@ -44,20 +42,7 @@ export function SignUp() {
   const root = useCheckbox();
   const agree = useCheckbox();
 
-  const open = useDaumPostcodePopup();
-
   const navi = useNavigate();
-
-  const onClickOpen = useCallback(() => {
-    open({
-      onComplete: (data) => {
-        const fullAddress = `${data.address} (${data.buildingName})`;
-
-        zipCode.setValue(data.zonecode);
-        address1.setValue(fullAddress);
-      },
-    });
-  }, [ open, ]);
 
   const onSubmitForm = useCallback((event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -68,16 +53,16 @@ export function SignUp() {
       password: password.data.value,
       phone_nb: phone.data.value,
       email: email.data.value,
-      birthday: birthday.data.value,
+      birthday: birthday.data.value || null,
       root: root.items.toString(),
       eventagree: agree.items.includes('eventAgree')
         ? 'O'
         : 'X',
     };
 
-    console.log('회원가입 정보 >> ', newData);
+    console.log('[POST /users]', newData);
 
-    axios.post('http://localhost:8088/users', newData)
+    kallInstance.post('/users', newData)
       .then((res) => {
         console.log(res);
         navi('/signin');
@@ -85,12 +70,6 @@ export function SignUp() {
       .catch((error) => {
         console.error(error);
       });
-
-    // console.log(`${id.data.value}의 주소 정보 >> `, {
-    //   zipCode: zipCode.data.value,
-    //   address1: address1.data.value,
-    //   address2: address2.data.value,
-    // });
   }, [ id, name, password, phone, email, birthday, root.items, agree.items, zipCode, address1, address2, ]);
 
   return (
@@ -168,38 +147,6 @@ export function SignUp() {
                     {...email.data}
                   />
                 </label>
-              </div>
-              <div css={addressInputStyle}>
-                <span>주소 <RequireMark /></span>
-                <div>
-                  <input
-                    className='zipcode'
-                    type='text'
-                    readOnly
-                    required
-                    placeholder='우편 번호'
-                    ref={zipCodeRef}
-                    {...zipCode.data}
-                  />
-                  <button type='button' onClick={onClickOpen}>우편번호 찾기</button>
-                </div>
-                <input
-                  className='address'
-                  type='text'
-                  readOnly
-                  required
-                  placeholder='주소'
-                  ref={address1Ref}
-                  {...address1.data}
-                />
-                <input
-                  className='address'
-                  type='text'
-                  required
-                  placeholder='상세 주소'
-                  ref={address2Ref}
-                  {...address2.data}
-                />
               </div>
             </fieldset>
             <fieldset css={chooseInputStyle}>

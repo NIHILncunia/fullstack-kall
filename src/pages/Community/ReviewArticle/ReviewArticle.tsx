@@ -74,7 +74,7 @@ export function ReviewArticle() {
                     <button onClick={onClickDelete}>삭제</button>
                   </>
                 )
-                : cookies.id === userData.id
+                : cookies.id === userData.userId
                   ? (
                     <>
                       <Link to='/community/review'>목록으로</Link>
@@ -91,7 +91,7 @@ export function ReviewArticle() {
               <div>
                 <p>
                   <span>작성자</span>
-                  <span>{userData.name}({userData.id})</span>
+                  <span>{userData.name}({userData.userId})</span>
                 </p>
                 <p>
                   <span>작성일</span>

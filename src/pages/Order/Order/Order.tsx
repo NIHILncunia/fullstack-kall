@@ -12,7 +12,7 @@ import {
   fromInfoStyle, itemListStyle, orderPageStyle, orderProgressStyle, payInfoStyle, paymentStyle, toInfoButtonStyle, toInfoStyle
 } from './style';
 import { useInput } from '@/hooks';
-import { IOrderDetail } from '@/types/tables.types';
+import { IOrder, IOrderDetail } from '@/types/tables.types';
 import { OrderDetailList } from '@/components/Content/OrderDetail';
 import { cardData } from '@/data/select.data';
 import { useUserById } from '@/hooks/trueQuery/users';
@@ -73,7 +73,7 @@ export function Order() {
     zipCode.setValue(addressData.zip_code);
     address1.setValue(addressData.address_1);
     address2.setValue(addressData.address_2);
-    phone.setValue(userData.phone_nb);
+    phone.setValue(userData.phoneNb);
     setIsDisable(true);
   }, [ name, zipCode, address1, address2, phone, ]);
 
@@ -101,15 +101,14 @@ export function Order() {
        * 문제 없이 위의 과정이 종료되면 주문이 끝나게 된다. 주문 완료 페이지로 넘어가게 된다.
        */
 
-      const newOrder = {
-        user_id: userData.id,
+      const newOrder: IOrder = {
+        user_id: userData.userId,
         name: userData.name,
         zip_code: addressData.zip_code,
         address_1: addressData.address_1,
         address_2: addressData.address_2,
-        phone_nb: userData.phone_nb,
+        phone_nb: userData.phoneNb,
         request: req.data.value,
-        date: new Date(),
         mileage: Number(mileage.data.value),
         price: totalPrice,
         payment: payType,
@@ -157,7 +156,7 @@ export function Order() {
             </div>
             <div>
               <p>휴대폰 번호</p>
-              <p>{userData?.phone_nb}</p>
+              <p>{userData?.phoneNb}</p>
             </div>
           </div>
           <Heading3>

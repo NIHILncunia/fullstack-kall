@@ -1,9 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import React, {
+  useCallback, useEffect, useMemo, useState
+} from 'react';
+import { useNavigate, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
 import { FaHeart, FaShare } from 'react-icons/fa';
 import tw, { css } from 'twin.macro';
+import { useCookies } from 'react-cookie';
+import { useQueryClient } from 'react-query';
 import { AppLayout } from '@/layouts';
 import { useProductById, useRecentProducts } from '@/hooks/trueQuery/product';
 import { Heading3, ItemRate } from '@/components/Content';
@@ -14,14 +18,86 @@ import {
   CustomOption, DesignOption, ETCOption, OtherItems
 } from '@/components/Content/ProductItem';
 import { ISelect } from '@/types/product.select.types';
+import { getReviewByProductId, useReviewByProductId } from '@/hooks/trueQuery/review';
+import { getQuestionByProductId, useQuestionByProductId } from '@/hooks/trueQuery/question';
+import { ReviewList } from './ReviewList';
+import { QuestionList } from './QuestionList';
+import {
+  useCreateWishlist, useDeleteWishlist, useWishlistByProductId, useWishlistByUserId
+} from '@/hooks/trueQuery/wish';
 
 export function ProductItem() {
+  // eslint-disable-next-line no-unused-vars
+  const [ { id, pId, }, setCookie, ] = useCookies([ 'id', 'pId', ]);
   const [ items, setItems, ] = useState<ISelect[]>([]);
 
   const param = useParams();
-  const products = useRecentProducts(param.category, Number(param.id));
+  const navi = useNavigate();
+  const queryClient = useQueryClient();
+  const createWishlist = useCreateWishlist(id);
+  const deleteWishlist = useDeleteWishlist(id);
 
+  const products = useRecentProducts(param.category, Number(param.id));
+  const wishs = useWishlistByUserId(id);
   const product = useProductById(Number(param.id));
+
+  console.log('product >> ', product);
+  console.log('product.id >> ', product.id);
+
+  const wishItem = useWishlistByProductId(product.id, {
+    enabled: 'id' in product,
+  });
+
+  const wish = useMemo(() => {
+    if (wishs.length > 0) {
+      return wishs.some((item) => item.product_id === product.id);
+    }
+    return false;
+  }, [ wishs, product.id, ]);
+
+  const reviews = useReviewByProductId(product.id, {
+    enabled: 'id' in product,
+  }).sort((a, b) => b.id - a.id);
+
+  const questions = useQuestionByProductId(product.id, {
+    enabled: 'id' in product,
+  }).sort((a, b) => b.id - a.id);
+
+  const onClickCreateQuestion = useCallback(() => {
+    setCookie('pId', product.id, { path: '/', });
+    navi('/mypage/direct/create');
+  }, [ product, ]);
+
+  console.log('wishItem0 >> ', wishItem);
+
+  const onClickAddWish = useCallback(() => {
+    const newData = {
+      user_id: id,
+      product_id: product.id,
+    };
+
+    createWishlist.mutate(newData, {
+      onSuccess: async () => {
+        queryClient.refetchQueries(
+          [ 'getWishlistByProductId', product.id, ]
+        );
+      },
+    });
+    console.log('[POST /wishlists]', newData);
+  }, [ id, product, createWishlist, ]);
+
+  const onClickDeleteWish = useCallback(() => {
+    if (wish && 'id' in wishItem) {
+      deleteWishlist.mutate(wishItem.id, {
+        onSuccess: async () => {
+          queryClient.refetchQueries(
+            [ 'getWishlistByProductId', product.id, ]
+          );
+        },
+      });
+      console.log(`[DELETE /wishlists/${wishItem.id}]`);
+    }
+  }, [ deleteWishlist, wishItem, wish, ]);
 
   const hiddenStyle = css`
     ${tw` absolute w-[1px] h-[1px] m-[1px] overflow-hidden `}
@@ -31,6 +107,19 @@ export function ProductItem() {
   useEffect(() => {
     setItems([]);
   }, [ param, ]);
+
+  useEffect(() => {
+    if ('id' in product) {
+      queryClient.prefetchQuery(
+        [ 'getReviewByProductId', product.id, ],
+        () => getReviewByProductId(product.id)
+      );
+      queryClient.prefetchQuery(
+        [ 'getQuestionByProductId', product.id, ],
+        () => getQuestionByProductId(product.id)
+      );
+    }
+  }, [ product, queryClient, ]);
 
   return (
     <>
@@ -49,7 +138,22 @@ export function ProductItem() {
               <div className='name'>
                 <h2>{product.name}</h2>
                 <div className='item-icons'>
-                  <button aria-label='Add wishlist'><FaHeart /></button>
+                  {wish ? (
+                    <button
+                      aria-label='Add wishlist'
+                      className='wishlist'
+                      onClick={onClickDeleteWish}
+                    >
+                      <FaHeart />
+                    </button>
+                  ) : (
+                    <button
+                      aria-label='Add wishlist'
+                      onClick={onClickAddWish}
+                    >
+                      <FaHeart />
+                    </button>
+                  )}
                   <button aria-label='Share this Product'><FaShare /></button>
                 </div>
               </div>
@@ -189,7 +293,11 @@ export function ProductItem() {
               </ul>
 
               <div className='content'>
-                상품 후기 목록
+                <div className='review-list' css={tw`flex flex-col gap-[5px]`}>
+                  {reviews.map((item) => (
+                    <ReviewList key={item.id} item={item} />
+                  )).slice(0, 10)}
+                </div>
               </div>
             </section>
             <section id='questions' css={sectionStyle}>
@@ -210,7 +318,19 @@ export function ProductItem() {
               </ul>
 
               <div className='content'>
-                상품 문의 목록
+                <div css={tw`flex justify-end mb-[30px]`}>
+                  <button
+                    css={tw`block w-[200px] bg-point-base p-[10px] text-center hover:bg-point-h-base`}
+                    onClick={onClickCreateQuestion}
+                  >
+                    상품 문의
+                  </button>
+                </div>
+                <div className='question-list' css={tw`flex flex-col gap-[5px]`}>
+                  {questions.map((item) => (
+                    <QuestionList key={item.id} item={item} />
+                  )).slice(0, 10)}
+                </div>
               </div>
             </section>
           </div>

@@ -28,10 +28,10 @@ export function UserInfoEditForm() {
 
   useEffect(() => {
     if ('id' in user) {
-      id.setValue(user.id);
+      id.setValue(user.userId);
       name.setValue(user.name);
       email.setValue(user.email);
-      phone.setValue(user.phone_nb);
+      phone.setValue(user.phoneNb);
     }
   }, [ user, ]);
 
@@ -45,7 +45,7 @@ export function UserInfoEditForm() {
       phone_nb: phone.data.value,
     };
 
-    console.log(editInfo);
+    console.log(`[PUT /users/${user.userId}]`, editInfo);
   }, [ id, name, email, phone, ]);
 
   const onChangeEmail = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,7 +61,7 @@ export function UserInfoEditForm() {
   const onChangePhone = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     phone.setValue(event.target.value);
 
-    if (user.phone_nb === event.target.value) {
+    if (user.phoneNb === event.target.value) {
       setPhoneError(true);
     } else {
       setPhoneError(false);

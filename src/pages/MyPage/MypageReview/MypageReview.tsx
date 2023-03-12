@@ -13,11 +13,11 @@ export function MypageReview() {
 
   return (
     <>
-      <AppLayout title='리뷰 목록'>
+      <AppLayout title='리뷰 내역'>
         <MyPageLayout pageId='mypage-review-page'>
-          <Heading2>리뷰 목록</Heading2>
+          <Heading2>리뷰 내역</Heading2>
 
-          <div className='review-list' css={tw`flex flex-col gap-[2px]`}>
+          <div className='review-list' css={tw`flex flex-col gap-[2px] pb-[200px]`}>
             <div className='list-header' css={reviewListHeader}>
               <p>제목</p>
               <p>작성자</p>

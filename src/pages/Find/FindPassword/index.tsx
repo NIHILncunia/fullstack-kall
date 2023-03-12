@@ -34,7 +34,7 @@ export function FindPassword() {
 
       setIsOpen(true);
       setError(false);
-      setMessage(<>{res.id}님 비밀번호를 재설정하세요.</>);
+      setMessage(<>{res.userId}님 비밀번호를 재설정하세요.</>);
     } catch (error) {
       setError(true);
       setMessage(<>일치하는 회원정보가 없습니다. 다시 확인해주세요.</>);

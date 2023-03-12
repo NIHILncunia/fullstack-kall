@@ -30,6 +30,12 @@ export const getReviewByUserId = async (userId: string) => {
   return data;
 };
 
+export const getReviewByProductId = async (productId: number) => {
+  const { data, } = await kallInstance.get<IReview[]>(`/reviews/product?product_id=${productId}`);
+
+  return data;
+};
+
 export const useReviews = () => {
   const fallback = [];
   const { data = fallback, } = useQuery<IReview[], AxiosError>(
@@ -70,6 +76,18 @@ export const useReviewByUserId = (userId: string, options?: IQueryOptions) => {
   const { data = [], } = useQuery<IReview[], AxiosError>(
     [ 'getReviewByUserId', userId, ],
     () => getReviewByUserId(userId),
+    {
+      enabled: options?.enabled ?? true,
+    }
+  );
+
+  return data as IReview[];
+};
+
+export const useReviewByProductId = (productId: number, options?: IQueryOptions) => {
+  const { data = [], } = useQuery<IReview[], AxiosError>(
+    [ 'getReviewByProductId', productId, ],
+    () => getReviewByProductId(productId),
     {
       enabled: options?.enabled ?? true,
     }

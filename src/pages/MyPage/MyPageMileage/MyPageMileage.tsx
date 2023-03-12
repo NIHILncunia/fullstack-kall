@@ -10,7 +10,7 @@ import { mileageBlockStyle, mileageListStyle } from './style';
 export function MyPageMileage() {
   const [ { id, }, ] = useCookies([ 'id', ]);
   const userData = useUserById(id);
-  const orderDataByUserId = useOrderByUserId(userData.id, {
+  const orderDataByUserId = useOrderByUserId(userData.userId, {
     enabled: userData && 'id' in userData,
   });
 
@@ -32,7 +32,7 @@ export function MyPageMileage() {
 
           <div className='mileage-block' css={mileageBlockStyle}>
             <p>
-              {userData.name}({userData.id})님의 마일리지 누적금액은
+              {userData.name}({userData.userId})님의 마일리지 누적금액은
               <span>{userData.mileage?.toLocaleString()}원</span>
               입니다.
             </p>

@@ -63,7 +63,8 @@ export function DesignOption({
   }, [ name, price, sizeLabel, request.data.value, ]);
 
   useEffect(() => {
-    setSize('');
+    setSize(sizeData[0].value);
+    setSizeLabel(sizeData[0].label);
     requestRef.current.value = '';
     idRef.current = 1;
   }, [ pathname, ]);

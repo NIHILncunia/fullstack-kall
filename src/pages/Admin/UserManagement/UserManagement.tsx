@@ -9,7 +9,7 @@ export function UserManagement() {
   const [ selectedItems, setSelectedItems, ] = useState<string[]>([]);
   const users = useUsers();
   const allUserIds = useMemo(() => {
-    return users.map((item) => item.id);
+    return users.map((item) => item.userId);
   }, [ users, ]);
 
   useEffect(() => {
@@ -33,7 +33,7 @@ export function UserManagement() {
             </div>
             {users?.map((item) => (
               <UserItem
-                key={item.id}
+                key={item.userId}
                 item={item}
                 value={selectedItems}
                 setValue={setSelectedItems}

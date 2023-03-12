@@ -35,20 +35,20 @@ export function UserItem({ item, value, setValue, }: IUserItemProps) {
     <>
       <div className='list-content' css={listContentStyle}>
         <p>
-          <label htmlFor={item.id}>
+          <label htmlFor={item.userId}>
             <input
               type='checkbox'
               name='user'
-              id={item.id}
-              value={item.id}
-              onChange={() => onChangeUser(item.id)}
-              checked={value.includes(item.id)}
+              id={item.userId}
+              value={item.userId}
+              onChange={() => onChangeUser(item.userId)}
+              checked={value.includes(item.userId)}
               css={tw`w-[30px] h-[30px] block`}
             />
           </label>
         </p>
         <p>{item.name}</p>
-        <p onClick={onClickOpen}>{item.id}</p>
+        <p onClick={onClickOpen}>{item.userId}</p>
         <p>{item.email}</p>
       </div>
       {isOpen && (
@@ -62,7 +62,7 @@ export function UserItem({ item, value, setValue, }: IUserItemProps) {
             <p>상태</p>
           </div>
           <div>
-            <p>{item.phone_nb}</p>
+            <p>{item.phoneNb}</p>
             <p>{item.birthday}</p>
             <p>{item.role === 'user' ? '유저' : '관리자'}</p>
             <p>{item.mileage}</p>
@@ -71,7 +71,7 @@ export function UserItem({ item, value, setValue, }: IUserItemProps) {
           </div>
           <div css={tw`flex justify-end items-center`}>
             <button
-              onClick={() => onClickEdit(item.id)}
+              onClick={() => onClickEdit(item.userId)}
               css={tw`p-[20px_10px] w-[200px] bg-point-base hover:text-white hover:bg-point-h-base`}
             >
               수정

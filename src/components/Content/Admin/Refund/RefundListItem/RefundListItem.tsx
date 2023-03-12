@@ -7,8 +7,6 @@ interface IRefundListItemProps {
 }
 
 export function RefundListItem({ item, }: IRefundListItemProps) {
-  console.log(item);
-
   return (
     <>
       <div className='list-content'>

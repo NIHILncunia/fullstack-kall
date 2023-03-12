@@ -31,7 +31,7 @@ export const directUpdateButtonStyle = css`
   ${tw` text-right mt-[30px] `}
 
   & > button {
-    ${tw` w-[200px] bg-point-base p-[10px] `}
+    ${tw` w-[200px] bg-point-base p-[20px_10px] `}
     ${tw` hover:( bg-point-h-base text-white ) `}
   }
 `;

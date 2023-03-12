@@ -63,7 +63,7 @@ export function OrderComplete() {
               </div>
               <div>
                 <p>연락처</p>
-                <p>{userData?.phone_nb}</p>
+                <p>{userData?.phoneNb}</p>
               </div>
             </div>
             <Heading3>받으시는 분</Heading3>

@@ -28,9 +28,6 @@ export function ProductList() {
     }
   }, [ productData, ]);
 
-  console.log(cate);
-  console.log(selectedItems);
-
   const onClickAllCheck = useCallback(() => {
     setSelectedItems(productData.map((item) => item.id));
   }, [ productData, ]);
@@ -44,8 +41,6 @@ export function ProductList() {
     const res = window.confirm('정말로 삭제합니까?');
     console.log('삭제할 데이터 아이디 >> ', selectedItems);
 
-    console.log(res);
-
     console.log('[DELETE /admin/products, {아이디 배열}]');
   }, [ selectedItems, ]);
 
@@ -54,8 +49,6 @@ export function ProductList() {
     const res = window.confirm('정말로 삭제합니까?');
     const allItems = productData.map((item) => item.id);
     console.log('삭제할 데이터 아이디 >> ', allItems);
-
-    console.log(res);
 
     console.log('[DELETE /admin/products, {아이디 배열}]');
   }, [ productData, ]);

@@ -44,7 +44,7 @@ export function UpdateForm({ id, }: IUpdateFormProps) {
     console.log(`[PUT /questions/${id}]`, updateData);
     navi(
       pathname.includes('mypage')
-        ? '/mypage/question'
+        ? '/mypage/question?current=question'
         : '/admin/question'
     );
   }, [ id, title, text, pathname, ]);
