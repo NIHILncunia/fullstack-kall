@@ -20,21 +20,14 @@ export function UserManageBlock({ items, setItems, }: IUserManageBlockProps) {
   }, []);
 
   const onDeleteAllData = useCallback(() => {
-    const userDelData = {
-      idArray: JSON.parse(localStorage.getItem('allUserIds')) as string[],
-      text: '관리자에 의한 강제 탈퇴',
-    };
+    const userDelData = JSON.parse(localStorage.getItem('allUserIds')) as string[];
     deleteAllUsers.mutate(userDelData);
   }, []);
 
   const onDeleteSelectData = useCallback(() => {
     if (items.length !== 0) {
-      const userDelData = {
-        idArray: items,
-        text: '관리자에 의한 강제 탈퇴',
-      };
-
-      deleteUsers.mutate(userDelData);
+      console.log(items);
+      deleteUsers.mutate(items);
     }
   }, [ items, ]);
 

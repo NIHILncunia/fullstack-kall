@@ -1,6 +1,5 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { useCookies } from 'react-cookie';
-import { parse } from 'path';
 import { useInput } from '@/hooks';
 import { passCheckStyle } from './style';
 import { kallInstance } from '@/data/axios.data';

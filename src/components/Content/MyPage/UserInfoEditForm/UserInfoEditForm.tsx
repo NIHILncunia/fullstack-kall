@@ -15,8 +15,12 @@ export function UserInfoEditForm() {
   const [ phoneError, setPhoneError, ] = useState(false);
 
   const [ cookies, ] = useCookies([ 'id', ]);
-  const user = useUserById(cookies.id);
+  const user = JSON.parse(localStorage.getItem('user'));
+  const userQuery = useUserById(cookies.id);
   const navi = useNavigate();
+
+  console.log('user >> ', user);
+  console.log('userQuery >> ', userQuery);
 
   const idRef = useRef<HTMLInputElement>();
   const nameRef = useRef<HTMLInputElement>();
@@ -35,7 +39,7 @@ export function UserInfoEditForm() {
       email.setValue(user.email);
       phone.setValue(user.phoneNb);
     }
-  }, [ user, ]);
+  }, [ ]);
 
   const onSubmitForm = useCallback((event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();

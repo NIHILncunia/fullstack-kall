@@ -159,7 +159,7 @@ export const useUpdateUser = (id: string) => {
     {
       onSuccess: async (data) => {
         const userData = await getUserById(id);
-        console.log(data);
+        console.log('반환받은 데이터 >> ', data);
 
         queryClient.setQueryData(
           [ 'getUserById', id, ],
@@ -178,13 +178,8 @@ export const useUpdateUser = (id: string) => {
 export const useDeleteUsers = () => {
   const queryClient = useQueryClient();
 
-  type UserDelData = {
-    idArray: string[];
-    text: string;
-  };
-
-  const { mutate, } = useMutation<IUsersDeleteResponse, AxiosError, UserDelData>(
-    async (userDelData: UserDelData) => {
+  const { mutate, } = useMutation<IUsersDeleteResponse, AxiosError, string[]>(
+    async (userDelData: string[]) => {
       const { data, } = await kallInstance.delete<IUsersDeleteResponse>(
         '/admin/users',
         {

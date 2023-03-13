@@ -3,12 +3,13 @@ import React, {
 } from 'react';
 import { useCookies } from 'react-cookie';
 import tw from 'twin.macro';
+import { useNavigate } from 'react-router';
 import { AppLayout, MyPageLayout } from '@/layouts';
 import { PassCheck } from '@/components/Content/MyPage';
 import { Heading2 } from '@/components/Content';
 import { useInput } from '@/hooks';
 import { passEditFormStyle } from './style';
-import { useAuthUserById, useUserById } from '@/hooks/trueQuery/users';
+import { useAuthUserById } from '@/hooks/trueQuery/users';
 import { kallInstance } from '@/data/axios.data';
 
 export function MyaPagePassEdit() {
@@ -17,6 +18,7 @@ export function MyaPagePassEdit() {
   const [ isUser, setIsUser, ] = useState(true);
   const [ cookies, ] = useCookies([ 'id', ]);
   const user = useAuthUserById(cookies.id);
+  const navi = useNavigate();
 
   const currentPassRef = useRef<HTMLInputElement>();
   const newPassRef = useRef<HTMLInputElement>();
@@ -71,7 +73,9 @@ export function MyaPagePassEdit() {
 
       kallInstance.put(`/users/password/${user.userId}`, putData)
         .then((res) => {
-          console.log(res);
+          if (res.data === 'ok') {
+            navi('/mypage/main');
+          }
         })
         .catch((error) => {
           console.error(error);

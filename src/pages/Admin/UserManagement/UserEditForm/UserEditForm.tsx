@@ -16,6 +16,8 @@ export function UserEditForm() {
   const qString = queryString.parse(location.search);
   const user = useUserById(qString.id as string);
 
+  console.log(user);
+
   const updateUser = useUpdateUser(user.userId);
   const deleteUser = useDeleteUser(user.userId);
 
@@ -36,7 +38,7 @@ export function UserEditForm() {
   const status = useInput(statusRef, 'status');
 
   useEffect(() => {
-    if ('id' in user) {
+    if ('userId' in user) {
       id.setValue(user.userId);
       name.setValue(user.name);
       email.setValue(user.email);
@@ -84,7 +86,7 @@ export function UserEditForm() {
           <form onSubmit={onSubmitForm} css={userEditFormStyle}>
             <label htmlFor='id'>
               <span>아이디</span>
-              <input type='text' ref={idRef} {...id.data} />
+              <input type='text' disabled readOnly ref={idRef} {...id.data} />
             </label>
             <label htmlFor='name'>
               <span>이름</span>
