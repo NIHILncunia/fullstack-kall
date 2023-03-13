@@ -30,7 +30,7 @@ export function OrderDetailItem({ item, }: IOrderDetailItemProps) {
   const fileInputRef = useRef<HTMLInputElement>();
 
   const [ { id: userId, }, setCookie, ] = useCookies([ 'id', 'odId', 'pId', ]);
-  const product = useProductById(Number(item.product_id));
+  const product = useProductById(Number(item.productDTO.productId));
   const sheet = useCategoryById(item.option_sheet).categoryName;
   const shape = useCategoryById(item.option_shape).categoryName;
   const cream = useCategoryById(item.option_cream).categoryName;
@@ -125,7 +125,7 @@ export function OrderDetailItem({ item, }: IOrderDetailItemProps) {
   }, [ isRefund, title, content, files, ]);
 
   const onClickCreateReview = useCallback(() => {
-    setCookie('odId', item.id, { path: '/', });
+    setCookie('odId', item.orderDNb, { path: '/', });
     setCookie('pId', product.productId, { path: '/', });
     navi('/mypage/review/create');
   }, [ item, product, ]);
@@ -146,7 +146,7 @@ export function OrderDetailItem({ item, }: IOrderDetailItemProps) {
             <button onClick={(event) => {
               event.preventDefault();
 
-              onClickRefund(item.id);
+              onClickRefund(item.orderDNb);
             }}
             >{label}
             </button>

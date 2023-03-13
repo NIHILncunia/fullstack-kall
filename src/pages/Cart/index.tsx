@@ -26,7 +26,7 @@ export function Cart() {
     if (selectAll) {
       setSelectedItems([]);
     } else {
-      setSelectedItems(cartList.map((item) => item.id));
+      setSelectedItems(cartList.map((item) => item.cartId));
     }
     setSelectAll(!selectAll);
   }, [ selectAll, cartList, ]);
@@ -48,7 +48,7 @@ export function Cart() {
   }, [ cartList, selectedItems, ]);
 
   const totalItemPrice = cartList
-    .filter((item) => selectedItems.includes(item.id))
+    .filter((item) => selectedItems.includes(item.cartId))
     .map((item) => item.price * item.amount)
     .reduce((pre, crr) => pre + crr, 0);
 
@@ -75,10 +75,10 @@ export function Cart() {
     }
 
     const orderItems: IOrderDetail[] = cartList.filter(
-      (item) => selectedItems.includes(item.id)
+      (item) => selectedItems.includes(item.cartId)
     ).map((item, index) => {
       // eslint-disable-next-line camelcase
-      const { id, user_id, ...orderItem } = item;
+      const { cartId: id, userDTO: user_id, ...orderItem } = item;
       return { id: index + 1, ...orderItem, };
     });
 
@@ -145,7 +145,7 @@ export function Cart() {
               <div>상품금액</div>
             </div>
             {cartList.map((item) => (
-              <Fragment key={item.id}>
+              <Fragment key={item.cartId}>
                 <CartList
                   item={item}
                   selectedItems={selectedItems}

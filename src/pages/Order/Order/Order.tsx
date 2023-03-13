@@ -102,7 +102,7 @@ export function Order() {
        */
 
       const newOrder: IOrder = {
-        user_id: userData.userId,
+        userDTO: userData,
         name: userData.name,
         zip_code: addressData.zip_code,
         address_1: addressData.address_1,
@@ -216,7 +216,7 @@ export function Order() {
               <p>가격</p>
             </div>
             {orderDetails.map((item) => (
-              <OrderDetailList key={item.id} item={item} />
+              <OrderDetailList key={item.orderDNb} item={item} />
             ))}
           </div>
           <Heading3>결제 정보</Heading3>

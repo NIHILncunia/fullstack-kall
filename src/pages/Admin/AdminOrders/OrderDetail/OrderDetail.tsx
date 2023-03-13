@@ -2,6 +2,7 @@ import React, {
   useCallback, useEffect, useRef, useState
 } from 'react';
 import { useParams } from 'react-router';
+import { useCookies } from 'react-cookie';
 import { AdminLayout, AppLayout } from '@/layouts';
 import { Heading2, Heading3 } from '@/components/Content';
 import { useInput } from '@/hooks';
@@ -10,6 +11,7 @@ import { orderDetailListStyle, orderUpdateStyle } from './style';
 import { OrderDetailList } from '@/components/Content/Admin';
 import { useOrderById } from '@/hooks/trueQuery/order';
 import { useOrderDetailByOrderId } from '@/hooks/trueQuery/orderDetail';
+import { useUserById } from '@/hooks/trueQuery/users';
 
 export function OrderDetail() {
   const [ status, setStatus, ] = useState('');
@@ -18,9 +20,11 @@ export function OrderDetail() {
 
   const params = useParams();
   const order = useOrderById(Number(params.id));
-  const orderDetail = useOrderDetailByOrderId(order?.id, {
-    enabled: 'id' in order,
+  const orderDetail = useOrderDetailByOrderId(order?.orderId, {
+    enabled: 'orderId' in order,
   });
+  const [ { id, }, ] = useCookies([ 'id', ]);
+  const user = useUserById(id);
 
   const userIdRef = useRef<HTMLInputElement>();
   const nameRef = useRef<HTMLInputElement>();
@@ -50,8 +54,8 @@ export function OrderDetail() {
   }, []);
 
   useEffect(() => {
-    if ('id' in order) {
-      userId.setValue(order.user_id);
+    if ('orderId' in order) {
+      userId.setValue(order.userDTO.userId);
       name.setValue(order.name);
       phone.setValue(order.phone_nb);
       zipCode.setValue(order.zip_code);
@@ -67,7 +71,7 @@ export function OrderDetail() {
   const onClickEdit = useCallback(() => {
     if (isEdit) {
       const updateData: IOrder = {
-        user_id: userId.data.value,
+        userDTO: user,
         name: name.data.value,
         phone_nb: phone.data.value,
         zip_code: zipCode.data.value,
@@ -209,14 +213,14 @@ export function OrderDetail() {
             </label>
             <div>
               <button onClick={onClickEdit}>{label}</button>
-              <button onClick={() => onClickDeleteOrder(order.id)}>삭제</button>
+              <button onClick={() => onClickDeleteOrder(order.orderId)}>삭제</button>
             </div>
           </div>
 
           <Heading3>주문한 상품 리스트</Heading3>
           <div css={orderDetailListStyle}>
             {orderDetail.map((item) => (
-              <OrderDetailList key={item.id} item={item} />
+              <OrderDetailList key={item.orderDNb} item={item} />
             ))}
           </div>
         </AdminLayout>

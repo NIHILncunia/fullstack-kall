@@ -32,7 +32,7 @@ export function ReviewCommentList({ comments, }: IReviewCommentListProps) {
         </p>
 
         {isOpen && comments.map((item) => (
-          <CommentItem key={item.id} item={item} />
+          <CommentItem key={item.reviewCmtId} item={item} />
         ))}
       </div>
     </>

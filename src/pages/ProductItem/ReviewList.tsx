@@ -13,9 +13,9 @@ export function ReviewList({ item, }: IReviewListProps) {
     <>
       <div css={reviewList}>
         <div className='link'>
-          <Link to={`/community/review/${item.id}`}>{item.title}</Link>
+          <Link to={`/community/review/${item.reviewId}`}>{item.title}</Link>
         </div>
-        <div>{item.user_id}</div>
+        <div>{item.userDTO.userId}</div>
         <div>{moment(item.date).format('YYYY-MM-DD HH:mm:ss')}</div>
       </div>
     </>

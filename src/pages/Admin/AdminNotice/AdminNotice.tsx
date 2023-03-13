@@ -21,8 +21,8 @@ export function AdminNotice() {
   const onClickAllCheck = useCallback(() => {
     setItems(
       label === '공지사항'
-        ? notices.map((item) => item.id)
-        : faqs.map((item) => item.id)
+        ? notices.map((item) => item.noticeId)
+        : faqs.map((item) => item.noticeId)
     );
   }, [ label, notices, faqs, ]);
 
@@ -80,7 +80,7 @@ export function AdminNotice() {
             </div>
             {label === '공지사항' && notices.map((item) => (
               <NoticeListItem
-                key={item.id}
+                key={item.noticeId}
                 item={item}
                 items={items}
                 setItems={setItems}
@@ -88,7 +88,7 @@ export function AdminNotice() {
             ))}
             {label !== '공지사항' && faqs.map((item) => (
               <NoticeListItem
-                key={item.id}
+                key={item.noticeId}
                 item={item}
                 items={items}
                 setItems={setItems}

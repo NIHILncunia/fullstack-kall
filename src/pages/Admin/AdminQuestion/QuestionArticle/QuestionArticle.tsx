@@ -30,7 +30,7 @@ export function QuestionArticle() {
   const question = useQuestionById(Number(questionId));
   const questions = useQuestions();
   const myQuestion = useQuestionByUserId(id);
-  const userData = useUserById(question.user_id, {
+  const userData = useUserById(question.userDTO.userId, {
     enabled: 'id' in question,
   });
 
@@ -51,8 +51,8 @@ export function QuestionArticle() {
 
   const currentIndex = useMemo(() => {
     return pageCond
-      ? myQuestion.findIndex((item) => item.id === Number(questionId))
-      : questions.findIndex((item) => item.id === Number(questionId));
+      ? myQuestion.findIndex((item) => item.productQId === Number(questionId))
+      : questions.findIndex((item) => item.productQId === Number(questionId));
   }, [ questions, questionId, ]);
 
   const prevItem = pageCond ? myQuestion[currentIndex - 1] : questions[currentIndex - 1];
@@ -157,7 +157,7 @@ export function QuestionArticle() {
           <div className='article-bottom' css={articleBottomStyle}>
             <div className='prev-link'>
               {prevItem && (
-                <Link to={url(prevItem.id)}>
+                <Link to={url(prevItem.productQId)}>
                   <FaArrowLeft />
                   {prevItem.title}
                 </Link>
@@ -165,7 +165,7 @@ export function QuestionArticle() {
             </div>
             <div className='next-link'>
               {nextItem && (
-                <Link to={url(nextItem.id)}>
+                <Link to={url(nextItem.productQId)}>
                   {nextItem.title}
                   <FaArrowRight />
                 </Link>

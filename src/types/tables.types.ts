@@ -28,10 +28,10 @@ export interface IUser {
 }
 
 export interface IReview {
-  id?: number;
-  user_id?: string;
-  product_id?: number;
-  order_dnb?: number;
+  reviewId?: number;
+  userDTO?: IUser;
+  productDTO?: IProduct;
+  orderDetailDTO?: IOrderDetail;
   title?: string;
   content?: string;
   image1?: string;
@@ -41,18 +41,18 @@ export interface IReview {
 }
 
 export interface IReviewComment {
-  id?: number;
-  user_id?: string;
-  review_nb?: number;
+  reviewCmtId?: number;
+  userDTO?: IUser;
+  reviewDTO?: IReview;
   title?: string;
   content?: string;
   date?: string;
 }
 
 export interface ICart {
-  id?: number;
-  product_id?: number;
-  user_id?: string;
+  cartId?: number;
+  productDTO?: IProduct;
+  userDTO?: IUser;
   option_sheet?: 'Ost_01' | 'Ost_02' | 'Ost_03';
   option_shape?: 'Osp_01' | 'Osp_02' | 'Osp_03';
   option_cream?: 'Ocrm_01' | 'Ocrm_02' | 'Ocrm_03';
@@ -64,9 +64,9 @@ export interface ICart {
 }
 
 export interface IOrderDetail {
-  id?: number;
-  order_id?: number;
-  product_id?: number;
+  orderDNb?: number;
+  orderDTO?: IOrder;
+  productDTO?: IProduct;
   option_sheet?: 'Ost_01' | 'Ost_02' | 'Ost_03';
   option_shape?: 'Osp_01' | 'Osp_02' | 'Osp_03';
   option_cream?: 'Ocrm_01' | 'Ocrm_02' | 'Ocrm_03';
@@ -79,8 +79,8 @@ export interface IOrderDetail {
 }
 
 export interface IOrder {
-  id?: number;
-  user_id?: string;
+  orderId?: number;
+  userDTO?: IUser;
   name?: string;
   zip_code?: string;
   address_1?: string;
@@ -112,8 +112,8 @@ export interface ICategory {
 }
 
 export interface INotice {
-  id?: number;
-  category_id?: string;
+  noticeId?: number;
+  categoryDTO?: ICategory;
   title?: string;
   content?: string;
   date?: string;
@@ -121,9 +121,9 @@ export interface INotice {
 }
 
 export interface IDirect {
-  id?: number;
-  user_id?: string;
-  category_id?: string;
+  usQId?: number;
+  userDTO?: IUser;
+  categoryDTO?: ICategory;
   title?: string;
   content?: string;
   comment?: string;
@@ -138,9 +138,9 @@ export interface IUserDel {
 }
 
 export interface IRefund {
-  id?: number;
-  order_dnb?: number;
-  user_id?: string;
+  refundId?: number;
+  orderDetailDTO?: IOrderDetail;
+  userDTO?: IUser;
   title?: string;
   content?: string;
   image_1?: string;
@@ -150,9 +150,9 @@ export interface IRefund {
 }
 
 export interface IQuestion {
-  id?: number;
-  product_id?: number;
-  user_id?: string;
+  productQId?: number;
+  productDTO?: IProduct;
+  userDTO?: IUser;
   title?: string;
   content?: string;
   comment?: string;
@@ -165,4 +165,12 @@ export interface IWish {
   userDTO?: IUser;
   productDTO?: IProduct;
   date?: string;
+}
+
+export interface IProductImage {
+  productimgid?: number;
+  productDTO?: IProduct;
+  oriImgName?: string;
+  imgUrl?: string;
+  imgName?: string;
 }

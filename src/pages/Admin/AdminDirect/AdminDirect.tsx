@@ -11,7 +11,7 @@ export function AdminDirect() {
   const [ items, setItems, ] = useState<number[]>([]);
 
   const onClickAllSelect = useCallback(() => {
-    setItems(directs.map((item) => item.id));
+    setItems(directs.map((item) => item.usQId));
   }, [ directs, ]);
 
   const onClickReset = useCallback(() => {
@@ -46,7 +46,7 @@ export function AdminDirect() {
               <div>작성자</div>
             </div>
             {directs.map((item) => (
-              <DirectItem key={item.id} item={item} items={items} setItems={setItems} />
+              <DirectItem key={item.usQId} item={item} items={items} setItems={setItems} />
             ))}
           </div>
         </AdminLayout>

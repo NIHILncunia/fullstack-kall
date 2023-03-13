@@ -10,11 +10,11 @@ export function RefundListItem({ item, }: IRefundListItemProps) {
   return (
     <>
       <div className='list-content'>
-        <div>{item.id}</div>
+        <div>{item.refundId}</div>
         <div>
-          <Link to={`/admin/refunds/${item.id}`}>{item.title}</Link>
+          <Link to={`/admin/refunds/${item.refundId}`}>{item.title}</Link>
         </div>
-        <div>{item.user_id}</div>
+        <div>{item.userDTO.userId}</div>
         <div>{item.status}</div>
       </div>
     </>

@@ -18,10 +18,10 @@ interface IDeliveryListItemProps {
 export function DeliveryListItem({ item, status, }: IDeliveryListItemProps) {
   const [ isOpen, setIsOpen, ] = useState(false);
 
-  const orderDetail = useOrderDetailByOrderId(item.id, {
-    enabled: 'id' in item,
+  const orderDetail = useOrderDetailByOrderId(item.orderId, {
+    enabled: 'orderId' in item,
   });
-  const product = useProductById(orderDetail[0]?.product_id, {
+  const product = useProductById(orderDetail[0]?.productDTO.productId, {
     enabled: orderDetail.length > 0,
   });
   const sheet = useCategoryById(orderDetail[0]?.option_sheet, {
@@ -76,7 +76,7 @@ export function DeliveryListItem({ item, status, }: IDeliveryListItemProps) {
     <>
       <div className='list-content'>
         <p>
-          <Link to={`/mypage/order/${item.id}`}>{item.id}</Link>
+          <Link to={`/mypage/order/${item.orderId}`}>{item.orderId}</Link>
         </p>
         <p>
           <span>{getString(orderDetail)}</span>
@@ -90,12 +90,12 @@ export function DeliveryListItem({ item, status, }: IDeliveryListItemProps) {
           {status === 'not-complete' && orderDetail
             .filter((item) => item.status !== '배송완료')
             .map((item) => (
-              <DeliveryDetailItem key={item.id} item={item} />
+              <DeliveryDetailItem key={item.orderDNb} item={item} />
             ))}
           {status === 'complete' && orderDetail
             .filter((item) => item.status === '배송완료')
             .map((item) => (
-              <DeliveryDetailItem key={item.id} item={item} />
+              <DeliveryDetailItem key={item.orderDNb} item={item} />
             ))}
         </div>
       )}
@@ -108,20 +108,20 @@ interface IDeliveryDetailItemProps {
 }
 
 export function DeliveryDetailItem({ item, }: IDeliveryDetailItemProps) {
-  const product = useProductById(item.product_id, {
-    enabled: item && 'id' in item,
+  const product = useProductById(item.productDTO.productId, {
+    enabled: item && 'orderDNb' in item,
   });
   const sheet = useCategoryById(item.option_sheet, {
-    enabled: item && 'id' in item,
+    enabled: item && 'orderDNb' in item,
   }).categoryName;
   const shape = useCategoryById(item.option_shape, {
-    enabled: item && 'id' in item,
+    enabled: item && 'orderDNb' in item,
   }).categoryName;
   const cream = useCategoryById(item.option_cream, {
-    enabled: item && 'id' in item,
+    enabled: item && 'orderDNb' in item,
   }).categoryName;
   const size = useCategoryById(item.option_sheet, {
-    enabled: item && 'id' in item,
+    enabled: item && 'orderDNb' in item,
   }).categoryName;
 
   const { itemString, itemTotalPrice, } = getItemString(

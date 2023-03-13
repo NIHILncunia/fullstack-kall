@@ -12,7 +12,7 @@ export function AdminQuestion() {
   console.log(questions);
 
   const onClickAllCheck = useCallback(() => {
-    setItems(questions.map((item) => item.id));
+    setItems(questions.map((item) => item.productQId));
   }, [ questions, ]);
 
   const onClickReset = useCallback(() => {
@@ -45,7 +45,7 @@ export function AdminQuestion() {
             </div>
             {questions.map((item) => (
               <QuestionItem
-                key={item.id}
+                key={item.productQId}
                 item={item}
                 items={items}
                 setItems={setItems}

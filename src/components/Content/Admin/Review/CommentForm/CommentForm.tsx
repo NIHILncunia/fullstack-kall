@@ -1,6 +1,9 @@
 import React, { useCallback, useRef } from 'react';
 import { useInput } from '@/hooks';
 import { commentFormStyle } from './style';
+import { IReviewComment } from '@/types/tables.types';
+import { useUserById } from '@/hooks/trueQuery/users';
+import { useReviewById } from '@/hooks/trueQuery/review';
 
 interface ICommentFormProps {
   userId: string;
@@ -8,6 +11,8 @@ interface ICommentFormProps {
 }
 
 export function CommentForm({ userId, reviewNb, }: ICommentFormProps) {
+  const user = useUserById(userId);
+  const review = useReviewById(reviewNb);
   const titleRef = useRef<HTMLInputElement>();
   const contentRef = useRef<HTMLInputElement>();
 
@@ -17,9 +22,9 @@ export function CommentForm({ userId, reviewNb, }: ICommentFormProps) {
   const onSubmitForm = useCallback((event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const commentData = {
-      user_id: userId,
-      review_nb: reviewNb,
+    const commentData: IReviewComment = {
+      userDTO: user,
+      reviewDTO: review,
       title: title.data.value,
       content: content.data.value,
     };

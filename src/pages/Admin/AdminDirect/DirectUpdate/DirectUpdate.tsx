@@ -34,7 +34,7 @@ export function DirectUpdate() {
     if (direct && 'id' in direct) {
       setTitle(direct.title);
       setContent(direct.content);
-      setCategory(direct.category_id);
+      setCategory(direct.categoryDTO.categoryId);
     }
   }, [ direct, ]);
 

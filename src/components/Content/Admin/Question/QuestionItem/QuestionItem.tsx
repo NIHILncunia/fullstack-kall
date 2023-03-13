@@ -25,15 +25,15 @@ export function QuestionItem({ item, items, setItems, }: IQuestionItemProps) {
           <input
             type='checkbox'
             name='question'
-            value={item.id}
-            onChange={() => onChangeItem(item.id)}
-            checked={items.includes(item.id)}
+            value={item.productQId}
+            onChange={() => onChangeItem(item.productQId)}
+            checked={items.includes(item.productQId)}
           />
         </div>
         <div>
-          <Link to={`/admin/question/${item.id}`}>{item.title}</Link>
+          <Link to={`/admin/question/${item.productQId}`}>{item.title}</Link>
         </div>
-        <div>{item.user_id}</div>
+        <div>{item.userDTO.userId}</div>
         <div>{moment(item.date1).format('YYYY-MM-DD HH:mm:ss')}</div>
       </div>
     </>

@@ -11,7 +11,7 @@ interface INoticeListItemProps {
 }
 
 export function NoticeListItem({ item, items, setItems, }: INoticeListItemProps) {
-  const category = useCategoryById(item.category_id, {
+  const category = useCategoryById(item.categoryDTO.categoryId, {
     enabled: 'id' in item,
   });
 
@@ -30,14 +30,14 @@ export function NoticeListItem({ item, items, setItems, }: INoticeListItemProps)
           <input
             type='checkbox'
             name='notice'
-            value={item.id}
-            onChange={() => onChangeItem(item.id)}
-            checked={items.includes(item.id)}
+            value={item.noticeId}
+            onChange={() => onChangeItem(item.noticeId)}
+            checked={items.includes(item.noticeId)}
           />
         </div>
         <div>{category.categoryName}</div>
         <div>
-          <Link to={`/admin/notice/${item.id}`}>{item.title}</Link>
+          <Link to={`/admin/notice/${item.noticeId}`}>{item.title}</Link>
         </div>
         <div>{item.cnt}</div>
       </div>

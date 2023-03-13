@@ -11,7 +11,7 @@ interface IDirectItemProps {
 }
 
 export function DirectItem({ item, items, setItems, }: IDirectItemProps) {
-  const category = useCategoryById(item.category_id, {
+  const category = useCategoryById(item.categoryDTO.categoryId, {
     enabled: !!item,
   });
 
@@ -29,16 +29,16 @@ export function DirectItem({ item, items, setItems, }: IDirectItemProps) {
           <input
             type='checkbox'
             name='direct'
-            value={item.id}
-            onChange={() => onChangeItem(item.id)}
-            checked={items.includes(item.id)}
+            value={item.usQId}
+            onChange={() => onChangeItem(item.usQId)}
+            checked={items.includes(item.usQId)}
           />
         </div>
         <div>{category.categoryName}</div>
         <div>
-          <Link to={`/admin/direct/${item.id}`}>{item.title}</Link>
+          <Link to={`/admin/direct/${item.usQId}`}>{item.title}</Link>
         </div>
-        <div>{item.user_id}</div>
+        <div>{item.userDTO.userId}</div>
       </div>
     </>
   );

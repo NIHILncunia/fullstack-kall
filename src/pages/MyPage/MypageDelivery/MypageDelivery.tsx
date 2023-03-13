@@ -47,10 +47,10 @@ export function MypageDelivery() {
               <p>주문일자</p>
             </div>
             {status === 'not-complete' && deliveringData.map((item) => (
-              <DeliveryListItem key={item.id} item={item} status={status} />
+              <DeliveryListItem key={item.orderId} item={item} status={status} />
             ))}
             {status === 'complete' && completeData.map((item) => (
-              <DeliveryListItem key={item.id} item={item} status={status} />
+              <DeliveryListItem key={item.orderId} item={item} status={status} />
             ))}
           </div>
         </MyPageLayout>

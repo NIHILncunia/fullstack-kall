@@ -11,7 +11,7 @@ import {
 } from './style';
 import { ReviewOrderDetailItem } from '@/components/Content/Community';
 import { CommentForm, ReviewCommentList } from '@/components/Content/Admin';
-import { useReviewById, useReviews } from '@/hooks/trueQuery/review';
+import { useDeleteReview, useReviewById, useReviews } from '@/hooks/trueQuery/review';
 import { useUserById } from '@/hooks/trueQuery/users';
 import { useProductById } from '@/hooks/trueQuery/product';
 import { useOrderById } from '@/hooks/trueQuery/order';
@@ -22,39 +22,47 @@ export function ReviewArticle() {
   const [ cookies, ] = useCookies([ 'id', 'role', ]);
   const params = useParams();
   const review = useReviewById(Number(params.id));
-  const reviews = useReviews();
-  const userData = useUserById(review.user_id, {
-    enabled: 'id' in review,
+  const reviews = useReviews(cookies.role as string);
+  const userData = useUserById(review.userDTO.userId, {
+    enabled: 'reviewId' in review,
   });
-  const product = useProductById(review.product_id, {
-    enabled: 'id' in review,
+  const product = useProductById(review.productDTO.productId, {
+    enabled: 'reviewId' in review,
   });
-  const order = useOrderById(review.order_dnb, {
-    enabled: 'id' in review,
+  const order = useOrderById(review.orderDetailDTO.orderDNb, {
+    enabled: 'reviewId' in review,
   });
-  const orderDetail = useOrderDetailByOrderId(order.id, {
-    enabled: 'id' in order,
+  const orderDetail = useOrderDetailByOrderId(order.orderId, {
+    enabled: 'reviewId' in order,
   });
-  const reviewComments = useReviewCommentByReviewId(review.id, {
-    enabled: 'id' in review,
+  const reviewComments = useReviewCommentByReviewId(review.reviewId, {
+    enabled: 'reviewId' in review,
   });
+
+  const deleteReview = useDeleteReview(review.reviewId);
 
   const navi = useNavigate();
 
   const onClickEdit = useCallback(() => {
     navi(
       cookies.role === 'admin'
-        ? `/admin/review/${review.id}/edit`
-        : `/mypage/review/${review.id}/edit`
+        ? `/admin/review/${review.reviewId}/edit`
+        : `/mypage/review/${review.reviewId}/edit`
     );
   }, [ cookies, review, ]);
 
   const onClickDelete = useCallback(() => {
-    console.log(`[DELETE /reviews/${review.id}]`);
-  }, [ review, ]);
+    if (cookies.role === 'admin') {
+      deleteReview.mutate({ role: cookies.role, });
+      console.log(`[DELETE /admin/reviews/${review.reviewId}]`);
+    } else {
+      deleteReview.mutate({});
+      console.log(`[DELETE /reviews/${review.reviewId}]`);
+    }
+  }, [ review, cookies, ]);
 
   const currentIndex = useMemo(() => {
-    return reviews.findIndex((item) => item.id === Number(params.id));
+    return reviews.findIndex((item) => item.reviewId === Number(params.id));
   }, [ reviews, params, ]);
 
   const prevItem = reviews[currentIndex - 1];
@@ -102,7 +110,7 @@ export function ReviewArticle() {
             <div className='article-content' css={articleContentStyle}>{review.content}</div>
           </div>
 
-          <CommentForm userId={cookies.id} reviewNb={review.id} />
+          <CommentForm userId={cookies.id} reviewNb={review.reviewId} />
 
           {reviewComments.length !== 0 && (
             <ReviewCommentList comments={reviewComments} />
@@ -132,7 +140,7 @@ export function ReviewArticle() {
             <div className='article-order-list' css={articleOrderListStyle}>
               <p>이 상품과 함께 구매하신 상품 목록입니다.</p>
               {orderDetail.map((item) => (
-                <ReviewOrderDetailItem key={item.id} item={item} />
+                <ReviewOrderDetailItem key={item.orderDNb} item={item} />
               ))}
             </div>
           )}
@@ -140,7 +148,7 @@ export function ReviewArticle() {
           <div className='article-bottom' css={articleBottomStyle}>
             <div className='prev-link'>
               {prevItem && (
-                <Link to={`/community/review/${prevItem.id}`}>
+                <Link to={`/community/review/${prevItem.reviewId}`}>
                   <FaArrowLeft />
                   {prevItem.title}
                 </Link>
@@ -148,7 +156,7 @@ export function ReviewArticle() {
             </div>
             <div className='next-link'>
               {nextItem && (
-                <Link to={`/community/review/${nextItem.id}`}>
+                <Link to={`/community/review/${nextItem.reviewId}`}>
                   {nextItem.title}
                   <FaArrowRight />
                 </Link>

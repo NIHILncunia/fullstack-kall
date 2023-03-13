@@ -36,21 +36,21 @@ export function CommunityArticle({ title, category, }: ICommunityArticleProps) {
               <p>조회수</p>
             </div>
             {category && notices.map((item) => (
-              <div key={item.id} className='list-content'>
-                <p>{item.id}</p>
+              <div key={item.noticeId} className='list-content'>
+                <p>{item.noticeId}</p>
                 <p>
-                  <Link to={`/community/notice/${item.id}`}>{item.title}</Link>
+                  <Link to={`/community/notice/${item.noticeId}`}>{item.title}</Link>
                 </p>
                 <p>{moment(item.date).format('YYYY-MM-DD HH:mm:ss')}</p>
                 <p>{item.cnt}</p>
               </div>
             ))}
             {!category && faqs.map((item) => (
-              <div key={item.id} className='list-content'>
-                <p>{item.id}</p>
+              <div key={item.noticeId} className='list-content'>
+                <p>{item.noticeId}</p>
                 <p>
-                  <Link to={`/community/notice/${item.id}`}>
-                    [{getCategoryName(item.category_id)}] - {item.title}
+                  <Link to={`/community/notice/${item.noticeId}`}>
+                    [{getCategoryName(item.categoryDTO.categoryId)}] - {item.title}
                   </Link>
                 </p>
                 <p>{moment(item.date).format('YYYY-MM-DD HH:mm:ss')}</p>

@@ -13,14 +13,14 @@ export function ReviewItem({ item, }: IReviewItemProps) {
   const navi = useNavigate();
 
   const onClickLink = useCallback(() => {
-    navi(`/community/review/${item.id}`);
+    navi(`/community/review/${item.reviewId}`);
   }, [ item, ]);
 
   return (
     <>
       <div className='list-content' css={reviewListContent}>
         <p onClick={onClickLink}>{item.title}</p>
-        <p>{item.user_id}</p>
+        <p>{item.userDTO.userId}</p>
         <ItemRate rate={item.star} />
         <p>{moment(item.date).format('YYYY-MM-DD HH:mm:ss')}</p>
       </div>

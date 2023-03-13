@@ -5,6 +5,7 @@ import { useCookies } from 'react-cookie';
 import { useInput } from '@/hooks';
 import { IDirect } from '@/types/tables.types';
 import { formStyle } from './style';
+import { useCategoryById } from '@/hooks/trueQuery/category';
 
 export function DirectForm() {
   const [ cookies, ] = useCookies([ 'id', ]);
@@ -16,6 +17,8 @@ export function DirectForm() {
 
 문의 내용:`.trim()
   );
+
+  const categoryDTO = useCategoryById(category);
 
   const titleRef = useRef<HTMLInputElement>(null);
 
@@ -33,8 +36,8 @@ export function DirectForm() {
     event.preventDefault();
 
     const newDirectQuestion: IDirect = {
-      user_id: cookies.id,
-      category_id: category,
+      userDTO: cookies.id,
+      categoryDTO,
       title: title.data.value,
       content,
       comment: '',

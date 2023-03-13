@@ -21,7 +21,7 @@ export function AdminRefund() {
               <div>처리상태</div>
             </div>
             {refunds.map((item) => (
-              <RefundListItem key={item.id} item={item} />
+              <RefundListItem key={item.refundId} item={item} />
             ))}
           </div>
         </AdminLayout>

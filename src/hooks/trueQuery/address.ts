@@ -5,7 +5,7 @@ import { IAddress } from '@/types/tables.types';
 
 export const getAddressByUser = async (userId: string) => {
   try {
-    const { data, } = await kallInstance.get<IAddress[]>(`/addresses/user?user_id=${userId}`);
+    const { data, } = await kallInstance.get<IAddress[]>(`/addresses/user/${userId}`);
     return data;
   } catch (error) {
     console.error(error);

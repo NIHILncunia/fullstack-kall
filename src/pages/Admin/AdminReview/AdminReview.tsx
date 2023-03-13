@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useCookies } from 'react-cookie';
 import { AdminLayout, AppLayout } from '@/layouts';
 import { Heading2 } from '@/components/Content';
 import { useReviews } from '@/hooks/trueQuery/review';
@@ -6,7 +7,8 @@ import { ReviewItem } from '@/components/Content/Admin';
 import { listHeaderStyle, reviewListStyle } from './style';
 
 export function AdminReview() {
-  const reviews = useReviews();
+  const [ { role, }, ] = useCookies([ 'role', ]);
+  const reviews = useReviews(role as string);
   const [ items, setItems, ] = useState<number[]>([]);
 
   return (
@@ -22,7 +24,7 @@ export function AdminReview() {
               <div>평점</div>
             </div>
             {reviews.map((item) => (
-              <ReviewItem key={item.id} item={item} items={items} setItems={setItems} />
+              <ReviewItem key={item.reviewId} item={item} items={items} setItems={setItems} />
             ))}
           </div>
         </AdminLayout>

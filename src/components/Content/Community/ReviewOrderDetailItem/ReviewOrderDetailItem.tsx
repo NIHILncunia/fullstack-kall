@@ -10,7 +10,7 @@ interface IReviewOrderDetailItemProps {
 }
 
 export function ReviewOrderDetailItem({ item, }: IReviewOrderDetailItemProps) {
-  const product = useProductById(item.product_id);
+  const product = useProductById(item.productDTO.productId);
   const sheet = useCategoryById(item.option_sheet).categoryName;
   const shape = useCategoryById(item.option_shape).categoryName;
   const cream = useCategoryById(item.option_cream).categoryName;

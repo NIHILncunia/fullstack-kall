@@ -14,7 +14,7 @@ export function ReviewItem({ item, }: IReviewItemProps) {
   const products = useProducts();
 
   const [ product, ] = useMemo(() => {
-    return products.filter((product) => product.productId === item.product_id);
+    return products.filter((product) => product.productId === item.productDTO);
   }, [ products, item, ]);
 
   return (
@@ -24,7 +24,7 @@ export function ReviewItem({ item, }: IReviewItemProps) {
         <div className='item-info'>
           <div>
             <h3>
-              <Link to={`/community/review/${item.id}`}>{item.title}</Link>
+              <Link to={`/community/review/${item.reviewId}`}>{item.title}</Link>
             </h3>
             <p>{item.content}</p>
           </div>

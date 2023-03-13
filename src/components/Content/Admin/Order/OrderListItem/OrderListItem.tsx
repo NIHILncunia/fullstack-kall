@@ -35,13 +35,13 @@ export function OrderListItem({ item, items, setItems, }: IOrderListItemProps) {
           <input
             type='checkbox'
             name='order'
-            value={item.id}
-            onChange={() => onChangeSelect(item.id)}
-            checked={items.includes(item.id)}
+            value={item.orderId}
+            onChange={() => onChangeSelect(item.orderId)}
+            checked={items.includes(item.orderId)}
           />
         </p>
-        <p onClick={() => onClickDetail(item.id)}>{item.id}</p>
-        <p>{item.user_id}</p>
+        <p onClick={() => onClickDetail(item.orderId)}>{item.orderId}</p>
+        <p>{item.userDTO.userId}</p>
         <p>{paymentString[item.payment]}</p>
         <p>{item.price.toLocaleString()}원</p>
         <p>{item.order_status}</p>

@@ -26,15 +26,15 @@ export function ReviewItem({ item, items, setItems, }: IReviewItemProps) {
           <input
             type='checkbox'
             name='review'
-            value={item.id}
-            onChange={() => onChnageSelect(item.id)}
-            checked={items.includes(item.id)}
+            value={item.reviewId}
+            onChange={() => onChnageSelect(item.reviewId)}
+            checked={items.includes(item.reviewId)}
           />
         </div>
         <div>
-          <Link to={`/admin/review/${item.id}`}>{item.title}</Link>
+          <Link to={`/admin/review/${item.reviewId}`}>{item.title}</Link>
         </div>
-        <div>{item.user_id}</div>
+        <div>{item.userDTO.userId}</div>
         <ItemRate rate={item.star} />
       </div>
     </>

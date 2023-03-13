@@ -20,10 +20,10 @@ export function QuestionList({ items, list, }: IQuestionListProps) {
           <div>답변상태</div>
         </div>
         {list === 'question' && (items as IQuestion[]).map((item) => (
-          <QuestionItem key={item.id} item={item} />
+          <QuestionItem key={item.productQId} item={item} />
         ))}
         {list === 'direct' && (items as IDirect[]).map((item) => (
-          <DirectItem key={item.id} item={item} />
+          <DirectItem key={item.usQId} item={item} />
         ))}
       </div>
     </>

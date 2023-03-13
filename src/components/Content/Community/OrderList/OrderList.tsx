@@ -16,8 +16,8 @@ export function OrderList({ item, }: IOrderListProps) {
   return (
     <>
       <div className='list-content'>
-        <p onClick={() => navi(`/mypage/order/${item.id}`)}>
-          {item.id}
+        <p onClick={() => navi(`/mypage/order/${item.orderId}`)}>
+          {item.orderId}
         </p>
         <p>{payString[item?.payment]}</p>
         <p>{item.price.toLocaleString()}원</p>

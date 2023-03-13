@@ -25,7 +25,7 @@ export function MypageReview() {
               <p>작성일</p>
             </div>
             {myReview.map((item) => (
-              <ReviewItem key={item.id} item={item} />
+              <ReviewItem key={item.reviewId} item={item} />
             ))}
           </div>
         </MyPageLayout>

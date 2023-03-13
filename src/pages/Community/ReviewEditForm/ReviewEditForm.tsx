@@ -7,14 +7,17 @@ import { useCookies } from 'react-cookie';
 import { Heading2 } from '@/components/Content';
 import { AppLayout } from '@/layouts';
 import { useInput } from '@/hooks';
-import { useReviewById } from '@/hooks/trueQuery/review';
+import { useReviewById, useUpdateReview } from '@/hooks/trueQuery/review';
 import { buttonStyle, reviewUpdateFormStyle } from './style';
+import { IReview } from '@/types/tables.types';
 
 export function ReviewEditForm() {
   const [ text, setText, ] = useState('');
   const { id, } = useParams();
   const [ { role, }, ] = useCookies([ 'role', ]);
   const review = useReviewById(Number(id));
+
+  const updateReview = useUpdateReview(review.reviewId);
 
   const titleRef = useRef<HTMLInputElement>();
   const rateRef = useRef<HTMLInputElement>();
@@ -29,7 +32,7 @@ export function ReviewEditForm() {
   }, []);
 
   useEffect(() => {
-    if ('id' in review) {
+    if ('reviewId' in review) {
       title.setValue(review.title);
       setText(review.content);
       rate.setValue(review.star?.toString());
@@ -37,13 +40,19 @@ export function ReviewEditForm() {
   }, [ review, ]);
 
   const onClickEdit = useCallback(() => {
-    const updateData = {
+    const updateData: IReview = {
       title: title.data.value,
       content: text,
-      rate: parseFloat(rate.data.value),
+      star: parseFloat(rate.data.value),
     };
 
-    console.log(`[PUT /reviews/${id}]`, updateData);
+    if (role === 'admin') {
+      updateReview.mutate({ data: updateData, role, });
+      console.log(`[PUT /admin/reviews/${id}]`, updateData);
+    } else {
+      updateReview.mutate({ data: updateData, });
+      console.log(`[PUT /reviews/${id}]`, updateData);
+    }
     navi(role ? `/admin/review/${id}` : `/mypage/review/${id}`);
   }, [ id, title, text, rate, role, ]);
 

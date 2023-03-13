@@ -13,7 +13,7 @@ export function QuestionItem({ item, }: IQuestionItemProps) {
   const navi = useNavigate();
 
   const onClickLink = useCallback(() => {
-    navi(`/mypage/question/${item.id}`);
+    navi(`/mypage/question/${item.productQId}`);
   }, []);
 
   return (

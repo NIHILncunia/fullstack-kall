@@ -35,10 +35,10 @@ export function DirectDetailPage() {
   const directs = useDirects();
   const myDirect = useDirectByUserId(userId);
   const direct = useDirectById(Number(id));
-  const userData = useUserById(direct.user_id, {
+  const userData = useUserById(direct.userDTO.userId, {
     enabled: 'id' in direct,
   });
-  const category = useCategoryById(direct.category_id, {
+  const category = useCategoryById(direct.categoryDTO.categoryId, {
     enabled: 'id' in direct,
   });
 
@@ -56,8 +56,8 @@ export function DirectDetailPage() {
 
   const currentIndex = useMemo(() => {
     return cond
-      ? directs.findIndex((item) => item.id === Number(id))
-      : myDirect.findIndex((item) => item.id === Number(id));
+      ? directs.findIndex((item) => item.usQId === Number(id))
+      : myDirect.findIndex((item) => item.usQId === Number(id));
   }, [ directs, myDirect, id, ]);
 
   const prevItem = cond ? directs[currentIndex - 1] : myDirect[currentIndex - 1];
@@ -185,7 +185,7 @@ export function DirectDetailPage() {
       <div className='article-bottom' css={articleBottomStyle}>
         <div className='prev-link'>
           {prevItem && (
-            <Link to={`${listUrl}/${prevItem.id}`}>
+            <Link to={`${listUrl}/${prevItem.usQId}`}>
               <FaArrowLeft />
               {prevItem.title}
             </Link>
@@ -193,7 +193,7 @@ export function DirectDetailPage() {
         </div>
         <div className='next-link'>
           {nextItem && (
-            <Link to={`${listUrl}/${nextItem.id}`}>
+            <Link to={`${listUrl}/${nextItem.usQId}`}>
               {nextItem.title}
               <FaArrowRight />
             </Link>

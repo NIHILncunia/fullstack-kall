@@ -11,12 +11,12 @@ interface IDirectItemProps {
 }
 
 export function DirectItem({ item, }: IDirectItemProps) {
-  const category = useCategoryById(item.category_id).categoryName;
+  const category = useCategoryById(item.categoryDTO.categoryId).categoryName;
 
   const navi = useNavigate();
 
   const onClickLink = useCallback(() => {
-    navi(`/mypage/direct/${item.id}`);
+    navi(`/mypage/direct/${item.usQId}`);
   }, []);
 
   return (

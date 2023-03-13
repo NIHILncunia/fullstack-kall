@@ -16,7 +16,7 @@ export function MyPageMileage() {
 
   const mileageLog = orderDataByUserId.filter((item) => item.mileage !== 0)
     .map((item) => (
-      <div className='list-content' key={item.id}>
+      <div className='list-content' key={item.orderId}>
         <p>{moment(item.date).format('YYYY-MM-DD HH:mm:ss')}</p>
         <p>상품 구매</p>
         <p>-</p>

@@ -13,7 +13,7 @@ interface ICartlistProps {
 }
 
 export function CartList({ item, selectedItems, onChangeItemSelect, }: ICartlistProps) {
-  const product = useProductById(item.product_id);
+  const product = useProductById(item.productDTO.productId);
   const sheet = useCategoryById(item.option_sheet).categoryName;
   const shape = useCategoryById(item.option_shape).categoryName;
   const cream = useCategoryById(item.option_cream).categoryName;
@@ -32,14 +32,14 @@ export function CartList({ item, selectedItems, onChangeItemSelect, }: ICartlist
     <>
       <div className='list-content'>
         <div>
-          <label htmlFor={`cart${item.id}`} className='checkbox'>
+          <label htmlFor={`cart${item.cartId}`} className='checkbox'>
             <input
               type='checkbox'
-              id={`cart${item.id}`}
+              id={`cart${item.cartId}`}
               name='cart-item'
-              value={`${item?.id}-${product.name}`}
-              checked={selectedItems.includes(item?.id)}
-              onChange={() => onChangeItemSelect(item?.id)}
+              value={`${item?.cartId}-${product.name}`}
+              checked={selectedItems.includes(item?.cartId)}
+              onChange={() => onChangeItemSelect(item?.cartId)}
               hidden
             />
             <div>

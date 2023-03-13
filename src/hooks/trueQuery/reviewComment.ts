@@ -20,10 +20,12 @@ export const getReviewCommentById = async (id: number) => {
   return data;
 };
 
-export const getReviewCommentByReviewId = async (reviewId: number) => {
-  const { data, } = await kallInstance.get<IReviewComment[]>(
-    `/reviewcomments/review?review_nb=${reviewId}`
-  );
+export const getReviewCommentByReviewId = async (reviewId: number, role = 'user') => {
+  const url = role === 'admin'
+    ? `/admin/reviews/comment/${reviewId}`
+    : `/reviews/comment/${reviewId}`;
+
+  const { data, } = await kallInstance.get<IReviewComment[]>(url);
 
   return data;
 };

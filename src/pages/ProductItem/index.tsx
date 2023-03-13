@@ -60,11 +60,11 @@ export function ProductItem() {
 
   const reviews = useReviewByProductId(product.productId, {
     enabled: 'productId' in product,
-  }).sort((a, b) => b.id - a.id);
+  }).sort((a, b) => b.reviewId - a.reviewId);
 
   const questions = useQuestionByProductId(product.productId, {
     enabled: 'productId' in product,
-  }).sort((a, b) => b.id - a.id);
+  }).sort((a, b) => b.productQId - a.productQId);
 
   const onClickCreateQuestion = useCallback(() => {
     setCookie('pId', product.productId, { path: '/', });
@@ -309,7 +309,7 @@ export function ProductItem() {
               <div className='content'>
                 <div className='review-list' css={tw`flex flex-col gap-[5px]`}>
                   {reviews.map((item) => (
-                    <ReviewList key={item.id} item={item} />
+                    <ReviewList key={item.reviewId} item={item} />
                   )).slice(0, 10)}
                 </div>
               </div>
@@ -342,7 +342,7 @@ export function ProductItem() {
                 </div>
                 <div className='question-list' css={tw`flex flex-col gap-[5px]`}>
                   {questions.map((item) => (
-                    <QuestionList key={item.id} item={item} />
+                    <QuestionList key={item.productQId} item={item} />
                   )).slice(0, 10)}
                 </div>
               </div>

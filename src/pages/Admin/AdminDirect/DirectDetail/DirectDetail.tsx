@@ -11,7 +11,7 @@ export function DirectDetail() {
 
   return (
     <>
-      <AppLayout title={`1:1 문의 (문의 번호: ${direct.id})`}>
+      <AppLayout title={`1:1 문의 (문의 번호: ${direct.usQId})`}>
         <div id='direct-detail-page' css={tw`py-[50px] text-[1.2rem] text-black-base`}>
           <DirectDetailPage />
         </div>

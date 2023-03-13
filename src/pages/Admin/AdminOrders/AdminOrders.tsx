@@ -27,7 +27,7 @@ export function AdminOrders() {
             </div>
             {orders?.map((item) => (
               <OrderListItem
-                key={item.id}
+                key={item.orderId}
                 item={item}
                 items={items}
                 setItems={setItems}

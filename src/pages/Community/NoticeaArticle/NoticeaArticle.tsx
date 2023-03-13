@@ -29,21 +29,21 @@ export function NoticeaArticle() {
     : `/community/notice`;
   const cond = notice && 'id' in notice;
 
-  const categoryId = cond ? notice.category_id : faq.category_id;
-  const category = useCategoryById(categoryId, {
-    enabled: !!categoryId,
+  const categoryDTO = cond ? notice.categoryDTO : faq.categoryDTO;
+  const category = useCategoryById(categoryDTO.categoryId, {
+    enabled: !!categoryDTO,
   });
 
   const currentIndex = useMemo(() => {
     return cond
-      ? notices.findIndex((item) => item.id === Number(params.id))
-      : faqs.findIndex((item) => item.id === Number(params.id));
+      ? notices.findIndex((item) => item.noticeId === Number(params.id))
+      : faqs.findIndex((item) => item.noticeId === Number(params.id));
   }, [ cond, notices, params, faqs, ]);
 
   const prevItem = cond ? notices[currentIndex - 1] : faqs[currentIndex - 1];
   const nextItem = cond ? notices[currentIndex + 1] : faqs[currentIndex + 1];
 
-  const id = cond ? notice.id : faq.id;
+  const id = cond ? notice.noticeId : faq.noticeId;
   const title = cond ? notice.title : faq.title;
   const url = cond ? 'notice' : 'faq';
   const date = cond ? notice.date : faq.date;
@@ -105,7 +105,7 @@ export function NoticeaArticle() {
           <div className='article-bottom' css={articleBottomStyle}>
             <div className='prev-link'>
               {prevItem && (
-                <Link to={`${listUrl}/${prevItem.id}`}>
+                <Link to={`${listUrl}/${prevItem.noticeId}`}>
                   <FaArrowLeft />
                   {prevItem.title}
                 </Link>
@@ -113,7 +113,7 @@ export function NoticeaArticle() {
             </div>
             <div className='next-link'>
               {nextItem && (
-                <Link to={`${listUrl}/${nextItem.id}`}>
+                <Link to={`${listUrl}/${nextItem.noticeId}`}>
                   {nextItem.title}
                   <FaArrowRight />
                 </Link>

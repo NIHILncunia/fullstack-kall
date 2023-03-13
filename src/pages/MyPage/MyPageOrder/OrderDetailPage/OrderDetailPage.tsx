@@ -12,7 +12,7 @@ import { payString } from '@/data/select.data';
 export function OrderDetailPage() {
   const { id, } = useParams<{ id?: string }>();
   const order = useOrderById(Number(id));
-  const orderDetails = useOrderDetailByOrderId(order.id, {
+  const orderDetails = useOrderDetailByOrderId(order.orderId, {
     enabled: order && 'id' in order,
   });
 
@@ -28,9 +28,9 @@ export function OrderDetailPage() {
 
           <div className='order-detail-table' css={orderDetailInfoTableStyle}>
             <div className='table-header'>주문번호</div>
-            <div className='table-content'>{order.id}</div>
+            <div className='table-content'>{order.orderId}</div>
             <div className='table-header'>주문자 아이디</div>
-            <div className='table-content'>{order.user_id}</div>
+            <div className='table-content'>{order.userDTO.userId}</div>
             <div className='table-header'>수령자 이름</div>
             <div className='table-content'>{order.name}</div>
             <div className='table-header'>수령자 연락처</div>
@@ -58,7 +58,7 @@ export function OrderDetailPage() {
           <div className='order-detail-items' css={orderDetailItemsStyle}>
             <Heading3>주문한 상품 목록</Heading3>
             {orderDetails.map((item) => (
-              <OrderDetailItem key={item.id} item={item} />
+              <OrderDetailItem key={item.orderDNb} item={item} />
             ))}
           </div>
         </MyPageLayout>

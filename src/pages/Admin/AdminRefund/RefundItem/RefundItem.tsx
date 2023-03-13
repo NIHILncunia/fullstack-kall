@@ -17,10 +17,10 @@ export function RefundItem() {
 
   const { id: refundId, } = useParams();
   const refund = useRefundById(Number(refundId));
-  const orderDetail = useOrderDetailById(refund?.order_dnb, {
+  const orderDetail = useOrderDetailById(refund?.orderDetailDTO.orderDNb, {
     enabled: 'id' in refund,
   });
-  const product = useProductById(orderDetail.product_id, {
+  const product = useProductById(orderDetail.productDTO.productId, {
     enabled: 'id' in orderDetail,
   });
 

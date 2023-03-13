@@ -24,7 +24,7 @@ export function MyPageOrder() {
               <p>주문상태</p>
             </div>
             {myOrder.map((item) => (
-              <OrderList key={item.id} item={item} />
+              <OrderList key={item.orderId} item={item} />
             ))}
           </div>
         </MyPageLayout>
