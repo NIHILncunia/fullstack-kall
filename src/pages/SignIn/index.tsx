@@ -55,7 +55,7 @@ export function SIgnIn() {
 
     kallInstance.post<ILoginResponse>('/users/login', newData)
       .then((res) => {
-        console.log('로그인 여부 >> ', res.data);
+        console.log('로그인 여부 >> ', res);
         const time = new Date();
         time.setFullYear(time.getFullYear() + 1);
 

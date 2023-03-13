@@ -9,6 +9,7 @@ import { useInput } from '@/hooks';
 import {
   buttonStyles, EmailButton, findIdFormStyle, findIdPageStyle, messageStyle, PhoneButton
 } from './style';
+import { kallInstance } from '@/data/axios.data';
 
 export function FindId() {
   const [ findType, setFindType, ] = useState('email');
@@ -28,18 +29,34 @@ export function FindId() {
   const onSubmitForm = useCallback((event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    let resObj: { name: string; email?: string; phone?: string; };
+    let resObj: { name: string; email?: string; phoneNb?: string; };
 
     if (findType === 'email') {
       resObj = {
         name: name.data.value,
         email: email.data.value,
       };
+
+      kallInstance.get('/users/findIdByEmail')
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
     } else {
       resObj = {
         name: name.data.value,
-        phone: phone.data.value,
+        phoneNb: phone.data.value,
       };
+
+      kallInstance.get('/users/findIdByPhone')
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
     }
 
     console.log('[POST /users/id]', resObj);

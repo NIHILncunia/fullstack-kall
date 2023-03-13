@@ -14,7 +14,13 @@ const getUsers = async () => {
 };
 
 export const getUserById = async (id: string) => {
-  const { data, } = await kallInstance.get<IUser>(`/users/${id}`);
+  const token: string = JSON.parse(localStorage.getItem('token'));
+
+  const { data, } = await kallInstance.get<IUser>(`/users/auth/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
   return data;
 };

@@ -19,6 +19,7 @@ import { IUser } from '@/types/tables.types';
 
 export function SignUp() {
   const [ message, setMessage, ] = useState('');
+  const [ idCheck, setIdCheck, ] = useState(false);
 
   const nameRef = useRef<HTMLInputElement>();
   const idRef = useRef<HTMLInputElement>();
@@ -50,6 +51,10 @@ export function SignUp() {
   const onSubmitForm = useCallback((event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    if (!idCheck) {
+      setMessage('아이디 중복 확인을 해주세요.');
+    }
+
     const newData: IUser = {
       userId: id.data.value,
       name: name.data.value,
@@ -80,6 +85,7 @@ export function SignUp() {
       .then((res) => {
         console.log(res);
         setMessage(res.data);
+        setIdCheck(true);
       })
       .catch((error) => {
         console.error(error);

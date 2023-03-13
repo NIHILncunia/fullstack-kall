@@ -31,6 +31,10 @@ export const inputsStyle = css`
       ${tw` placeholder:text-black-base/70 `}
       ${tw` focus:bg-point-base/40 focus:border-point-base `}
     }
+
+    & > button {
+      ${tw` bg-red-500 `}
+    }
   }
 `;
 
