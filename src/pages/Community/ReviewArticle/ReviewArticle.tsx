@@ -35,7 +35,7 @@ export function ReviewArticle() {
   const orderDetail = useOrderDetailByOrderId(order.orderId, {
     enabled: 'reviewId' in order,
   });
-  const reviewComments = useReviewCommentByReviewId(review.reviewId, {
+  const reviewComments = useReviewCommentByReviewId(review.reviewId, cookies.role, {
     enabled: 'reviewId' in review,
   });
 

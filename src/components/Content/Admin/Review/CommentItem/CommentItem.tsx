@@ -7,6 +7,7 @@ import { useCookies } from 'react-cookie';
 import { IReviewComment } from '@/types/tables.types';
 import { commentItemStyle } from './style';
 import { useInput } from '@/hooks';
+import { useDeleteReviewComment, useUpdateReviewComment } from '@/hooks/trueQuery/reviewComment';
 
 interface ICommentItemProps {
   item: IReviewComment;
@@ -17,6 +18,8 @@ export function CommentItem({ item, }: ICommentItemProps) {
 
   const titleRef = useRef<HTMLInputElement>();
   const contentRef = useRef<HTMLInputElement>();
+  const updaterc = useUpdateReviewComment(item.reviewDTO.reviewId);
+  const deleterc = useDeleteReviewComment(item.reviewDTO.reviewId);
 
   const title = useInput(titleRef, 'title');
   const content = useInput(contentRef, 'content');
@@ -29,18 +32,30 @@ export function CommentItem({ item, }: ICommentItemProps) {
   }, [ item, ]);
 
   const onClickDelete = useCallback((id: number) => {
-    console.log(`[DELETE /reviewcomments/${id}]`);
-  }, []);
+    if (cookies.role === 'admin') {
+      deleterc.mutate({ role: cookies.role, rcId: id, });
+      console.log(`[DELETE /admin/reviews/comment/${id}]`);
+    } else {
+      deleterc.mutate({ rcId: id, });
+      console.log(`[DELETE /reviews/comment/${id}]`);
+    }
+  }, [ cookies, ]);
 
   const onClickEdit = useCallback((id: number) => {
     if (isEdit) {
-      const updateData = {
+      const updateData: IReviewComment = {
         title: title.data.value,
         content: content.data.value,
       };
 
+      if (cookies.role === 'admin') {
+        updaterc.mutate({ rcId: id, data: updateData, role: cookies.role, }); console.log(`[PUT /admin/reviews/comment/${id}]`, updateData);
+      } else {
+        updaterc.mutate({ rcId: id, data: updateData, });
+        console.log(`[PUT /reviews/comment/${id}]`, updateData);
+      }
+
       setIsEdit(false);
-      console.log(`[PUT /reviewcomments/${id}]`, updateData);
     } else {
       setIsEdit(true);
     }
