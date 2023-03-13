@@ -37,13 +37,15 @@ export function FindId() {
         email: email.data.value,
       };
 
-      kallInstance.get('/users/findIdByEmail')
+      kallInstance.get(`/users/findIdByEmail?name=${resObj.name}&email=${resObj.email}`)
         .then((res) => {
           console.log(res.data);
         })
         .catch((error) => {
           console.log(error.message);
         });
+
+      console.log('[GET /users/findIdByEmail]', resObj);
     } else {
       resObj = {
         name: name.data.value,
@@ -57,9 +59,9 @@ export function FindId() {
         .catch((error) => {
           console.log(error.message);
         });
-    }
 
-    console.log('[POST /users/id]', resObj);
+      console.log('[GET /users/findIdByPhone]', resObj);
+    }
   }, [ name, email, phone, ]);
 
   const globalStyles = css`

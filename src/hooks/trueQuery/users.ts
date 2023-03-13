@@ -14,6 +14,12 @@ const getUsers = async () => {
 };
 
 export const getUserById = async (id: string) => {
+  const { data, } = await kallInstance.get<IUser>(`/users/${id}`);
+
+  return data;
+};
+
+export const getAuthUserById = async (id: string) => {
   const token: string = JSON.parse(localStorage.getItem('token'));
 
   const { data, } = await kallInstance.get<IUser>(`/users/auth/${id}`, {
@@ -43,6 +49,20 @@ export const useUserById = (id: string, options?: IQueryOptions) => {
   const { data = fallback, } = useQuery<IUser, AxiosError>(
     [ 'getUserById', id, ],
     () => getUserById(id),
+    {
+      enabled: options?.enabled ?? true,
+    }
+
+  );
+
+  return data as IUser;
+};
+
+export const useAuthUserById = (id: string, options?: IQueryOptions) => {
+  const fallback = {};
+  const { data = fallback, } = useQuery<IUser, AxiosError>(
+    [ 'getAuthUserById', id, ],
+    () => getAuthUserById(id),
     {
       enabled: options?.enabled ?? true,
     }
