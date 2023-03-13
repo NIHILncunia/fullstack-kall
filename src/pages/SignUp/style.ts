@@ -20,7 +20,7 @@ export const inputsStyle = css`
   ${tw` flex flex-col gap-[10px] mb-[10px] `}
 
   & > label {
-    ${tw` flex items-center `}
+    ${tw` flex items-stretch `}
 
     & > span {
       ${tw` basis-[150px] shrink-0 `}
@@ -33,7 +33,8 @@ export const inputsStyle = css`
     }
 
     & > button {
-      ${tw` bg-red-500 `}
+      ${tw` border border-point-base bg-point-base shrink-0 ml-[10px] p-[10px] `}
+      ${tw` hover:( border-point-h-base bg-point-h-base ) `}
     }
   }
 `;

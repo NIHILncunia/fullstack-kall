@@ -18,8 +18,10 @@ import { kallInstance } from '@/data/axios.data';
 import { IUser } from '@/types/tables.types';
 
 export function SignUp() {
-  const [ message, setMessage, ] = useState('');
+  const [ idMessage, setIdMessage, ] = useState('');
+  const [ emailMessage, setEmailMessage, ] = useState('');
   const [ idCheck, setIdCheck, ] = useState(false);
+  const [ emailCheck, setEmailCheck, ] = useState(false);
 
   const nameRef = useRef<HTMLInputElement>();
   const idRef = useRef<HTMLInputElement>();
@@ -52,7 +54,12 @@ export function SignUp() {
     event.preventDefault();
 
     if (!idCheck) {
-      setMessage('아이디 중복 확인을 해주세요.');
+      setIdMessage('아이디 중복 확인을 해주세요.');
+      return;
+    }
+
+    if (!emailCheck) {
+      setEmailMessage('이메일 중복 확인을 해주세요.');
     }
 
     const newData: IUser = {
@@ -84,13 +91,25 @@ export function SignUp() {
     kallInstance.get(`/users/idCheck?userId=${id.data.value}`)
       .then((res) => {
         console.log(res);
-        setMessage(res.data);
+        setIdMessage(res.data);
         setIdCheck(true);
       })
       .catch((error) => {
         console.error(error);
       });
   }, [ id, ]);
+
+  const onClickEmailCheck = useCallback(() => {
+    kallInstance.get(`/users/emailCheck?email=${email.data.value}`)
+      .then((res) => {
+        console.log(res);
+        setEmailMessage(res.data);
+        setEmailCheck(true);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [ email, ]);
 
   return (
     <>
@@ -128,7 +147,7 @@ export function SignUp() {
                   />
                   <button type='button' onClick={onClickIdCheck}>중복확인</button>
                 </label>
-                {message && (<p>{message}</p>)}
+                {idMessage && (<p>{idMessage}</p>)}
                 <label htmlFor='password'>
                   <span>비밀번호 <RequireMark /></span>
                   <input
@@ -168,7 +187,9 @@ export function SignUp() {
                     ref={emailRef}
                     {...email.data}
                   />
+                  <button type='button' onClick={onClickEmailCheck}>이메일 중복 확인</button>
                 </label>
+                {emailMessage && (<p>{emailMessage}</p>)}
               </div>
             </fieldset>
             <fieldset css={chooseInputStyle}>

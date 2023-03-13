@@ -1,6 +1,10 @@
 import React, { useCallback, useRef, useState } from 'react';
+import { useCookies } from 'react-cookie';
+import { parse } from 'path';
 import { useInput } from '@/hooks';
 import { passCheckStyle } from './style';
+import { kallInstance } from '@/data/axios.data';
+import { useAuthUserById } from '@/hooks/trueQuery/users';
 
 interface IPassCheckProps {
   setIsUser: React.Dispatch<React.SetStateAction<boolean>>;
@@ -8,6 +12,8 @@ interface IPassCheckProps {
 
 export function PassCheck({ setIsUser, }: IPassCheckProps) {
   const [ message, setMessage, ] = useState('');
+  const [ { id, }, ] = useCookies([ 'id', ]);
+  const user = useAuthUserById(id);
 
   const passRef = useRef<HTMLInputElement>();
   const password = useInput(passRef, 'password');
@@ -15,14 +21,30 @@ export function PassCheck({ setIsUser, }: IPassCheckProps) {
   const onClickPassword = useCallback((event: React.MouseEvent<HTMLInputElement>) => {
     event.preventDefault();
 
-    // 지금은 임시로 이렇게 하지만 비밀번호도 제대로 검증해야함.
     if (password.data.value === '') {
       setMessage('비밀번호를 입력해야 합니다.');
       return;
     }
 
-    setIsUser(true);
-  }, [ password, ]);
+    const data = {
+      userId: user.userId,
+      password: password.data.value,
+    };
+
+    const token: string = JSON.parse(localStorage.getItem('token'));
+    kallInstance.post('/users/passwordcheck', data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        console.log('res >> ', res);
+        setIsUser(true);
+      })
+      .catch((error) => {
+        console.error('error >> ', error);
+      });
+  }, [ password, id, user, ]);
 
   return (
     <>

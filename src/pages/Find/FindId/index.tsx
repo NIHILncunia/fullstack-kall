@@ -52,7 +52,7 @@ export function FindId() {
         phoneNb: phone.data.value,
       };
 
-      kallInstance.get('/users/findIdByPhone')
+      kallInstance.get(`/users/findIdByPhone?name=${resObj.name}&phoneNb=${resObj.phoneNb}`)
         .then((res) => {
           console.log(res.data);
         })
