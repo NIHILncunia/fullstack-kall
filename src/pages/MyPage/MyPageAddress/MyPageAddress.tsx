@@ -24,7 +24,7 @@ export function MyPageAddress() {
     }
 
     const [ selectedItem, ] = otherAddress.filter(
-      (item) => (item.id === selectedAddress)
+      (item) => (item.usAddressId === selectedAddress)
     );
 
     selectedItem.status = 'true';
@@ -55,7 +55,7 @@ export function MyPageAddress() {
             )}
             {defaultAddress && (
               <div className='list-content'>
-                <p>{defaultAddress?.address_name}</p>
+                <p>{defaultAddress?.addressName}</p>
                 <p>{defaultAddress?.zip_code} - {defaultAddress?.address_1} {defaultAddress?.address_2}</p>
               </div>
             )}
@@ -75,7 +75,7 @@ export function MyPageAddress() {
             )}
             {otherAddress?.map((item) => (
               <AddressListItem
-                key={item.id}
+                key={item.usAddressId}
                 item={item}
                 selectedAddress={selectedAddress}
                 setSelectedAddress={setSelectedAddress}

@@ -2,7 +2,6 @@ import React, { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { IProduct } from '@/types/tables.types';
 import { listItemEditStyle } from './style';
-import { useCategoryById } from '@/hooks/trueQuery/category';
 
 interface IProductItemProps {
   item: IProduct;
@@ -13,7 +12,6 @@ interface IProductItemProps {
 export function ProductItem({ item, selectedItems, setSelectedItems, }: IProductItemProps) {
   const [ isOpen, setIsOpen, ] = useState(false);
 
-  const category = useCategoryById(item.category_id);
   const navi = useNavigate();
 
   const onClickOpen = useCallback(() => {
@@ -39,20 +37,20 @@ export function ProductItem({ item, selectedItems, setSelectedItems, }: IProduct
           <input
             type='checkbox'
             name='item'
-            value={item?.id}
-            onChange={() => onChangeCheck(item.id)}
-            checked={selectedItems.includes(item.id)}
+            value={item?.productId}
+            onChange={() => onChangeCheck(item.productId)}
+            checked={selectedItems.includes(item.productId)}
           />
         </div>
-        <div>{category.categoryName}</div>
+        <div>{item.categoryDTO.categoryName}</div>
         <div onClick={onClickOpen}>{item?.name}</div>
         <div>{item?.amount}</div>
         <div>{item?.price.toLocaleString()}원</div>
       </div>
       {isOpen && (
         <div className='list-item-edit' css={listItemEditStyle}>
-          <button onClick={() => navi(`/admin/products/${item.id}/edit`)}>수정</button>
-          <button onClick={() => onClickDelete(item.id)}>삭제</button>
+          <button onClick={() => navi(`/admin/products/${item.productId}/edit`)}>수정</button>
+          <button onClick={() => onClickDelete(item.productId)}>삭제</button>
         </div>
       )}
     </>

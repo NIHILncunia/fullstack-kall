@@ -202,3 +202,22 @@ export const useDeleteUsers = () => {
 
   return { mutate, };
 };
+
+// ==================== 마이페이지 유저 정보 업데이트 ====================
+export const useUpdateUserInfo = (userId: string) => {
+  const { mutate, } = useMutation<IUser, AxiosError, IUser>(
+    async (updateData) => {
+      const { data, } = await kallInstance.put<IUser>(`/users/phoneoremail/${userId}`, updateData);
+
+      return data;
+    },
+    {}
+  );
+
+  return { mutate, };
+};
+// ====================  ====================
+// ====================  ====================
+// ====================  ====================
+// ====================  ====================
+// ====================  ====================

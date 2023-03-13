@@ -30,8 +30,10 @@ export function SIgnIn() {
 
   const id = useInput(idRef, 'id');
   const password = useInput(passwordRef, 'password');
+  const isSaveCheckRef = useRef<HTMLInputElement>();
+  const autoLoginCheckRef = useRef<HTMLInputElement>();
 
-  const [ cookies, setCookie, ] = useCookies([ 'id', 'role', ]);
+  const [ cookies, setCookie, ] = useCookies([ 'id', 'role', 'idSave', ]);
   const userData = useUserById(cookies.id, {
     enabled: !!cookies.id,
   });
@@ -64,14 +66,27 @@ export function SIgnIn() {
 
           localStorage.setItem('token', JSON.stringify(token));
           localStorage.setItem('user', JSON.stringify(user));
-          setCookie('id', user.userId, {
-            path: '/',
-            expires: time,
-          });
-          setCookie('role', user.role, {
-            path: '/',
-            expires: time,
-          });
+
+          if (isSaveCheckRef.current) {
+            setCookie('idSave', true);
+          }
+
+          if (autoLoginCheckRef.current) {
+            const exp = new Date();
+            exp.setFullYear(exp.getFullYear() + 1);
+
+            setCookie(
+              'id',
+              user.userId,
+              { path: '/', expires: exp, }
+            );
+
+            setCookie(
+              'role',
+              user.role,
+              { path: '/', expires: exp, }
+            );
+          }
           navi('/');
         }
       })
@@ -81,7 +96,7 @@ export function SIgnIn() {
         setLoginError(true);
         setErrorMessage(error.response.data.message);
       });
-  }, [ id, password, userData, kallInstance, passwordCheckExp, ]);
+  }, [ id, password, userData, kallInstance, passwordCheckExp, isSaveCheckRef, ]);
 
   return (
     <>
@@ -117,10 +132,10 @@ export function SIgnIn() {
               {passwordError && (<p>비밀번호는 공백이 없는 7자리 이상이어야 합니다.</p>)}
               <div className='form-check' css={checksStyle}>
                 <label htmlFor='id-save'>
-                  <input type='checkbox' id='id-save' /> 아이디 저장
+                  <input type='checkbox' id='id-save' ref={isSaveCheckRef} /> 아이디 저장
                 </label>
                 <label htmlFor='auto-signin'>
-                  <input type='checkbox' id='auto-signin' /> 자동 로그인
+                  <input type='checkbox' id='auto-signin' ref={autoLoginCheckRef} /> 자동 로그인
                 </label>
               </div>
               <button css={buttonStyle}>로그인</button>

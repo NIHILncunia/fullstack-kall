@@ -25,12 +25,14 @@ import { QuestionList } from './QuestionList';
 import {
   useCreateWishlist, useDeleteWishlist, useWishlistByProductId, useWishlistByUserId
 } from '@/hooks/trueQuery/wish';
-import { ICart } from '@/types/tables.types';
+import { ICart, IWish } from '@/types/tables.types';
+import { useUserById } from '@/hooks/trueQuery/users';
 
 export function ProductItem() {
   // eslint-disable-next-line no-unused-vars
   const [ { id, pId, }, setCookie, ] = useCookies([ 'id', 'pId', ]);
   const [ items, setItems, ] = useState<ISelect[]>([]);
+  const user = useUserById(id);
 
   const param = useParams();
   const navi = useNavigate();
@@ -42,60 +44,61 @@ export function ProductItem() {
   const wishs = useWishlistByUserId(id);
   const product = useProductById(Number(param.id));
 
-  console.log(items);
+  // console.log(items);
+  console.log('product >> ', product);
 
-  const wishItem = useWishlistByProductId(product.id, {
-    enabled: 'id' in product,
+  const wishItem = useWishlistByProductId(product.productId, {
+    enabled: 'productId' in product,
   });
 
   const wish = useMemo(() => {
     if (wishs.length > 0) {
-      return wishs.some((item) => item.product_id === product.id);
+      return wishs.some((item) => item.productDTO.productId === product.productId);
     }
     return false;
-  }, [ wishs, product.id, ]);
+  }, [ wishs, product.productId, ]);
 
-  const reviews = useReviewByProductId(product.id, {
-    enabled: 'id' in product,
+  const reviews = useReviewByProductId(product.productId, {
+    enabled: 'productId' in product,
   }).sort((a, b) => b.id - a.id);
 
-  const questions = useQuestionByProductId(product.id, {
-    enabled: 'id' in product,
+  const questions = useQuestionByProductId(product.productId, {
+    enabled: 'productId' in product,
   }).sort((a, b) => b.id - a.id);
 
   const onClickCreateQuestion = useCallback(() => {
-    setCookie('pId', product.id, { path: '/', });
+    setCookie('pId', product.productId, { path: '/', });
     navi('/mypage/direct/create');
   }, [ product, ]);
 
   console.log('wishItem0 >> ', wishItem);
 
   const onClickAddWish = useCallback(() => {
-    const newData = {
-      user_id: id,
-      product_id: product.id,
+    const newData: IWish = {
+      userDTO: user,
+      productDTO: product,
     };
 
     createWishlist.mutate(newData, {
       onSuccess: async () => {
         queryClient.refetchQueries(
-          [ 'getWishlistByProductId', product.id, ]
+          [ 'getWishlistByProductId', product.productId, ]
         );
       },
     });
     console.log('[POST /wishlists]', newData);
-  }, [ id, product, createWishlist, ]);
+  }, [ user, product, createWishlist, ]);
 
   const onClickDeleteWish = useCallback(() => {
     if (wish && 'id' in wishItem) {
-      deleteWishlist.mutate(wishItem.id, {
+      deleteWishlist.mutate(wishItem.wishListId, {
         onSuccess: async () => {
           queryClient.refetchQueries(
-            [ 'getWishlistByProductId', product.id, ]
+            [ 'getWishlistByProductId', product.productId, ]
           );
         },
       });
-      console.log(`[DELETE /wishlists/${wishItem.id}]`);
+      console.log(`[DELETE /wishlists/${wishItem.wishListId}]`);
     }
   }, [ deleteWishlist, wishItem, wish, ]);
 
@@ -109,14 +112,14 @@ export function ProductItem() {
   }, [ param, ]);
 
   useEffect(() => {
-    if ('id' in product) {
+    if ('productId' in product) {
       queryClient.prefetchQuery(
-        [ 'getReviewByProductId', product.id, ],
-        () => getReviewByProductId(product.id)
+        [ 'getReviewByProductId', product.productId, ],
+        () => getReviewByProductId(product.productId)
       );
       queryClient.prefetchQuery(
-        [ 'getQuestionByProductId', product.id, ],
-        () => getQuestionByProductId(product.id)
+        [ 'getQuestionByProductId', product.productId, ],
+        () => getQuestionByProductId(product.productId)
       );
     }
   }, [ product, queryClient, ]);
@@ -177,7 +180,7 @@ export function ProductItem() {
                 <CustomOption
                   name={product.name}
                   price={product.price}
-                  id={product.id}
+                  id={product.productId}
                   items={items}
                   setItems={setItems}
                 />
@@ -187,7 +190,7 @@ export function ProductItem() {
                 <DesignOption
                   name={product.name}
                   price={product.price}
-                  id={product.id}
+                  id={product.productId}
                   items={items}
                   setItems={setItems}
                 />
@@ -197,7 +200,7 @@ export function ProductItem() {
                 <ETCOption
                   name={product.name}
                   price={product.price}
-                  id={product.id}
+                  id={product.productId}
                   items={items}
                   setItems={setItems}
                 />

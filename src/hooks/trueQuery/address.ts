@@ -83,7 +83,7 @@ export const useUpdateDefaultAddress = (userId: string) => {
   const { mutate, } = useMutation<string, AxiosError, IAddress>(
     async (addressData) => {
       const { data, } = await kallInstance.put<string>(
-        `/addresses/${addressData.id}/default`,
+        `/addresses/${addressData.usAddressId}/default`,
         addressData
       );
 

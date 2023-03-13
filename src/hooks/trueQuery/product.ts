@@ -39,16 +39,9 @@ export const useHomeProduct = () => {
   const { data = [], } = useQuery<IProduct[], AxiosError>(
     [ 'getHomeProduct', ],
     async () => {
-      const { data, } = await kallInstance.get<IProduct[]>('/products');
+      const { data, } = await kallInstance.get<IProduct[]>('/products/recent');
 
-      return data
-        .sort((a, b) => {
-          const beforeDate = new Date(a.date).getTime();
-          const afterDate = new Date(b.date).getTime();
-
-          return afterDate - beforeDate;
-        })
-        .slice(0, 6);
+      return data;
     },
     {}
   );

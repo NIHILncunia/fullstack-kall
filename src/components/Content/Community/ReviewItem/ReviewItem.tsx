@@ -14,7 +14,7 @@ export function ReviewItem({ item, }: IReviewItemProps) {
   const products = useProducts();
 
   const [ product, ] = useMemo(() => {
-    return products.filter((product) => product.id === item.product_id);
+    return products.filter((product) => product.productId === item.product_id);
   }, [ products, item, ]);
 
   return (

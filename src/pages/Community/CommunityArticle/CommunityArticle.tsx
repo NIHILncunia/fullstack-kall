@@ -17,8 +17,6 @@ export function CommunityArticle({ title, category, }: ICommunityArticleProps) {
   const faqs = useFaqs();
   const categories = useCategories();
 
-  console.log(categories);
-
   const getCategoryName = (categoryId: string) => {
     const [ category, ] = categories.filter((item) => item.categoryId === categoryId);
 

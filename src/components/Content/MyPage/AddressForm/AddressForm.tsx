@@ -44,9 +44,9 @@ export function AddressForm() {
 
     if ('userId' in user) {
       newAddress = {
-        user_id: user.userId,
+        userDTO: user,
         name: user.name,
-        address_name: addressName.data.value,
+        addressName: addressName.data.value,
         phone_nb: user.phoneNb,
         zip_code: zipCode.data.value,
         address_1: address1.data.value,

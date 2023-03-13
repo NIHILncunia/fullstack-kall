@@ -10,7 +10,7 @@ interface IAddressUpdateFormProps {
 }
 
 export function AddressUpdateForm({ item, setIsOpen, }: IAddressUpdateFormProps) {
-  const updateAddress = useUpdateAddress(item.id, item.user_id);
+  const updateAddress = useUpdateAddress(item.usAddressId, item.userDTO.userId);
   const nameRef = useRef<HTMLInputElement>();
   const zipCodeRef = useRef<HTMLInputElement>();
   const address1Ref = useRef<HTMLInputElement>();
@@ -22,7 +22,7 @@ export function AddressUpdateForm({ item, setIsOpen, }: IAddressUpdateFormProps)
   const address2 = useInput(address2Ref, 'address2');
 
   useEffect(() => {
-    name.setValue(item.address_name);
+    name.setValue(item.addressName);
     zipCode.setValue(item.zip_code);
     address1.setValue(item.address_1);
     address2.setValue(item.address_2);
@@ -33,7 +33,7 @@ export function AddressUpdateForm({ item, setIsOpen, }: IAddressUpdateFormProps)
 
     const updateData: IAddress = {
       ...item,
-      address_name: name.data.value,
+      addressName: name.data.value,
       zip_code: zipCode.data.value,
       address_1: address1.data.value,
       address_2: address2.data.value,

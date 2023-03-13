@@ -4,6 +4,7 @@ import { useInput } from '@/hooks';
 import { passCheckStyle } from './style';
 import { kallInstance } from '@/data/axios.data';
 import { useAuthUserById } from '@/hooks/trueQuery/users';
+import { IUser } from '@/types/tables.types';
 
 interface IPassCheckProps {
   setIsUser: React.Dispatch<React.SetStateAction<boolean>>;
@@ -25,7 +26,7 @@ export function PassCheck({ setIsUser, }: IPassCheckProps) {
       return;
     }
 
-    const data = {
+    const data: IUser = {
       userId: user.userId,
       password: password.data.value,
     };

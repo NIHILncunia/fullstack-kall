@@ -1,6 +1,6 @@
 export interface IProduct {
-  id?: number;
-  category_id?: string;
+  productId?: number;
+  categoryDTO?: ICategory;
   name?: string;
   price?: number;
   amount?: number;
@@ -95,10 +95,10 @@ export interface IOrder {
 }
 
 export interface IAddress {
-  id?: number;
-  user_id?: string;
+  usAddressId?: number;
+  userDTO?: IUser;
   name?: string;
-  address_name?: string;
+  addressName?: string;
   phone_nb?: string;
   zip_code?: string;
   address_1?: string;
@@ -161,8 +161,8 @@ export interface IQuestion {
 }
 
 export interface IWish {
-  id?: number;
-  user_id?: string;
-  product_id?: number;
+  wishListId?: number;
+  userDTO?: IUser;
+  productDTO?: IProduct;
   date?: string;
 }

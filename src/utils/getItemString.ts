@@ -11,11 +11,13 @@ interface ISelection {
 }
 
 export const getItemString = (selection: ISelection, product: IProduct, item: (ICart | IOrderDetail | ISelect)) => {
-  console.log(product);
+  console.log('상품 >> ', product);
+  console.log('카테고리 >> ', product?.categoryDTO);
+  console.log('옵션 >> ', selection);
 
   let nameOption: string;
 
-  switch (product.category_id) {
+  switch (product?.categoryDTO?.categoryId) {
     case 'custom':
       nameOption = `${product.name} - 시트: ${selection.sheet}, 모양: ${selection.shape}, 크림: ${selection.cream}, 수량: ${item?.amount}`;
       break;

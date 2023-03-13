@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import tw from 'twin.macro';
 import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router';
 import { AppLayout } from '@/layouts';
 import { Heading2 } from '@/components/Content';
 import { withDrawalFormStyle } from './style';
@@ -10,6 +11,7 @@ import { kallInstance } from '@/data/axios.data';
 export function WithDrawal() {
   const [ text, setText, ] = useState('');
 
+  const navi = useNavigate();
   const [ cookies, ] = useCookies([ 'id', ]);
 
   const onChangeText = useCallback((event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -29,6 +31,7 @@ export function WithDrawal() {
     })
       .then((res) => {
         console.log(res);
+        navi('/');
       });
 
     console.log(`[DELETE /users/${cookies.id}]`, newData);

@@ -13,7 +13,7 @@ interface IAddressListItemProps {
 
 export function AddressListItem({ item, selectedAddress, setSelectedAddress, }: IAddressListItemProps) {
   const [ isOpen, setIsOpen, ] = useState(false);
-  const deleteAddress = useDeleteAddress(item.user_id);
+  const deleteAddress = useDeleteAddress(item.userDTO.userId);
 
   const onChnageAddress = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedAddress(Number(event.target.value));
@@ -24,30 +24,30 @@ export function AddressListItem({ item, selectedAddress, setSelectedAddress, }: 
   }, []);
 
   const onClickDelete = useCallback(() => {
-    deleteAddress.mutate(item.id);
+    deleteAddress.mutate(item.usAddressId);
   }, [ item, ]);
 
   return (
     <>
-      <div key={item.id} className='list-content'>
+      <div key={item.usAddressId} className='list-content'>
         <p>
-          <label htmlFor={item.id.toString()}>
+          <label htmlFor={item.usAddressId.toString()}>
             <input
               type='radio'
-              id={item.id.toString()}
+              id={item.usAddressId.toString()}
               name='address'
-              value={item.id}
+              value={item.usAddressId}
               onChange={onChnageAddress}
-              checked={selectedAddress === item.id}
+              checked={selectedAddress === item.usAddressId}
               hidden
             />
             <span>
-              {selectedAddress === item.id && <IoMdRadioButtonOn />}
-              {selectedAddress !== item.id && <IoMdRadioButtonOff />}
+              {selectedAddress === item.usAddressId && <IoMdRadioButtonOn />}
+              {selectedAddress !== item.usAddressId && <IoMdRadioButtonOff />}
             </span>
           </label>
         </p>
-        <p>{item.address_name}</p>
+        <p>{item.addressName}</p>
         <p>{item.zip_code} - {item.address_1} {item.address_2}</p>
         <button css={buttonStyle} onClick={onClickUpdate} disabled={isOpen}>수정</button>
         <button css={buttonStyle} onClick={onClickDelete}>삭제</button>

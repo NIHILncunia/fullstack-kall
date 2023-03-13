@@ -14,7 +14,7 @@ interface IWishlistItemProps {
 
 export function WishlistItem({ item, }: IWishlistItemProps) {
   const [ { id, }, ] = useCookies([ 'id', ]);
-  const product = useProductById(item.product_id, {
+  const product = useProductById(item.productDTO.productId, {
     enabled: 'id' in item,
   });
 
@@ -31,13 +31,13 @@ export function WishlistItem({ item, }: IWishlistItemProps) {
           <img src={product.image} alt={product.name} />
           <button
             aria-label='heart'
-            onClick={() => onClickDeleteWishlistItem(item.id)}
+            onClick={() => onClickDeleteWishlistItem(item.wishListId)}
           >
             <FaHeart />
           </button>
         </div>
         <div>
-          <Link to={`/products/${product.category_id}/${product.id}`}>{product.name}</Link>
+          <Link to={`/products/${product.categoryDTO}/${product.productId}`}>{product.name}</Link>
         </div>
         <div>{product.price?.toLocaleString()}원</div>
         <ItemRate rate={product.star} />

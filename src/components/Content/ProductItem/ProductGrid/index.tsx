@@ -8,11 +8,12 @@ interface IProductGridProps {
 }
 
 export function ProductGrid({ data, }: IProductGridProps) {
+  console.log(data);
   return (
     <>
       <div css={itemListStyle}>
         {data.map((item) => (
-          <ProductGridItem key={item.id} item={item} />
+          <ProductGridItem key={item.productId} item={item} />
         ))}
       </div>
     </>

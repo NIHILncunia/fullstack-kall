@@ -126,7 +126,7 @@ export function OrderDetailItem({ item, }: IOrderDetailItemProps) {
 
   const onClickCreateReview = useCallback(() => {
     setCookie('odId', item.id, { path: '/', });
-    setCookie('pId', product.id, { path: '/', });
+    setCookie('pId', product.productId, { path: '/', });
     navi('/mypage/review/create');
   }, [ item, product, ]);
 

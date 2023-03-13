@@ -118,7 +118,7 @@ export function ReviewArticle() {
               <img src={product.image} alt={product.name} />
               <div>
                 <h4>
-                  <Link to={`/products/${product.category_id}/${product.id}`}>
+                  <Link to={`/products/${product.categoryDTO}/${product.productId}`}>
                     {product.name}
                   </Link>
                 </h4>

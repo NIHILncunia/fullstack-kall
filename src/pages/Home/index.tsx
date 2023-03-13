@@ -7,7 +7,6 @@ import { homePageStyle } from './style';
 import { useHomeProduct } from '@/hooks/trueQuery/product';
 
 export function Home() {
-  // const data = useProductsHome();
   const data = useHomeProduct();
 
   return (

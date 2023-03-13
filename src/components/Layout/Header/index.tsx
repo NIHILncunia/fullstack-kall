@@ -17,6 +17,7 @@ export function Header() {
     navi(`/search?keyword=${keyword.data.value}`);
   }, [ keyword, ]);
 
+  // eslint-disable-next-line no-unused-vars
   const [ cookies, setCookie, removeCookie, ] = useCookies([ 'id', 'role', ]);
   const { id, role, } = cookies;
 

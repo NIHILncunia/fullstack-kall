@@ -29,7 +29,7 @@ export function ProductList() {
   }, [ productData, ]);
 
   const onClickAllCheck = useCallback(() => {
-    setSelectedItems(productData.map((item) => item.id));
+    setSelectedItems(productData.map((item) => item.productId));
   }, [ productData, ]);
 
   const onClickselectedDelete = useCallback(() => {
@@ -47,7 +47,7 @@ export function ProductList() {
   const onClickAllDelete = useCallback(() => {
     // 전체 삭제
     const res = window.confirm('정말로 삭제합니까?');
-    const allItems = productData.map((item) => item.id);
+    const allItems = productData.map((item) => item.productId);
     console.log('삭제할 데이터 아이디 >> ', allItems);
 
     console.log('[DELETE /admin/products, {아이디 배열}]');
@@ -61,7 +61,7 @@ export function ProductList() {
           ref={customRef}
           onClick={() => {
             const selectedData = productData.filter(
-              (item) => item.category_id === 'custom'
+              (item) => item.categoryDTO.categoryId === 'custom'
             );
             setCate('custom');
             setItems(selectedData);
@@ -74,7 +74,7 @@ export function ProductList() {
           ref={designRef}
           onClick={() => {
             const selectedData = productData.filter(
-              (item) => item.category_id === 'design'
+              (item) => item.categoryDTO.categoryId === 'design'
             );
             setCate('design');
             setItems(selectedData);
@@ -87,7 +87,7 @@ export function ProductList() {
           ref={etcRef}
           onClick={() => {
             const selectedData = productData.filter(
-              (item) => item.category_id === 'etc'
+              (item) => item.categoryDTO.categoryId === 'etc'
             );
             setCate('etc');
             setItems(selectedData);
@@ -120,7 +120,7 @@ export function ProductList() {
         </div>
         {items?.map((item) => (
           <ProductItem
-            key={item?.id}
+            key={item?.productId}
             item={item}
             selectedItems={selectedItems}
             setSelectedItems={setSelectedItems}

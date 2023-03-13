@@ -18,7 +18,7 @@ export function MypageWishlist() {
 
           <div className='wishlist' css={wishlistGrid}>
             {wishlists.map((item) => (
-              <WishlistItem key={item.id} item={item} />
+              <WishlistItem key={item.wishListId} item={item} />
             ))}
           </div>
         </MyPageLayout>

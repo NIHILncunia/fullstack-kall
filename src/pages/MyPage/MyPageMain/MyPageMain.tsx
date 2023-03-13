@@ -65,7 +65,7 @@ export function MyPageMain() {
             </p>
             <p>
               <span>기본 배송지</span>
-              <span>{address?.address_name} - {address?.address_1} {address?.address_2}</span>
+              <span>{address?.addressName} - {address?.address_1} {address?.address_2}</span>
             </p>
           </div>
 

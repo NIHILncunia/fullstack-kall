@@ -4,11 +4,11 @@ import React, {
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router';
 import tw from 'twin.macro';
+import { useQueryClient } from 'react-query';
 import { useInput } from '@/hooks';
 import { userInfoEditStyle } from './style';
-import { useUserById } from '@/hooks/trueQuery/users';
+import { useUpdateUserInfo, useUserById } from '@/hooks/trueQuery/users';
 import { IUser } from '@/types/tables.types';
-import { kallInstance } from '@/data/axios.data';
 
 export function UserInfoEditForm() {
   const [ emailError, setEmailError, ] = useState(false);
@@ -16,7 +16,9 @@ export function UserInfoEditForm() {
 
   const [ cookies, ] = useCookies([ 'id', ]);
   const user = useUserById(cookies.id);
+  const queryClient = useQueryClient();
   const navi = useNavigate();
+  const updateUserInfo = useUpdateUserInfo(user.userId);
 
   const idRef = useRef<HTMLInputElement>();
   const nameRef = useRef<HTMLInputElement>();
@@ -35,7 +37,7 @@ export function UserInfoEditForm() {
       email.setValue(user.email);
       phone.setValue(user.phoneNb);
     }
-  }, [ ]);
+  }, [ user, ]);
 
   const onSubmitForm = useCallback((event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -47,13 +49,16 @@ export function UserInfoEditForm() {
       phoneNb: phone.data.value,
     };
 
-    kallInstance.put(`/users/phoneoremail/${user.userId}`, editInfo)
-      .then((res) => {
+    updateUserInfo.mutate(editInfo, {
+      onSuccess: (res) => {
         console.log(res);
-      })
-      .catch((error) => {
+        queryClient.refetchQueries([ 'getAuthUserById', user.userId, ]);
+        navi('/mypage/main');
+      },
+      onError: (error) => {
         console.error(error);
-      });
+      },
+    });
 
     console.log(`[PUT /users/phoneoremail/${user.userId}]`, editInfo);
   }, [ id, name, email, phone, ]);

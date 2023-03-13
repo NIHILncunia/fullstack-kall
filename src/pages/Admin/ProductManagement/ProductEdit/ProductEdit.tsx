@@ -14,6 +14,7 @@ import {
 import { useProductById } from '@/hooks/trueQuery/product';
 
 export function ProductEdit() {
+  const [ file, setFile, ] = useState(null);
   const [ files, setFiles, ] = useState([]);
   const [ text, setText, ] = useState('');
 
@@ -37,7 +38,7 @@ export function ProductEdit() {
   const price = useInput(priceRef, 'price');
 
   useEffect(() => {
-    if ('id' in productData) {
+    if ('productId' in productData) {
       name.setValue(productData.name);
       tag.setValue(productData.tag);
       setText(productData.info);
@@ -47,18 +48,34 @@ export function ProductEdit() {
     }
   }, [ productData, ]);
 
-  // ==================== 대표 이미지 변경 ====================
+  // ==================== 대표 이미지 선택 버튼 ====================
   const onChangeFile = useCallback(() => {
     const file = fileRef.current.files[0];
 
+    image.setValue(file.name);
+    setFile(file);
+  }, [ fileRef, ]);
+
+  // 대표 이미지 변경 버튼
+  const onClickImageUpdate = useCallback(() => {
     const formData = new FormData();
 
     formData.append('file', file);
 
-    // TODO: 여기에 요청 들어감
+    kallInstance.put(`/products/${productData.productId}/thumnail`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+      .then((res) => {
+        console.log('상품 이미지 변경');
+        console.log(res);
+      }).catch((error) => {
+        console.error(error);
+      });
+  }, [ file, productData, ]);
 
-    image.setValue(file.name);
-  }, [ fileRef, ]);
+  console.log(file);
 
   // ==================== 상세 이미지 추가 ====================
   const onChangeFiles = useCallback(() => {
@@ -75,7 +92,6 @@ export function ProductEdit() {
 
     setFiles((prev) => [ ...prev, ...newFiles, ]);
   }, [ filesRef, ]);
-
   // ==================== 상세 이미지 업로드 ====================
   const onClickFiles = useCallback(() => {
     const formData = new FormData();
@@ -85,7 +101,7 @@ export function ProductEdit() {
     });
 
     // TODO: 이 부분은 쿼리로 변경해야함
-    kallInstance.post(
+    kallInstance.put(
       '/',
       formData,
       {
@@ -93,7 +109,10 @@ export function ProductEdit() {
           'Content-Type': 'multipart/form-data',
         },
       }
-    );
+    ).then((res) => {
+      console.log();
+      console.log(res);
+    });
   }, [ files, ]);
 
   // ==================== 상세 이미지 목록에서 제거 ====================
@@ -110,6 +129,12 @@ export function ProductEdit() {
       info: text,
     };
 
+    kallInstance.put(`/products/${productData.productId}/info`, updateData)
+      .then((res) => {
+        console.log('상품 기본 정보 수정');
+        console.log(res);
+      });
+
     console.log(`[PUT /products/${params.id}/info]`, updateData);
   }, [ name, tag, amount, price, text, ]);
 
@@ -125,7 +150,8 @@ export function ProductEdit() {
             <div>
               <input type='file' hidden ref={fileRef} onChange={onChangeFile} />
               <input type='text' ref={imageRef} {...image.data} />
-              <button type='button' onClick={() => fileRef.current.click()}>이미지 변경</button>
+              <button type='button' onClick={() => fileRef.current.click()}>이미지 선택</button>
+              <button type='button' onClick={onClickImageUpdate}>이미지 변경</button>
             </div>
           </div>
 
