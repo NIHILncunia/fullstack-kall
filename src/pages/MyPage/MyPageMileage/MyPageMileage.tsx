@@ -11,7 +11,7 @@ export function MyPageMileage() {
   const [ { id, }, ] = useCookies([ 'id', ]);
   const userData = useUserById(id);
   const orderDataByUserId = useOrderByUserId(userData.userId, {
-    enabled: userData && 'id' in userData,
+    enabled: userData && 'userId' in userData,
   });
 
   const mileageLog = orderDataByUserId.filter((item) => item.mileage !== 0)

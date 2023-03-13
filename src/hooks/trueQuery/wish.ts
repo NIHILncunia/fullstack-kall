@@ -18,13 +18,13 @@ export const getWishlistById = async (id: number) => {
 };
 
 export const getWishlistByUserId = async (userId: string) => {
-  const { data, } = await kallInstance.get<IWish[]>(`/wishlists/user?user_id=${userId}`);
+  const { data, } = await kallInstance.get<IWish[]>(`/wishlists/user/${userId}`);
 
   return data;
 };
 
 export const getWishlistByProductId = async (productId: number) => {
-  const { data, } = await kallInstance.get<IWish>(`/wishlists/product?product_id=${productId}`);
+  const { data, } = await kallInstance.get<IWish>(`/wishlists/product/${productId}`);
 
   return data[0];
 };
@@ -95,7 +95,6 @@ export const useCreateWishlist = (userId: string) => {
       onSuccess: async (data) => {
         const wishlists = await getWishlistByUserId(userId);
 
-        // queryClient.invalidateQueries([ 'getWishlistByUserId', userId, ]);
         queryClient.setQueryData([ 'getWishlistByUserId', userId, ], wishlists);
 
         setMessage(data);
@@ -120,8 +119,6 @@ export const useDeleteWishlist = (userId: string) => {
     },
     {
       onSuccess: async (data) => {
-        const wishlists = await getWishlistByUserId(userId);
-
         queryClient.invalidateQueries([ 'getWishlistByUserId', userId, ]);
 
         setMessage(data);

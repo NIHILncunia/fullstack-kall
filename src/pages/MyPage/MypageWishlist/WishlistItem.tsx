@@ -15,7 +15,7 @@ interface IWishlistItemProps {
 export function WishlistItem({ item, }: IWishlistItemProps) {
   const [ { id, }, ] = useCookies([ 'id', ]);
   const product = useProductById(item.productDTO.productId, {
-    enabled: 'id' in item,
+    enabled: 'wishListId' in item,
   });
 
   const deleteWishlist = useDeleteWishlist(id);

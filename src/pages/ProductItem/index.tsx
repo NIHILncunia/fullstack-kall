@@ -90,7 +90,7 @@ export function ProductItem() {
   }, [ user, product, createWishlist, ]);
 
   const onClickDeleteWish = useCallback(() => {
-    if (wish && 'id' in wishItem) {
+    if (wish && 'wishListId' in wishItem) {
       deleteWishlist.mutate(wishItem.wishListId, {
         onSuccess: async () => {
           queryClient.refetchQueries(
