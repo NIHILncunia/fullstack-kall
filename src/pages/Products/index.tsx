@@ -11,7 +11,7 @@ interface IProductsProps {
 
 export function Products({ category, }: IProductsProps) {
   const data = useProductByCategoryId(category);
-  const categoryName = useCategoryById(category).category_name;
+  const { categoryName, } = useCategoryById(category);
 
   return (
     <>

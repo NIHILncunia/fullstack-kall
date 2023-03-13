@@ -49,10 +49,10 @@ export function RefundItem() {
     }
   }, [ isEdit, status, ]);
 
-  const sheet = useCategoryById(orderDetail.option_sheet).category_name;
-  const shape = useCategoryById(orderDetail.option_shape).category_name;
-  const cream = useCategoryById(orderDetail.option_cream).category_name;
-  const size = useCategoryById(orderDetail.option_size).category_name;
+  const sheet = useCategoryById(orderDetail.option_sheet).categoryName;
+  const shape = useCategoryById(orderDetail.option_shape).categoryName;
+  const cream = useCategoryById(orderDetail.option_cream).categoryName;
+  const size = useCategoryById(orderDetail.option_size).categoryName;
 
   const selection = {
     sheet,

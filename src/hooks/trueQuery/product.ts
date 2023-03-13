@@ -19,7 +19,7 @@ export const getProductById = async (id: number) => {
 };
 
 export const getProductByCategoryId = async (categoryId: string) => {
-  const { data, } = await kallInstance.get<IProduct[]>(`/products/category?category_id=${categoryId}`);
+  const { data, } = await kallInstance.get<IProduct[]>(`/products/category/${categoryId}`);
 
   return data;
 };

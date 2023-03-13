@@ -42,7 +42,7 @@ export function AddressForm() {
     let newAddress: IAddress;
     console.log('user >> ', user);
 
-    if ('id' in user) {
+    if ('userId' in user) {
       newAddress = {
         user_id: user.userId,
         name: user.name,

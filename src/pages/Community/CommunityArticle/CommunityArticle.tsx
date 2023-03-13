@@ -17,10 +17,12 @@ export function CommunityArticle({ title, category, }: ICommunityArticleProps) {
   const faqs = useFaqs();
   const categories = useCategories();
 
-  const getCategoryName = (categoryId: string) => {
-    const [ category, ] = categories.filter((item) => item.id === categoryId);
+  console.log(categories);
 
-    return category.category_name;
+  const getCategoryName = (categoryId: string) => {
+    const [ category, ] = categories.filter((item) => item.categoryId === categoryId);
+
+    return category.categoryName;
   };
 
   return (

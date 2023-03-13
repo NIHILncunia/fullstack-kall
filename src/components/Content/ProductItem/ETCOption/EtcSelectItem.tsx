@@ -14,10 +14,10 @@ interface IEtcSelectItemProps {
 export function EtcSelectItem({ item, onClickDelete, }: IEtcSelectItemProps) {
   const product = useProductById(item.id);
 
-  const sheet = useCategoryById(item.option_sheet).category_name;
-  const shape = useCategoryById(item.option_shape).category_name;
-  const cream = useCategoryById(item.option_cream).category_name;
-  const size = useCategoryById(item.option_size).category_name;
+  const sheet = useCategoryById(item.option_sheet).categoryName;
+  const shape = useCategoryById(item.option_shape).categoryName;
+  const cream = useCategoryById(item.option_cream).categoryName;
+  const size = useCategoryById(item.option_size).categoryName;
 
   const selection = {
     sheet,

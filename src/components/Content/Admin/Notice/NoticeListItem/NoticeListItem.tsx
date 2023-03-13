@@ -35,7 +35,7 @@ export function NoticeListItem({ item, items, setItems, }: INoticeListItemProps)
             checked={items.includes(item.id)}
           />
         </div>
-        <div>{category.category_name}</div>
+        <div>{category.categoryName}</div>
         <div>
           <Link to={`/admin/notice/${item.id}`}>{item.title}</Link>
         </div>

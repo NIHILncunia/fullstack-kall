@@ -107,8 +107,8 @@ export interface IAddress {
 }
 
 export interface ICategory {
-  id?: string;
-  category_name?: string;
+  categoryId?: string;
+  categoryName?: string;
 }
 
 export interface INotice {

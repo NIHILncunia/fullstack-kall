@@ -87,7 +87,7 @@ export function NoticeaArticle() {
               <div>
                 <p>
                   <span>카테고리</span>
-                  <span>{category.category_name}</span>
+                  <span>{category.categoryName}</span>
                 </p>
                 <p>
                   <span>작성일</span>

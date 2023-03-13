@@ -26,16 +26,16 @@ export function DeliveryListItem({ item, status, }: IDeliveryListItemProps) {
   });
   const sheet = useCategoryById(orderDetail[0]?.option_sheet, {
     enabled: orderDetail.length > 0,
-  }).category_name;
+  }).categoryName;
   const shape = useCategoryById(orderDetail[0]?.option_shape, {
     enabled: orderDetail.length > 0,
-  }).category_name;
+  }).categoryName;
   const cream = useCategoryById(orderDetail[0]?.option_cream, {
     enabled: orderDetail.length > 0,
-  }).category_name;
+  }).categoryName;
   const size = useCategoryById(orderDetail[0]?.option_size, {
     enabled: orderDetail.length > 0,
-  }).category_name;
+  }).categoryName;
 
   const onClickOpen = useCallback(() => {
     setIsOpen((prev) => !prev);
@@ -113,16 +113,16 @@ export function DeliveryDetailItem({ item, }: IDeliveryDetailItemProps) {
   });
   const sheet = useCategoryById(item.option_sheet, {
     enabled: item && 'id' in item,
-  }).category_name;
+  }).categoryName;
   const shape = useCategoryById(item.option_shape, {
     enabled: item && 'id' in item,
-  }).category_name;
+  }).categoryName;
   const cream = useCategoryById(item.option_cream, {
     enabled: item && 'id' in item,
-  }).category_name;
+  }).categoryName;
   const size = useCategoryById(item.option_sheet, {
     enabled: item && 'id' in item,
-  }).category_name;
+  }).categoryName;
 
   const { itemString, itemTotalPrice, } = getItemString(
     {

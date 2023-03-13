@@ -117,7 +117,7 @@ export function DirectDetailPage() {
           <div>
             <p>
               <span>분류</span>
-              <span>{category.category_name}</span>
+              <span>{category.categoryName}</span>
             </p>
             <p>
               <span>작성자</span>

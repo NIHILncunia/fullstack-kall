@@ -44,7 +44,7 @@ export function ProductItem({ item, selectedItems, setSelectedItems, }: IProduct
             checked={selectedItems.includes(item.id)}
           />
         </div>
-        <div>{category.category_name}</div>
+        <div>{category.categoryName}</div>
         <div onClick={onClickOpen}>{item?.name}</div>
         <div>{item?.amount}</div>
         <div>{item?.price.toLocaleString()}원</div>

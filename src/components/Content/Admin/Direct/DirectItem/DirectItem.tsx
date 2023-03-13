@@ -34,7 +34,7 @@ export function DirectItem({ item, items, setItems, }: IDirectItemProps) {
             checked={items.includes(item.id)}
           />
         </div>
-        <div>{category.category_name}</div>
+        <div>{category.categoryName}</div>
         <div>
           <Link to={`/admin/direct/${item.id}`}>{item.title}</Link>
         </div>

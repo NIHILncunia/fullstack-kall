@@ -124,7 +124,7 @@ export function UserEditForm() {
             {deleteUser.message.length !== 0 && (
               <p css={tw`mt-[5px] font-[900]`}>탈퇴처리 되었습니다.</p>
             )}
-            {updateUser.message.length !== 0 && (
+            {updateUser.user && (
               <p css={tw`mt-[5px] font-[900]`}>수정되었습니다.</p>
             )}
             <div>

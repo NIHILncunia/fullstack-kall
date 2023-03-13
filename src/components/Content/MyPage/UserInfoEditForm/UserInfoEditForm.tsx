@@ -15,12 +15,8 @@ export function UserInfoEditForm() {
   const [ phoneError, setPhoneError, ] = useState(false);
 
   const [ cookies, ] = useCookies([ 'id', ]);
-  const user = JSON.parse(localStorage.getItem('user'));
-  const userQuery = useUserById(cookies.id);
+  const user = useUserById(cookies.id);
   const navi = useNavigate();
-
-  console.log('user >> ', user);
-  console.log('userQuery >> ', userQuery);
 
   const idRef = useRef<HTMLInputElement>();
   const nameRef = useRef<HTMLInputElement>();
@@ -33,7 +29,7 @@ export function UserInfoEditForm() {
   const phone = useInput(phoneRef, 'phone');
 
   useEffect(() => {
-    if ('id' in user) {
+    if ('userId' in user) {
       id.setValue(user.userId);
       name.setValue(user.name);
       email.setValue(user.email);

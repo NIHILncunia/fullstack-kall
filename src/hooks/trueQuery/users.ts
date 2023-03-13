@@ -143,13 +143,13 @@ export const useAdminDeleteUser = (id: string) => {
 
 // ==================== 개별 데이터 업데이트하기 (어드민) ====================
 export const useUpdateUser = (id: string) => {
-  const [ message, setMessage, ] = useState('');
+  const [ user, setUser, ] = useState<IUser>(null);
 
   const queryClient = useQueryClient();
 
-  const { mutate, } = useMutation<string, AxiosError, IUser>(
+  const { mutate, } = useMutation<IUser, AxiosError, IUser>(
     async (newData) => {
-      const { data, } = await kallInstance.put<string>(
+      const { data, } = await kallInstance.put<IUser>(
         `/admin/users/${id}`,
         newData
       );
@@ -166,12 +166,12 @@ export const useUpdateUser = (id: string) => {
           userData
         );
 
-        setMessage(data);
+        setUser(data);
       },
     }
   );
 
-  return { mutate, message, };
+  return { mutate, user, };
 };
 
 // ==================== 다수 데이터 삭제하기 (어드민) ====================
