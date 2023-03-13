@@ -1,3 +1,4 @@
+import { ISelect } from '@/types/product.select.types';
 import {
   ICart, IOrderDetail, IProduct
 } from '@/types/tables.types';
@@ -9,7 +10,9 @@ interface ISelection {
   size: string;
 }
 
-export const getItemString = (selection: ISelection, product: IProduct, item: (ICart | IOrderDetail)) => {
+export const getItemString = (selection: ISelection, product: IProduct, item: (ICart | IOrderDetail | ISelect)) => {
+  console.log(product);
+
   let nameOption: string;
 
   switch (product.category_id) {

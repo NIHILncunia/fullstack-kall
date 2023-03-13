@@ -1,23 +1,23 @@
 import React, {
   FormEvent, useCallback, useRef, useState
 } from 'react';
-import { v4 as uuid } from 'uuid';
-import { FaTimes } from 'react-icons/fa';
 import { useInput } from '@/hooks';
 import { ISelect } from '@/types/product.select.types';
 import {
   bottomButtonStyle, bottomMessageStyle, countStyle, inputStyle, selectedItemStyle
 } from './style';
+import { EtcSelectItem } from './EtcSelectItem';
 
 interface IETCOptionProps {
   name: string;
   price: number;
+  id: number;
   items: ISelect[];
   setItems: React.Dispatch<React.SetStateAction<ISelect[]>>;
 }
 
 export function ETCOption({
-  name, price, items, setItems,
+  name, price, id, items, setItems,
 }: IETCOptionProps) {
   const [ amount, setAmount, ] = useState(1);
   const [ isDisabled, setIsDisabled, ] = useState(false);
@@ -44,15 +44,17 @@ export function ETCOption({
   const onSubmitForm = useCallback((event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const nameOption = `${name} - 수량: ${amount}`;
-    const requestOption = request.data.value ? `, 요청사항: ${request.data.value}` : '';
+    // const nameOption = `${name} - 수량: ${amount}`;
+    // const requestOption = request.data.value ? `, 요청사항: ${request.data.value}` : '';
 
-    const newItem = `${nameOption}${requestOption}`;
+    // const newItem = `${nameOption}${requestOption}`;
 
     setIsDisabled(true);
     setItems((prev) => [ ...prev, {
       id: idRef.current++,
-      item: newItem,
+      product_id: id,
+      name,
+      request: request.data.value,
       amount,
       price,
     }, ]);
@@ -101,11 +103,7 @@ export function ETCOption({
         <div className='items' css={selectedItemStyle}>
           <p className='count'>선택된 상품 총 {items.length}개</p>
           {items.map((item) => (
-            <div key={uuid()}>
-              <p>{item.item}</p>
-              <p>{item.price?.toLocaleString()}원</p>
-              <button aria-label='delete-item' onClick={() => onClickDelete(item.id)}><FaTimes /></button>
-            </div>
+            <EtcSelectItem key={item.id} item={item} onClickDelete={onClickDelete} />
           ))}
           {items && (
             <p className='total-price'>

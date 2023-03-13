@@ -1,6 +1,9 @@
 import React, { useCallback } from 'react';
 import { FaTimes } from 'react-icons/fa';
 import { ISelect } from '@/types/product.select.types';
+import { getItemString } from '@/utils';
+import { useProductById } from '@/hooks/trueQuery/product';
+import { useCategoryById } from '@/hooks/trueQuery/category';
 
 interface ISelectItemProps {
   id: number;
@@ -12,6 +15,19 @@ interface ISelectItemProps {
 export function SelectItem({
   id, item, items, setItems,
 }: ISelectItemProps) {
+  const product = useProductById(id);
+  const sheet = useCategoryById(item.option_sheet).category_name;
+  const shape = useCategoryById(item.option_shape).category_name;
+  const cream = useCategoryById(item.option_cream).category_name;
+  const size = useCategoryById(item.option_size).category_name;
+
+  const selection = {
+    sheet,
+    shape,
+    cream,
+    size,
+  };
+
   const onClickMinus = useCallback(() => {
     const newData = items.map((item) => {
       if (item.id === id) {
@@ -40,16 +56,18 @@ export function SelectItem({
     setItems(newData);
   }, [ items, ]);
 
+  const { itemString, itemTotalPrice, } = getItemString(selection, product, item);
+
   return (
     <>
       <div>
-        <p>{item.item}</p>
+        <p>{itemString}</p>
         <div>
           <button onClick={onClickMinus}>-</button>
           <input type='number' readOnly value={item.amount} />
           <button onClick={onClickPlus}>+</button>
         </div>
-        <p>{(item.price * item.amount).toLocaleString()}원</p>
+        <p>{itemTotalPrice}원</p>
         <button aria-label='delete-item' onClick={onClickDelete}><FaTimes /></button>
       </div>
     </>

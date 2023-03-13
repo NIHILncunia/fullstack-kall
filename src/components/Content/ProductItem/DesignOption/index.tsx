@@ -14,12 +14,13 @@ import {
 interface IDesignOptionProps {
   name: string;
   price: number;
+  id: number;
   items: ISelect[];
   setItems: React.Dispatch<React.SetStateAction<ISelect[]>>;
 }
 
 export function DesignOption({
-  name, price, items, setItems,
+  name, price, id, items, setItems,
 }: IDesignOptionProps) {
   const [ size, setSize, ] = useState(sizeData[0].value);
   const [ sizeLabel, setSizeLabel, ] = useState(sizeData[0].label);
@@ -47,16 +48,19 @@ export function DesignOption({
   const onSubmitForm = useCallback((event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const nameOption = `${name} - 크기: ${sizeLabel}`;
-    const requestOption = request.data.value ? `, 요청사항: ${request.data.value}` : '';
+    // const nameOption = `${name} - 크기: ${sizeLabel}`;
+    // const requestOption = request.data.value ? `, 요청사항: ${request.data.value}` : '';
 
-    const newItem = `${nameOption}${requestOption}`;
+    // const newItem = `${nameOption}${requestOption}`;
 
     // 이 부분에 POST [/order] 처리 필요함.
 
     setItems((prev) => [ ...prev, {
       id: idRef.current++,
-      item: newItem,
+      name,
+      product_id: id,
+      option_size: size,
+      request: request.data.value,
       price,
       amount: 1,
     }, ]);

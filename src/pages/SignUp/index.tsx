@@ -73,6 +73,16 @@ export function SignUp() {
       });
   }, [ id, name, password, phone, email, birthday, root.items, agree.items, zipCode, address1, address2, ]);
 
+  const onClickIdCheck = useCallback(() => {
+    kallInstance.get(`/users/idCheck?userId=${id.data.value}`)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [ id, ]);
+
   return (
     <>
       <Global
@@ -107,6 +117,7 @@ export function SignUp() {
                     ref={idRef}
                     {...id.data}
                   />
+                  <button type='button' onClick={onClickIdCheck}>중복확인</button>
                 </label>
                 <label htmlFor='password'>
                   <span>비밀번호 <RequireMark /></span>

@@ -25,6 +25,7 @@ import { QuestionList } from './QuestionList';
 import {
   useCreateWishlist, useDeleteWishlist, useWishlistByProductId, useWishlistByUserId
 } from '@/hooks/trueQuery/wish';
+import { ICart } from '@/types/tables.types';
 
 export function ProductItem() {
   // eslint-disable-next-line no-unused-vars
@@ -41,8 +42,7 @@ export function ProductItem() {
   const wishs = useWishlistByUserId(id);
   const product = useProductById(Number(param.id));
 
-  console.log('product >> ', product);
-  console.log('product.id >> ', product.id);
+  console.log(items);
 
   const wishItem = useWishlistByProductId(product.id, {
     enabled: 'id' in product,
@@ -121,6 +121,14 @@ export function ProductItem() {
     }
   }, [ product, queryClient, ]);
 
+  const onClickAddCart = useCallback(() => {
+    const newData: ICart = {
+
+    };
+
+    console.log('[POST /carts]', newData);
+  }, []);
+
   return (
     <>
       <AppLayout title={product.name}>
@@ -169,6 +177,7 @@ export function ProductItem() {
                 <CustomOption
                   name={product.name}
                   price={product.price}
+                  id={product.id}
                   items={items}
                   setItems={setItems}
                 />
@@ -178,6 +187,7 @@ export function ProductItem() {
                 <DesignOption
                   name={product.name}
                   price={product.price}
+                  id={product.id}
                   items={items}
                   setItems={setItems}
                 />
@@ -187,6 +197,7 @@ export function ProductItem() {
                 <ETCOption
                   name={product.name}
                   price={product.price}
+                  id={product.id}
                   items={items}
                   setItems={setItems}
                 />

@@ -6,21 +6,22 @@ import { useCookies } from 'react-cookie';
 import { useLocation } from 'react-router';
 import { useInput } from '@/hooks';
 import { creamData, shapeData, sheetData } from '@/data/select.data';
-import { ISelect } from '@/types/product.select.types';
 import { SelectItem } from '../SelectItem';
 import {
   fileInputStyle, inputStyle, radioStyle, selectButton, selectedItemStyle
 } from './style';
+import { ISelect } from '@/types/product.select.types';
 
 interface ICustomOptionProps {
   name: string;
   price: number;
+  id: number;
   items: ISelect[];
   setItems: React.Dispatch<React.SetStateAction<ISelect[]>>;
 }
 
 export function CustomOption({
-  name, price, items, setItems,
+  name, price, id, items, setItems,
 }: ICustomOptionProps) {
   const [ cookies, ] = useCookies([ 'id', ]);
   const { pathname, } = useLocation();
@@ -74,15 +75,21 @@ export function CustomOption({
   const onSubmitForm = useCallback((event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const nameOption = `${name} - ${sheetLabel}, ${shapeLabel}, ${creamLabel}`;
-    const wordOption = word.data.value ? `, 문구: ${word.data.value}` : '';
-    const requestOption = request.data.value ? `, 요청사항: ${request.data.value}` : '';
+    // const nameOption = `${name} - ${sheetLabel}, ${shapeLabel}, ${creamLabel}`;
+    // const wordOption = word.data.value ? `, 문구: ${word.data.value}` : '';
+    // const requestOption = request.data.value ? `, 요청사항: ${request.data.value}` : '';
 
-    const newItem = `${nameOption}${wordOption}${requestOption}`;
+    // const newItem = `${nameOption}${wordOption}${requestOption}`;
 
     setItems((prev) => [ ...prev, {
       id: idRef.current++,
-      item: newItem,
+      product_id: id,
+      name,
+      option_sheet: sheet,
+      option_shape: shape,
+      option_cream: cream,
+      word: word.data.value,
+      request: request.data.value,
       price,
       amount: 1,
     }, ]);
