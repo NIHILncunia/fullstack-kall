@@ -15,6 +15,7 @@ import { useCheckbox, useInput } from '@/hooks';
 import { rootCheckBoxData } from '@/data/select.data';
 import { RequireMark } from '@/components/Content';
 import { kallInstance } from '@/data/axios.data';
+import { IUser } from '@/types/tables.types';
 
 export function SignUp() {
   const nameRef = useRef<HTMLInputElement>();
@@ -47,11 +48,11 @@ export function SignUp() {
   const onSubmitForm = useCallback((event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const newData = {
-      id: id.data.value,
+    const newData: IUser = {
+      userId: id.data.value,
       name: name.data.value,
       password: password.data.value,
-      phone_nb: phone.data.value,
+      phoneNb: phone.data.value,
       email: email.data.value,
       birthday: birthday.data.value || null,
       root: root.items.toString(),

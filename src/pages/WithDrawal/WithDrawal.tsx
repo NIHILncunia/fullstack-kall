@@ -4,6 +4,7 @@ import { useCookies } from 'react-cookie';
 import { AppLayout } from '@/layouts';
 import { Heading2 } from '@/components/Content';
 import { withDrawalFormStyle } from './style';
+import { IUserDel } from '@/types/tables.types';
 
 export function WithDrawal() {
   const [ text, setText, ] = useState('');
@@ -17,8 +18,8 @@ export function WithDrawal() {
   const onSubmitForm = useCallback((event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const newData = {
-      user_id: cookies.id,
+    const newData: IUserDel = {
+      userId: cookies.id,
       text,
     };
 

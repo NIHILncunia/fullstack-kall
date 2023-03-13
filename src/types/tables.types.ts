@@ -132,7 +132,7 @@ export interface IDirect {
 }
 
 export interface IUserDel {
-  id?: string;
+  userId?: string;
   text?: string;
   date?: string;
 }

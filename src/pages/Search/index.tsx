@@ -4,14 +4,14 @@ import queryString from 'query-string';
 import { AppLayout } from '@/layouts';
 
 interface QueryString {
-  q?: string;
+  keyword?: string;
 }
 
 export function Search() {
   const location = useLocation();
   const parsed = queryString.parse(location.search) as QueryString;
 
-  console.log(parsed.q);
+  console.log(parsed.keyword);
 
   return (
     <>

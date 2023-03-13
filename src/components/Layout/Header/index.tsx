@@ -14,7 +14,7 @@ export function Header() {
   const keyword = useInput(keywordRef, 'keyword');
 
   const onSubmitSearch = useCallback(() => {
-    navi(`/search?q=${keyword.data.value}`);
+    navi(`/search?keyword=${keyword.data.value}`);
   }, [ keyword, ]);
 
   const [ cookies, setCookie, removeCookie, ] = useCookies([ 'id', 'role', ]);
