@@ -7,6 +7,8 @@ import tw from 'twin.macro';
 import { useInput } from '@/hooks';
 import { userInfoEditStyle } from './style';
 import { useUserById } from '@/hooks/trueQuery/users';
+import { IUser } from '@/types/tables.types';
+import { kallInstance } from '@/data/axios.data';
 
 export function UserInfoEditForm() {
   const [ emailError, setEmailError, ] = useState(false);
@@ -38,14 +40,22 @@ export function UserInfoEditForm() {
   const onSubmitForm = useCallback((event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const editInfo = {
-      id: id.data.value,
+    const editInfo: IUser = {
+      userId: id.data.value,
       name: name.data.value,
       email: email.data.value,
-      phone_nb: phone.data.value,
+      phoneNb: phone.data.value,
     };
 
-    console.log(`[PUT /users/${user.userId}]`, editInfo);
+    kallInstance.put(`/users/phoneoremail/${user.userId}`, editInfo)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    console.log(`[PUT /users/phoneoremail/${user.userId}]`, editInfo);
   }, [ id, name, email, phone, ]);
 
   const onChangeEmail = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {

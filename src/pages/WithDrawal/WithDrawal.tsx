@@ -5,6 +5,7 @@ import { AppLayout } from '@/layouts';
 import { Heading2 } from '@/components/Content';
 import { withDrawalFormStyle } from './style';
 import { IUserDel } from '@/types/tables.types';
+import { kallInstance } from '@/data/axios.data';
 
 export function WithDrawal() {
   const [ text, setText, ] = useState('');
@@ -23,7 +24,14 @@ export function WithDrawal() {
       text,
     };
 
-    console.log('[POST /withdrawal]', newData);
+    kallInstance.delete(`/users/${cookies.id}`, {
+      data: newData,
+    })
+      .then((res) => {
+        console.log(res);
+      });
+
+    console.log(`[DELETE /users/${cookies.id}]`, newData);
   }, [ text, cookies, ]);
 
   return (

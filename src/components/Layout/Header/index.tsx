@@ -23,6 +23,8 @@ export function Header() {
   const onClickSignOut = useCallback(() => {
     removeCookie('id', { path: '/', expires: new Date(), });
     removeCookie('role', { path: '/', expires: new Date(), });
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
     navi('/');
   }, []);
 

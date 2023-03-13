@@ -8,14 +8,15 @@ import { PassCheck } from '@/components/Content/MyPage';
 import { Heading2 } from '@/components/Content';
 import { useInput } from '@/hooks';
 import { passEditFormStyle } from './style';
-import { useUserById } from '@/hooks/trueQuery/users';
+import { useAuthUserById, useUserById } from '@/hooks/trueQuery/users';
+import { kallInstance } from '@/data/axios.data';
 
 export function MyaPagePassEdit() {
   const [ isPassError, setIsPassError, ] = useState(false);
   const [ isNewPassError, setIsNewPassError, ] = useState(false);
   const [ isUser, setIsUser, ] = useState(true);
   const [ cookies, ] = useCookies([ 'id', ]);
-  const user = useUserById(cookies.id);
+  const user = useAuthUserById(cookies.id);
 
   const currentPassRef = useRef<HTMLInputElement>();
   const newPassRef = useRef<HTMLInputElement>();
@@ -68,6 +69,13 @@ export function MyaPagePassEdit() {
         password: newPass.data.value,
       };
 
+      kallInstance.put(`/users/password/${user.userId}`, putData)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
       console.log('백엔드로 데이터 전송 >> ', putData);
     }
   }, [ newPass, user, ]);
