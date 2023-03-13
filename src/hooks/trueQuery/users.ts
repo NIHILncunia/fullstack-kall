@@ -8,7 +8,7 @@ import { IUser, IUserDel } from '@/types/tables.types';
 import { IQueryOptions, IUsersDeleteResponse } from '@/types/other.types';
 
 const getUsers = async () => {
-  const { data, } = await kallInstance.get<IUser[]>('/users');
+  const { data, } = await kallInstance.get<IUser[]>('/admin/users');
 
   return data;
 };
@@ -58,6 +58,7 @@ export const useUserById = (id: string, options?: IQueryOptions) => {
   return data as IUser;
 };
 
+// ==================== 인증된 회원 정보 가져오기 ====================
 export const useAuthUserById = (id: string, options?: IQueryOptions) => {
   const fallback = {};
   const { data = fallback, } = useQuery<IUser, AxiosError>(
@@ -82,6 +83,40 @@ export const useDeleteUser = (id: string) => {
     async (userDelData) => {
       const { data, } = await kallInstance.delete<string>(
         `/users/${id}`,
+        {
+          data: userDelData,
+        }
+      );
+
+      return data;
+    },
+    {
+      onSuccess: async (data) => {
+        const usersData = await getUsers();
+
+        queryClient.setQueryData(
+          [ 'getUsers', ],
+          usersData
+        );
+
+        setMessage(data);
+      },
+    }
+  );
+
+  return { mutate, message, };
+};
+
+// ==================== 회원 탈퇴 (어드민) ====================
+export const useAdminDeleteUser = (id: string) => {
+  const [ message, setMessage, ] = useState('');
+
+  const queryClient = useQueryClient();
+
+  const { mutate, } = useMutation<string, AxiosError, IUserDel>(
+    async (userDelData) => {
+      const { data, } = await kallInstance.delete<string>(
+        `/admin/users/${id}`,
         {
           data: userDelData,
         }
