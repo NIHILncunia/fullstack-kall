@@ -1,5 +1,5 @@
 import React, {
-  FormEvent, useCallback, useRef
+  FormEvent, useCallback, useRef, useState
 } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Global } from '@emotion/react';
@@ -18,6 +18,8 @@ import { kallInstance } from '@/data/axios.data';
 import { IUser } from '@/types/tables.types';
 
 export function SignUp() {
+  const [ message, setMessage, ] = useState('');
+
   const nameRef = useRef<HTMLInputElement>();
   const idRef = useRef<HTMLInputElement>();
   const passwordRef = useRef<HTMLInputElement>();
@@ -77,6 +79,7 @@ export function SignUp() {
     kallInstance.get(`/users/idCheck?userId=${id.data.value}`)
       .then((res) => {
         console.log(res);
+        setMessage(res.data);
       })
       .catch((error) => {
         console.error(error);
@@ -119,6 +122,7 @@ export function SignUp() {
                   />
                   <button type='button' onClick={onClickIdCheck}>중복확인</button>
                 </label>
+                {message && (<p>{message}</p>)}
                 <label htmlFor='password'>
                   <span>비밀번호 <RequireMark /></span>
                   <input
