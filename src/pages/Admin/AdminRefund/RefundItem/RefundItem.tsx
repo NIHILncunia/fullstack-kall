@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import tw from 'twin.macro';
+import { useQueryClient } from 'react-query';
 import { AdminLayout, AppLayout } from '@/layouts';
 import { useRefundById, useUpdateRefund } from '@/hooks/trueQuery/refund';
 import { useOrderDetailById } from '@/hooks/trueQuery/orderDetail';
@@ -26,6 +27,7 @@ export function RefundItem() {
     enabled: 'orderDNb' in orderDetail,
   });
   const updateRefund = useUpdateRefund(Number(refundId));
+  const qc = useQueryClient();
 
   useEffect(() => {
     if ('refundId' in refund) {
@@ -43,7 +45,11 @@ export function RefundItem() {
         status,
       };
 
-      updateRefund.mutate(updateData);
+      updateRefund.mutate(updateData, {
+        onSuccess: () => {
+          qc.refetchQueries([ 'getRefundById', Number(refundId), ]);
+        },
+      });
       console.log(`[PUT /refunds/${refundId}]`, updateData);
 
       setIsEdit(false);
@@ -51,7 +57,7 @@ export function RefundItem() {
     } else {
       setIsEdit(true);
       setLabel('수정 완료');
-      navi('/admin/refund');
+      navi('/admin/refunds');
     }
   }, [ isEdit, status, ]);
 

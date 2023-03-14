@@ -74,10 +74,31 @@ export const useCreateOrder = () => {
 };
 
 // ==================== 주문 수정 (상태 수정) ====================
+export const useUpdateOrder = (id: number) => {
+  interface Update {
+    data: IOrder;
+    role?: string;
+  }
+
+  const { mutate, } = useMutation<void, AxiosError, Update>(
+    async (updateData) => {
+      const { data: udata, role, } = updateData;
+      const url = role === 'admin' ? '/admin' : '';
+
+      const { data, } = await kallInstance.put(`${url}/orders/${id}`, udata);
+
+      return data;
+    },
+    {}
+  );
+
+  return { mutate, };
+};
+
 // ==================== 주문 수정 (삭제용) ====================
-export const useDeleteOrder = (id: number) => {
+export const useDeleteOrder = () => {
   const { mutate, } = useMutation(
-    async () => {
+    async (id: number) => {
       const { data, } = await kallInstance.put(`/orders/${id}`);
 
       return data;

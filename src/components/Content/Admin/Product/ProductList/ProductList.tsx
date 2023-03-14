@@ -4,10 +4,11 @@ import React, {
   useEffect, useRef, useState
 } from 'react';
 import { useNavigate } from 'react-router';
+import { useQueryClient } from 'react-query';
 import { IProduct } from '@/types/tables.types';
 import { ProductItem } from '../ProductItem/ProductItem';
 import { itemCategoryButtonStyle, itemControllButtonStyle, productListStyle } from './style';
-import { useProducts } from '@/hooks/trueQuery/product';
+import { useDeleteProducts, useProducts } from '@/hooks/trueQuery/product';
 
 export function ProductList() {
   const [ cate, setCate, ] = useState('');
@@ -21,6 +22,8 @@ export function ProductList() {
   const productData = useProducts();
 
   const navi = useNavigate();
+  const qc = useQueryClient();
+  const deleteProducts = useDeleteProducts();
 
   console.log('items >> ', items);
 
@@ -41,18 +44,30 @@ export function ProductList() {
     }
 
     const res = window.confirm('정말로 삭제합니까?');
-    console.log('삭제할 데이터 아이디 >> ', selectedItems);
 
-    console.log('[DELETE /admin/products, {아이디 배열}]');
+    if (res) {
+      deleteProducts.mutate(selectedItems, {
+        onSuccess: () => {
+          qc.refetchQueries([ 'getProducts', ]);
+        },
+      });
+      console.log('[DELETE /admin/products]', selectedItems);
+    }
   }, [ selectedItems, ]);
 
   const onClickAllDelete = useCallback(() => {
     // 전체 삭제
     const res = window.confirm('정말로 삭제합니까?');
-    const allItems = productData.map((item) => item.productId);
-    console.log('삭제할 데이터 아이디 >> ', allItems);
 
-    console.log('[DELETE /admin/products, {아이디 배열}]');
+    if (res) {
+      const allItems = productData.map((item) => item.productId);
+      deleteProducts.mutate(allItems, {
+        onSuccess: () => {
+          qc.refetchQueries([ 'getProducts', ]);
+        },
+      });
+      console.log('[DELETE /admin/products', allItems);
+    }
   }, [ productData, ]);
 
   return (

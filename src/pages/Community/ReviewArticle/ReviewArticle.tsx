@@ -34,7 +34,7 @@ export function ReviewArticle() {
     enabled: 'reviewId' in review,
   });
   const orderDetail = useOrderDetailByOrderId(order.orderId, {
-    enabled: 'reviewId' in order,
+    enabled: 'orderDNb' in order,
   });
   const reviewComments = useReviewCommentByReviewId(review.reviewId, cookies.role, {
     enabled: 'reviewId' in review,
@@ -136,7 +136,7 @@ export function ReviewArticle() {
               <img src={product.image} alt={product.name} />
               <div>
                 <h4>
-                  <Link to={`/products/${product.categoryDTO}/${product.productId}`}>
+                  <Link to={`/products/${product?.categoryDTO?.categoryName}/${product.productId}`}>
                     {product.name}
                   </Link>
                 </h4>

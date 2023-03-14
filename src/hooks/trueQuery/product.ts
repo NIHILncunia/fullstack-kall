@@ -128,9 +128,6 @@ export const useCreateProduct = () => {
   return { mutate, };
 };
 
-// ==================== 데이터 수정하기 - 기본 정보 ====================
-// ==================== 데이터 수정하기 - 대표 이미지 ====================
-// ==================== 데이터 수정하기 - 상세 이미지들 ====================
 // ==================== 데이터 삭제하기 ====================
 export const useDeleteProduct = () => {
   const { mutate, } = useMutation(
@@ -144,6 +141,7 @@ export const useDeleteProduct = () => {
 
   return { mutate, };
 };
+
 // ==================== 데이터 여러개 삭제하기 ====================
 export const useDeleteProducts = () => {
   const { mutate, } = useMutation(

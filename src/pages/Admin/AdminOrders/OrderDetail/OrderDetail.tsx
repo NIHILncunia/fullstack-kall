@@ -3,13 +3,14 @@ import React, {
 } from 'react';
 import { useParams } from 'react-router';
 import { useCookies } from 'react-cookie';
+import { useQueryClient } from 'react-query';
 import { AdminLayout, AppLayout } from '@/layouts';
 import { Heading2, Heading3 } from '@/components/Content';
 import { useInput } from '@/hooks';
 import { IOrder } from '@/types/tables.types';
 import { orderDetailListStyle, orderUpdateStyle } from './style';
 import { OrderDetailList } from '@/components/Content/Admin';
-import { useOrderById } from '@/hooks/trueQuery/order';
+import { useDeleteOrder, useOrderById, useUpdateOrder } from '@/hooks/trueQuery/order';
 import { useOrderDetailByOrderId } from '@/hooks/trueQuery/orderDetail';
 import { useUserById } from '@/hooks/trueQuery/users';
 
@@ -23,7 +24,7 @@ export function OrderDetail() {
   const orderDetail = useOrderDetailByOrderId(order?.orderId, {
     enabled: 'orderId' in order,
   });
-  const [ { id, }, ] = useCookies([ 'id', ]);
+  const [ { id, role, }, ] = useCookies([ 'id', 'role', ]);
   const user = useUserById(id);
 
   const userIdRef = useRef<HTMLInputElement>();
@@ -49,13 +50,17 @@ export function OrderDetail() {
   const price = useInput(priceRef, 'price');
   const request = useInput(requestRef, 'request');
 
+  const qc = useQueryClient();
+  const updateOrder = useUpdateOrder(Number(params.id));
+  const deleteOrder = useDeleteOrder();
+
   const onChangeStatus = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
     setStatus(event.target.value);
   }, []);
 
   useEffect(() => {
     if ('orderId' in order) {
-      userId.setValue(order.userDTO?.userId);
+      userId.setValue(order?.userDTO?.userId);
       name.setValue(order.name);
       phone.setValue(order.phone_nb);
       zipCode.setValue(order.zip_code);
@@ -83,8 +88,14 @@ export function OrderDetail() {
         request: request.data.value,
         order_status: status,
       };
-      console.log('수정이 완료되었습니다.');
+      updateOrder.mutate({ data: updateData, role, }, {
+        onSuccess: () => {
+          qc.refetchQueries([ 'getOrderById', Number(params.id), ]);
+        },
+      });
+
       console.log(`[PUT /orders/${params.id}]`, updateData);
+      console.log('수정이 완료되었습니다.');
       setIsEdit(false);
       setLabel('수정');
     } else {
@@ -92,11 +103,16 @@ export function OrderDetail() {
       setIsEdit(true);
       setLabel('수정완료');
     }
-  }, [ isEdit, name, userId, phone, zipCode, address1, address2, payment, mileage, price, request, status, ]);
+  }, [ isEdit, name, userId, phone, zipCode, address1, address2, payment, mileage, price, request, status, user, ]);
 
   const onClickDeleteOrder = useCallback((id: number) => {
+    deleteOrder.mutate(Number(params.id), {
+      onSuccess: () => {
+        qc.refetchQueries([ 'getOrderById', Number(params.id), ]);
+      },
+    });
     console.log(`[DELETE /orders/${id}]`);
-  }, []);
+  }, [ deleteOrder, params, ]);
 
   console.log(orderDetail);
 
