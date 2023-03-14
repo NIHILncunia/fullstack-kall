@@ -101,7 +101,7 @@ export function ProductEdit() {
     });
 
     // TODO: 이 부분은 쿼리로 변경해야함
-    kallInstance.put(
+    kallInstance.post(
       '/',
       formData,
       {
@@ -129,13 +129,13 @@ export function ProductEdit() {
       info: text,
     };
 
-    kallInstance.post(`/products/${productData.productId}/info`, updateData)
+    kallInstance.put(`/products/${productData.productId}/info`, updateData)
       .then((res) => {
         console.log('상품 기본 정보 수정');
         console.log(res);
       });
 
-    console.log(`[POST /products/${params.id}/info]`, updateData);
+    console.log(`[PUT /products/${params.id}/info]`, updateData);
   }, [ name, tag, amount, price, text, ]);
 
   return (
