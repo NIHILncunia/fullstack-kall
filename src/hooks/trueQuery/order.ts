@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { AxiosError } from 'axios';
 import { kallInstance } from '@/data/axios.data';
 import { IOrder } from '@/types/tables.types';
@@ -61,8 +61,45 @@ export const useOrderByUserId = (userId: string, role?: string, options?: IQuery
 };
 
 // ==================== 주문 생성 ====================
-// export const use
+export const useCreateOrder = () => {
+  const { mutate, } = useMutation<void, AxiosError, IOrder>(
+    async (createData) => {
+      const { data, } = await kallInstance.post('/orders', createData);
 
-// ==================== 주문 수정 () ====================
+      return data;
+    }
+  );
+
+  return { mutate, };
+};
+
+// ==================== 주문 수정 (상태 수정) ====================
 // ==================== 주문 수정 (삭제용) ====================
+export const useDeleteOrder = (id: number) => {
+  const { mutate, } = useMutation(
+    async () => {
+      const { data, } = await kallInstance.put(`/orders/${id}`);
+
+      return data;
+    },
+    {}
+  );
+
+  return { mutate, };
+};
+
 // ==================== 주문 수정 (일괄 삭제용) ====================
+export const useDeleteOrders = () => {
+  const { mutate, } = useMutation(
+    async (ids: number[]) => {
+      const { data, } = await kallInstance.put('/orders', {
+        data: ids,
+      });
+
+      return data;
+    },
+    {}
+  );
+
+  return { mutate, };
+};

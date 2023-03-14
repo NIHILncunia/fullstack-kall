@@ -19,7 +19,7 @@ export function OrderDetail() {
   const [ label, setLabel, ] = useState('수정');
 
   const params = useParams();
-  const order = useOrderById(Number(params.id));
+  const order = useOrderById(Number(params.id), 'admin');
   const orderDetail = useOrderDetailByOrderId(order?.orderId, {
     enabled: 'orderId' in order,
   });
@@ -55,7 +55,7 @@ export function OrderDetail() {
 
   useEffect(() => {
     if ('orderId' in order) {
-      userId.setValue(order.userDTO.userId);
+      userId.setValue(order.userDTO?.userId);
       name.setValue(order.name);
       phone.setValue(order.phone_nb);
       zipCode.setValue(order.zip_code);

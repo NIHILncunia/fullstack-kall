@@ -11,7 +11,7 @@ interface IDirectItemProps {
 }
 
 export function DirectItem({ item, }: IDirectItemProps) {
-  const category = useCategoryById(item.categoryDTO.categoryId).categoryName;
+  const category = useCategoryById(item.categoryDTO?.categoryId).categoryName;
 
   const navi = useNavigate();
 

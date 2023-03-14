@@ -30,7 +30,7 @@ export function NoticeaArticle() {
   const cond = notice && 'noticeId' in notice;
 
   const categoryDTO = cond ? notice.categoryDTO : faq.categoryDTO;
-  const category = useCategoryById(categoryDTO.categoryId, {
+  const category = useCategoryById(categoryDTO?.categoryId, {
     enabled: !!categoryDTO,
   });
 

@@ -14,12 +14,12 @@ export function ProductGridItem({ item, }: IProductGridItemProps) {
     <>
       <div css={itemStyle}>
         <div className='item-image'>
-          <Link to={`/products/${item.categoryDTO.categoryId}/${item.productId}`}>
+          <Link to={`/products/${item.categoryDTO?.categoryId}/${item.productId}`}>
             <img src={item.image} alt={item.name} />
           </Link>
         </div>
         <p className='item-name'>
-          <Link to={`/products/${item.categoryDTO.categoryId}/${item.productId}`}>
+          <Link to={`/products/${item.categoryDTO?.categoryId}/${item.productId}`}>
             <strong>{item.name}</strong>
           </Link>
         </p>

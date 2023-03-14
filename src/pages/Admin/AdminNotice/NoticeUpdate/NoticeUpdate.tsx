@@ -25,7 +25,7 @@ export function NoticeUpdate() {
     if (notice && 'noticeId' in notice) {
       title.setValue(notice.title);
       setText(notice.content);
-      setSelect(notice.categoryDTO.categoryId);
+      setSelect(notice.categoryDTO?.categoryId);
     }
   }, [ notice, ]);
 

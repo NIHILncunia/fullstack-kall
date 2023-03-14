@@ -21,7 +21,7 @@ export function DeliveryListItem({ item, status, }: IDeliveryListItemProps) {
   const orderDetail = useOrderDetailByOrderId(item.orderId, {
     enabled: 'orderId' in item,
   });
-  const product = useProductById(orderDetail[0]?.productDTO.productId, {
+  const product = useProductById(orderDetail[0]?.productDTO?.productId, {
     enabled: orderDetail.length > 0,
   });
   const sheet = useCategoryById(orderDetail[0]?.option_sheet, {
@@ -108,7 +108,7 @@ interface IDeliveryDetailItemProps {
 }
 
 export function DeliveryDetailItem({ item, }: IDeliveryDetailItemProps) {
-  const product = useProductById(item.productDTO.productId, {
+  const product = useProductById(item.productDTO?.productId, {
     enabled: item && 'orderDNb' in item,
   });
   const sheet = useCategoryById(item.option_sheet, {

@@ -20,7 +20,7 @@ export function ReviewItem({ item, }: IReviewItemProps) {
     <>
       <div className='list-content' css={reviewListContent}>
         <p onClick={onClickLink}>{item.title}</p>
-        <p>{item.userDTO.userId}</p>
+        <p>{item.userDTO?.userId}</p>
         <ItemRate rate={item.star} />
         <p>{moment(item.date).format('YYYY-MM-DD HH:mm:ss')}</p>
       </div>

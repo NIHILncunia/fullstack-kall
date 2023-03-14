@@ -14,7 +14,7 @@ export function RefundListItem({ item, }: IRefundListItemProps) {
         <div>
           <Link to={`/admin/refunds/${item.refundId}`}>{item.title}</Link>
         </div>
-        <div>{item.userDTO.userId}</div>
+        <div>{item.userDTO?.userId}</div>
         <div>{item.status}</div>
       </div>
     </>

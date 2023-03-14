@@ -63,7 +63,7 @@ export function ProductList() {
           ref={customRef}
           onClick={() => {
             const selectedData = productData.filter(
-              (item) => item.categoryDTO.categoryId === 'custom'
+              (item) => item.categoryDTO?.categoryId === 'custom'
             );
             setCate('custom');
             setItems(selectedData);
@@ -76,7 +76,7 @@ export function ProductList() {
           ref={designRef}
           onClick={() => {
             const selectedData = productData.filter(
-              (item) => item.categoryDTO.categoryId === 'design'
+              (item) => item.categoryDTO?.categoryId === 'design'
             );
             setCate('design');
             setItems(selectedData);
@@ -89,7 +89,7 @@ export function ProductList() {
           ref={etcRef}
           onClick={() => {
             const selectedData = productData.filter(
-              (item) => item.categoryDTO.categoryId === 'etc'
+              (item) => item.categoryDTO?.categoryId === 'etc'
             );
             setCate('etc');
             setItems(selectedData);

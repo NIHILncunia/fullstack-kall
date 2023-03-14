@@ -44,7 +44,7 @@ export function DirectUpdate() {
     if (direct && 'usQId' in direct) {
       setTitle(direct.title);
       setContent(direct.content);
-      setCategory(direct.categoryDTO.categoryId);
+      setCategory(direct.categoryDTO?.categoryId);
     }
   }, [ direct, ]);
 

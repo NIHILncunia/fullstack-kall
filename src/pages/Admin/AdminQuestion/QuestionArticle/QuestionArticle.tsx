@@ -33,7 +33,7 @@ export function QuestionArticle() {
   const question = useQuestionById(Number(questionId), 'admin');
   const questions = useQuestions();
   const myQuestion = useQuestionByUserId(id);
-  const userData = useUserById(question.userDTO.userId, {
+  const userData = useUserById(question.userDTO?.userId, {
     enabled: 'productQId' in question,
   });
 

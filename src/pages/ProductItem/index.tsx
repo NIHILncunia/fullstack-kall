@@ -50,7 +50,7 @@ export function ProductItem() {
 
   const wish = useMemo(() => {
     if (wishs.length > 0) {
-      return wishs.some((item) => item.productDTO.productId === product.productId);
+      return wishs.some((item) => item.productDTO?.productId === product.productId);
     }
     return false;
   }, [ wishs, product.productId, ]);

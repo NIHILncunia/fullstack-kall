@@ -11,7 +11,7 @@ interface INoticeListItemProps {
 }
 
 export function NoticeListItem({ item, items, setItems, }: INoticeListItemProps) {
-  const category = useCategoryById(item.categoryDTO.categoryId, {
+  const category = useCategoryById(item.categoryDTO?.categoryId, {
     enabled: 'noticeId' in item,
   });
 

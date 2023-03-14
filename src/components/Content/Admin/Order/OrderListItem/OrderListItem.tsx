@@ -41,7 +41,7 @@ export function OrderListItem({ item, items, setItems, }: IOrderListItemProps) {
           />
         </p>
         <p onClick={() => onClickDetail(item.orderId)}>{item.orderId}</p>
-        <p>{item.userDTO.userId}</p>
+        <p>{item?.userDTO?.userId}</p>
         <p>{paymentString[item.payment]}</p>
         <p>{item.price.toLocaleString()}원</p>
         <p>{item.order_status}</p>

@@ -10,7 +10,7 @@ interface IAddressUpdateFormProps {
 }
 
 export function AddressUpdateForm({ item, setIsOpen, }: IAddressUpdateFormProps) {
-  const updateAddress = useUpdateAddress(item.usAddressId, item.userDTO.userId);
+  const updateAddress = useUpdateAddress(item.usAddressId, item.userDTO?.userId);
   const nameRef = useRef<HTMLInputElement>();
   const zipCodeRef = useRef<HTMLInputElement>();
   const address1Ref = useRef<HTMLInputElement>();

@@ -50,7 +50,7 @@ export function CommunityArticle({ title, category, }: ICommunityArticleProps) {
                 <p>{item.noticeId}</p>
                 <p>
                   <Link to={`/community/notice/${item.noticeId}`}>
-                    [{getCategoryName(item.categoryDTO.categoryId)}] - {item.title}
+                    [{getCategoryName(item.categoryDTO?.categoryId)}] - {item.title}
                   </Link>
                 </p>
                 <p>{moment(item.date).format('YYYY-MM-DD HH:mm:ss')}</p>

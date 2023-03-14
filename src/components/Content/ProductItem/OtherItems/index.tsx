@@ -16,13 +16,13 @@ export function OtherItems({ data, }: IOtherItemsProps) {
         {data.map((item) => (
           <div key={item.productId}>
             <div className='item-image'>
-              <Link to={`/products/${item.categoryDTO.categoryId}/${item.productId}`}>
+              <Link to={`/products/${item.categoryDTO?.categoryId}/${item.productId}`}>
                 <img src={item.image} alt={item.name} />
               </Link>
             </div>
             <div className='item-info'>
               <h4 className='item-name'>
-                <Link to={`/products/${item.categoryDTO.categoryId}/${item.productId}`}>
+                <Link to={`/products/${item.categoryDTO?.categoryId}/${item.productId}`}>
                   <strong>{item.name}</strong>
                 </Link>
               </h4>

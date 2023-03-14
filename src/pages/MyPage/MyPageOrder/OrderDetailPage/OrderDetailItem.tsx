@@ -33,16 +33,14 @@ export function OrderDetailItem({ item, }: IOrderDetailItemProps) {
   const fileInputRef = useRef<HTMLInputElement>();
 
   const [ { id: userId, odId, pId, }, setCookie, ] = useCookies([ 'id', 'odId', 'pId', ]);
-  const product = useProductById(Number(pId));
+  const product = useProductById(item?.productDTO?.productId);
   const sheet = useCategoryById(item.option_sheet).categoryName;
   const shape = useCategoryById(item.option_shape).categoryName;
   const cream = useCategoryById(item.option_cream).categoryName;
   const size = useCategoryById(item.option_size).categoryName;
   const user = useUserById(userId);
-  const orderDetail = useOrderDetailById(Number(odId));
+  const orderDetail = useOrderDetailById(item.orderDNb);
   const createRefund = useCreateRefund(userId);
-
-  console.log(item);
 
   const selection = {
     sheet,

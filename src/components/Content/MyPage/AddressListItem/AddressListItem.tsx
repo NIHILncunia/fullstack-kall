@@ -13,7 +13,7 @@ interface IAddressListItemProps {
 
 export function AddressListItem({ item, selectedAddress, setSelectedAddress, }: IAddressListItemProps) {
   const [ isOpen, setIsOpen, ] = useState(false);
-  const deleteAddress = useDeleteAddress(item.userDTO.userId);
+  const deleteAddress = useDeleteAddress(item.userDTO?.userId);
 
   const onChnageAddress = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedAddress(Number(event.target.value));

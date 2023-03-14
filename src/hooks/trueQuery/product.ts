@@ -132,4 +132,30 @@ export const useCreateProduct = () => {
 // ==================== 데이터 수정하기 - 대표 이미지 ====================
 // ==================== 데이터 수정하기 - 상세 이미지들 ====================
 // ==================== 데이터 삭제하기 ====================
+export const useDeleteProduct = () => {
+  const { mutate, } = useMutation(
+    async (id: number) => {
+      const { data, } = await kallInstance.delete(`/admin/products/${id}`);
+
+      return data;
+    },
+    {}
+  );
+
+  return { mutate, };
+};
 // ==================== 데이터 여러개 삭제하기 ====================
+export const useDeleteProducts = () => {
+  const { mutate, } = useMutation(
+    async (ids: number[]) => {
+      const { data, } = await kallInstance.put('/admin/products', {
+        data: ids,
+      });
+
+      return data;
+    },
+    {}
+  );
+
+  return { mutate, };
+};

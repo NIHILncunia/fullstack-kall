@@ -11,7 +11,7 @@ interface IDirectItemProps {
 }
 
 export function DirectItem({ item, items, setItems, }: IDirectItemProps) {
-  const category = useCategoryById(item.categoryDTO.categoryId, {
+  const category = useCategoryById(item.categoryDTO?.categoryId, {
     enabled: !!item,
   });
 
@@ -38,7 +38,7 @@ export function DirectItem({ item, items, setItems, }: IDirectItemProps) {
         <div>
           <Link to={`/admin/direct/${item.usQId}`}>{item.title}</Link>
         </div>
-        <div>{item.userDTO.userId}</div>
+        <div>{item.userDTO?.userId}</div>
       </div>
     </>
   );

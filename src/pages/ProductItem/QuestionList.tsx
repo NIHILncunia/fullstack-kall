@@ -16,18 +16,18 @@ export function QuestionList({ item, }: IQuestionListProps) {
   return (
     <>
       <div css={reviewList}>
-        {id === item.userDTO.userId && (
+        {id === item.userDTO?.userId && (
           <div className='link'>
             <Link to={`/mypage/question/${item.productQId}`}>{item.title}</Link>
           </div>
         )}
-        {id !== item.userDTO.userId && (
+        {id !== item.userDTO?.userId && (
           <div className=''>
             <span>{item.title}</span>
             <FaLock />
           </div>
         )}
-        <div>{item.userDTO.userId}</div>
+        <div>{item.userDTO?.userId}</div>
         <div>{moment(item.date1).format('YYYY-MM-DD HH:mm:ss')}</div>
       </div>
     </>

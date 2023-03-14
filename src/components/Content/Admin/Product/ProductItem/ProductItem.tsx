@@ -1,7 +1,9 @@
 import React, { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router';
+import { useQueryClient } from 'react-query';
 import { IProduct } from '@/types/tables.types';
 import { listItemEditStyle } from './style';
+import { useDeleteProduct } from '@/hooks/trueQuery/product';
 
 interface IProductItemProps {
   item: IProduct;
@@ -13,6 +15,8 @@ export function ProductItem({ item, selectedItems, setSelectedItems, }: IProduct
   const [ isOpen, setIsOpen, ] = useState(false);
 
   const navi = useNavigate();
+  const qc = useQueryClient();
+  const deleteProduct = useDeleteProduct();
 
   const onClickOpen = useCallback(() => {
     setIsOpen((prev) => !prev);
@@ -27,8 +31,13 @@ export function ProductItem({ item, selectedItems, setSelectedItems, }: IProduct
   }, []);
 
   const onClickDelete = useCallback((id: number) => {
-    console.log(`[DELETE /products/${id}]`);
-  }, []);
+    deleteProduct.mutate(id, {
+      onSuccess: () => {
+        qc.refetchQueries([ 'getProduts', ]);
+      },
+    });
+    console.log(`[PUT /admin/products/${id}]`);
+  }, [ deleteProduct, ]);
 
   return (
     <>
@@ -42,7 +51,7 @@ export function ProductItem({ item, selectedItems, setSelectedItems, }: IProduct
             checked={selectedItems.includes(item.productId)}
           />
         </div>
-        <div>{item.categoryDTO.categoryName}</div>
+        <div>{item?.categoryDTO?.categoryName}</div>
         <div onClick={onClickOpen}>{item?.name}</div>
         <div>{item?.amount}</div>
         <div>{item?.price.toLocaleString()}원</div>

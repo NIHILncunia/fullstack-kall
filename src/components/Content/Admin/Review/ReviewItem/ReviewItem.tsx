@@ -34,7 +34,7 @@ export function ReviewItem({ item, items, setItems, }: IReviewItemProps) {
         <div>
           <Link to={`/admin/review/${item.reviewId}`}>{item.title}</Link>
         </div>
-        <div>{item.userDTO.userId}</div>
+        <div>{item.userDTO?.userId}</div>
         <ItemRate rate={item.star} />
       </div>
     </>

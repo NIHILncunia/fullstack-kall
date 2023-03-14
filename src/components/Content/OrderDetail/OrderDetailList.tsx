@@ -9,7 +9,7 @@ interface IOrderDetailListProps {
 }
 
 export function OrderDetailList({ item, }: IOrderDetailListProps) {
-  const product = useProductById(item.productDTO.productId);
+  const product = useProductById(item.productDTO?.productId);
   const sheet = useCategoryById(item.option_sheet).categoryName;
   const shape = useCategoryById(item.option_shape).categoryName;
   const cream = useCategoryById(item.option_cream).categoryName;
