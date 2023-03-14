@@ -100,8 +100,6 @@ export function ProductEdit() {
       formData.append('file', item.file);
     });
 
-    formData.append('productId', params.id);
-
     // TODO: 이 부분은 쿼리로 변경해야함
     kallInstance.post(
       `/products/${params.id}/images`,

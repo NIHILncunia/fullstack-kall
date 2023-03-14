@@ -10,7 +10,7 @@ import { IQueryOptions, IUsersDeleteResponse } from '@/types/other.types';
 const getUsers = async () => {
   const { data, } = await kallInstance.get<IUser[]>('/admin/users');
 
-  return data;
+  return data.filter((item) => item.status !== '탈퇴계정');
 };
 
 export const getUserById = async (id: string) => {
