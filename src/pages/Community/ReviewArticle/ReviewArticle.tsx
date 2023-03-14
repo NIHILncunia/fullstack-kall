@@ -23,13 +23,13 @@ export function ReviewArticle() {
   const params = useParams();
   const review = useReviewById(Number(params.id));
   const reviews = useReviews(cookies.role as string);
-  const userData = useUserById(review.userDTO.userId, {
+  const userData = useUserById(review?.userDTO?.userId, {
     enabled: 'reviewId' in review,
   });
-  const product = useProductById(review.productDTO.productId, {
+  const product = useProductById(review?.productDTO?.productId, {
     enabled: 'reviewId' in review,
   });
-  const order = useOrderById(review.orderDetailDTO.orderDNb, {
+  const order = useOrderById(review?.orderDetailDTO?.orderDNb, {
     enabled: 'reviewId' in review,
   });
   const orderDetail = useOrderDetailByOrderId(order.orderId, {
