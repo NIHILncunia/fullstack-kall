@@ -18,8 +18,8 @@ export function CommentItem({ item, }: ICommentItemProps) {
 
   const titleRef = useRef<HTMLInputElement>();
   const contentRef = useRef<HTMLInputElement>();
-  const updaterc = useUpdateReviewComment(item.reviewDTO.reviewId);
-  const deleterc = useDeleteReviewComment(item.reviewDTO.reviewId);
+  const updaterc = useUpdateReviewComment(item.reviewCmtId);
+  const deleterc = useDeleteReviewComment(item.reviewCmtId);
 
   const title = useInput(titleRef, 'title');
   const content = useInput(contentRef, 'content');
@@ -33,10 +33,10 @@ export function CommentItem({ item, }: ICommentItemProps) {
 
   const onClickDelete = useCallback((id: number) => {
     if (cookies.role === 'admin') {
-      deleterc.mutate({ role: cookies.role, rcId: id, });
+      deleterc.mutate('admin');
       console.log(`[DELETE /admin/reviews/comment/${id}]`);
     } else {
-      deleterc.mutate({ rcId: id, });
+      deleterc.mutate('');
       console.log(`[DELETE /reviews/comment/${id}]`);
     }
   }, [ cookies, ]);
@@ -49,9 +49,10 @@ export function CommentItem({ item, }: ICommentItemProps) {
       };
 
       if (cookies.role === 'admin') {
-        updaterc.mutate({ rcId: id, data: updateData, role: cookies.role, }); console.log(`[PUT /admin/reviews/comment/${id}]`, updateData);
+        updaterc.mutate({ data: updateData, role: 'admin', });
+        console.log(`[PUT /admin/reviews/comment/${id}]`, updateData);
       } else {
-        updaterc.mutate({ rcId: id, data: updateData, });
+        updaterc.mutate({ data: updateData, });
         console.log(`[PUT /reviews/comment/${id}]`, updateData);
       }
 

@@ -47,7 +47,7 @@ export const useReviewCommentByReviewId = (reviewId: number, role?: string, opti
 };
 
 // ==================== 덧글 추가 ====================
-export const useCreateReviewComment = async () => {
+export const useCreateReviewComment = () => {
   const { mutate, } = useMutation<void, AxiosError, IReviewComment>(
     async (commentData) => {
       const { data, } = await kallInstance.post('/reviewcomments', commentData);
@@ -60,7 +60,7 @@ export const useCreateReviewComment = async () => {
   return { mutate, };
 };
 // ==================== 덧글 수정 ====================
-export const useUpdateReviewComment = async (commentId: number) => {
+export const useUpdateReviewComment = (commentId: number) => {
   interface Update {
     data: IReviewComment;
     role?: string;
@@ -81,10 +81,11 @@ export const useUpdateReviewComment = async (commentId: number) => {
 };
 
 // ==================== 덧글 삭제 ====================
-export const useDeleteReviewComment = async (commentId: number) => {
+export const useDeleteReviewComment = (commentId: number) => {
   const { mutate, } = useMutation(
-    async () => {
-      const { data, } = await kallInstance.delete(`/reviewcomments/${commentId}}`);
+    async (role?: string) => {
+      const url = role === 'admin' && '/admin';
+      const { data, } = await kallInstance.delete(`${url}/reviewcomments/${commentId}}`);
 
       return data;
     },

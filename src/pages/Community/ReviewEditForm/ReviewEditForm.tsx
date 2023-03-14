@@ -4,6 +4,7 @@ import React, {
 import { useNavigate, useParams } from 'react-router';
 import tw from 'twin.macro';
 import { useCookies } from 'react-cookie';
+import { useQueryClient } from 'react-query';
 import { Heading2 } from '@/components/Content';
 import { AppLayout } from '@/layouts';
 import { useInput } from '@/hooks';
@@ -18,6 +19,7 @@ export function ReviewEditForm() {
   const review = useReviewById(Number(id));
 
   const updateReview = useUpdateReview(review.reviewId);
+  const qc = useQueryClient();
 
   const titleRef = useRef<HTMLInputElement>();
   const rateRef = useRef<HTMLInputElement>();
@@ -47,10 +49,18 @@ export function ReviewEditForm() {
     };
 
     if (role === 'admin') {
-      updateReview.mutate({ data: updateData, role, });
+      updateReview.mutate({ data: updateData, role, }, {
+        onSuccess: () => {
+          qc.refetchQueries([ 'getReviews', ]);
+        },
+      });
       console.log(`[PUT /admin/reviews/${id}]`, updateData);
     } else {
-      updateReview.mutate({ data: updateData, });
+      updateReview.mutate({ data: updateData, }, {
+        onSuccess: () => {
+          qc.refetchQueries([ 'getReviews', ]);
+        },
+      });
       console.log(`[PUT /reviews/${id}]`, updateData);
     }
     navi(role ? `/admin/review/${id}` : `/mypage/review/${id}`);

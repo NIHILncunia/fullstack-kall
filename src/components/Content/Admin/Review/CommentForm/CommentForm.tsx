@@ -1,9 +1,11 @@
 import React, { useCallback, useRef } from 'react';
+import { useQueryClient } from 'react-query';
 import { useInput } from '@/hooks';
 import { commentFormStyle } from './style';
 import { IReviewComment } from '@/types/tables.types';
 import { useUserById } from '@/hooks/trueQuery/users';
 import { useReviewById } from '@/hooks/trueQuery/review';
+import { useCreateReviewComment } from '@/hooks/trueQuery/reviewComment';
 
 interface ICommentFormProps {
   userId: string;
@@ -15,6 +17,9 @@ export function CommentForm({ userId, reviewNb, }: ICommentFormProps) {
   const review = useReviewById(reviewNb);
   const titleRef = useRef<HTMLInputElement>();
   const contentRef = useRef<HTMLInputElement>();
+
+  const qc = useQueryClient();
+  const createReviewComment = useCreateReviewComment();
 
   const title = useInput(titleRef, 'title');
   const content = useInput(contentRef, 'content');
@@ -29,9 +34,13 @@ export function CommentForm({ userId, reviewNb, }: ICommentFormProps) {
       content: content.data.value,
     };
 
-    console.log('덧글 정보 >> ', commentData);
+    createReviewComment.mutate(commentData, {
+      onSuccess: () => {
+        qc.refetchQueries([ 'getReviewCommentByReviewId', reviewNb, ]);
+      },
+    });
     console.log('[POST /reviewcomments]', commentData);
-  }, [ title, content, userId, reviewNb, ]);
+  }, [ title, content, userId, reviewNb, createReviewComment, ]);
 
   return (
     <>

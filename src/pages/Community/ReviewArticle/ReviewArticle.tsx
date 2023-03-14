@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import moment from 'moment';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { useCookies } from 'react-cookie';
+import { useQueryClient } from 'react-query';
 import { AppLayout } from '@/layouts';
 import { ItemRate } from '@/components/Content';
 import {
@@ -39,6 +40,7 @@ export function ReviewArticle() {
     enabled: 'reviewId' in review,
   });
 
+  const qc = useQueryClient();
   const deleteReview = useDeleteReview(review.reviewId);
 
   const navi = useNavigate();
@@ -53,10 +55,18 @@ export function ReviewArticle() {
 
   const onClickDelete = useCallback(() => {
     if (cookies.role === 'admin') {
-      deleteReview.mutate({ role: cookies.role, });
+      deleteReview.mutate({ role: cookies.role, }, {
+        onSuccess: () => {
+          qc.refetchQueries([ 'getReviewById', Number(params.id), ]);
+        },
+      });
       console.log(`[DELETE /admin/reviews/${review.reviewId}]`);
     } else {
-      deleteReview.mutate({});
+      deleteReview.mutate({}, {
+        onSuccess: () => {
+          qc.refetchQueries([ 'getReviewById', Number(params.id), ]);
+        },
+      });
       console.log(`[DELETE /reviews/${review.reviewId}]`);
     }
   }, [ review, cookies, ]);
