@@ -1,16 +1,24 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { useCookies } from 'react-cookie';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import tw from 'twin.macro';
 import { AppLayout } from '@/layouts';
 import { Heading2 } from '@/components/Content';
 import { createReviewButtonBack, createReviewForm } from '../MypageReview/style';
 import { useInput } from '@/hooks';
+import { useUserById } from '@/hooks/trueQuery/users';
+import { useProductById } from '@/hooks/trueQuery/product';
+import { IQuestion } from '@/types/tables.types';
+import { useCreateQuestion } from '@/hooks/trueQuery/question';
 
 export function CreateQuestion() {
   const [ content, setContent, ] = useState('');
   // eslint-disable-next-line no-unused-vars
   const [ { id, pId, }, _, removeCookie, ] = useCookies([ 'id', 'pId', ]);
+  const navi = useNavigate();
+  const user = useUserById(id);
+  const product = useProductById(pId);
+  const createQuestion = useCreateQuestion();
 
   const titleRef = useRef<HTMLInputElement>();
   const contentRef = useRef<HTMLTextAreaElement>();
@@ -24,16 +32,18 @@ export function CreateQuestion() {
   const onClickCreate = useCallback((event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const newData = {
-      user_id: id,
-      product_id: pId,
+    const newData: IQuestion = {
+      userDTO: user,
+      productDTO: product,
       title: title.data.value,
       content,
     };
 
+    createQuestion.mutate(newData);
     console.log('[POST /questions]', newData);
 
     removeCookie('pId', { path: '/', });
+    navi('/mypage/questions?current=question');
   }, [ id, pId, title, content, ]);
 
   return (

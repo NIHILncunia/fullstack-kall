@@ -44,15 +44,10 @@ export function ETCOption({
   const onSubmitForm = useCallback((event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // const nameOption = `${name} - 수량: ${amount}`;
-    // const requestOption = request.data.value ? `, 요청사항: ${request.data.value}` : '';
-
-    // const newItem = `${nameOption}${requestOption}`;
-
     setIsDisabled(true);
     setItems((prev) => [ ...prev, {
-      id: idRef.current++,
-      product_id: id,
+      selectId: idRef.current++,
+      productId: id,
       name,
       request: request.data.value,
       amount,
@@ -61,7 +56,7 @@ export function ETCOption({
   }, [ name, price, amount, request, ]);
 
   const onClickDelete = useCallback((id: number) => {
-    const newData = items.filter((item) => item.id !== id);
+    const newData = items.filter((item) => item.selectId !== id);
 
     setItems(newData);
     setIsDisabled(false);
@@ -103,7 +98,7 @@ export function ETCOption({
         <div className='items' css={selectedItemStyle}>
           <p className='count'>선택된 상품 총 {items.length}개</p>
           {items.map((item) => (
-            <EtcSelectItem key={item.id} item={item} onClickDelete={onClickDelete} />
+            <EtcSelectItem key={item.selectId} item={item} onClickDelete={onClickDelete} />
           ))}
           {items && (
             <p className='total-price'>

@@ -12,7 +12,7 @@ interface IEtcSelectItemProps {
 }
 
 export function EtcSelectItem({ item, onClickDelete, }: IEtcSelectItemProps) {
-  const product = useProductById(item.id);
+  const product = useProductById(item.productId);
 
   const sheet = useCategoryById(item.option_sheet).categoryName;
   const shape = useCategoryById(item.option_shape).categoryName;
@@ -33,7 +33,7 @@ export function EtcSelectItem({ item, onClickDelete, }: IEtcSelectItemProps) {
       <div>
         <p>{itemString}</p>
         <p>{itemTotalPrice}원</p>
-        <button aria-label='delete-item' onClick={() => onClickDelete(item.id)}><FaTimes /></button>
+        <button aria-label='delete-item' onClick={() => onClickDelete(item.selectId)}><FaTimes /></button>
       </div>
     </>
   );

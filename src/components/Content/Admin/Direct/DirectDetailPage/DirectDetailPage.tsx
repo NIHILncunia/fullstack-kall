@@ -5,8 +5,11 @@ import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import tw from 'twin.macro';
+import { useQueryClient } from 'react-query';
 import { useUserById } from '@/hooks/trueQuery/users';
-import { useDirectById, useDirectByUserId, useDirects } from '@/hooks/trueQuery/direct';
+import {
+  useDeleteDirect, useDirectById, useDirectByUserId, useDirects
+} from '@/hooks/trueQuery/direct';
 import {
   articleBottomStyle, articleContentStyle, articleTopStyle, commentAdminStyle, goToBackStyle
 } from './style';
@@ -20,8 +23,12 @@ export function DirectDetailPage() {
   const [ isClick, setIsClick, ] = useState(false);
   const [ isClick2, setIsClick2, ] = useState(false);
 
+  const qc = useQueryClient();
+
   const { pathname, } = useLocation();
   const cond = pathname.includes('admin');
+
+  const deleteDirect = useDeleteDirect();
 
   const [ { id: userId, role, }, ] = useCookies([ 'id', 'role', ]);
   const { id, } = useParams();
@@ -42,8 +49,6 @@ export function DirectDetailPage() {
     enabled: 'id' in direct,
   });
 
-  console.log('comment >> ', direct.comment);
-
   const navi = useNavigate();
 
   const onClickEdit = useCallback(() => {
@@ -51,7 +56,13 @@ export function DirectDetailPage() {
   }, [ editUrl, ]);
 
   const onCLickDelete = useCallback(() => {
+    deleteDirect.mutate(Number(id), {
+      onSuccess() {
+        qc.refetchQueries([ 'getDirectByUserId', userId, ]);
+      },
+    });
     console.log(`[DELETE /directs/${id}]`);
+    navi('/mypage/questions?current=direct');
   }, [ id, ]);
 
   const currentIndex = useMemo(() => {

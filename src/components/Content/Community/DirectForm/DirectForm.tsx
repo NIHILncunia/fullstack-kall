@@ -2,10 +2,14 @@ import React, {
   ChangeEvent, FormEvent, useCallback, useRef, useState
 } from 'react';
 import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router';
+import { useQueryClient } from 'react-query';
 import { useInput } from '@/hooks';
 import { IDirect } from '@/types/tables.types';
 import { formStyle } from './style';
 import { useCategoryById } from '@/hooks/trueQuery/category';
+import { useUserById } from '@/hooks/trueQuery/users';
+import { useCreateDirect } from '@/hooks/trueQuery/direct';
 
 export function DirectForm() {
   const [ cookies, ] = useCookies([ 'id', ]);
@@ -18,7 +22,12 @@ export function DirectForm() {
 문의 내용:`.trim()
   );
 
+  const navi = useNavigate();
+  const user = useUserById(cookies.id);
   const categoryDTO = useCategoryById(category);
+  const createDirect = useCreateDirect();
+
+  const qc = useQueryClient();
 
   const titleRef = useRef<HTMLInputElement>(null);
 
@@ -36,15 +45,20 @@ export function DirectForm() {
     event.preventDefault();
 
     const newDirectQuestion: IDirect = {
-      userDTO: cookies.id,
+      userDTO: user,
       categoryDTO,
       title: title.data.value,
       content,
       comment: '',
     };
 
-    console.log('새로운 문의 데이터 생성', newDirectQuestion);
-    console.log('작성 완료!');
+    createDirect.mutate(newDirectQuestion, {
+      onSuccess: () => {
+        qc.refetchQueries([ 'getDirectByUserId', cookies.id, ]);
+      },
+    });
+    console.log('[POST /directs]', newDirectQuestion);
+    navi('/mypage/questions?current=direct');
   }, [ category, content, ]);
 
   return (

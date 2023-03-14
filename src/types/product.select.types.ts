@@ -1,7 +1,7 @@
 export interface ISelect {
-  id?: number;
-  user_id?: string;
-  product_id?: number;
+  selectId?: number;
+  userId?: string;
+  productId?: number;
   name?: string;
   option_sheet?: string;
   option_shape?: string;

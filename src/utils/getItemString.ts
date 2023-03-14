@@ -11,9 +11,9 @@ interface ISelection {
 }
 
 export const getItemString = (selection: ISelection, product: IProduct, item: (ICart | IOrderDetail | ISelect)) => {
-  console.log('상품 >> ', product);
-  console.log('카테고리 >> ', product?.categoryDTO);
-  console.log('옵션 >> ', selection);
+  console.log(`getItemString 1. 옵션 >> `, selection);
+  console.log(`getItemString 2. 상품 >> `, product);
+  console.log(`getItemString 3. 아이템 >> `, item);
 
   let nameOption: string;
 

@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { AxiosError } from 'axios';
 import { kallInstance } from '@/data/axios.data';
 import { IDirect } from '@/types/tables.types';
@@ -26,7 +26,7 @@ export const getDirectByCategoryId = async (categoryId: string) => {
 
 export const getDirectByUserId = async (userId: string) => {
   const { data, } = await kallInstance.get<IDirect[]>(
-    `/directs/user?user_id=${userId}`
+    `/directs/user/${userId}`
   );
 
   return data;
@@ -75,4 +75,49 @@ export const useDirectByUserId = (userId: string, options?: IQueryOptions) => {
   );
 
   return data as IDirect[];
+};
+
+export const useUpdateDirect = () => {
+  interface UpdateData {
+    data: IDirect;
+    directId: number;
+  }
+
+  const { mutate, } = useMutation<IDirect, AxiosError, UpdateData>(
+    async (updateData) => {
+      const { data: uData, directId, } = updateData;
+      const { data, } = await kallInstance.put(`/directs/${directId}`, uData);
+
+      return data;
+    },
+    {}
+  );
+
+  return { mutate, };
+};
+
+export const useDeleteDirect = () => {
+  const { mutate, } = useMutation<IDirect[], AxiosError, number>(
+    async (directId: number) => {
+      const { data, } = await kallInstance.delete(`/directs/${directId}`);
+
+      return data;
+    },
+    {}
+  );
+
+  return { mutate, };
+};
+
+export const useCreateDirect = () => {
+  const { mutate, } = useMutation<IDirect, AxiosError, IDirect>(
+    async (createDirect) => {
+      const { data, } = await kallInstance.post('/requests', createDirect);
+
+      return data;
+    },
+    {}
+  );
+
+  return { mutate, };
 };

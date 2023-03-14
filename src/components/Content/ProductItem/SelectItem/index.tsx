@@ -15,7 +15,11 @@ interface ISelectItemProps {
 export function SelectItem({
   id, item, items, setItems,
 }: ISelectItemProps) {
-  const product = useProductById(id);
+  console.log(`SelectItem 1. 아이디 >> `, id);
+  console.log(`SelectItem 2. item >> `, item);
+  console.log(`SelectItem 3. items >> `, items);
+
+  const product = useProductById(item.productId);
   const sheet = useCategoryById(item.option_sheet).categoryName;
   const shape = useCategoryById(item.option_shape).categoryName;
   const cream = useCategoryById(item.option_cream).categoryName;
@@ -30,31 +34,37 @@ export function SelectItem({
 
   const onClickMinus = useCallback(() => {
     const newData = items.map((item) => {
-      if (item.id === id) {
+      console.log('1. item.selectId >> ', item.selectId);
+      console.log('2. id >> ', id);
+
+      if (item.selectId === id) {
         return { ...item, amount: item.amount === 1 ? item.amount : item.amount - 1, };
       } else {
         return item;
       }
     });
     setItems(newData);
-  }, [ items, ]);
+  }, [ items, id, ]);
 
   const onClickPlus = useCallback(() => {
     const newData = items.map((item) => {
-      if (item.id === id) {
+      console.log('1. item.selectId >> ', item.selectId);
+      console.log('2. id >> ', id);
+
+      if (item.selectId === id) {
         return { ...item, amount: item.amount + 1, };
       } else {
         return item;
       }
     });
     setItems(newData);
-  }, [ items, ]);
+  }, [ items, id, ]);
 
   const onClickDelete = useCallback(() => {
-    const newData = items.filter((item) => item.id !== id);
+    const newData = items.filter((item) => item.selectId !== id);
 
     setItems(newData);
-  }, [ items, ]);
+  }, [ items, id, ]);
 
   const { itemString, itemTotalPrice, } = getItemString(selection, product, item);
 

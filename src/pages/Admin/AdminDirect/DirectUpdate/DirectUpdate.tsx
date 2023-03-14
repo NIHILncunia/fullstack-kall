@@ -2,21 +2,31 @@ import React, { useCallback, useEffect, useState } from 'react';
 import tw from 'twin.macro';
 import { useLocation, useNavigate, useParams } from 'react-router';
 import { useCookies } from 'react-cookie';
+import { useQueryClient } from 'react-query';
 import { AppLayout } from '@/layouts';
 import { Heading2 } from '@/components/Content';
 import { directUpdateButtonStyle, directUpdateFormStyle } from './style';
-import { useDirectById } from '@/hooks/trueQuery/direct';
+import { useDirectById, useUpdateDirect } from '@/hooks/trueQuery/direct';
+import { IDirect } from '@/types/tables.types';
+import { useUserById } from '@/hooks/trueQuery/users';
+import { useCategoryById } from '@/hooks/trueQuery/category';
 
 export function DirectUpdate() {
   const [ title, setTitle, ] = useState('');
   const [ content, setContent, ] = useState('');
   const [ category, setCategory, ] = useState('q_01');
 
+  const qc = useQueryClient();
+
   const { id, } = useParams();
   const { pathname, } = useLocation();
   const direct = useDirectById(Number(id));
   const [ cookies, ] = useCookies([ 'id', ]);
   const navi = useNavigate();
+  const updateDirect = useUpdateDirect();
+
+  const user = useUserById(cookies.id);
+  const categoryDTO = useCategoryById(category);
 
   const onChangeTitle = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
@@ -39,13 +49,18 @@ export function DirectUpdate() {
   }, [ direct, ]);
 
   const onClickSubmit = useCallback(() => {
-    const updateData = {
-      user_id: cookies.id,
+    const updateData: IDirect = {
+      userDTO: user,
       title,
       content,
-      category_id: category,
+      categoryDTO,
     };
 
+    updateDirect.mutate({ data: updateData, directId: Number(id), }, {
+      onSuccess: () => {
+        qc.refetchQueries([ 'getDirectByUserId', cookies.id, ]);
+      },
+    });
     console.log(`[UPDATE /directs/${id}`, updateData);
     navi(
       pathname.includes('admin')

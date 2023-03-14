@@ -14,8 +14,6 @@ export function ProductList() {
   const [ items, setItems, ] = useState<IProduct[]>([]);
   const [ selectedItems, setSelectedItems, ] = useState<number[]>([]);
 
-  console.log(items);
-
   const customRef = useRef<HTMLButtonElement>();
   const designRef = useRef<HTMLButtonElement>();
   const etcRef = useRef<HTMLButtonElement>();
@@ -24,11 +22,13 @@ export function ProductList() {
 
   const navi = useNavigate();
 
-  // useEffect(() => {
-  //   if (productData.length !== 0) {
-  //     setItems(productData);
-  //   }
-  // }, [ productData, ]);
+  console.log('items >> ', items);
+
+  useEffect(() => {
+    if (productData.length !== 0) {
+      setItems(productData);
+    }
+  }, [ productData, ]);
 
   const onClickAllCheck = useCallback(() => {
     setSelectedItems(productData.map((item) => item.productId));

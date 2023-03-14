@@ -1,7 +1,6 @@
 import React, {
   ChangeEvent, FormEvent, useCallback, useEffect, useRef, useState
 } from 'react';
-import { v4 as uuid } from 'uuid';
 import { useCookies } from 'react-cookie';
 import { useLocation } from 'react-router';
 import { useInput } from '@/hooks';
@@ -75,15 +74,9 @@ export function CustomOption({
   const onSubmitForm = useCallback((event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // const nameOption = `${name} - ${sheetLabel}, ${shapeLabel}, ${creamLabel}`;
-    // const wordOption = word.data.value ? `, 문구: ${word.data.value}` : '';
-    // const requestOption = request.data.value ? `, 요청사항: ${request.data.value}` : '';
-
-    // const newItem = `${nameOption}${wordOption}${requestOption}`;
-
     setItems((prev) => [ ...prev, {
-      id: idRef.current++,
-      product_id: id,
+      selectId: idRef.current++,
+      productId: id,
       name,
       option_sheet: sheet,
       option_shape: shape,
@@ -93,7 +86,7 @@ export function CustomOption({
       price,
       amount: 1,
     }, ]);
-  }, [ name, price, sheetLabel, shapeLabel, creamLabel, word.data.value, request.data.value, ]);
+  }, [ name, id, price, sheetLabel, shapeLabel, creamLabel, word.data.value, request.data.value, ]);
 
   useEffect(() => {
     word.setValue('');
@@ -223,7 +216,13 @@ export function CustomOption({
         <div className='items' css={selectedItemStyle}>
           <p className='count'>선택된 상품 총 {items.length}개</p>
           {items.map((item) => (
-            <SelectItem key={uuid()} id={item.id} item={item} items={items} setItems={setItems} />
+            <SelectItem
+              key={item.selectId}
+              id={item.selectId}
+              item={item}
+              items={items}
+              setItems={setItems}
+            />
           ))}
           {items && (
             <p className='total-price'>

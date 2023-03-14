@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { AxiosError } from 'axios';
 import { kallInstance } from '@/data/axios.data';
 import { IQueryOptions } from '@/types/other.types';
@@ -75,4 +75,30 @@ export const useQuestionByUserId = (userId: string, options?: IQueryOptions) => 
   );
 
   return data as IQuestion[];
+};
+
+export const useCreateQuestion = () => {
+  const { mutate, } = useMutation<IQuestion, AxiosError, IQuestion>(
+    async (createQuestion) => {
+      const { data, } = await kallInstance.post('/questions', createQuestion);
+
+      return data;
+    },
+    {}
+  );
+
+  return { mutate, };
+};
+
+export const useUpdateQuestion = () => {
+  const { mutate, } = useMutation(
+    async (updateData) => {
+      const { data, } = await kallInstance.put('', updateData);
+
+      return data;
+    },
+    {}
+  );
+
+  return { mutate, };
 };

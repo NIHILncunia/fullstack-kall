@@ -44,9 +44,6 @@ export function ProductItem() {
   const wishs = useWishlistByUserId(id);
   const product = useProductById(Number(param.id));
 
-  // console.log(items);
-  console.log('product >> ', product);
-
   const wishItem = useWishlistByProductId(product.productId, {
     enabled: 'productId' in product,
   });
@@ -70,8 +67,6 @@ export function ProductItem() {
     setCookie('pId', product.productId, { path: '/', });
     navi('/mypage/direct/create');
   }, [ product, ]);
-
-  console.log('wishItem0 >> ', wishItem);
 
   const onClickAddWish = useCallback(() => {
     const newData: IWish = {

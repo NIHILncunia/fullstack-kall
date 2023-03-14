@@ -1,7 +1,6 @@
 import React, {
   ChangeEvent, FormEvent, useCallback, useEffect, useRef, useState
 } from 'react';
-import { v4 as uuid } from 'uuid';
 import { useLocation } from 'react-router';
 import { useInput } from '@/hooks';
 import { sizeData } from '@/data/select.data';
@@ -48,17 +47,10 @@ export function DesignOption({
   const onSubmitForm = useCallback((event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // const nameOption = `${name} - 크기: ${sizeLabel}`;
-    // const requestOption = request.data.value ? `, 요청사항: ${request.data.value}` : '';
-
-    // const newItem = `${nameOption}${requestOption}`;
-
-    // 이 부분에 POST [/order] 처리 필요함.
-
     setItems((prev) => [ ...prev, {
-      id: idRef.current++,
+      selectId: idRef.current++,
       name,
-      product_id: id,
+      productId: id,
       option_size: size,
       request: request.data.value,
       price,
@@ -115,7 +107,13 @@ export function DesignOption({
         <div className='items' css={selectedItemStyle}>
           <p className='count'>선택된 상품 총 {items.length}개</p>
           {items.map((item) => (
-            <SelectItem key={uuid()} id={item.id} item={item} items={items} setItems={setItems} />
+            <SelectItem
+              key={item.selectId}
+              id={item.selectId}
+              item={item}
+              items={items}
+              setItems={setItems}
+            />
           ))}
           {items && (
             <p className='total-price'>
