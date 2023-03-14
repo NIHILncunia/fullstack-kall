@@ -72,7 +72,7 @@ export function CommentItem({ item, }: ICommentItemProps) {
                 ? (<input type='text' ref={titleRef} {...title.data} />)
                 : (<span>{item.title}</span>)
             }
-            {(cookies.id === item.userDTO || cookies.role === 'admin') && (
+            {(cookies.id === item.userDTO.userId || cookies.role === 'admin') && (
               <>
                 <button onClick={() => onClickEdit(item.reviewCmtId)}>
                   {isEdit ? (<FaCheck />) : (<FaEdit />)}
