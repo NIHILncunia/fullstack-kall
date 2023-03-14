@@ -30,7 +30,7 @@ export function QuestionArticle() {
 
   const [ { id, role, }, ] = useCookies([ 'id', 'role', ]);
 
-  const question = useQuestionById(Number(questionId));
+  const question = useQuestionById(Number(questionId), 'admin');
   const questions = useQuestions();
   const myQuestion = useQuestionByUserId(id);
   const userData = useUserById(question.userDTO.userId, {
@@ -49,7 +49,10 @@ export function QuestionArticle() {
   }, [ questionId, role, ]);
 
   const onClickDelete = useCallback(() => {
-    deleteQuestion.mutate(Number(questionId));
+    deleteQuestion.mutate({
+      questionId: Number(questionId),
+      role: 'admin',
+    });
     console.log(`[DELETE /questions/${questionId}]`);
   }, [ questionId, ]);
 

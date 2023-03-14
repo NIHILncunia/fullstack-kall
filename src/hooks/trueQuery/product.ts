@@ -6,9 +6,7 @@ import { IProduct } from '@/types/tables.types';
 import { IQueryOptions } from '@/types/other.types';
 import { randomArray } from '@/utils';
 
-export const getProducts = async (role?: string) => {
-  const url = role === 'aadmin' && '/adnin';
-  console.log('실행?? >> ', role, url);
+export const getProducts = async () => {
   const { data, } = await kallInstance.get<IProduct[]>('/products');
 
   return data;

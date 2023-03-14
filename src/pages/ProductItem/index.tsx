@@ -59,7 +59,7 @@ export function ProductItem() {
     enabled: 'productId' in product,
   }).sort((a, b) => b.reviewId - a.reviewId);
 
-  const questions = useQuestionByProductId(product.productId, {
+  const questions = useQuestionByProductId(product.productId, '', {
     enabled: 'productId' in product,
   }).sort((a, b) => b.productQId - a.productQId);
 

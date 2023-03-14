@@ -2,9 +2,10 @@ import React, {
   useCallback, useEffect, useRef, useState
 } from 'react';
 import { useLocation, useNavigate } from 'react-router';
+import { useCookies } from 'react-cookie';
 import { Heading2 } from '@/components/Content';
 import { useInput } from '@/hooks';
-import { useQuestionById } from '@/hooks/trueQuery/question';
+import { useQuestionById, useUpdateQuestion } from '@/hooks/trueQuery/question';
 import { updateFormStyle } from './style';
 
 interface IUpdateFormProps {
@@ -18,8 +19,10 @@ export function UpdateForm({ id, }: IUpdateFormProps) {
 
   const navi = useNavigate();
   const { pathname, } = useLocation();
+  const [ { role, }, ] = useCookies([ 'id', 'role', ]);
 
-  const question = useQuestionById(Number(id));
+  const question = useQuestionById(Number(id), 'admin');
+  const updateQuestion = useUpdateQuestion();
 
   const titleRef = useRef<HTMLInputElement>();
   const title = useInput(titleRef, 'title');
@@ -41,7 +44,9 @@ export function UpdateForm({ id, }: IUpdateFormProps) {
       content: text,
     };
 
-    console.log(`[PUT /questions/${id}]`, updateData);
+    updateQuestion.mutate({ id: Number(id), data: updateData, role: 'admin', });
+    const url = role === 'admin' && '/admin';
+    console.log(`[PUT ${url}/questions/${id}]`, updateData);
     navi(
       pathname.includes('mypage')
         ? '/mypage/question?current=question'

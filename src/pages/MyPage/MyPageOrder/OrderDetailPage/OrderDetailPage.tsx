@@ -30,7 +30,7 @@ export function OrderDetailPage() {
             <div className='table-header'>주문번호</div>
             <div className='table-content'>{order?.orderId}</div>
             <div className='table-header'>주문자 아이디</div>
-            <div className='table-content'>{order?.userDTO.userId}</div>
+            <div className='table-content'>{order?.userDTO?.userId}</div>
             <div className='table-header'>수령자 이름</div>
             <div className='table-content'>{order?.name}</div>
             <div className='table-header'>수령자 연락처</div>

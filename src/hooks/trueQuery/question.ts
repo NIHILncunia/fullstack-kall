@@ -10,23 +10,26 @@ export const getQuestions = async () => {
   return data;
 };
 
-export const getQuestionById = async (id: number) => {
-  const { data, } = await kallInstance.get<IQuestion>(`/questions/${id}`);
+export const getQuestionById = async (id: number, role?: string) => {
+  const url = role === 'admin' && '/admin';
+  const { data, } = await kallInstance.get<IQuestion>(`${url}/questions/${id}`);
 
   return data;
 };
 
-export const getQuestionByProductId = async (productId: number) => {
+export const getQuestionByProductId = async (productId: number, role?: string) => {
+  const url = role === 'admin' && '/admin';
   const { data, } = await kallInstance.get<IQuestion[]>(
-    `/questions/product/${productId}`
+    `${url}/questions/product/${productId}`
   );
 
   return data;
 };
 
-export const getQuestionByUserId = async (userId: string) => {
+export const getQuestionByUserId = async (userId: string, role?: string) => {
+  const url = role === 'admin' && '/admin';
   const { data, } = await kallInstance.get<IQuestion[]>(
-    `/questions/user/${userId}`
+    `${url}/questions/user/${userId}`
   );
 
   return data;
@@ -41,10 +44,10 @@ export const useQuestions = () => {
   return data as IQuestion[];
 };
 
-export const useQuestionById = (id: number, options?: IQueryOptions) => {
+export const useQuestionById = (id: number, role?: string, options?: IQueryOptions) => {
   const { data = {}, } = useQuery<IQuestion, AxiosError>(
     [ 'getQuestionById', id, ],
-    () => getQuestionById(id),
+    () => getQuestionById(id, role),
     {
       enabled: options?.enabled ?? true,
     }
@@ -53,10 +56,10 @@ export const useQuestionById = (id: number, options?: IQueryOptions) => {
   return data as IQuestion;
 };
 
-export const useQuestionByProductId = (productId: number, options?: IQueryOptions) => {
+export const useQuestionByProductId = (productId: number, role?: string, options?: IQueryOptions) => {
   const { data = [], } = useQuery(
     [ 'getQuestionByProductId', productId, ],
-    () => getQuestionByProductId(productId),
+    () => getQuestionByProductId(productId, role),
     {
       enabled: options?.enabled ?? true,
     }
@@ -65,10 +68,10 @@ export const useQuestionByProductId = (productId: number, options?: IQueryOption
   return data as IQuestion[];
 };
 
-export const useQuestionByUserId = (userId: string, options?: IQueryOptions) => {
+export const useQuestionByUserId = (userId: string, role?: string, options?: IQueryOptions) => {
   const { data = [], } = useQuery(
     [ 'getQuestionByUserId', userId, ],
-    () => getQuestionByUserId(userId),
+    () => getQuestionByUserId(userId, role),
     {
       enabled: options?.enabled ?? true,
     }
@@ -94,12 +97,14 @@ export const useUpdateQuestion = () => {
   interface Update {
     data: IQuestion;
     id: number;
+    role?: string;
   }
 
   const { mutate, } = useMutation<void, AxiosError, Update>(
     async (updateData) => {
       const { data: uData, id, } = updateData;
-      const { data, } = await kallInstance.put(`/questions/${id}`, uData);
+      const url = updateData.role === 'admin' && '/admin';
+      const { data, } = await kallInstance.put(`${url}/questions/${id}`, uData);
 
       return data;
     },
@@ -110,9 +115,32 @@ export const useUpdateQuestion = () => {
 };
 
 export const useDeleteQuestion = () => {
-  const { mutate, } = useMutation(
-    async (questionId: number) => {
-      const { data, } = await kallInstance.delete(`/questions${questionId}`);
+  interface Delete {
+    questionId: number;
+    role?: string;
+  }
+
+  const { mutate, } = useMutation<void, AxiosError, Delete>(
+    async (deleteData) => {
+      const { questionId, role, } = deleteData;
+
+      const url = role === 'admin' && '/admin';
+      const { data, } = await kallInstance.delete(`${url}/questions${questionId}`);
+
+      return data;
+    },
+    {}
+  );
+
+  return { mutate, };
+};
+
+export const useDeleteQuestions = () => {
+  const { mutate, } = useMutation<void, AxiosError, number[]>(
+    async (deleteData) => {
+      const { data, } = await kallInstance.delete('/admin/questions', {
+        data: deleteData,
+      });
 
       return data;
     },

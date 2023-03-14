@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { Heading2 } from '@/components/Content';
 import { AdminLayout, AppLayout } from '@/layouts';
-import { useQuestions } from '@/hooks/trueQuery/question';
+import { useDeleteQuestions, useQuestions } from '@/hooks/trueQuery/question';
 import { QuestionItem } from '@/components/Content/Admin';
 import { listHeaderStyle, listStyle, noticeButtonStyle } from './style';
 
@@ -9,6 +9,7 @@ export function AdminQuestion() {
   const [ items, setItems, ] = useState<number[]>([]);
 
   const questions = useQuestions();
+  const deleteQuestions = useDeleteQuestions();
   console.log(questions);
 
   const onClickAllCheck = useCallback(() => {
@@ -21,7 +22,8 @@ export function AdminQuestion() {
 
   const onClickCheckDelete = useCallback(() => {
     // 선택 삭제의 경우 아이디 배열을 전달한다.
-    console.log('[DELETE /questions]', items);
+    deleteQuestions.mutate(items);
+    console.log('[DELETE /admin/questions]', items);
   }, [ items, ]);
 
   return (
