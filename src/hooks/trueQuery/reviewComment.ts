@@ -17,7 +17,7 @@ export const getReviewCommentById = async (id: number, role?: string) => {
 export const getReviewCommentByReviewId = async (reviewId: number, role?: string) => {
   const url = role === 'admin' ? '/admin' : '';
 
-  const { data, } = await kallInstance.get(`${url}/reviewcomments/review/${reviewId}}`);
+  const { data, } = await kallInstance.get(`${url}/reviewcomments/review/${reviewId}`);
 
   return data;
 };
@@ -85,7 +85,7 @@ export const useDeleteReviewComment = (commentId: number) => {
   const { mutate, } = useMutation(
     async (role?: string) => {
       const url = role === 'admin' ? '/admin' : '';
-      const { data, } = await kallInstance.delete(`${url}/reviewcomments/${commentId}}`);
+      const { data, } = await kallInstance.delete(`${url}/reviewcomments/${commentId}`);
 
       return data;
     },
