@@ -4,6 +4,7 @@ import React, {
 import moment from 'moment';
 import { FaCheck, FaEdit, FaTimes } from 'react-icons/fa';
 import { useCookies } from 'react-cookie';
+import { useQueryClient } from 'react-query';
 import { IReviewComment } from '@/types/tables.types';
 import { commentItemStyle } from './style';
 import { useInput } from '@/hooks';
@@ -23,6 +24,7 @@ export function CommentItem({ item, }: ICommentItemProps) {
 
   const title = useInput(titleRef, 'title');
   const content = useInput(contentRef, 'content');
+  const qc = useQueryClient();
 
   const [ cookies, ] = useCookies([ 'id', 'role', ]);
 
@@ -33,10 +35,20 @@ export function CommentItem({ item, }: ICommentItemProps) {
 
   const onClickDelete = useCallback((id: number) => {
     if (cookies.role === 'admin') {
-      deleterc.mutate('admin');
+      deleterc.mutate('admin', {
+        onSuccess: () => {
+          const reviewId = item?.reviewDTO?.reviewId;
+          qc.refetchQueries([ 'getReviewCommentByReviewId', reviewId, ]);
+        },
+      });
       console.log(`[DELETE /admin/reviews/comment/${id}]`);
     } else {
-      deleterc.mutate('');
+      deleterc.mutate('', {
+        onSuccess: () => {
+          const reviewId = item?.reviewDTO?.reviewId;
+          qc.refetchQueries([ 'getReviewCommentByReviewId', reviewId, ]);
+        },
+      });
       console.log(`[DELETE /reviews/comment/${id}]`);
     }
   }, [ cookies, ]);
@@ -44,16 +56,18 @@ export function CommentItem({ item, }: ICommentItemProps) {
   const onClickEdit = useCallback((id: number) => {
     if (isEdit) {
       const updateData: IReviewComment = {
+        userDTO: item.userDTO,
+        reviewDTO: item.reviewDTO,
         title: title.data.value,
         content: content.data.value,
       };
 
       if (cookies.role === 'admin') {
         updaterc.mutate({ data: updateData, role: 'admin', });
-        console.log(`[PUT /admin/reviews/comment/${id}]`, updateData);
+        console.log(`[PUT /admin/reviewcomments/${id}]`, updateData);
       } else {
         updaterc.mutate({ data: updateData, });
-        console.log(`[PUT /reviews/comment/${id}]`, updateData);
+        console.log(`[PUT /reviewcomments/${id}]`, updateData);
       }
 
       setIsEdit(false);
