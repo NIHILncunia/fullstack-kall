@@ -39,9 +39,9 @@ export function DirectDetailPage() {
     ? `/admin/direct`
     : `/mypage/direct`;
 
-  const directs = useDirects();
-  const myDirect = useDirectByUserId(userId);
-  const direct = useDirectById(Number(id));
+  const directs = useDirects('admin');
+  const myDirect = useDirectByUserId(userId, 'admin');
+  const direct = useDirectById(Number(id), 'admin');
   const userData = useUserById(direct.userDTO.userId, {
     enabled: 'id' in direct,
   });
@@ -56,13 +56,23 @@ export function DirectDetailPage() {
   }, [ editUrl, ]);
 
   const onCLickDelete = useCallback(() => {
-    deleteDirect.mutate(Number(id), {
+    deleteDirect.mutate({ directId: Number(id), role, }, {
       onSuccess() {
-        qc.refetchQueries([ 'getDirectByUserId', userId, ]);
+        qc.refetchQueries('getDirects');
       },
     });
-    console.log(`[DELETE /directs/${id}]`);
-    navi('/mypage/questions?current=direct');
+
+    if (role === 'admin') {
+      console.log(`[DELETE /admin/directs/${id}]`);
+    } else {
+      console.log(`[DELETE /directs/${id}]`);
+    }
+
+    const url = role === 'admin'
+      ? '/admin/direct'
+      : '/mypage/question?current=direct';
+
+    navi(url);
   }, [ id, ]);
 
   const currentIndex = useMemo(() => {

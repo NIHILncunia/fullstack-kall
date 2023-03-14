@@ -20,8 +20,8 @@ export function DirectUpdate() {
 
   const { id, } = useParams();
   const { pathname, } = useLocation();
-  const direct = useDirectById(Number(id));
-  const [ cookies, ] = useCookies([ 'id', ]);
+  const direct = useDirectById(Number(id), 'admin');
+  const [ cookies, ] = useCookies([ 'id', 'role', ]);
   const navi = useNavigate();
   const updateDirect = useUpdateDirect();
 
@@ -56,12 +56,24 @@ export function DirectUpdate() {
       categoryDTO,
     };
 
-    updateDirect.mutate({ data: updateData, directId: Number(id), }, {
-      onSuccess: () => {
-        qc.refetchQueries([ 'getDirectByUserId', cookies.id, ]);
+    updateDirect.mutate(
+      {
+        data: updateData,
+        directId: Number(id),
+        role: cookies.role,
       },
-    });
-    console.log(`[UPDATE /directs/${id}`, updateData);
+      {
+        onSuccess: () => {
+          qc.refetchQueries([ 'getDirectByUserId', cookies.id, ]);
+        },
+      }
+    );
+
+    if (cookies.role === 'admin') {
+      console.log(`[UPDATE /admin/directs/${id}`, updateData);
+    } else {
+      console.log(`[UPDATE /directs/${id}`, updateData);
+    }
     navi(
       pathname.includes('admin')
         ? '/admin/direct'

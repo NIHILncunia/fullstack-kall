@@ -58,7 +58,7 @@ export function DirectForm() {
       },
     });
     console.log('[POST /directs]', newDirectQuestion);
-    navi('/mypage/questions?current=direct');
+    navi('/mypage/question?current=direct');
   }, [ category, content, ]);
 
   return (

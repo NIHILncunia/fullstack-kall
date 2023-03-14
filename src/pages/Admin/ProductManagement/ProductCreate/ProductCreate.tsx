@@ -1,4 +1,5 @@
 import React, { useCallback, useRef, useState } from 'react';
+import { useNavigate } from 'react-router';
 import { AdminLayout, AppLayout } from '@/layouts';
 import { Heading2, Heading3 } from '@/components/Content';
 import { useInput } from '@/hooks';
@@ -8,6 +9,7 @@ import {
 import { useCreateProduct } from '@/hooks/trueQuery/product';
 import { IProduct } from '@/types/tables.types';
 import { useCategoryById } from '@/hooks/trueQuery/category';
+import { formDataToObject } from '@/utils/formDataToObj';
 
 export function ProductCreate() {
   const [ file, setFile, ] = useState([]);
@@ -32,6 +34,8 @@ export function ProductCreate() {
   const price = useInput(priceRef, 'price');
   const category = useInput(categoryRef, 'category');
   const categoryDTO = useCategoryById(category.data.value);
+
+  const navi = useNavigate();
 
   const onChangeFile = useCallback(() => {
     const file = fileRef.current.files;
@@ -63,6 +67,10 @@ export function ProductCreate() {
     }));
 
     createProduct.mutate(formData);
+
+    const formDataObj = formDataToObject(formData);
+    console.log('[POST /products]', formDataObj);
+    navi('/mypage/question?current=direct');
   }, [ file, category, name, text, tag, price, ]);
 
   return (
@@ -76,7 +84,7 @@ export function ProductCreate() {
             <div className='image-upload' css={imageUploadStyle}>
               <img src={image.data.value} alt={name.data.value} />
               <div>
-                <input type='file' hidden required ref={fileRef} onChange={onChangeFile} />
+                <input type='file' hidden required accept='image/*' ref={fileRef} onChange={onChangeFile} />
                 <input type='text' ref={imageRef} {...image.data} />
                 <button type='button' onClick={() => fileRef.current.click()}>이미지 등록</button>
               </div>

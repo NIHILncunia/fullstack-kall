@@ -43,7 +43,7 @@ export function CreateQuestion() {
     console.log('[POST /questions]', newData);
 
     removeCookie('pId', { path: '/', });
-    navi('/mypage/questions?current=question');
+    navi('/mypage/question?current=question');
   }, [ id, pId, title, content, ]);
 
   return (

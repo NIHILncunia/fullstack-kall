@@ -7,7 +7,7 @@ import { DirectDetailPage } from '@/components/Content/Admin';
 
 export function DirectDetail() {
   const { id, } = useParams();
-  const direct = useDirectById(Number(id));
+  const direct = useDirectById(Number(id), 'admin');
 
   return (
     <>

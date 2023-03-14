@@ -22,7 +22,7 @@ export function MypageQuestion() {
   const [ { id: userId, }, ] = useCookies([ 'id', ]);
 
   const myQuestion = useQuestionByUserId(userId);
-  const myDirect = useDirectByUserId(userId);
+  const myDirect = useDirectByUserId(userId, 'admin');
 
   useEffect(() => {
     const { current, } = queryString.parse(location.search) as QueryString;

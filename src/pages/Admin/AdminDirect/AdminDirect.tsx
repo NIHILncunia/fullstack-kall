@@ -1,12 +1,16 @@
 import React, { useCallback, useState } from 'react';
+import { useQueryClient } from 'react-query';
 import { Heading2 } from '@/components/Content';
 import { AdminLayout, AppLayout } from '@/layouts';
-import { useDirects } from '@/hooks/trueQuery/direct';
+import { useDeleteDirects, useDirects } from '@/hooks/trueQuery/direct';
 import { DirectItem } from '@/components/Content/Admin';
 import { buttonStyle, directListHeaderStyle, directListStyle } from './style';
 
 export function AdminDirect() {
-  const directs = useDirects();
+  const directs = useDirects('admin');
+  const deleteDirects = useDeleteDirects();
+
+  const qc = useQueryClient();
 
   const [ items, setItems, ] = useState<number[]>([]);
 
@@ -23,6 +27,11 @@ export function AdminDirect() {
   const onClickSelectedDelete = useCallback(() => {
     if (items.length === 0) return;
 
+    deleteDirects.mutate(items, {
+      onSuccess: () => {
+        qc.refetchQueries([ 'getDirects', ]);
+      },
+    });
     console.log('[DELETE /directs]', items);
   }, [ items, ]);
 

@@ -8,6 +8,10 @@ import { Heading2 } from '@/components/Content';
 import { AppLayout } from '@/layouts';
 import { useInput } from '@/hooks';
 import { createReviewButtonBack, createReviewForm } from './style';
+import { IReview } from '@/types/tables.types';
+import { useUserById } from '@/hooks/trueQuery/users';
+import { useProductById } from '@/hooks/trueQuery/product';
+import { useOrderDetailById } from '@/hooks/trueQuery/orderDetail';
 
 export function CreateReview() {
   const [ content, setContent, ] = useState('');
@@ -16,6 +20,10 @@ export function CreateReview() {
   // eslint-disable-next-line no-unused-vars
   const [ { id, pId, odId, }, _, removeCookie, ] = useCookies([ 'id', 'pId', 'odId', ]);
   const navi = useNavigate();
+
+  const user = useUserById(id);
+  const product = useProductById(pId);
+  const orderDetail = useOrderDetailById(odId);
 
   const titleRef = useRef<HTMLInputElement>();
   const contentRef = useRef<HTMLTextAreaElement>();
@@ -52,13 +60,13 @@ export function CreateReview() {
 
     const formData = new FormData();
 
-    const reviewData = {
-      user_id: id,
-      product_id: Number(pId),
-      order_dnb: Number(odId),
+    const reviewData: IReview = {
+      userDTO: user,
+      productDTO: product,
+      orderDetailDTO: orderDetail,
       title: title.data.value,
       content,
-      rate: parseFloat(rate.data.value),
+      star: parseFloat(rate.data.value),
     };
 
     if (files.length > 0) {
