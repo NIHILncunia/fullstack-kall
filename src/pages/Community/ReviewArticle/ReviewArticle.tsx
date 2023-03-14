@@ -5,6 +5,7 @@ import moment from 'moment';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { useCookies } from 'react-cookie';
 import { useQueryClient } from 'react-query';
+import tw from 'twin.macro';
 import { AppLayout } from '@/layouts';
 import { ItemRate } from '@/components/Content';
 import {
@@ -118,6 +119,18 @@ export function ReviewArticle() {
               </div>
             </div>
             <div className='article-content' css={articleContentStyle}>{review.content}</div>
+            <div className='article-images' css={tw`flex gap-[20px]`}>
+              {review.image1 !== '' && (
+                <div css={tw`border border-black-base`}>
+                  <img src={review.image1} alt='후기 이미지 1' />
+                </div>
+              )}
+              {review.image2 !== '' && (
+                <div css={tw`border border-black-base`}>
+                  <img src={review.image2} alt='후기 이미지 2' />
+                </div>
+              )}
+            </div>
           </div>
 
           <CommentForm userId={cookies.id} reviewNb={review.reviewId} />
