@@ -35,7 +35,7 @@ export function ReviewArticle() {
     enabled: 'reviewId' in review,
   });
   const orderDetail = useOrderDetailByOrderId(order.orderId, {
-    enabled: 'orderDNb' in order,
+    enabled: 'orderId' in order,
   });
   const reviewComments = useReviewCommentByReviewId(review.reviewId, cookies.role, {
     enabled: 'reviewId' in review,
