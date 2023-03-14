@@ -41,7 +41,7 @@ export function DirectUpdate() {
   }, []);
 
   useEffect(() => {
-    if (direct && 'id' in direct) {
+    if (direct && 'usQId' in direct) {
       setTitle(direct.title);
       setContent(direct.content);
       setCategory(direct.categoryDTO.categoryId);

@@ -27,7 +27,7 @@ export function NoticeaArticle() {
   const listUrl = pathname.includes('admin')
     ? `/admin/notice`
     : `/community/notice`;
-  const cond = notice && 'id' in notice;
+  const cond = notice && 'noticeId' in notice;
 
   const categoryDTO = cond ? notice.categoryDTO : faq.categoryDTO;
   const category = useCategoryById(categoryDTO.categoryId, {

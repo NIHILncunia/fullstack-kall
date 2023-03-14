@@ -18,14 +18,14 @@ export function RefundItem() {
   const { id: refundId, } = useParams();
   const refund = useRefundById(Number(refundId));
   const orderDetail = useOrderDetailById(refund?.orderDetailDTO.orderDNb, {
-    enabled: 'id' in refund,
+    enabled: 'refundId' in refund,
   });
   const product = useProductById(orderDetail.productDTO.productId, {
-    enabled: 'id' in orderDetail,
+    enabled: 'orderDNb' in orderDetail,
   });
 
   useEffect(() => {
-    if ('id' in refund) {
+    if ('refundId' in refund) {
       setStatus(refund.status);
     }
   }, [ refund, ]);

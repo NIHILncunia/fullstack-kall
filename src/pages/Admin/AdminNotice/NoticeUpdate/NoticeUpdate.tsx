@@ -22,7 +22,7 @@ export function NoticeUpdate() {
   const title = useInput(titleRef, 'title');
 
   useEffect(() => {
-    if (notice && 'id' in notice) {
+    if (notice && 'noticeId' in notice) {
       title.setValue(notice.title);
       setText(notice.content);
       setSelect(notice.categoryDTO.categoryId);

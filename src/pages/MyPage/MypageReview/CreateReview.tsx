@@ -4,6 +4,7 @@ import React, {
 import { useCookies } from 'react-cookie';
 import { Link, useNavigate } from 'react-router-dom';
 import tw from 'twin.macro';
+import { useQueryClient } from 'react-query';
 import { Heading2 } from '@/components/Content';
 import { AppLayout } from '@/layouts';
 import { useInput } from '@/hooks';
@@ -12,14 +13,17 @@ import { IReview } from '@/types/tables.types';
 import { useUserById } from '@/hooks/trueQuery/users';
 import { useProductById } from '@/hooks/trueQuery/product';
 import { useOrderDetailById } from '@/hooks/trueQuery/orderDetail';
+import { useCreateReview } from '@/hooks/trueQuery/review';
 
 export function CreateReview() {
   const [ content, setContent, ] = useState('');
   const [ files, setFiles, ] = useState([]);
 
+  const qc = useQueryClient();
   // eslint-disable-next-line no-unused-vars
   const [ { id, pId, odId, }, _, removeCookie, ] = useCookies([ 'id', 'pId', 'odId', ]);
   const navi = useNavigate();
+  const createReview = useCreateReview();
 
   const user = useUserById(id);
   const product = useProductById(pId);
@@ -89,6 +93,11 @@ export function CreateReview() {
       reviewData,
     });
 
+    createReview.mutate(formData, {
+      onSuccess: () => {
+        qc.refetchQueries([ 'getReviews', ]);
+      },
+    });
     removeCookie('pId', { path: '/', });
     removeCookie('odId', { path: '/', });
     navi('/mypage/review');

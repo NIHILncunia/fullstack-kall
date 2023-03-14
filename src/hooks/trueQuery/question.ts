@@ -5,7 +5,7 @@ import { IQueryOptions } from '@/types/other.types';
 import { IQuestion } from '@/types/tables.types';
 
 export const getQuestions = async () => {
-  const { data, } = await kallInstance.get<IQuestion[]>('/questions');
+  const { data, } = await kallInstance.get<IQuestion[]>('/admin/questions');
 
   return data;
 };
@@ -18,7 +18,7 @@ export const getQuestionById = async (id: number) => {
 
 export const getQuestionByProductId = async (productId: number) => {
   const { data, } = await kallInstance.get<IQuestion[]>(
-    `/questions/product?product_id=${productId}`
+    `/questions/product/${productId}`
   );
 
   return data;
@@ -26,7 +26,7 @@ export const getQuestionByProductId = async (productId: number) => {
 
 export const getQuestionByUserId = async (userId: string) => {
   const { data, } = await kallInstance.get<IQuestion[]>(
-    `/questions/user?user_id=${userId}`
+    `/questions/user/${userId}`
   );
 
   return data;
@@ -91,9 +91,28 @@ export const useCreateQuestion = () => {
 };
 
 export const useUpdateQuestion = () => {
-  const { mutate, } = useMutation(
+  interface Update {
+    data: IQuestion;
+    id: number;
+  }
+
+  const { mutate, } = useMutation<void, AxiosError, Update>(
     async (updateData) => {
-      const { data, } = await kallInstance.put('', updateData);
+      const { data: uData, id, } = updateData;
+      const { data, } = await kallInstance.put(`/questions/${id}`, uData);
+
+      return data;
+    },
+    {}
+  );
+
+  return { mutate, };
+};
+
+export const useDeleteQuestion = () => {
+  const { mutate, } = useMutation(
+    async (questionId: number) => {
+      const { data, } = await kallInstance.delete(`/questions${questionId}`);
 
       return data;
     },

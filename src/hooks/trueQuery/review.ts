@@ -99,6 +99,19 @@ export const useReviewByProductId = (productId: number, options?: IQueryOptions)
 };
 
 // ==================== 리뷰 작성 ====================
+export const useCreateReview = () => {
+  const { mutate, } = useMutation<string, AxiosError, FormData>(
+    async (createData) => {
+      const { data, } = await kallInstance.post<string>('/reviews', createData);
+
+      return data;
+    },
+    {}
+  );
+
+  return { mutate, };
+};
+
 // ==================== 리뷰 수정 ====================
 export const useUpdateReview = (reviewId: number) => {
   const queryClient = useQueryClient();

@@ -12,7 +12,7 @@ interface INoticeListItemProps {
 
 export function NoticeListItem({ item, items, setItems, }: INoticeListItemProps) {
   const category = useCategoryById(item.categoryDTO.categoryId, {
-    enabled: 'id' in item,
+    enabled: 'noticeId' in item,
   });
 
   const onChangeItem = useCallback((id: number) => {

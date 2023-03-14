@@ -43,10 +43,10 @@ export function DirectDetailPage() {
   const myDirect = useDirectByUserId(userId, 'admin');
   const direct = useDirectById(Number(id), 'admin');
   const userData = useUserById(direct.userDTO.userId, {
-    enabled: 'id' in direct,
+    enabled: 'usQId' in direct,
   });
   const category = useCategoryById(direct.categoryDTO.categoryId, {
-    enabled: 'id' in direct,
+    enabled: 'usQId' in direct,
   });
 
   const navi = useNavigate();

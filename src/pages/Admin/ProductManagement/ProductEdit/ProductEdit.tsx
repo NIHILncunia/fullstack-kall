@@ -129,13 +129,13 @@ export function ProductEdit() {
       info: text,
     };
 
-    kallInstance.put(`/products/${productData.productId}/info`, updateData)
+    kallInstance.post(`/products/${productData.productId}/info`, updateData)
       .then((res) => {
         console.log('상품 기본 정보 수정');
         console.log(res);
       });
 
-    console.log(`[PUT /products/${params.id}/info]`, updateData);
+    console.log(`[POST /products/${params.id}/info]`, updateData);
   }, [ name, tag, amount, price, text, ]);
 
   return (

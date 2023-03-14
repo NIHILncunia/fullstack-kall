@@ -13,7 +13,7 @@ export function OrderDetailPage() {
   const { id, } = useParams<{ id?: string }>();
   const order = useOrderById(Number(id));
   const orderDetails = useOrderDetailByOrderId(order.orderId, {
-    enabled: order && 'id' in order,
+    enabled: order && 'orderId' in order,
   });
 
   return (

@@ -29,7 +29,7 @@ export function UpdateForm({ id, }: IUpdateFormProps) {
   }, []);
 
   useEffect(() => {
-    if (question && 'id' in question) {
+    if (question && 'productQId' in question) {
       title.setValue(question.title);
       setText(question.content);
     }

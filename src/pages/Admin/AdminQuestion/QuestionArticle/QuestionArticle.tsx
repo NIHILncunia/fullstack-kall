@@ -7,7 +7,9 @@ import { Link } from 'react-router-dom';
 import tw from 'twin.macro';
 import moment from 'moment';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
-import { useQuestionById, useQuestionByUserId, useQuestions } from '@/hooks/trueQuery/question';
+import {
+  useDeleteQuestion, useQuestionById, useQuestionByUserId, useQuestions
+} from '@/hooks/trueQuery/question';
 import { AppLayout } from '@/layouts';
 import {
   articleBottomStyle, articleContentStyle, articleTopStyle, commentAdminStyle, goToBackStyle
@@ -24,6 +26,7 @@ export function QuestionArticle() {
   const navi = useNavigate();
 
   const pageCond = pathname.includes('mypage');
+  const deleteQuestion = useDeleteQuestion();
 
   const [ { id, role, }, ] = useCookies([ 'id', 'role', ]);
 
@@ -31,7 +34,7 @@ export function QuestionArticle() {
   const questions = useQuestions();
   const myQuestion = useQuestionByUserId(id);
   const userData = useUserById(question.userDTO.userId, {
-    enabled: 'id' in question,
+    enabled: 'productQId' in question,
   });
 
   const cond = question && question?.comment === null;
@@ -46,6 +49,7 @@ export function QuestionArticle() {
   }, [ questionId, role, ]);
 
   const onClickDelete = useCallback(() => {
+    deleteQuestion.mutate(Number(questionId));
     console.log(`[DELETE /questions/${questionId}]`);
   }, [ questionId, ]);
 
@@ -85,7 +89,7 @@ export function QuestionArticle() {
   }, [ isEdit, text, questionId, cond, ]);
 
   useEffect(() => {
-    if (question && 'id' in question) {
+    if (question && 'productQId' in question) {
       setText(question.comment || '');
       setLabel(cond ? '등록' : '수정');
     } else {
