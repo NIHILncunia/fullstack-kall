@@ -5,19 +5,21 @@ import { IOrder } from '@/types/tables.types';
 import { IQueryOptions } from '@/types/other.types';
 
 export const getOrders = async () => {
-  const { data, } = await kallInstance.get<IOrder[]>('/orders');
+  const { data, } = await kallInstance.get<IOrder[]>('/admin/orders');
 
   return data;
 };
 
-export const getOrderById = async (id: number) => {
-  const { data, } = await kallInstance.get<IOrder>(`/orders/${id}`);
+export const getOrderById = async (id: number, role?: string) => {
+  const url = role === 'admin' ? '/admin' : '';
+  const { data, } = await kallInstance.get<IOrder>(`${url}/orders/${id}`);
 
   return data;
 };
 
-export const getOrderByUserId = async (userId: string) => {
-  const { data, } = await kallInstance.get<IOrder[]>(`/orders/user/${userId}`);
+export const getOrderByUserId = async (userId: string, role?: string) => {
+  const url = role === 'admin' ? '/admin' : '';
+  const { data, } = await kallInstance.get<IOrder[]>(`${url}/orders/user/${userId}`);
 
   return data;
 };
@@ -33,10 +35,10 @@ export const useOrders = () => {
 };
 
 // ==================== 개별 주문 가져오기 ====================
-export const useOrderById = (id: number, options?: IQueryOptions) => {
+export const useOrderById = (id: number, role?: string, options?: IQueryOptions) => {
   const { data = [], } = useQuery<IOrder, AxiosError>(
     [ 'getOrderById', id, ],
-    () => getOrderById(id),
+    () => getOrderById(id, role),
     {
       enabled: options?.enabled ?? true,
     }
@@ -46,10 +48,10 @@ export const useOrderById = (id: number, options?: IQueryOptions) => {
 };
 
 // ==================== 유저 주문 가져오기 ====================
-export const useOrderByUserId = (userId: string, options?: IQueryOptions) => {
+export const useOrderByUserId = (userId: string, role?: string, options?: IQueryOptions) => {
   const { data = [], } = useQuery<IOrder[], AxiosError>(
     [ 'getOrderByUserId', userId, ],
-    () => getOrderByUserId(userId),
+    () => getOrderByUserId(userId, role),
     {
       enabled: options?.enabled ?? true,
     }
@@ -58,7 +60,9 @@ export const useOrderByUserId = (userId: string, options?: IQueryOptions) => {
   return data as IOrder[];
 };
 
-// ====================  ====================
-// ====================  ====================
-// ====================  ====================
-// ====================  ====================
+// ==================== 주문 생성 ====================
+// export const use
+
+// ==================== 주문 수정 () ====================
+// ==================== 주문 수정 (삭제용) ====================
+// ==================== 주문 수정 (일괄 삭제용) ====================

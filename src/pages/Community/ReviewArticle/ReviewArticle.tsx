@@ -30,7 +30,7 @@ export function ReviewArticle() {
   const product = useProductById(review?.productDTO?.productId, {
     enabled: 'reviewId' in review,
   });
-  const order = useOrderById(review?.orderDetailDTO?.orderDNb, {
+  const order = useOrderById(review?.orderDetailDTO?.orderDNb, '', {
     enabled: 'reviewId' in review,
   });
   const orderDetail = useOrderDetailByOrderId(order.orderId, {

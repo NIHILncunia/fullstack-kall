@@ -11,7 +11,7 @@ export const getCarts = async () => {
 };
 
 export const getCartByUserId = async (userId: string) => {
-  const { data, } = await kallInstance.get<ICart[]>(`/carts/user?user_id=${userId}`);
+  const { data, } = await kallInstance.get<ICart[]>(`/carts/user/${userId}`);
 
   return data;
 };

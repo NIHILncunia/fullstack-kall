@@ -5,7 +5,7 @@ import { IReviewComment } from '@/types/tables.types';
 import { IQueryOptions } from '@/types/other.types';
 
 export const getReviewCommentById = async (id: number, role?: string) => {
-  const url = role === 'admin' && '/admin';
+  const url = role === 'admin' ? '/admin' : '';
 
   const { data, } = await kallInstance.get<IReviewComment>(
     `${url}/reviewcomments/${id}`
@@ -15,7 +15,7 @@ export const getReviewCommentById = async (id: number, role?: string) => {
 };
 
 export const getReviewCommentByReviewId = async (reviewId: number, role?: string) => {
-  const url = role === 'admin' && '/admin';
+  const url = role === 'admin' ? '/admin' : '';
 
   const { data, } = await kallInstance.get(`${url}/reviewcomments/review/${reviewId}}`);
 
@@ -69,7 +69,7 @@ export const useUpdateReviewComment = (commentId: number) => {
   const { mutate, } = useMutation<void, AxiosError, Update>(
     async (updateData) => {
       const { data: uData, role, } = updateData;
-      const url = role === 'admin' && '/admin';
+      const url = role === 'admin' ? '/admin' : '';
       const { data, } = await kallInstance.put(`${url}/reviewcomments/${commentId}`, uData);
 
       return data;
@@ -84,7 +84,7 @@ export const useUpdateReviewComment = (commentId: number) => {
 export const useDeleteReviewComment = (commentId: number) => {
   const { mutate, } = useMutation(
     async (role?: string) => {
-      const url = role === 'admin' && '/admin';
+      const url = role === 'admin' ? '/admin' : '';
       const { data, } = await kallInstance.delete(`${url}/reviewcomments/${commentId}}`);
 
       return data;

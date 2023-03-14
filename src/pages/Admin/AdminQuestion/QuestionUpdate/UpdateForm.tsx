@@ -45,7 +45,7 @@ export function UpdateForm({ id, }: IUpdateFormProps) {
     };
 
     updateQuestion.mutate({ id: Number(id), data: updateData, role: 'admin', });
-    const url = role === 'admin' && '/admin';
+    const url = role === 'admin' ? '/admin' : '';
     console.log(`[PUT ${url}/questions/${id}]`, updateData);
     navi(
       pathname.includes('mypage')

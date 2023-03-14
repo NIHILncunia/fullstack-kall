@@ -11,14 +11,14 @@ export const getQuestions = async () => {
 };
 
 export const getQuestionById = async (id: number, role?: string) => {
-  const url = role === 'admin' && '/admin';
+  const url = role === 'admin' ? '/admin' : '';
   const { data, } = await kallInstance.get<IQuestion>(`${url}/questions/${id}`);
 
   return data;
 };
 
 export const getQuestionByProductId = async (productId: number, role?: string) => {
-  const url = role === 'admin' && '/admin';
+  const url = role === 'admin' ? '/admin' : '';
   const { data, } = await kallInstance.get<IQuestion[]>(
     `${url}/questions/product/${productId}`
   );
@@ -27,7 +27,7 @@ export const getQuestionByProductId = async (productId: number, role?: string) =
 };
 
 export const getQuestionByUserId = async (userId: string, role?: string) => {
-  const url = role === 'admin' && '/admin';
+  const url = role === 'admin' ? '/admin' : '';
   const { data, } = await kallInstance.get<IQuestion[]>(
     `${url}/questions/user/${userId}`
   );
@@ -124,7 +124,7 @@ export const useDeleteQuestion = () => {
     async (deleteData) => {
       const { questionId, role, } = deleteData;
 
-      const url = role === 'admin' && '/admin';
+      const url = role === 'admin' ? '/admin' : '';
       const { data, } = await kallInstance.delete(`${url}/questions${questionId}`);
 
       return data;

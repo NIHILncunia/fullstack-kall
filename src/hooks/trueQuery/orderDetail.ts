@@ -18,7 +18,7 @@ export const getOrderDetailById = async (id: number) => {
 
 export const getOrderDetailByOrderId = async (orderId: number) => {
   const { data, } = await kallInstance
-    .get<IOrderDetail[]>(`/orderdetails/order?order_id=${orderId}`);
+    .get<IOrderDetail[]>(`/orderdetails/order/${orderId}`);
 
   return data;
 };

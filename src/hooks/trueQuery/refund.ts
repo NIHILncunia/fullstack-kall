@@ -11,14 +11,14 @@ export const getRefunds = async () => {
 };
 
 export const getRefundById = async (id: number, role?: string) => {
-  const url = role === 'admin' && '/admin';
+  const url = role === 'admin' ? '/admin' : '';
   const { data, } = await kallInstance.get<IRefund>(`${url}/refunds/${id}`);
 
   return data;
 };
 
 export const getRefundByUserId = async (userId: string, role?: string) => {
-  const url = role === 'admin' && '/admin';
+  const url = role === 'admin' ? '/admin' : '';
   const { data, } = await kallInstance.get<IRefund[]>(`${url}/refunds/user/${userId}`);
 
   return data;

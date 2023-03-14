@@ -10,7 +10,7 @@ import { mileageBlockStyle, mileageListStyle } from './style';
 export function MyPageMileage() {
   const [ { id, }, ] = useCookies([ 'id', ]);
   const userData = useUserById(id);
-  const orderDataByUserId = useOrderByUserId(userData.userId, {
+  const orderDataByUserId = useOrderByUserId(userData.userId, '', {
     enabled: userData && 'userId' in userData,
   });
 

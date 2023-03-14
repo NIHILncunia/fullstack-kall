@@ -12,14 +12,14 @@ import { Heading2, Heading3 } from '@/components/Content';
 import { defaultInfoStyle, mypageIconLinkStyle, orderStatStyle } from './style';
 import { useAuthUserById } from '@/hooks/trueQuery/users';
 import { useAddressesByUser } from '@/hooks/trueQuery/address';
-import { useOrders } from '@/hooks/trueQuery/order';
+import { useOrderByUserId } from '@/hooks/trueQuery/order';
 
 export function MyPageMain() {
   const [ cookies, ] = useCookies([ 'id', 'role', ]);
   const user = useAuthUserById(cookies.id);
   const [ address, ] = useAddressesByUser(user?.userId)
     .filter((item) => item.status === 'true');
-  const orders = useOrders();
+  const orders = useOrderByUserId(cookies.id);
 
   console.log('user >> ', user);
 
