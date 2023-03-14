@@ -100,9 +100,11 @@ export function ProductEdit() {
       formData.append('file', item.file);
     });
 
+    formData.append('productId', params.id);
+
     // TODO: 이 부분은 쿼리로 변경해야함
     kallInstance.post(
-      '/',
+      `/products/${params.id}/images`,
       formData,
       {
         headers: {
@@ -110,10 +112,9 @@ export function ProductEdit() {
         },
       }
     ).then((res) => {
-      console.log();
       console.log(res);
     });
-  }, [ files, ]);
+  }, [ files, params, ]);
 
   // ==================== 상세 이미지 목록에서 제거 ====================
   const onClickDeleteFileItem = useCallback((id: number) => {
