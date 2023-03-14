@@ -6,6 +6,8 @@ import {
   basicInfoUploadStyle, imageUploadStyle, postButtonStyle, textAreaInfoStyle
 } from './style';
 import { useCreateProduct } from '@/hooks/trueQuery/product';
+import { IProduct } from '@/types/tables.types';
+import { useCategoryById } from '@/hooks/trueQuery/category';
 
 export function ProductCreate() {
   const [ file, setFile, ] = useState([]);
@@ -29,6 +31,7 @@ export function ProductCreate() {
   const amount = useInput(amountRef, 'amount');
   const price = useInput(priceRef, 'price');
   const category = useInput(categoryRef, 'category');
+  const categoryDTO = useCategoryById(category.data.value);
 
   const onChangeFile = useCallback(() => {
     const file = fileRef.current.files;
@@ -46,11 +49,12 @@ export function ProductCreate() {
 
     formData.append('file', file[0]);
 
-    const productData = {
-      category_id: category.data.value,
+    const productData: IProduct = {
+      categoryDTO,
       name: name.data.value,
       info: text,
       tag: tag.data.value,
+      amount: Number(amount.data.value),
       price: Number(price.data.value),
     };
 
