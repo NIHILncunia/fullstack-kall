@@ -5,19 +5,21 @@ import { kallInstance } from '@/data/axios.data';
 import { IRefund } from '@/types/tables.types';
 
 export const getRefunds = async () => {
-  const { data, } = await kallInstance.get<IRefund[]>('/refunds');
+  const { data, } = await kallInstance.get<IRefund[]>(`/admin/refunds`);
 
   return data;
 };
 
-export const getRefundById = async (id: number) => {
-  const { data, } = await kallInstance.get<IRefund>(`/refunds/${id}`);
+export const getRefundById = async (id: number, role?: string) => {
+  const url = role === 'admin' && '/admin';
+  const { data, } = await kallInstance.get<IRefund>(`${url}/refunds/${id}`);
 
   return data;
 };
 
-export const getRefundByUserId = async (userId: string) => {
-  const { data, } = await kallInstance.get<IRefund[]>(`/refunds/user?user_id=${userId}`);
+export const getRefundByUserId = async (userId: string, role?: string) => {
+  const url = role === 'admin' && '/admin';
+  const { data, } = await kallInstance.get<IRefund[]>(`${url}/refunds/user/${userId}`);
 
   return data;
 };
@@ -33,10 +35,10 @@ export const useRefunds = () => {
 };
 
 // ==================== 하나의 반품 데이터 가져오기 ====================
-export const useRefundById = (id: number) => {
+export const useRefundById = (id: number, role?: string) => {
   const { data = {}, } = useQuery<IRefund, AxiosError>(
     [ 'getRefundById', id, ],
-    () => getRefundById(id)
+    () => getRefundById(id, role)
   );
 
   return data as IRefund;
@@ -59,7 +61,11 @@ export const useCreateRefund = (userId: string) => {
 
   const { mutate, } = useMutation<string, AxiosError, FormData>(
     async (refundData) => {
-      const { data, } = await kallInstance.post<string>('/refunds', refundData);
+      const { data, } = await kallInstance.post<string>('/refunds', refundData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
 
       return data;
     },
@@ -79,8 +85,16 @@ export const useCreateRefund = (userId: string) => {
 
   return { mutate, message, };
 };
-// ====================  ====================
-// ====================  ====================
-// ====================  ====================
-// ====================  ====================
-// ====================  ====================
+// ==================== 어드민 반품 수정 ====================
+export const useUpdateRefund = (id: number) => {
+  const { mutate, } = useMutation<void, AxiosError, IRefund>(
+    async (updateData) => {
+      const { data, } = await kallInstance.put(`/admin/refunds/${id}}`, updateData);
+
+      return data;
+    },
+    {}
+  );
+
+  return { mutate, };
+};

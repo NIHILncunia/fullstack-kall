@@ -1,14 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import tw from 'twin.macro';
 import { AdminLayout, AppLayout } from '@/layouts';
-import { useRefundById } from '@/hooks/trueQuery/refund';
+import { useRefundById, useUpdateRefund } from '@/hooks/trueQuery/refund';
 import { useOrderDetailById } from '@/hooks/trueQuery/orderDetail';
 import { Heading2, ItemRate } from '@/components/Content';
 import { useProductById } from '@/hooks/trueQuery/product';
 import { orderDetailDataStyle, refundDataStyle } from './style';
 import { getItemString } from '@/utils';
 import { useCategoryById } from '@/hooks/trueQuery/category';
+import { IRefund } from '@/types/tables.types';
 
 export function RefundItem() {
   const [ isEdit, setIsEdit, ] = useState(false);
@@ -16,13 +17,15 @@ export function RefundItem() {
   const [ status, setStatus, ] = useState('');
 
   const { id: refundId, } = useParams();
-  const refund = useRefundById(Number(refundId));
-  const orderDetail = useOrderDetailById(refund?.orderDetailDTO.orderDNb, {
+  const navi = useNavigate();
+  const refund = useRefundById(Number(refundId), 'admin');
+  const orderDetail = useOrderDetailById(refund?.orderDetailDTO?.orderDNb, {
     enabled: 'refundId' in refund,
   });
-  const product = useProductById(orderDetail.productDTO.productId, {
+  const product = useProductById(orderDetail?.productDTO?.productId, {
     enabled: 'orderDNb' in orderDetail,
   });
+  const updateRefund = useUpdateRefund(Number(refundId));
 
   useEffect(() => {
     if ('refundId' in refund) {
@@ -36,9 +39,11 @@ export function RefundItem() {
 
   const onClickEdit = useCallback(() => {
     if (isEdit) {
-      const updateData = {
+      const updateData: IRefund = {
         status,
       };
+
+      updateRefund.mutate(updateData);
       console.log(`[PUT /refunds/${refundId}]`, updateData);
 
       setIsEdit(false);
@@ -46,6 +51,7 @@ export function RefundItem() {
     } else {
       setIsEdit(true);
       setLabel('수정 완료');
+      navi('/admin/refund');
     }
   }, [ isEdit, status, ]);
 

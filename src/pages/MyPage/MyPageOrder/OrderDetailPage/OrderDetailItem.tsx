@@ -4,12 +4,15 @@ import React, {
 import { useCookies } from 'react-cookie';
 import tw from 'twin.macro';
 import { useNavigate } from 'react-router';
-import { IOrderDetail } from '@/types/tables.types';
+import { IOrderDetail, IRefund } from '@/types/tables.types';
 import { useProductById } from '@/hooks/trueQuery/product';
 import { getItemString } from '@/utils';
 import { ItemRate } from '@/components/Content';
 import { useCategoryById } from '@/hooks/trueQuery/category';
 import { refundInputStyle } from './style';
+import { useUserById } from '@/hooks/trueQuery/users';
+import { useOrderDetailById } from '@/hooks/trueQuery/orderDetail';
+import { useCreateRefund } from '@/hooks/trueQuery/refund';
 
 interface IOrderDetailItemProps {
   item: IOrderDetail;
@@ -29,12 +32,15 @@ export function OrderDetailItem({ item, }: IOrderDetailItemProps) {
   const fileRef = useRef<HTMLInputElement>();
   const fileInputRef = useRef<HTMLInputElement>();
 
-  const [ { id: userId, }, setCookie, ] = useCookies([ 'id', 'odId', 'pId', ]);
-  const product = useProductById(Number(item.productDTO.productId));
+  const [ { id: userId, odId, pId, }, setCookie, ] = useCookies([ 'id', 'odId', 'pId', ]);
+  const product = useProductById(Number(pId));
   const sheet = useCategoryById(item.option_sheet).categoryName;
   const shape = useCategoryById(item.option_shape).categoryName;
   const cream = useCategoryById(item.option_cream).categoryName;
   const size = useCategoryById(item.option_size).categoryName;
+  const user = useUserById(userId);
+  const orderDetail = useOrderDetailById(Number(odId));
+  const createRefund = useCreateRefund(userId);
 
   console.log(item);
 
@@ -80,7 +86,7 @@ export function OrderDetailItem({ item, }: IOrderDetailItemProps) {
     []
   );
 
-  const onClickRefund = useCallback((id: number) => {
+  const onClickRefund = useCallback(() => {
     if (!isRefund) {
       setIsRefund((prev) => !prev);
       setLabel('반품 요청 완료');
@@ -93,9 +99,9 @@ export function OrderDetailItem({ item, }: IOrderDetailItemProps) {
 
       const formData = new FormData();
 
-      const refundData = {
-        order_dnb: id,
-        user_id: userId,
+      const refundData: IRefund = {
+        orderDetailDTO: orderDetail,
+        userDTO: user,
         title,
         content,
       };
@@ -120,9 +126,10 @@ export function OrderDetailItem({ item, }: IOrderDetailItemProps) {
         refundData,
       });
 
+      createRefund.mutate(formData);
       setLabel('반품 요청');
     }
-  }, [ isRefund, title, content, files, ]);
+  }, [ isRefund, title, content, files, orderDetail, user, ]);
 
   const onClickCreateReview = useCallback(() => {
     setCookie('odId', item.orderDNb, { path: '/', });
@@ -143,13 +150,7 @@ export function OrderDetailItem({ item, }: IOrderDetailItemProps) {
             {item.status === '배송완료' && (
               <button onClick={onClickCreateReview} css={tw`mr-[20px]`}>리뷰 작성</button>
             )}
-            <button onClick={(event) => {
-              event.preventDefault();
-
-              onClickRefund(item.orderDNb);
-            }}
-            >{label}
-            </button>
+            <button onClick={onClickRefund}>{label}</button>
           </div>
         </div>
       </div>

@@ -1,48 +1,31 @@
 import { AxiosError } from 'axios';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { kallInstance } from '@/data/axios.data';
 import { IReviewComment } from '@/types/tables.types';
 import { IQueryOptions } from '@/types/other.types';
 
-export const getReviewComments = async () => {
-  const { data, } = await kallInstance.get<IReviewComment[]>(
-    '/reviewcomments'
-  );
+export const getReviewCommentById = async (id: number, role?: string) => {
+  const url = role === 'admin' && '/admin';
 
-  return data;
-};
-
-export const getReviewCommentById = async (id: number) => {
   const { data, } = await kallInstance.get<IReviewComment>(
-    `/reviewcomments/${id}`
+    `${url}/reviewcomments/${id}`
   );
 
   return data;
 };
 
-export const getReviewCommentByReviewId = async (reviewId: number, role = 'user') => {
-  const url = role === 'admin'
-    ? `/admin/reviews/comment/${reviewId}`
-    : `/reviews/comment/${reviewId}`;
+export const getReviewCommentByReviewId = async (reviewId: number, role?: string) => {
+  const url = role === 'admin' && '/admin';
 
-  const { data, } = await kallInstance.get<IReviewComment[]>(url);
+  const { data, } = await kallInstance.get(`${url}/reviewcomments/review/${reviewId}}`);
 
   return data;
 };
 
-export const useReviewComments = () => {
-  const { data = [], } = useQuery<IReviewComment[], AxiosError>(
-    [ 'getReviewComments', ],
-    getReviewComments
-  );
-
-  return data as IReviewComment[];
-};
-
-export const useReviewCommentById = (id: number, options?: IQueryOptions) => {
+export const useReviewCommentById = (id: number, role?: string, options?: IQueryOptions) => {
   const { data = {}, } = useQuery<IReviewComment, AxiosError>(
     [ 'getReviewCommentById', id, ],
-    () => getReviewCommentById(id),
+    () => getReviewCommentById(id, role),
     {
       enabled: options?.enabled ?? true,
     }
@@ -63,60 +46,49 @@ export const useReviewCommentByReviewId = (reviewId: number, role?: string, opti
   return data as IReviewComment[];
 };
 
-// ==================== 덧글 수정 ====================
-export const useUpdateReviewComment = (reviewId: number) => {
-  const qc = useQueryClient();
-  interface UpdateData {
-    rcId: number;
-    data: IReviewComment;
-    role?: string;
-  }
-  const { mutate, } = useMutation<void, AxiosError, UpdateData>(
-    async (updateData: UpdateData) => {
-      const { rcId, } = updateData;
-      const url = updateData.role === 'admin'
-        ? `/admin/reviews/comment/${rcId}`
-        : `/reviews/comment/${rcId}`;
-
-      const { data, } = await kallInstance.put(url);
+// ==================== 덧글 추가 ====================
+export const useCreateReviewComment = async () => {
+  const { mutate, } = useMutation<void, AxiosError, IReviewComment>(
+    async (commentData) => {
+      const { data, } = await kallInstance.post('/reviewcomments', commentData);
 
       return data;
     },
-    {
-      onSuccess: () => {
-        qc.refetchQueries([ 'getReviewCommentByReviewId', reviewId, ]);
-      },
-    }
+    {}
+  );
+
+  return { mutate, };
+};
+// ==================== 덧글 수정 ====================
+export const useUpdateReviewComment = async (commentId: number) => {
+  interface Update {
+    data: IReviewComment;
+    role?: string;
+  }
+
+  const { mutate, } = useMutation<void, AxiosError, Update>(
+    async (updateData) => {
+      const { data: uData, role, } = updateData;
+      const url = role === 'admin' && '/admin';
+      const { data, } = await kallInstance.put(`${url}/reviewcomments/${commentId}`, uData);
+
+      return data;
+    },
+    {}
   );
 
   return { mutate, };
 };
 
 // ==================== 덧글 삭제 ====================
-export const useDeleteReviewComment = (reviewId: number) => {
-  const qc = useQueryClient();
-
-  interface DeleteData {
-    role?: string;
-    rcId: number;
-  }
-
-  const { mutate, } = useMutation<void, AxiosError, DeleteData>(
-    async (deleteData: DeleteData) => {
-      const { rcId, role, } = deleteData;
-      const url = role === 'admin'
-        ? `/admin/reviews/comment/${rcId}`
-        : `/reviews/comment/${rcId}`;
-
-      const { data, } = await kallInstance.delete(url);
+export const useDeleteReviewComment = async (commentId: number) => {
+  const { mutate, } = useMutation(
+    async () => {
+      const { data, } = await kallInstance.delete(`/reviewcomments/${commentId}}`);
 
       return data;
     },
-    {
-      onSuccess: () => {
-        qc.refetchQueries([ 'getReviewCommentByReviewId', reviewId, ]);
-      },
-    }
+    {}
   );
 
   return { mutate, };
