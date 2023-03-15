@@ -73,9 +73,7 @@ export function MyaPagePassEdit() {
 
       kallInstance.put(`/users/password/${user.userId}`, putData)
         .then((res) => {
-          if (res.data === 'ok') {
-            navi('/mypage/main');
-          }
+          navi('/mypage/main');
         })
         .catch((error) => {
           console.error(error);

@@ -4,8 +4,9 @@ import { kallInstance } from '@/data/axios.data';
 import { IQueryOptions } from '@/types/other.types';
 import { IQuestion } from '@/types/tables.types';
 
-export const getQuestions = async () => {
-  const { data, } = await kallInstance.get<IQuestion[]>('/admin/questions');
+export const getQuestions = async (role?: string) => {
+  const url = role === 'admin' ? '/admin' : '';
+  const { data, } = await kallInstance.get<IQuestion[]>(`${url}/questions`);
 
   return data;
 };
@@ -35,10 +36,10 @@ export const getQuestionByUserId = async (userId: string, role?: string) => {
   return data;
 };
 
-export const useQuestions = () => {
+export const useQuestions = (role?: string) => {
   const { data = [], } = useQuery<IQuestion[], AxiosError>(
     [ 'getQuestions', ],
-    getQuestions
+    () => getQuestions(role)
   );
 
   return data as IQuestion[];

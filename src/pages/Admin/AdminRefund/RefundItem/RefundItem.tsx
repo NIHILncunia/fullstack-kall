@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import tw from 'twin.macro';
 import { useQueryClient } from 'react-query';
+import { useCookies } from 'react-cookie';
 import { AdminLayout, AppLayout } from '@/layouts';
 import { useRefundById, useUpdateRefund } from '@/hooks/trueQuery/refund';
 import { useOrderDetailById } from '@/hooks/trueQuery/orderDetail';
@@ -17,9 +18,10 @@ export function RefundItem() {
   const [ label, setLabel, ] = useState('수정');
   const [ status, setStatus, ] = useState('');
 
+  const [ { role, }, ] = useCookies([ 'id', 'role', ]);
   const { id: refundId, } = useParams();
   const navi = useNavigate();
-  const refund = useRefundById(Number(refundId), 'admin');
+  const refund = useRefundById(Number(refundId), role);
   const orderDetail = useOrderDetailById(refund?.orderDetailDTO?.orderDNb, {
     enabled: 'refundId' in refund,
   });

@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { useQueryClient } from 'react-query';
+import { useCookies } from 'react-cookie';
 import { Heading2 } from '@/components/Content';
 import { AdminLayout, AppLayout } from '@/layouts';
 import { useDeleteDirects, useDirects } from '@/hooks/trueQuery/direct';
@@ -7,7 +8,8 @@ import { DirectItem } from '@/components/Content/Admin';
 import { buttonStyle, directListHeaderStyle, directListStyle } from './style';
 
 export function AdminDirect() {
-  const directs = useDirects('admin');
+  const [ { role, }, ] = useCookies([ 'id', 'role', ]);
+  const directs = useDirects(role);
   const deleteDirects = useDeleteDirects();
 
   const qc = useQueryClient();

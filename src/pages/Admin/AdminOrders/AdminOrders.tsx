@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import tw from 'twin.macro';
+import { useCookies } from 'react-cookie';
 import { AdminLayout, AppLayout } from '@/layouts';
 import { Heading2 } from '@/components/Content';
 import { OrderListItem } from '@/components/Content/Admin';
@@ -8,7 +9,8 @@ import { useOrders } from '@/hooks/trueQuery/order';
 
 export function AdminOrders() {
   const [ items, setItems, ] = useState<number[]>([]);
-  const orders = useOrders();
+  const [ { id, role, }, ] = useCookies([ 'id', 'role', ]);
+  const orders = useOrders(role);
 
   return (
     <>

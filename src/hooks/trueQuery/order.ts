@@ -4,8 +4,9 @@ import { kallInstance } from '@/data/axios.data';
 import { IOrder, IOrderDetail } from '@/types/tables.types';
 import { IQueryOptions } from '@/types/other.types';
 
-export const getOrders = async () => {
-  const { data, } = await kallInstance.get<IOrder[]>('/admin/orders');
+export const getOrders = async (role?: string) => {
+  const url = role === 'admin' ? '/admin' : '';
+  const { data, } = await kallInstance.get<IOrder[]>(`${url}/orders`);
 
   return data;
 };
@@ -25,10 +26,10 @@ export const getOrderByUserId = async (userId: string, role?: string) => {
 };
 
 // ==================== 전체 주문 가져오기 ====================
-export const useOrders = () => {
+export const useOrders = (role?: string) => {
   const { data = [], } = useQuery<IOrder[], AxiosError>(
     [ 'getOrders', ],
-    getOrders
+    () => getOrders(role)
   );
 
   return data as IOrder[];

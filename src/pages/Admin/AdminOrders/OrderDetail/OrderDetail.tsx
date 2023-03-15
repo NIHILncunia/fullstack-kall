@@ -21,10 +21,10 @@ export function OrderDetail() {
   const [ isEdit, setIsEdit, ] = useState(false);
   const [ label, setLabel, ] = useState('수정');
 
-  const params = useParams();
-  const order = useOrderById(Number(params.id), 'admin');
-  const orderDetail = useOrderDetailByOrderId(Number(params.id));
   const [ { id, role, }, ] = useCookies([ 'id', 'role', ]);
+  const params = useParams();
+  const order = useOrderById(Number(params.id), role);
+  const orderDetail = useOrderDetailByOrderId(Number(params.id));
   const user = useUserById(id);
   const navi = useNavigate();
 

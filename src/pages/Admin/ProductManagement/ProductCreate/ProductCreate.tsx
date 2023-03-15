@@ -70,7 +70,7 @@ export function ProductCreate() {
 
     const formDataObj = formDataToObject(formData);
     console.log('[POST /products]', formDataObj);
-    navi('/mypage/question?current=direct');
+    navi('/admin/products');
   }, [ file, category, name, text, tag, price, ]);
 
   return (

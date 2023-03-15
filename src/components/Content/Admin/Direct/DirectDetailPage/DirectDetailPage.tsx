@@ -25,12 +25,12 @@ export function DirectDetailPage() {
 
   const qc = useQueryClient();
 
+  const [ { id: userId, role, }, ] = useCookies([ 'id', 'role', ]);
   const { pathname, } = useLocation();
-  const cond = pathname.includes('admin');
+  const cond = pathname.includes(role);
 
   const deleteDirect = useDeleteDirect();
 
-  const [ { id: userId, role, }, ] = useCookies([ 'id', 'role', ]);
   const { id, } = useParams();
   const editUrl = cond
     ? `/admin/direct/${id}/edit`
@@ -39,14 +39,17 @@ export function DirectDetailPage() {
     ? `/admin/direct`
     : `/mypage/direct`;
 
-  const directs = useDirects('admin');
-  const myDirect = useDirectByUserId(userId, 'admin');
-  const direct = useDirectById(Number(id), 'admin');
+  const directs = useDirects(role);
+  console.log(directs);
+  const myDirect = useDirectByUserId(userId, role);
+  const direct = useDirectById(Number(id), role);
+
+  console.log(direct);
   const userData = useUserById(direct?.userDTO?.userId, {
-    enabled: 'usQId' in direct,
+    enabled: !!direct,
   });
   const category = useCategoryById(direct?.categoryDTO?.categoryId, {
-    enabled: 'usQId' in direct,
+    enabled: !!direct,
   });
 
   const navi = useNavigate();

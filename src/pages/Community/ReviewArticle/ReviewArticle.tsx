@@ -23,7 +23,7 @@ import { useReviewCommentByReviewId } from '@/hooks/trueQuery/reviewComment';
 export function ReviewArticle() {
   const [ cookies, ] = useCookies([ 'id', 'role', ]);
   const params = useParams();
-  const review = useReviewById(Number(params.id), 'admin');
+  const review = useReviewById(Number(params.id), cookies.role);
   const reviews = useReviews(cookies.role as string);
   const userData = useUserById(review?.userDTO?.userId, {
     enabled: 'reviewId' in review,
@@ -34,10 +34,10 @@ export function ReviewArticle() {
   const order = useOrderById(review?.orderDetailDTO?.orderDNb, '', {
     enabled: 'reviewId' in review,
   });
-  const orderDetail = useOrderDetailByOrderId(order.orderId, {
+  const orderDetail = useOrderDetailByOrderId(order?.orderId, {
     enabled: 'orderId' in order,
   });
-  const reviewComments = useReviewCommentByReviewId(review.reviewId, cookies.role, {
+  const reviewComments = useReviewCommentByReviewId(review?.reviewId, cookies.role, {
     enabled: 'reviewId' in review,
   });
 

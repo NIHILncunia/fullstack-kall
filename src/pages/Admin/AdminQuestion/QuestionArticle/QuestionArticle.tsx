@@ -31,8 +31,8 @@ export function QuestionArticle() {
 
   const [ { id, role, }, ] = useCookies([ 'id', 'role', ]);
 
-  const question = useQuestionById(Number(questionId), 'admin');
-  const questions = useQuestions();
+  const question = useQuestionById(Number(questionId), role);
+  const questions = useQuestions(role);
   const myQuestion = useQuestionByUserId(id);
   const userData = useUserById(question.userDTO?.userId, {
     enabled: 'productQId' in question,

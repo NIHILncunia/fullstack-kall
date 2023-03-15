@@ -20,8 +20,8 @@ export function DirectUpdate() {
 
   const { id, } = useParams();
   const { pathname, } = useLocation();
-  const direct = useDirectById(Number(id), 'admin');
   const [ cookies, ] = useCookies([ 'id', 'role', ]);
+  const direct = useDirectById(Number(id), cookies.role);
   const navi = useNavigate();
   const updateDirect = useUpdateDirect();
 

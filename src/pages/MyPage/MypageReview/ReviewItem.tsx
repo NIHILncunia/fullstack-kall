@@ -12,6 +12,8 @@ interface IReviewItemProps {
 export function ReviewItem({ item, }: IReviewItemProps) {
   const navi = useNavigate();
 
+  console.log('ReviewItem item >> ', item);
+
   const onClickLink = useCallback(() => {
     navi(`/community/review/${item.reviewId}`);
   }, [ item, ]);

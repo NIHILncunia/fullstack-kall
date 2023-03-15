@@ -3,7 +3,7 @@ import { useCookies } from 'react-cookie';
 import { useInput } from '@/hooks';
 import { passCheckStyle } from './style';
 import { kallInstance } from '@/data/axios.data';
-import { useAuthUserById } from '@/hooks/trueQuery/users';
+import { useAuthUserById, useUserById } from '@/hooks/trueQuery/users';
 import { IUser } from '@/types/tables.types';
 
 interface IPassCheckProps {
@@ -14,6 +14,7 @@ export function PassCheck({ setIsUser, }: IPassCheckProps) {
   const [ message, setMessage, ] = useState('');
   const [ { id, }, ] = useCookies([ 'id', ]);
   const user = useAuthUserById(id);
+  const userData = useUserById(id);
 
   const passRef = useRef<HTMLInputElement>();
   const password = useInput(passRef, 'password');
@@ -23,6 +24,11 @@ export function PassCheck({ setIsUser, }: IPassCheckProps) {
 
     if (password.data.value === '') {
       setMessage('비밀번호를 입력해야 합니다.');
+      return;
+    }
+
+    if (password.data.value !== userData.password) {
+      setMessage('비밀번호가 일치하지 않습니다.');
       return;
     }
 

@@ -1,7 +1,7 @@
 import React, {
   useCallback, useEffect, useRef, useState
 } from 'react';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { FaTimes } from 'react-icons/fa';
 import tw from 'twin.macro';
 import { AdminLayout, AppLayout } from '@/layouts';
@@ -37,6 +37,7 @@ export function ProductEdit() {
   const tag = useInput(tagRef, 'tag');
   const amount = useInput(amountRef, 'amount');
   const price = useInput(priceRef, 'price');
+  const navi = useNavigate();
 
   useEffect(() => {
     if ('productId' in productData) {
@@ -136,6 +137,7 @@ export function ProductEdit() {
       .then((res) => {
         console.log('상품 기본 정보 수정');
         console.log(res);
+        navi('/admin/products');
       });
 
     console.log(`[PUT /products/${params.id}/info]`, updateData);

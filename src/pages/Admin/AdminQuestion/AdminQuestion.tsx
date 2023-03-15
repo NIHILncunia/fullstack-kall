@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from 'react';
+import { useCookies } from 'react-cookie';
 import { Heading2 } from '@/components/Content';
 import { AdminLayout, AppLayout } from '@/layouts';
 import { useDeleteQuestions, useQuestions } from '@/hooks/trueQuery/question';
@@ -7,8 +8,9 @@ import { listHeaderStyle, listStyle, noticeButtonStyle } from './style';
 
 export function AdminQuestion() {
   const [ items, setItems, ] = useState<number[]>([]);
+  const [ { role, }, ] = useCookies([ 'id', 'role', ]);
 
-  const questions = useQuestions();
+  const questions = useQuestions(role);
   const deleteQuestions = useDeleteQuestions();
 
   const onClickAllCheck = useCallback(() => {

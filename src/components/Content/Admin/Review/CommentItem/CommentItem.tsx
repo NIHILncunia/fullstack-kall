@@ -35,7 +35,7 @@ export function CommentItem({ item, }: ICommentItemProps) {
 
   const onClickDelete = useCallback((id: number) => {
     if (cookies.role === 'admin') {
-      deleterc.mutate('admin', {
+      deleterc.mutate(cookies.role, {
         onSuccess: () => {
           const reviewId = item?.reviewDTO?.reviewId;
           qc.refetchQueries([ 'getReviewCommentByReviewId', reviewId, ]);
@@ -64,7 +64,7 @@ export function CommentItem({ item, }: ICommentItemProps) {
       };
 
       if (cookies.role === 'admin') {
-        updaterc.mutate({ data: updateData, role: 'admin', });
+        updaterc.mutate({ data: updateData, role: cookies.role, });
         console.log(`[PUT /admin/reviewcomments/${id}]`, updateData);
       } else {
         updaterc.mutate({ data: updateData, });

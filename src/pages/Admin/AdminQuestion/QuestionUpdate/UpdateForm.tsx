@@ -22,7 +22,7 @@ export function UpdateForm({ id, }: IUpdateFormProps) {
   const { pathname, } = useLocation();
   const [ { role, }, ] = useCookies([ 'id', 'role', ]);
 
-  const question = useQuestionById(Number(id), 'admin');
+  const question = useQuestionById(Number(id), role);
   const updateQuestion = useUpdateQuestion();
 
   const titleRef = useRef<HTMLInputElement>();
@@ -47,7 +47,7 @@ export function UpdateForm({ id, }: IUpdateFormProps) {
       content: text,
     };
 
-    updateQuestion.mutate({ id: Number(id), data: updateData, role: 'admin', });
+    updateQuestion.mutate({ id: Number(id), data: updateData, role, });
     const url = role === 'admin' ? '/admin' : '';
     console.log(`[PUT ${url}/questions/${id}]`, updateData);
     navi(
