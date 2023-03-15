@@ -161,7 +161,7 @@ export function ReviewArticle() {
             <div className='article-order-list' css={articleOrderListStyle}>
               <p>이 상품과 함께 구매하신 상품 목록입니다.</p>
               {orderDetail.map((item) => (
-                <ReviewOrderDetailItem key={item.orderDNb} item={item} />
+                <ReviewOrderDetailItem key={item.orderDnb} item={item} />
               ))}
             </div>
           )}

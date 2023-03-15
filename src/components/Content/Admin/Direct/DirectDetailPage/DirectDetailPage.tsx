@@ -8,12 +8,13 @@ import tw from 'twin.macro';
 import { useQueryClient } from 'react-query';
 import { useUserById } from '@/hooks/trueQuery/users';
 import {
-  useDeleteDirect, useDirectById, useDirectByUserId, useDirects
+  useDeleteDirect, useDirectById, useDirectByUserId, useDirects, useUpdateDirect
 } from '@/hooks/trueQuery/direct';
 import {
   articleBottomStyle, articleContentStyle, articleTopStyle, commentAdminStyle, goToBackStyle
 } from './style';
 import { useCategoryById } from '@/hooks/trueQuery/category';
+import { IDirect } from '@/types/tables.types';
 
 export function DirectDetailPage() {
   const [ text, setText, ] = useState('');
@@ -30,6 +31,7 @@ export function DirectDetailPage() {
   const cond = pathname.includes(role);
 
   const deleteDirect = useDeleteDirect();
+  const updateDirect = useUpdateDirect();
 
   const { id, } = useParams();
   const editUrl = cond
@@ -40,7 +42,6 @@ export function DirectDetailPage() {
     : `/mypage/direct`;
 
   const directs = useDirects(role);
-  console.log(directs);
   const myDirect = useDirectByUserId(userId, role);
   const direct = useDirectById(Number(id), role);
 
@@ -100,7 +101,10 @@ export function DirectDetailPage() {
 
     if (isClick) {
       setLabel('등록');
-      const newData = {
+      const newData: IDirect = {
+        ...direct,
+        categoryDTO: direct.categoryDTO,
+        userDTO: direct.userDTO,
         comment: text,
       };
       console.log(`[PATCH /directs/${id}]`, newData);

@@ -59,7 +59,7 @@ export function OrderDetailPage() {
           <div className='order-detail-items' css={orderDetailItemsStyle}>
             <Heading3>주문한 상품 목록</Heading3>
             {orderDetails.map((item) => (
-              <OrderDetailItem key={item.orderDNb} item={item} />
+              <OrderDetailItem key={item.orderDnb} item={item} />
             ))}
           </div>
         </MyPageLayout>

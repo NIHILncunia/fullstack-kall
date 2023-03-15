@@ -252,7 +252,7 @@ export function OrderDetail() {
           <Heading3>주문한 상품 리스트</Heading3>
           <div css={orderDetailListStyle}>
             {orderDetail.map((item) => (
-              <OrderDetailList key={item.orderDNb} item={item} />
+              <OrderDetailList key={item.orderDnb} item={item} />
             ))}
           </div>
         </AdminLayout>

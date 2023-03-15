@@ -126,7 +126,7 @@ export const useDeleteQuestion = () => {
       const { questionId, role, } = deleteData;
 
       const url = role === 'admin' ? '/admin' : '';
-      const { data, } = await kallInstance.delete(`${url}/questions${questionId}`);
+      const { data, } = await kallInstance.delete(`${url}/questions/${questionId}`);
 
       return data;
     },

@@ -20,7 +20,6 @@ import { ILoginResponse } from '@/types/other.types';
 import { IUser } from '@/types/tables.types';
 
 export function SIgnIn() {
-  const [ passwordError, setPasswordError, ] = useState(false);
   const [ loginError, setLoginError, ] = useState(false);
   const [ errorMessage, setErrorMessage, ] = useState('');
 

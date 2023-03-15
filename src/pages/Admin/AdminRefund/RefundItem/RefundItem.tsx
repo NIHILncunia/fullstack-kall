@@ -7,7 +7,6 @@ import { AdminLayout, AppLayout } from '@/layouts';
 import { useRefundById, useUpdateRefund } from '@/hooks/trueQuery/refund';
 import { useOrderDetailById } from '@/hooks/trueQuery/orderDetail';
 import { Heading2, ItemRate } from '@/components/Content';
-import { useProductById } from '@/hooks/trueQuery/product';
 import { orderDetailDataStyle, refundDataStyle } from './style';
 import { getItemString } from '@/utils';
 import { useCategoryById } from '@/hooks/trueQuery/category';
@@ -23,12 +22,10 @@ export function RefundItem() {
   const { id: refundId, } = useParams();
   const navi = useNavigate();
   const refund = useRefundById(Number(refundId), role);
-  const orderDetail = useOrderDetailById(refund?.orderDetailDTO?.orderDNb, {
+  const orderDetail = useOrderDetailById(refund?.orderDetailDTO?.orderDnb, {
     enabled: 'refundId' in refund,
   });
-  const product = useProductById(orderDetail?.productDTO?.productId, {
-    enabled: 'orderDNb' in orderDetail,
-  });
+  const { productDTO, } = orderDetail;
   const user = useUserById(id);
   const updateRefund = useUpdateRefund(Number(refundId));
   const qc = useQueryClient();
@@ -46,7 +43,8 @@ export function RefundItem() {
   const onClickEdit = useCallback(() => {
     if (isEdit) {
       const updateData: IRefund = {
-        userDTO: user,
+        ...refund,
+        userDTO: refund.userDTO,
         refundId: refund.refundId,
         status,
       };
@@ -54,6 +52,7 @@ export function RefundItem() {
       updateRefund.mutate(updateData, {
         onSuccess: () => {
           qc.refetchQueries([ 'getRefundById', Number(refundId), ]);
+          qc.refetchQueries([ 'getRefunds', ]);
         },
       });
       console.log(`[PUT /refunds/${refundId}]`, updateData);
@@ -67,10 +66,13 @@ export function RefundItem() {
     }
   }, [ isEdit, status, user, updateRefund, ]);
 
-  const sheet = useCategoryById(orderDetail.option_sheet).categoryName;
-  const shape = useCategoryById(orderDetail.option_shape).categoryName;
-  const cream = useCategoryById(orderDetail.option_cream).categoryName;
-  const size = useCategoryById(orderDetail.option_size).categoryName;
+  console.log('orderDetail >> ', orderDetail);
+  console.log('product >> ', productDTO);
+
+  const sheet = useCategoryById(orderDetail?.option_sheet).categoryName;
+  const shape = useCategoryById(orderDetail?.option_shape).categoryName;
+  const cream = useCategoryById(orderDetail?.option_cream).categoryName;
+  const size = useCategoryById(orderDetail?.option_size).categoryName;
 
   const selection = {
     sheet,
@@ -79,7 +81,7 @@ export function RefundItem() {
     size,
   };
 
-  const { itemString, itemTotalPrice, } = getItemString(selection, product, orderDetail);
+  const { itemString, itemTotalPrice, } = getItemString(selection, productDTO, orderDetail);
 
   return (
     <>
@@ -102,10 +104,10 @@ export function RefundItem() {
             <div className='data-status'>
               <p>처리 상태</p>
               <select disabled={isEdit === false} value={status} onChange={onChangeStatus}>
-                <option value='반품 요청'>반품 요청</option>
+                <option value='반품요청'>반품 요청</option>
                 <option value='처리중'>처리중</option>
-                <option value='반품 확정'>반품 확정</option>
-                <option value='반품 완료'>반품 완료</option>
+                <option value='반품확정'>반품 확정</option>
+                <option value='반품완료'>반품 완료</option>
               </select>
               <button onClick={onClickEdit}>{label}</button>
             </div>
@@ -121,11 +123,11 @@ export function RefundItem() {
 
           <Heading2>반품한 상품 정보</Heading2>
           <div className='data-order-detail' css={orderDetailDataStyle}>
-            <img src={product?.image} alt={product?.name} />
+            <img src={productDTO?.image} alt={productDTO?.name} />
             <div>
               <h3>{itemString}</h3>
               <p>{itemTotalPrice}원</p>
-              <ItemRate rate={product?.star} styles={tw`justify-start`} />
+              <ItemRate rate={productDTO?.star} styles={tw`justify-start`} />
             </div>
           </div>
         </AdminLayout>

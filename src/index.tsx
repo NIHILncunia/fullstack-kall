@@ -14,6 +14,7 @@ import {
   CommunityVisit,
   CreateQuestion,
   CreateReview,
+  FaqArticle,
   FindId,
   FindPassword,
   Home, MyaPagePassEdit, MyPageAddress, MypageDelivery, MyPageMain, MyPageMileage, MyPageOrder, MypageQuestion, MypageReview, MyPageUserInfoEdit, MypageWishlist, NotFound, NoticeaArticle, Order, OrderComplete, OrderDetailPage, Privacy, ProductItem, Products, ReviewArticle, ReviewEditForm, Search, SIgnIn, SignUp, WithDrawal
@@ -70,6 +71,7 @@ const QueryApp = (
         <Route path='/admin/notice' element={<AdminNotice />} />
         <Route path='/admin/notice/create' element={<NoticeCreate />} />
         <Route path='/admin/notice/:id' element={<NoticeaArticle />} />
+        <Route path='/admin/faq/:id' element={<FaqArticle />} />
         <Route path='/admin/notice/:id/edit' element={<NoticeUpdate />} />
 
         <Route path='/admin/question' element={<AdminQuestion />} />
@@ -123,6 +125,7 @@ const QueryApp = (
         <Route path='/community/visit' element={<CommunityVisit />} />
         <Route path='/community/review' element={<CommunityReview />} />
         <Route path='/community/notice/:id' element={<NoticeaArticle />} />
+        <Route path='/community/faq/:id' element={<FaqArticle />} />
         <Route path='/community/review/:id' element={<ReviewArticle />} />
 
         {/* 상품 리스트 / 상품 상세 페이지 */}

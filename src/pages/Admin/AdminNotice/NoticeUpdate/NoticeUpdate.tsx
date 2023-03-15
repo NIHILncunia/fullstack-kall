@@ -51,6 +51,7 @@ export function NoticeUpdate() {
 
   const onClickUpdateNotice = useCallback(() => {
     const updateData: INotice = {
+      ...notice,
       title: title.data.value,
       content: text,
       noticeId: Number(params.id),
@@ -61,12 +62,19 @@ export function NoticeUpdate() {
 
     updateNotice.mutate(updateData, {
       onSuccess: () => {
-        qc.refetchQueries([ 'getNoticeById', notice.noticeId, ]);
-        qc.refetchQueries([ 'getFaqById', notice.noticeId, ]);
+        qc.refetchQueries([ 'getNotices', ]);
+        qc.refetchQueries([ 'getFaqs', ]);
+
+        if (notice?.categoryDTO?.categoryId === 'notice') {
+          qc.refetchQueries([ 'getNoticeById', notice.noticeId, ]);
+        } else {
+          qc.refetchQueries([ 'getFaqById', notice.noticeId, ]);
+        }
+
         navi('/admin/notice');
       },
     });
-  }, [ title, text, select, notice, ]);
+  }, [ title, text, select, notice, updateNotice, ]);
   return (
     <>
       <AppLayout title='공지 수정'>

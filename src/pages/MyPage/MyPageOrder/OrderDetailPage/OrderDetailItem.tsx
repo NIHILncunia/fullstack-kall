@@ -39,7 +39,7 @@ export function OrderDetailItem({ item, }: IOrderDetailItemProps) {
   const cream = useCategoryById(item.option_cream).categoryName;
   const size = useCategoryById(item.option_size).categoryName;
   const user = useUserById(userId);
-  const orderDetail = useOrderDetailById(item.orderDNb);
+  const orderDetail = useOrderDetailById(item.orderDnb);
   const createRefund = useCreateRefund(userId);
 
   const selection = {
@@ -130,7 +130,7 @@ export function OrderDetailItem({ item, }: IOrderDetailItemProps) {
   }, [ isRefund, title, content, files, orderDetail, user, ]);
 
   const onClickCreateReview = useCallback(() => {
-    setCookie('odId', item.orderDNb, { path: '/', });
+    setCookie('odId', item.orderDnb, { path: '/', });
     setCookie('pId', product.productId, { path: '/', });
     navi('/mypage/review/create');
   }, [ item, product, ]);

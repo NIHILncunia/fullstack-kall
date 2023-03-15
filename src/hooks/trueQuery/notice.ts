@@ -5,36 +5,42 @@ import { INotice } from '@/types/tables.types';
 import { IQueryOptions } from '@/types/other.types';
 
 export const getAllNotice = async () => {
+  console.log('공지 전부 가져옴');
   const { data, } = await kallInstance.get<INotice[]>('/notices/all');
 
   return data;
 };
 
 export const getAllNoticeById = async (id: number) => {
+  console.log('공지 하나 가져옴');
   const { data, } = await kallInstance.get<INotice>(`/notices/all/${id}`);
 
   return data;
 };
 
 export const getNotices = async () => {
+  console.log('Notice 전부 가져옴');
   const { data, } = await kallInstance.get<INotice[]>('/notices');
 
   return data;
 };
 
 export const getNoticeById = async (id: number) => {
+  console.log('Notice 하나 가져옴');
   const { data, } = await kallInstance.get<INotice>(`/notices/${id}`);
 
   return data;
 };
 
 export const getFaqs = async () => {
+  console.log('FAQ 전부 가져옴');
   const { data, } = await kallInstance.get<INotice[]>('/notices/faqs');
 
   return data;
 };
 
 export const getFaqById = async (id: number) => {
+  console.log('FAQ 하나 가져옴');
   const { data, } = await kallInstance.get<INotice>(`/notices/faqs/${id}`);
 
   return data;
@@ -107,7 +113,7 @@ export const useFaqById = (id: number) => {
 export const useCreateNotice = () => {
   const { mutate, } = useMutation<void, AxiosError, INotice>(
     async (createData) => {
-      const { data, } = await kallInstance.post('/admin/notices', createData);
+      const { data, } = await kallInstance.post('/notices', createData);
 
       return data;
     },
@@ -121,7 +127,7 @@ export const useCreateNotice = () => {
 export const useUpdateNotice = (noticeId: number) => {
   const { mutate, } = useMutation<void, AxiosError, INotice>(
     async (uData) => {
-      const { data, } = await kallInstance.put(`/admin/notices/${noticeId}`, uData);
+      const { data, } = await kallInstance.put(`/notices/${noticeId}`, uData);
 
       return data;
     },
@@ -135,7 +141,7 @@ export const useUpdateNotice = (noticeId: number) => {
 export const useDeleteNotice = (noticeId: number) => {
   const { mutate, } = useMutation<void, AxiosError>(
     async () => {
-      const { data, } = await kallInstance.delete(`/admin/notices/${noticeId}`);
+      const { data, } = await kallInstance.delete(`/notices/${noticeId}`);
 
       return data;
     },

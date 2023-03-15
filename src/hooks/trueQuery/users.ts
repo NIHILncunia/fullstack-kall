@@ -50,7 +50,7 @@ export const useUserById = (id: string, options?: IQueryOptions) => {
     [ 'getUserById', id, ],
     () => getUserById(id),
     {
-      enabled: options?.enabled ?? true,
+      enabled: ((id !== undefined) && options?.enabled) ?? true,
     }
 
   );

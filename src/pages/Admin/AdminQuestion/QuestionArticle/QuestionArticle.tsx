@@ -52,7 +52,7 @@ export function QuestionArticle() {
   const onClickDelete = useCallback(() => {
     deleteQuestion.mutate({
       questionId: Number(questionId),
-      role: 'admin',
+      role,
     });
     console.log(`[DELETE /questions/${questionId}]`);
   }, [ questionId, ]);

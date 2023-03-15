@@ -88,7 +88,7 @@ export function OrderComplete() {
                 <p>상품금액</p>
               </div>
               {orderDetails.map((item) => (
-                <OrderDetailList key={item.orderDNb} item={item} />
+                <OrderDetailList key={item.orderDnb} item={item} />
               ))}
             </div>
             <div className='other-info' css={orderInfoStyle}>

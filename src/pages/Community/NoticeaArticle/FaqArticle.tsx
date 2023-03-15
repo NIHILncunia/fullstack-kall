@@ -11,48 +11,44 @@ import {
 } from './style';
 import {
   useDeleteNotice,
-  useFaqById, useFaqs, useNoticeById, useNotices
+  useFaqById, useFaqs
 } from '@/hooks/trueQuery/notice';
-import { useCategoryById } from '@/hooks/trueQuery/category';
 
-export function NoticeaArticle() {
+export function FaqArticle() {
   const [ { role, }, ] = useCookies([ 'role', ]);
   const params = useParams();
-  const notice = useNoticeById(Number(params.id));
   const faq = useFaqById(Number(params.id));
-  const notices = useNotices();
   const faqs = useFaqs();
+
+  console.log('faqs >> ', faqs);
 
   const navi = useNavigate();
   const qc = useQueryClient();
-  const deleteNotice = useDeleteNotice(notice.noticeId);
+  const deleteNotice = useDeleteNotice(faq.noticeId);
   const { pathname, } = useLocation();
 
-  const listUrl = pathname.includes('admin')
-    ? `/admin/notice`
-    : `/community/notice`;
-  const cond = notice && 'noticeId' in notice;
+  console.log('faq >> ', faq);
 
-  const categoryDTO = cond ? notice.categoryDTO : faq.categoryDTO;
-  const category = useCategoryById(categoryDTO?.categoryId, {
-    enabled: !!categoryDTO,
-  });
+  const listUrl = pathname.includes('admin')
+    ? `/admin/faq`
+    : `/community/faq`;
+
+  const category = faq?.categoryDTO?.categoryName;
+
+  console.log(category);
 
   const currentIndex = useMemo(() => {
-    return cond
-      ? notices.findIndex((item) => item.noticeId === Number(params.id))
-      : faqs.findIndex((item) => item.noticeId === Number(params.id));
-  }, [ cond, notices, params, faqs, ]);
+    return faqs.findIndex((item) => item.noticeId === Number(params.id));
+  }, [ params, faqs, ]);
 
-  const prevItem = cond ? notices[currentIndex - 1] : faqs[currentIndex - 1];
-  const nextItem = cond ? notices[currentIndex + 1] : faqs[currentIndex + 1];
+  const prevItem = faqs[currentIndex - 1];
+  const nextItem = faqs[currentIndex + 1];
 
-  const id = cond ? notice.noticeId : faq.noticeId;
-  const title = cond ? notice.title : faq.title;
-  const url = cond ? 'notice' : 'faq';
-  const date = cond ? notice.date : faq.date;
-  const content = cond ? notice.content : faq.content;
-  const cnt = cond ? notice.cnt : faq.cnt;
+  const id = faq.noticeId;
+  const {
+    title, date, content, cnt,
+  } = faq;
+  const url = 'faq';
 
   const onClickEdit = useCallback(() => {
     navi(`/admin/notice/${id}/edit`);
@@ -61,12 +57,12 @@ export function NoticeaArticle() {
   const onClickDelete = useCallback(() => {
     deleteNotice.mutate(undefined, {
       onSuccess: () => {
-        qc.refetchQueries([ 'getNoticeById', notice.noticeId, ]);
-        qc.refetchQueries([ 'getFaqById', notice.noticeId, ]);
+        qc.refetchQueries([ 'getFaqs', ]);
         console.log(`[DELETE /admin/notices/${id}]`);
+        navi(listUrl);
       },
     });
-  }, [ id, notice, deleteNotice, ]);
+  }, [ id, deleteNotice, ]);
 
   return (
     <>
@@ -97,7 +93,7 @@ export function NoticeaArticle() {
               <div>
                 <p>
                   <span>카테고리</span>
-                  <span>{category.categoryName}</span>
+                  <span>{category}</span>
                 </p>
                 <p>
                   <span>작성일</span>

@@ -11,6 +11,7 @@ export const getCategories = async () => {
 };
 
 export const getCategoryById = async (id: string) => {
+  console.log('어떤 카테고리가 불러와질까? >> ', id);
   const { data, } = await kallInstance.get<ICategory>(`/categories/${id}`);
 
   return data;
@@ -30,7 +31,7 @@ export const useCategoryById = (id: string, options?: IQueryOptions) => {
     [ 'getCategoryById', id, ],
     () => getCategoryById(id),
     {
-      enabled: options?.enabled ?? true,
+      enabled: ((id !== undefined) && options?.enabled) ?? true,
     }
   );
 

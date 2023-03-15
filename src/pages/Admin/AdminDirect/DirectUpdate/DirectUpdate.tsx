@@ -8,7 +8,6 @@ import { Heading2 } from '@/components/Content';
 import { directUpdateButtonStyle, directUpdateFormStyle } from './style';
 import { useDirectById, useUpdateDirect } from '@/hooks/trueQuery/direct';
 import { IDirect } from '@/types/tables.types';
-import { useUserById } from '@/hooks/trueQuery/users';
 import { useCategoryById } from '@/hooks/trueQuery/category';
 
 export function DirectUpdate() {
@@ -25,7 +24,6 @@ export function DirectUpdate() {
   const navi = useNavigate();
   const updateDirect = useUpdateDirect();
 
-  const user = useUserById(cookies.id);
   const categoryDTO = useCategoryById(category);
 
   const onChangeTitle = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,7 +49,7 @@ export function DirectUpdate() {
   const onClickSubmit = useCallback(() => {
     const updateData: IDirect = {
       usQId: Number(id),
-      userDTO: user,
+      userDTO: direct.userDTO,
       title,
       content,
       categoryDTO,

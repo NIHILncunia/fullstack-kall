@@ -90,12 +90,12 @@ export function DeliveryListItem({ item, status, }: IDeliveryListItemProps) {
           {status === 'not-complete' && orderDetail
             .filter((item) => item.status !== '배송완료')
             .map((item) => (
-              <DeliveryDetailItem key={item.orderDNb} item={item} />
+              <DeliveryDetailItem key={item.orderDnb} item={item} />
             ))}
           {status === 'complete' && orderDetail
             .filter((item) => item.status === '배송완료')
             .map((item) => (
-              <DeliveryDetailItem key={item.orderDNb} item={item} />
+              <DeliveryDetailItem key={item.orderDnb} item={item} />
             ))}
         </div>
       )}

@@ -67,7 +67,7 @@ export interface ICart {
 }
 
 export interface IOrderDetail {
-  orderDNb?: number;
+  orderDnb?: number;
   orderDTO?: IOrder;
   productDTO?: IProduct;
   option_sheet?: 'Ost_01' | 'Ost_02' | 'Ost_03';

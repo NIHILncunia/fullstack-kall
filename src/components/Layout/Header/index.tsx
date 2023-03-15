@@ -32,22 +32,9 @@ export function Header() {
     setCookie('q', keyword.data.value, { path: '/', });
   }, [ keyword, ]);
 
-  const onClickSimpleLogin = useCallback(() => {
-    // eslint-disable-next-line no-alert
-    const id = window.prompt('아이디를 입력하세요.');
-    // eslint-disable-next-line no-alert
-    const role = window.prompt('권한을 입력하세요. user / admin');
-    if (id && role) {
-      setCookie('id', id, { path: '/', });
-      setCookie('role', role, { path: '/', });
-    }
-    navi('/');
-  }, []);
-
   return (
     <>
       <header css={headerStyle}>
-        <button onClick={onClickSimpleLogin}>임시 로그인 버튼</button>
         <div css={headerTopStyle}>
           <h1 className='header-logo'>
             <HiddenSpan>KALL</HiddenSpan>

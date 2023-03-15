@@ -84,6 +84,7 @@ export function AdminNotice() {
                 item={item}
                 items={items}
                 setItems={setItems}
+                type='notice'
               />
             ))}
             {label !== '공지사항' && faqs.map((item) => (
@@ -92,6 +93,7 @@ export function AdminNotice() {
                 item={item}
                 items={items}
                 setItems={setItems}
+                type='faq'
               />
             ))}
           </div>

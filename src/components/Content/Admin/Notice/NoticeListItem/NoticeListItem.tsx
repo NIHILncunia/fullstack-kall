@@ -8,9 +8,12 @@ interface INoticeListItemProps {
   item: INotice;
   items: number[];
   setItems: React.Dispatch<React.SetStateAction<number[]>>;
+  type: string;
 }
 
-export function NoticeListItem({ item, items, setItems, }: INoticeListItemProps) {
+export function NoticeListItem({
+  item, items, setItems, type,
+}: INoticeListItemProps) {
   const category = useCategoryById(item.categoryDTO?.categoryId, {
     enabled: 'noticeId' in item,
   });
@@ -37,7 +40,7 @@ export function NoticeListItem({ item, items, setItems, }: INoticeListItemProps)
         </div>
         <div>{category.categoryName}</div>
         <div>
-          <Link to={`/admin/notice/${item.noticeId}`}>{item.title}</Link>
+          <Link to={`/admin/${type}/${item.noticeId}`}>{item.title}</Link>
         </div>
         <div>{item.cnt}</div>
       </div>
