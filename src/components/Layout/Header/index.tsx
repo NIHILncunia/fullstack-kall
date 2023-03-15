@@ -34,11 +34,13 @@ export function Header() {
 
   const onClickSimpleLogin = useCallback(() => {
     // eslint-disable-next-line no-alert
-    const id = window.prompt();
+    const id = window.prompt('아이디를 입력하세요.');
     // eslint-disable-next-line no-alert
-    const role = window.prompt();
-    setCookie('id', id, { path: '/', });
-    setCookie('role', role, { path: '/', });
+    const role = window.prompt('권한을 입력하세요. user / admin');
+    if (id && role) {
+      setCookie('id', id, { path: '/', });
+      setCookie('role', role, { path: '/', });
+    }
     navi('/');
   }, []);
 

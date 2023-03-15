@@ -40,6 +40,7 @@ export const getFaqById = async (id: number) => {
   return data;
 };
 
+// ==================== 카테고리 가리지 않고 모든 공지 가져오기 ====================
 export const useAllNotice = () => {
   const { data = [], } = useQuery<INotice[], AxiosError>(
     [ 'getAllNotice', ],
@@ -49,6 +50,7 @@ export const useAllNotice = () => {
   return data as INotice[];
 };
 
+// ==================== 카테고리 가리지 않고 하나씩 가져오기 ====================
 export const useAllNoticeById = (id: number, options?: IQueryOptions) => {
   const { data = {}, } = useQuery<INotice, AxiosError>(
     [ 'getAllNoticeById', id, ],
@@ -61,6 +63,7 @@ export const useAllNoticeById = (id: number, options?: IQueryOptions) => {
   return data as INotice;
 };
 
+// ====================  ====================
 export const useNotices = () => {
   const { data = [], } = useQuery<INotice[], AxiosError>(
     [ 'getNotices', ],
@@ -70,6 +73,7 @@ export const useNotices = () => {
   return data as INotice[];
 };
 
+// ====================  ====================
 export const useNoticeById = (id: number) => {
   const { data = {}, } = useQuery<INotice, AxiosError>(
     [ 'getNoticeById', id, ],
@@ -79,6 +83,7 @@ export const useNoticeById = (id: number) => {
   return data as INotice;
 };
 
+// ====================  ====================
 export const useFaqs = () => {
   const { data = [], } = useQuery<INotice[], AxiosError>(
     [ 'getFaqs', ],
@@ -88,6 +93,7 @@ export const useFaqs = () => {
   return data as INotice[];
 };
 
+// ====================  ====================
 export const useFaqById = (id: number) => {
   const { data = {}, } = useQuery<INotice, AxiosError>(
     [ 'getFaqById', id, ],
@@ -97,6 +103,7 @@ export const useFaqById = (id: number) => {
   return data as INotice;
 };
 
+// ====================  ====================
 export const useCreateNotice = () => {
   const { mutate, } = useMutation<void, AxiosError, INotice>(
     async (createData) => {
@@ -110,6 +117,7 @@ export const useCreateNotice = () => {
   return { mutate, };
 };
 
+// ====================  ====================
 export const useUpdateNotice = (noticeId: number) => {
   const { mutate, } = useMutation<void, AxiosError, INotice>(
     async (uData) => {
@@ -123,6 +131,7 @@ export const useUpdateNotice = (noticeId: number) => {
   return { mutate, };
 };
 
+// ====================  ====================
 export const useDeleteNotice = (noticeId: number) => {
   const { mutate, } = useMutation<void, AxiosError>(
     async () => {

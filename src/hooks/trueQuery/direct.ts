@@ -148,7 +148,7 @@ export const useDeleteDirect = () => {
 export const useCreateDirect = () => {
   const { mutate, } = useMutation<IDirect, AxiosError, IDirect>(
     async (createDirect) => {
-      const { data, } = await kallInstance.post('/requests', createDirect);
+      const { data, } = await kallInstance.post('/directs', createDirect);
 
       return data;
     },
