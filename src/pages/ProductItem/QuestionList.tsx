@@ -1,10 +1,10 @@
-import moment from 'moment';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { FaLock } from 'react-icons/fa';
 import { IQuestion } from '@/types/tables.types';
 import { reviewList } from './style';
+import { setDate } from '@/utils/setDate';
 
 interface IQuestionListProps {
   item: IQuestion;
@@ -28,7 +28,7 @@ export function QuestionList({ item, }: IQuestionListProps) {
           </div>
         )}
         <div>{item.userDTO?.userId}</div>
-        <div>{moment(item.date1).format('YYYY-MM-DD HH:mm:ss')}</div>
+        <div>{setDate(item.date1)}</div>
       </div>
     </>
   );

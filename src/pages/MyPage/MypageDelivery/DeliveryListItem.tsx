@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from 'react';
-import moment from 'moment';
 import tw from 'twin.macro';
 import { Link } from 'react-router-dom';
 import { IOrder, IOrderDetail } from '@/types/tables.types';
@@ -9,6 +8,7 @@ import { getItemString } from '@/utils';
 import { useCategoryById } from '@/hooks/trueQuery/category';
 import { ItemRate } from '@/components/Content';
 import { listDetail } from './style';
+import { setDate } from '@/utils/setDate';
 
 interface IDeliveryListItemProps {
   item: IOrder;
@@ -83,7 +83,7 @@ export function DeliveryListItem({ item, status, }: IDeliveryListItemProps) {
           <button onClick={onClickOpen}>자세히 보기</button>
         </p>
         <p>{item.price.toLocaleString()}원</p>
-        <p>{moment(item.date).format('YYYY-MM-DD HH:mm:ss')}</p>
+        <p>{setDate(item.date)}</p>
       </div>
       {isOpen && (
         <div className='list-detail' css={listDetail}>

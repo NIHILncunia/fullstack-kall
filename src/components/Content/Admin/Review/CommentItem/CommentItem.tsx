@@ -1,7 +1,6 @@
 import React, {
   useCallback, useEffect, useRef, useState
 } from 'react';
-import moment from 'moment';
 import { FaCheck, FaEdit, FaTimes } from 'react-icons/fa';
 import { useCookies } from 'react-cookie';
 import { useQueryClient } from 'react-query';
@@ -9,6 +8,7 @@ import { IReviewComment } from '@/types/tables.types';
 import { commentItemStyle } from './style';
 import { useInput } from '@/hooks';
 import { useDeleteReviewComment, useUpdateReviewComment } from '@/hooks/trueQuery/reviewComment';
+import { setDate } from '@/utils/setDate';
 
 interface ICommentItemProps {
   item: IReviewComment;
@@ -99,7 +99,7 @@ export function CommentItem({ item, }: ICommentItemProps) {
             )}
           </div>
           <div>{item.userDTO?.userId}</div>
-          <div>{moment(item.date).format('YYYY-MM-DD HH:mm:ss')}</div>
+          <div>{setDate(item.date)}</div>
         </div>
         {
           isEdit

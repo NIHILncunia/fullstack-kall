@@ -3,6 +3,7 @@ import tw from 'twin.macro';
 import { useNavigate } from 'react-router';
 import { IUser } from '@/types/tables.types';
 import { listContentStyle, listDetailStyle } from './style';
+import { setDate } from '@/utils/setDate';
 
 interface IUserItemProps {
   item: IUser;
@@ -66,7 +67,7 @@ export function UserItem({ item, value, setValue, }: IUserItemProps) {
             <p>{item.birthday}</p>
             <p>{item.role === 'user' ? '유저' : '관리자'}</p>
             <p>{item.mileage}</p>
-            <p>{item.date}</p>
+            <p>{setDate(item.date)}</p>
             <p>{item.status}</p>
           </div>
           <div css={tw`flex justify-end items-center`}>

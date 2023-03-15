@@ -4,6 +4,7 @@ import React, {
 import { useCookies } from 'react-cookie';
 import tw from 'twin.macro';
 import { useNavigate } from 'react-router';
+import { useQueryClient } from 'react-query';
 import { IOrderDetail, IRefund } from '@/types/tables.types';
 import { useProductById } from '@/hooks/trueQuery/product';
 import { getItemString } from '@/utils';
@@ -28,6 +29,7 @@ export function OrderDetailItem({ item, }: IOrderDetailItemProps) {
   const [ inputError, setInputError, ] = useState(false);
 
   const navi = useNavigate();
+  const qc = useQueryClient();
 
   const fileRef = useRef<HTMLInputElement>();
   const fileInputRef = useRef<HTMLInputElement>();
@@ -124,7 +126,11 @@ export function OrderDetailItem({ item, }: IOrderDetailItemProps) {
         refundData,
       });
 
-      createRefund.mutate(formData);
+      createRefund.mutate(formData, {
+        onSuccess: () => {
+          qc.refetchQueries([ 'getRefunds', ]);
+        },
+      });
       setLabel('반품 요청');
     }
   }, [ isRefund, title, content, files, orderDetail, user, ]);

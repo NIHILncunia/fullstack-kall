@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
-import moment from 'moment';
 import { AppLayout, MyPageLayout } from '@/layouts';
 import { Heading2, Heading3 } from '@/components/Content';
 import { useOrderById } from '@/hooks/trueQuery/order';
@@ -8,6 +7,7 @@ import { useOrderDetailByOrderId } from '@/hooks/trueQuery/orderDetail';
 import { OrderDetailItem } from './OrderDetailItem';
 import { buttonControllsStyle, orderDetailInfoTableStyle, orderDetailItemsStyle } from './style';
 import { payString } from '@/data/select.data';
+import { setDate } from '@/utils/setDate';
 
 export function OrderDetailPage() {
   const { id, } = useParams<{ id?: string }>();
@@ -53,7 +53,7 @@ export function OrderDetailPage() {
             <div className='table-header'>주문상태</div>
             <div className='table-content'>{order?.order_status}</div>
             <div className='table-header'>주문일자</div>
-            <div className='table-content'>{moment(order?.date).format('YYYY-MM-DD HH:mm:ss')}</div>
+            <div className='table-content'>{setDate(order?.date)}</div>
           </div>
 
           <div className='order-detail-items' css={orderDetailItemsStyle}>

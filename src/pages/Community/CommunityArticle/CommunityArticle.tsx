@@ -1,10 +1,10 @@
 import React from 'react';
-import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { AppLayout, CommunityLayout } from '@/layouts';
 import { Heading2 } from '@/components/Content';
 import { articleListStyle } from './style';
 import { useFaqs, useNotices } from '@/hooks/trueQuery/notice';
+import { setDate } from '@/utils/setDate';
 
 interface ICommunityArticleProps {
   title: string;
@@ -33,7 +33,7 @@ export function CommunityArticle({ title, category, }: ICommunityArticleProps) {
                 <p>
                   <Link to={`/community/notice/${item.noticeId}`}>{item.title}</Link>
                 </p>
-                <p>{moment(item.date).format('YYYY-MM-DD HH:mm:ss')}</p>
+                <p>{setDate(item.date)}</p>
                 <p>{item.cnt}</p>
               </div>
             ))}
@@ -45,7 +45,7 @@ export function CommunityArticle({ title, category, }: ICommunityArticleProps) {
                     [{item?.categoryDTO?.categoryName}] - {item.title}
                   </Link>
                 </p>
-                <p>{moment(item.date).format('YYYY-MM-DD HH:mm:ss')}</p>
+                <p>{setDate(item.date)}</p>
                 <p>{item.cnt}</p>
               </div>
             ))}

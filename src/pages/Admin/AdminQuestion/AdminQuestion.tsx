@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { useCookies } from 'react-cookie';
+import { useQueryClient } from 'react-query';
 import { Heading2 } from '@/components/Content';
 import { AdminLayout, AppLayout } from '@/layouts';
 import { useDeleteQuestions, useQuestions } from '@/hooks/trueQuery/question';
@@ -12,6 +13,7 @@ export function AdminQuestion() {
 
   const questions = useQuestions(role);
   const deleteQuestions = useDeleteQuestions();
+  const qc = useQueryClient();
 
   const onClickAllCheck = useCallback(() => {
     setItems(questions.map((item) => item.productQId));
@@ -23,9 +25,13 @@ export function AdminQuestion() {
 
   const onClickCheckDelete = useCallback(() => {
     // 선택 삭제의 경우 아이디 배열을 전달한다.
-    deleteQuestions.mutate(items);
-    console.log('[DELETE /admin/questions]', items);
-  }, [ items, ]);
+    deleteQuestions.mutate(items, {
+      onSuccess: () => {
+        qc.refetchQueries([ 'getQuestions', ]);
+      },
+    });
+    console.log('[PUT /admin/questions]', items);
+  }, [ items, deleteQuestions, ]);
 
   return (
     <>

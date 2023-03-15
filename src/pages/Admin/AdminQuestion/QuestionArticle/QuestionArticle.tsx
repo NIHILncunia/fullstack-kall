@@ -5,10 +5,10 @@ import { useLocation, useNavigate, useParams } from 'react-router';
 import { useCookies } from 'react-cookie';
 import { Link } from 'react-router-dom';
 import tw from 'twin.macro';
-import moment from 'moment';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import { useQueryClient } from 'react-query';
 import {
-  useDeleteQuestion, useQuestionById, useQuestionByUserId, useQuestions
+  useDeleteQuestion, useQuestionById, useQuestionByUserId, useQuestions, useUpdateQuestion
 } from '@/hooks/trueQuery/question';
 import { AppLayout } from '@/layouts';
 import {
@@ -16,6 +16,7 @@ import {
 } from './style';
 import { useUserById } from '@/hooks/trueQuery/users';
 import { IQuestion } from '@/types/tables.types';
+import { setDate } from '@/utils/setDate';
 
 export function QuestionArticle() {
   const [ isEdit, setIsEdit, ] = useState(false);
@@ -25,6 +26,8 @@ export function QuestionArticle() {
   const { id: questionId, } = useParams();
   const { pathname, } = useLocation();
   const navi = useNavigate();
+  const qc = useQueryClient();
+  const updateQuestion = useUpdateQuestion();
 
   const pageCond = pathname.includes('mypage');
   const deleteQuestion = useDeleteQuestion();
@@ -53,6 +56,12 @@ export function QuestionArticle() {
     deleteQuestion.mutate({
       questionId: Number(questionId),
       role,
+    }, {
+      onSuccess: () => {
+        qc.refetchQueries([ 'getQuestions', ]);
+        qc.refetchQueries([ 'getQuestionByid', question.productQId, ]);
+        navi('/admin/question');
+      },
     });
     console.log(`[DELETE /questions/${questionId}]`);
   }, [ questionId, ]);
@@ -82,13 +91,20 @@ export function QuestionArticle() {
       setLabel(cond ? '등록' : '수정');
 
       const updateData: IQuestion = {
+        ...question,
         productQId: question.productQId,
         productDTO: question.productDTO,
         userDTO: question.userDTO,
         comment: text,
       };
 
-      console.log(`[PATCH /questions/${questionId}]`, updateData);
+      updateQuestion.mutate({ data: updateData, id: Number(questionId), role, }, {
+        onSuccess: () => {
+          qc.refetchQueries([ 'getQuestions', ]);
+          qc.refetchQueries([ 'getQuestionByid', question.productQId, ]);
+        },
+      });
+      console.log(`[PUT /questions/${questionId}]`, updateData);
     } else {
       setIsEdit(true);
       setLabel(cond ? '등록완료' : '수정완료');
@@ -135,7 +151,7 @@ export function QuestionArticle() {
                 </p>
                 <p>
                   <span>작성일</span>
-                  <span>{moment(question.date1).format('YYYY-MM-DD HH:mm:ss')}</span>
+                  <span>{setDate(question.date1)}</span>
                 </p>
               </div>
             </div>

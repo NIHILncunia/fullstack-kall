@@ -1,6 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router';
-import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { useCookies } from 'react-cookie';
@@ -13,6 +12,7 @@ import {
   useDeleteNotice,
   useFaqById, useFaqs
 } from '@/hooks/trueQuery/notice';
+import { setDate } from '@/utils/setDate';
 
 export function FaqArticle() {
   const [ { role, }, ] = useCookies([ 'role', ]);
@@ -97,7 +97,7 @@ export function FaqArticle() {
                 </p>
                 <p>
                   <span>작성일</span>
-                  <span>{moment(date).format('YYYY-MM-DD HH:mm:ss')}</span>
+                  <span>{setDate(date)}</span>
                 </p>
                 <p>
                   <span>조회수</span>

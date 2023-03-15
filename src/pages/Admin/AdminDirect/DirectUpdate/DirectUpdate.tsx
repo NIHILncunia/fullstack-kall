@@ -63,7 +63,8 @@ export function DirectUpdate() {
       },
       {
         onSuccess: () => {
-          qc.refetchQueries([ 'getDirectByUserId', cookies.id, ]);
+          qc.refetchQueries([ 'getDirectByUserId', direct?.userDTO?.userId, ]);
+          qc.refetchQueries([ 'getDirects', ]);
         },
       }
     );

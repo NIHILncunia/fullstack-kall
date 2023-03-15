@@ -1,11 +1,11 @@
 import React from 'react';
 import { useCookies } from 'react-cookie';
-import moment from 'moment';
 import { AppLayout, MyPageLayout } from '@/layouts';
 import { Heading2 } from '@/components/Content';
 import { useUserById } from '@/hooks/trueQuery/users';
 import { useOrderByUserId } from '@/hooks/trueQuery/order';
 import { mileageBlockStyle, mileageListStyle } from './style';
+import { setDate } from '@/utils/setDate';
 
 export function MyPageMileage() {
   const [ { id, }, ] = useCookies([ 'id', ]);
@@ -17,7 +17,7 @@ export function MyPageMileage() {
   const mileageLog = orderDataByUserId.filter((item) => item.mileage !== 0)
     .map((item) => (
       <div className='list-content' key={item.orderId}>
-        <p>{moment(item.date).format('YYYY-MM-DD HH:mm:ss')}</p>
+        <p>{setDate(item.date)}</p>
         <p>상품 구매</p>
         <p>-</p>
         <p>{item.mileage.toLocaleString()}원</p>
@@ -46,7 +46,7 @@ export function MyPageMileage() {
               <p>소모 마일리지</p>
             </div>
             <div className='list-content'>
-              <p>{moment(userData.date).format('YYYY-MM-DD HH:mm:ss')}</p>
+              <p>{setDate(userData.date)}</p>
               <p>회원가입</p>
               <p>3,000원</p>
               <p>-</p>

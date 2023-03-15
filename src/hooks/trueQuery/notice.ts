@@ -113,7 +113,7 @@ export const useFaqById = (id: number) => {
 export const useCreateNotice = () => {
   const { mutate, } = useMutation<void, AxiosError, INotice>(
     async (createData) => {
-      const { data, } = await kallInstance.post('/notices', createData);
+      const { data, } = await kallInstance.post('/admin/notices', createData);
 
       return data;
     },
@@ -127,7 +127,7 @@ export const useCreateNotice = () => {
 export const useUpdateNotice = (noticeId: number) => {
   const { mutate, } = useMutation<void, AxiosError, INotice>(
     async (uData) => {
-      const { data, } = await kallInstance.put(`/notices/${noticeId}`, uData);
+      const { data, } = await kallInstance.put(`/admin/notices/${noticeId}`, uData);
 
       return data;
     },
@@ -141,7 +141,7 @@ export const useUpdateNotice = (noticeId: number) => {
 export const useDeleteNotice = (noticeId: number) => {
   const { mutate, } = useMutation<void, AxiosError>(
     async () => {
-      const { data, } = await kallInstance.delete(`/notices/${noticeId}`);
+      const { data, } = await kallInstance.delete(`/admin/notices/${noticeId}`);
 
       return data;
     },

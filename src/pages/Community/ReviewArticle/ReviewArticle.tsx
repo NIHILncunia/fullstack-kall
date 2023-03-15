@@ -1,7 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
-import moment from 'moment';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { useCookies } from 'react-cookie';
 import { useQueryClient } from 'react-query';
@@ -18,6 +17,7 @@ import { useUserById } from '@/hooks/trueQuery/users';
 import { useProductById } from '@/hooks/trueQuery/product';
 import { useOrderDetailByOrderId } from '@/hooks/trueQuery/orderDetail';
 import { useReviewCommentByReviewId } from '@/hooks/trueQuery/reviewComment';
+import { setDate } from '@/utils/setDate';
 
 export function ReviewArticle() {
   const [ cookies, ] = useCookies([ 'id', 'role', ]);
@@ -112,7 +112,7 @@ export function ReviewArticle() {
                 </p>
                 <p>
                   <span>작성일</span>
-                  <span>{moment(review.date).format('YYYY-MM-DD HH:mm:ss')}</span>
+                  <span>{setDate(review.date)}</span>
                 </p>
               </div>
             </div>

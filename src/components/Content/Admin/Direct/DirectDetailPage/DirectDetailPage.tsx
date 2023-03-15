@@ -1,5 +1,6 @@
-import moment from 'moment';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, {
+  useCallback, useEffect, useMemo, useState
+} from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
@@ -15,6 +16,7 @@ import {
 } from './style';
 import { useCategoryById } from '@/hooks/trueQuery/category';
 import { IDirect } from '@/types/tables.types';
+import { setDate } from '@/utils/setDate';
 
 export function DirectDetailPage() {
   const [ text, setText, ] = useState('');
@@ -62,7 +64,7 @@ export function DirectDetailPage() {
   const onCLickDelete = useCallback(() => {
     deleteDirect.mutate({ directId: Number(id), role, }, {
       onSuccess() {
-        qc.refetchQueries('getDirects');
+        qc.refetchQueries([ 'getDirects', ]);
       },
     });
 
@@ -103,11 +105,19 @@ export function DirectDetailPage() {
       setLabel('등록');
       const newData: IDirect = {
         ...direct,
+        date1: direct.date1,
         categoryDTO: direct.categoryDTO,
         userDTO: direct.userDTO,
         comment: text,
       };
-      console.log(`[PATCH /directs/${id}]`, newData);
+
+      updateDirect.mutate({ data: newData, directId: direct.usQId, role, }, {
+        onSuccess: () => {
+          qc.refetchQueries([ 'getDirects', ]);
+          qc.refetchQueries([ 'getDirectByUserId', direct?.userDTO?.userId, ]);
+        },
+      });
+      console.log(`[PUT /admin/directs/${id}]`, newData);
     } else {
       setLabel('등록 완료');
     }
@@ -118,14 +128,30 @@ export function DirectDetailPage() {
 
     if (isClick2) {
       setLabel2('수정');
-      const newData = {
+      const newData: IDirect = {
+        ...direct,
         comment: text2,
+        categoryDTO: direct.categoryDTO,
+        userDTO: direct.userDTO,
       };
-      console.log(`[PATCH /directs/${id}]`, newData);
+
+      updateDirect.mutate({ data: newData, directId: direct.usQId, role, }, {
+        onSuccess: () => {
+          qc.refetchQueries([ 'getDirects', ]);
+          qc.refetchQueries([ 'getDirectByUserId', direct?.userDTO?.userId, ]);
+        },
+      });
+      console.log(`[PUT /admin/directs/${id}]`, newData);
     } else {
       setLabel2('수정 완료');
     }
   }, [ isClick2, text2, ]);
+
+  useEffect(() => {
+    if (direct.comment !== ('' || null)) {
+      setText2(direct.comment);
+    }
+  }, [ direct, ]);
 
   const backLink = cond
     ? `/admin/direct`
@@ -153,7 +179,7 @@ export function DirectDetailPage() {
             </p>
             <p>
               <span>작성일</span>
-              <span>{moment(direct.date1).format('YYYY-MM-DD HH:mm:ss')}</span>
+              <span>{setDate(direct.date1)}</span>
             </p>
           </div>
         </div>
@@ -170,12 +196,12 @@ export function DirectDetailPage() {
                     <div css={tw`font-[900] text-[1.5rem] mb-[10px]`}>관리자 답변</div>
                     <div css={commentAdminStyle}>
                       <textarea
-                        value={text}
-                        onChange={onChangeAddComment}
-                        disabled={isClick === false}
-                        className={isClick ? 'edit' : ''}
+                        value={text2}
+                        onChange={onChangeUpdateComment}
+                        disabled={isClick2 === false}
+                        className={isClick2 ? 'edit' : ''}
                       />
-                      <button onClick={onClickAddComment}>{label}</button>
+                      <button onClick={onClickUpdateComment}>{label2}</button>
                     </div>
                   </>
                 )
@@ -194,14 +220,14 @@ export function DirectDetailPage() {
                 ? (
                   <>
                     <div css={tw`font-[900] text-[1.5rem] mb-[10px]`}>관리자 답변</div>
-                    <div>
+                    <div css={commentAdminStyle}>
                       <textarea
-                        value={text2}
-                        onChange={onChangeUpdateComment}
-                        disabled={isClick2 === false}
-                        className={isClick2 ? 'edit' : ''}
+                        value={text}
+                        onChange={onChangeAddComment}
+                        disabled={isClick === false}
+                        className={isClick ? 'edit' : ''}
                       />
-                      <button onClick={onClickUpdateComment}>{label2}</button>
+                      <button onClick={onClickAddComment}>{label}</button>
                     </div>
                   </>
                 )
