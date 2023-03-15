@@ -34,8 +34,8 @@ export interface IReview {
   orderDetailDTO?: IOrderDetail;
   title?: string;
   content?: string;
-  image1?: string;
-  image2?: string;
+  image_1?: string;
+  image_2?: string;
   star?: number;
   date?: string;
 }

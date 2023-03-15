@@ -16,26 +16,24 @@ import { CommentForm, ReviewCommentList } from '@/components/Content/Admin';
 import { useDeleteReview, useReviewById, useReviews } from '@/hooks/trueQuery/review';
 import { useUserById } from '@/hooks/trueQuery/users';
 import { useProductById } from '@/hooks/trueQuery/product';
-import { useOrderById } from '@/hooks/trueQuery/order';
 import { useOrderDetailByOrderId } from '@/hooks/trueQuery/orderDetail';
 import { useReviewCommentByReviewId } from '@/hooks/trueQuery/reviewComment';
 
 export function ReviewArticle() {
   const [ cookies, ] = useCookies([ 'id', 'role', ]);
   const params = useParams();
+  console.log('ReviewArticle params >> ', params, Number(params.id));
   const review = useReviewById(Number(params.id), cookies.role);
   const reviews = useReviews(cookies.role as string);
+  console.log('reviews >> ', reviews);
   const userData = useUserById(review?.userDTO?.userId, {
     enabled: 'reviewId' in review,
   });
   const product = useProductById(review?.productDTO?.productId, {
     enabled: 'reviewId' in review,
   });
-  const order = useOrderById(review?.orderDetailDTO?.orderDNb, '', {
+  const orderDetail = useOrderDetailByOrderId(review?.orderDetailDTO?.orderDTO?.orderId, {
     enabled: 'reviewId' in review,
-  });
-  const orderDetail = useOrderDetailByOrderId(order?.orderId, {
-    enabled: 'orderId' in order,
   });
   const reviewComments = useReviewCommentByReviewId(review?.reviewId, cookies.role, {
     enabled: 'reviewId' in review,
@@ -120,14 +118,14 @@ export function ReviewArticle() {
             </div>
             <div className='article-content' css={articleContentStyle}>{review.content}</div>
             <div className='article-images' css={tw`flex gap-[20px]`}>
-              {review.image1 !== '' && (
+              {review.image_1 !== '' && (
                 <div css={tw`border border-black-base`}>
-                  <img src={review.image1} alt='후기 이미지 1' />
+                  <img src={review.image_1} alt='후기 이미지 1' />
                 </div>
               )}
-              {review.image2 !== '' && (
+              {review.image_2 !== '' && (
                 <div css={tw`border border-black-base`}>
-                  <img src={review.image2} alt='후기 이미지 2' />
+                  <img src={review.image_2} alt='후기 이미지 2' />
                 </div>
               )}
             </div>

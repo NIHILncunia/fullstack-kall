@@ -89,7 +89,7 @@ export const useCreateRefund = (userId: string) => {
 export const useUpdateRefund = (id: number) => {
   const { mutate, } = useMutation<void, AxiosError, IRefund>(
     async (updateData) => {
-      const { data, } = await kallInstance.put(`/admin/refunds/${id}}`, updateData);
+      const { data, } = await kallInstance.put(`/admin/refunds/${id}`, updateData);
 
       return data;
     },

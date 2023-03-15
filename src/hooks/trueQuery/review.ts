@@ -50,6 +50,7 @@ export const useReviews = (role?: string) => {
 };
 
 export const useReviewById = (id: number, role?: string, options?: IQueryOptions) => {
+  console.log('useReviewById >> ', id);
   const fallback = {};
   const { data = fallback, } = useQuery<IReview, AxiosError>(
     [ 'getReviewById', id, ],
