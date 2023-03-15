@@ -11,6 +11,7 @@ import { useInput } from '@/hooks';
 import { passEditFormStyle } from './style';
 import { kallInstance } from '@/data/axios.data';
 import { useUserById } from '@/hooks/trueQuery/users';
+import { IUser } from '@/types/tables.types';
 
 export function MyaPagePassEdit() {
   const [ isPassError, setIsPassError, ] = useState(false);
@@ -28,58 +29,40 @@ export function MyaPagePassEdit() {
   const newPass = useInput(newPassRef, 'newPass');
   const newPassCheck = useInput(newPassCheckRef, 'newPassCheck');
 
-  const onChangePass = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    if (user?.password !== event.target.value) {
-      setIsPassError(true);
-    } else {
-      setIsPassError(false);
-    }
+  const currentPassError = user.password !== currentPass.data.value;
+  const newPassError = newPass.data.value !== newPassCheck.data.value;
+  const notChangeError = user.password === newPass.data.value;
 
+  const onChangePass = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     currentPass.setValue(event.target.value);
   }, [ user, currentPass, ]);
 
   const onChangeNewPass = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.value !== newPassCheck.data.value) {
-      setIsNewPassError(true);
-    } else {
-      setIsNewPassError(false);
-    }
-
     newPass.setValue(event.target.value);
   }, [ newPass, newPassCheck, ]);
 
   const onChangeNewPassCheck = useCallback((event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.value !== newPass.data.value) {
-      setIsNewPassError(true);
-    } else {
-      setIsNewPassError(false);
-    }
-
     newPassCheck.setValue(event.target.value);
   }, [ newPass, newPassCheck, ]);
 
   const onSubmitForm = useCallback((event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const equalError = newPass.data.value === user?.password;
-    console.log('equalError >> ', equalError);
-
-    if (equalError === false) {
-      // [PUT /users/{id}, {새로운 비밀번호 문자열}]
-      // 요청을 보내면 백엔드에서 새롭게 암호화 해서 성공이면 ok 등의 사인을 보내줌.
-      const putData = {
+    if (notChangeError === false) {
+      const putData: IUser = {
+        userId: cookies.id,
         password: newPass.data.value,
       };
 
       kallInstance.put(`/users/password/${user.userId}`, putData)
         .then((res) => {
-          navi('/mypage/main');
+          console.log('바뀜');
         })
         .catch((error) => {
-          console.error(error);
+          navi('/mypage/main');
         });
     }
-  }, [ newPass, user, ]);
+  }, [ newPass, user, cookies, ]);
 
   const onClickReset = useCallback(() => {
     currentPass.setValue('');
@@ -110,7 +93,7 @@ export function MyaPagePassEdit() {
                   onChange={onChangePass}
                 />
               </label>
-              {isPassError && (
+              {currentPassError && (
                 <p css={tw`text-red-500 font-[900] mt-[5px]`}>
                   현재 비밀번호와 일치하지 않습니다.
                 </p>
@@ -137,7 +120,7 @@ export function MyaPagePassEdit() {
                   onChange={onChangeNewPassCheck}
                 />
               </label>
-              {isNewPassError && (
+              {newPassError && (
                 <p css={tw`text-red-500 font-[900] mt-[5px]`}>
                   비밀번호가 일치하지 않습니다.
                 </p>
