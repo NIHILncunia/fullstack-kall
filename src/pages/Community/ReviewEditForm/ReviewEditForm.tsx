@@ -52,14 +52,14 @@ export function ReviewEditForm() {
     if (role === 'admin') {
       updateReview.mutate({ data: updateData, role, }, {
         onSuccess: () => {
-          qc.refetchQueries([ 'getReviews', ]);
+          qc.refetchQueries([ 'getReviewById', Number(id), ]);
         },
       });
       console.log(`[PUT /admin/reviews/${id}]`, updateData);
     } else {
       updateReview.mutate({ data: updateData, }, {
         onSuccess: () => {
-          qc.refetchQueries([ 'getReviews', ]);
+          qc.refetchQueries([ 'getReviewById', Number(id), ]);
         },
       });
       console.log(`[PUT /reviews/${id}]`, updateData);

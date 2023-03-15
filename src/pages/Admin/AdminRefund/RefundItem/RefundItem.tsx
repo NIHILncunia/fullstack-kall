@@ -12,13 +12,14 @@ import { orderDetailDataStyle, refundDataStyle } from './style';
 import { getItemString } from '@/utils';
 import { useCategoryById } from '@/hooks/trueQuery/category';
 import { IRefund } from '@/types/tables.types';
+import { useUserById } from '@/hooks/trueQuery/users';
 
 export function RefundItem() {
   const [ isEdit, setIsEdit, ] = useState(false);
   const [ label, setLabel, ] = useState('수정');
   const [ status, setStatus, ] = useState('');
 
-  const [ { role, }, ] = useCookies([ 'id', 'role', ]);
+  const [ { id, role, }, ] = useCookies([ 'id', 'role', ]);
   const { id: refundId, } = useParams();
   const navi = useNavigate();
   const refund = useRefundById(Number(refundId), role);
@@ -28,6 +29,7 @@ export function RefundItem() {
   const product = useProductById(orderDetail?.productDTO?.productId, {
     enabled: 'orderDNb' in orderDetail,
   });
+  const user = useUserById(id);
   const updateRefund = useUpdateRefund(Number(refundId));
   const qc = useQueryClient();
 
@@ -44,6 +46,7 @@ export function RefundItem() {
   const onClickEdit = useCallback(() => {
     if (isEdit) {
       const updateData: IRefund = {
+        userDTO: user,
         refundId: refund.refundId,
         status,
       };
@@ -62,7 +65,7 @@ export function RefundItem() {
       setIsEdit(true);
       setLabel('수정 완료');
     }
-  }, [ isEdit, status, ]);
+  }, [ isEdit, status, user, updateRefund, ]);
 
   const sheet = useCategoryById(orderDetail.option_sheet).categoryName;
   const shape = useCategoryById(orderDetail.option_shape).categoryName;

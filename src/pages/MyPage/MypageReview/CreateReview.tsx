@@ -95,7 +95,7 @@ export function CreateReview() {
 
     createReview.mutate(formData, {
       onSuccess: () => {
-        qc.refetchQueries([ 'getReviews', ]);
+        qc.refetchQueries([ 'getReviewById', reviewData.reviewId, ]);
       },
     });
     removeCookie('pId', { path: '/', });

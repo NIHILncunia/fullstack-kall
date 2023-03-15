@@ -38,14 +38,14 @@ export function SIgnIn() {
     enabled: !!cookies.id,
   });
 
+  const passLengthError = password.data.value.length <= 6;
+  console.log(passLengthError);
+
   const onSubmitSignInForm = useCallback((event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // 실제론 uewMutations를 용할 것.
 
-    if (passwordCheckExp.test(password.data.value) === false) {
-      setPasswordError(true);
-    } else {
-      setPasswordError(false);
+    if (passLengthError) {
+      return;
     }
 
     const newData: IUser = {
@@ -129,7 +129,7 @@ export function SIgnIn() {
                 />
               </div>
               {loginError && (<p>{errorMessage}</p>)}
-              {passwordError && (<p>비밀번호는 공백이 없는 7자리 이상이어야 합니다.</p>)}
+              {passLengthError && (<p>비밀번호는 공백이 없는 7자리 이상이어야 합니다.</p>)}
               <div className='form-check' css={checksStyle}>
                 <label htmlFor='id-save'>
                   <input type='checkbox' id='id-save' ref={isSaveCheckRef} /> 아이디 저장
