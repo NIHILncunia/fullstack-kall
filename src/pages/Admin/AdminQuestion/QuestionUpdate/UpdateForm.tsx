@@ -63,7 +63,7 @@ export function UpdateForm({ id, }: IUpdateFormProps) {
         ? '/mypage/question?current=question'
         : '/admin/question'
     );
-  }, [ id, title, text, pathname, question, updateQuestion, ]);
+  }, [ id, title, text, pathname, question, updateQuestion, role, ]);
 
   return (
     <>
