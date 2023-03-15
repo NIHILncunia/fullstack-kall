@@ -36,6 +36,7 @@ export const useOrders = () => {
 
 // ==================== 개별 주문 가져오기 ====================
 export const useOrderById = (id: number, role?: string, options?: IQueryOptions) => {
+  console.log(id);
   const { data = [], } = useQuery<IOrder, AxiosError>(
     [ 'getOrderById', id, ],
     () => getOrderById(id, role),

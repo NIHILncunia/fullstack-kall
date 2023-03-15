@@ -258,11 +258,6 @@ export function ProductItem() {
 
               <div className='content'>
                 {/* 여기에 이미지들 들어감 */}
-                <div css={tw`bg-red-300 h-[300px]`} />
-                <div css={tw`bg-red-400 h-[300px]`} />
-                <div css={tw`bg-red-300 h-[300px]`} />
-                <div css={tw`bg-red-400 h-[300px]`} />
-                <div css={tw`bg-red-300 h-[300px]`} />
               </div>
             </section>
             <section id='shipping-info' css={sectionStyle}>

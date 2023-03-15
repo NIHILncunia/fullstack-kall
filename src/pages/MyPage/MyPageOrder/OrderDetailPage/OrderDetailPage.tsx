@@ -11,6 +11,7 @@ import { payString } from '@/data/select.data';
 
 export function OrderDetailPage() {
   const { id, } = useParams<{ id?: string }>();
+  console.log('OrderDetailPage >> ', id);
   const order = useOrderById(Number(id));
   const orderDetails = useOrderDetailByOrderId(order.orderId, {
     enabled: order && 'orderId' in order,
