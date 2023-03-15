@@ -14,8 +14,6 @@ import { useUserById } from '@/hooks/trueQuery/users';
 import { IUser } from '@/types/tables.types';
 
 export function MyaPagePassEdit() {
-  const [ isPassError, setIsPassError, ] = useState(false);
-  const [ isNewPassError, setIsNewPassError, ] = useState(false);
   const [ isUser, setIsUser, ] = useState(true);
   const [ cookies, ] = useCookies([ 'id', ]);
   const user = useUserById(cookies.id);

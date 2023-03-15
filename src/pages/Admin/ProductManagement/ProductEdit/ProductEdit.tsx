@@ -115,6 +115,7 @@ export function ProductEdit() {
       }
     ).then((res) => {
       console.log(res);
+      navi('/admin/products');
     });
   }, [ files, params, ]);
 
