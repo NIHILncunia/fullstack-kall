@@ -67,7 +67,7 @@ export function CreateQuestion() {
             </label>
 
             <div className='button'>
-              <button>리뷰 작성</button>
+              <button>상품 문의 작성</button>
             </div>
           </form>
         </div>
