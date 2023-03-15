@@ -3,7 +3,7 @@ import { useCookies } from 'react-cookie';
 import { useInput } from '@/hooks';
 import { passCheckStyle } from './style';
 import { kallInstance } from '@/data/axios.data';
-import { useAuthUserById, useUserById } from '@/hooks/trueQuery/users';
+import { useUserById } from '@/hooks/trueQuery/users';
 import { IUser } from '@/types/tables.types';
 
 interface IPassCheckProps {
@@ -13,11 +13,14 @@ interface IPassCheckProps {
 export function PassCheck({ setIsUser, }: IPassCheckProps) {
   const [ message, setMessage, ] = useState('');
   const [ { id, }, ] = useCookies([ 'id', ]);
-  const user = useAuthUserById(id);
+  // const user = useAuthUserById(id);
   const userData = useUserById(id);
 
   const passRef = useRef<HTMLInputElement>();
   const password = useInput(passRef, 'password');
+
+  console.log('password.data.value >> ', password.data.value);
+  console.log('userData.password >>', userData.password);
 
   const onClickPassword = useCallback((event: React.MouseEvent<HTMLInputElement>) => {
     event.preventDefault();
@@ -33,7 +36,7 @@ export function PassCheck({ setIsUser, }: IPassCheckProps) {
     }
 
     const data: IUser = {
-      userId: user.userId,
+      userId: userData.userId,
       password: password.data.value,
     };
 
@@ -50,7 +53,7 @@ export function PassCheck({ setIsUser, }: IPassCheckProps) {
       .catch((error) => {
         console.error('error >> ', error);
       });
-  }, [ password, id, user, ]);
+  }, [ password, id, userData, ]);
 
   return (
     <>

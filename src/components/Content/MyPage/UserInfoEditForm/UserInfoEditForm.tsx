@@ -51,7 +51,7 @@ export function UserInfoEditForm() {
 
     updateUserInfo.mutate(editInfo, {
       onSuccess: () => {
-        queryClient.refetchQueries([ 'getAuthUserById', user.userId, ]);
+        queryClient.refetchQueries([ 'getUserById', user.userId, ]);
         navi('/mypage/main');
       },
       onError: (error) => {

@@ -10,20 +10,17 @@ import { Link } from 'react-router-dom';
 import { AppLayout, MyPageLayout } from '@/layouts';
 import { Heading2, Heading3 } from '@/components/Content';
 import { defaultInfoStyle, mypageIconLinkStyle, orderStatStyle } from './style';
-import { useAuthUserById, useUserById } from '@/hooks/trueQuery/users';
+import { useUserById } from '@/hooks/trueQuery/users';
 import { useAddressesByUser } from '@/hooks/trueQuery/address';
 import { useOrderByUserId } from '@/hooks/trueQuery/order';
 
 export function MyPageMain() {
   const [ cookies, ] = useCookies([ 'id', 'role', ]);
-  const authUser = useAuthUserById(cookies.id);
+  // const authUser = useAuthUserById(cookies.id);
   const user = useUserById(cookies.id);
-  const [ address, ] = useAddressesByUser(authUser?.userId)
+  const [ address, ] = useAddressesByUser(user?.userId)
     .filter((item) => item.status === 'true');
   const orders = useOrderByUserId(cookies.id);
-
-  console.log('인증받은 유저 객체 >> ', authUser);
-  console.log('그냥 유저 객체 >> ', user);
 
   const beforePay = useMemo(() => {
     return orders.filter((item) => item.order_status === '결제대기중');
@@ -51,19 +48,19 @@ export function MyPageMain() {
           <div className='default-info' css={defaultInfoStyle}>
             <p>
               <span>아이디</span>
-              <span>{authUser.userId || user.userId}</span>
+              <span>{user.userId || user.userId}</span>
             </p>
             <p>
               <span>이름</span>
-              <span>{authUser.name || user.name}</span>
+              <span>{user.name || user.name}</span>
             </p>
             <p>
               <span>이메일</span>
-              <span>{authUser.email || user.email}</span>
+              <span>{user.email || user.email}</span>
             </p>
             <p>
               <span>휴대폰</span>
-              <span>{authUser.phoneNb || user.phoneNb}</span>
+              <span>{user.phoneNb || user.phoneNb}</span>
             </p>
             <p>
               <span>기본 배송지</span>
