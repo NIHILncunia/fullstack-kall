@@ -1,12 +1,15 @@
 import React, {
   FormEvent, useCallback, useRef, useState
 } from 'react';
+import { useCookies } from 'react-cookie';
 import { useInput } from '@/hooks';
 import { ISelect } from '@/types/product.select.types';
 import {
   bottomButtonStyle, bottomMessageStyle, countStyle, inputStyle, selectedItemStyle
 } from './style';
 import { EtcSelectItem } from './EtcSelectItem';
+import { useProductById } from '@/hooks/trueQuery/product';
+import { useUserById } from '@/hooks/trueQuery/users';
 
 interface IETCOptionProps {
   name: string;
@@ -22,9 +25,13 @@ export function ETCOption({
   const [ amount, setAmount, ] = useState(1);
   const [ isDisabled, setIsDisabled, ] = useState(false);
 
+  const [ cookies, ] = useCookies([ 'id', ]);
   const idRef = useRef(1);
   const requestRef = useRef<HTMLInputElement>();
   const request = useInput(requestRef, 'request');
+
+  const product = useProductById(id);
+  const user = useUserById(cookies.id);
 
   const onClickMinus = useCallback(() => {
     setAmount((prev) => (prev === 1 ? prev : prev - 1));
@@ -47,8 +54,10 @@ export function ETCOption({
     setIsDisabled(true);
     setItems((prev) => [ ...prev, {
       selectId: idRef.current++,
-      productId: id,
+      productDTO: product,
+      userDTO: user,
       name,
+      request: request.data.value,
       option_sheet: undefined,
       option_shape: undefined,
       option_cream: undefined,

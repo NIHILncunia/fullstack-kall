@@ -6,13 +6,14 @@ import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router';
 import tw from 'twin.macro';
 import useDaumPostcodePopup from 'react-daum-postcode/lib/useDaumPostcodePopup';
+import { v4 as uuid } from 'uuid';
 import { AppLayout } from '@/layouts';
 import { Heading2, Heading3 } from '@/components/Content';
 import {
   fromInfoStyle, itemListStyle, orderPageStyle, orderProgressStyle, payInfoStyle, paymentStyle, toInfoButtonStyle, toInfoStyle
 } from './style';
 import { useInput } from '@/hooks';
-import { ICart, IOrder, IOrderDetail } from '@/types/tables.types';
+import { IOrder, IOrderDetail } from '@/types/tables.types';
 import { OrderDetailList } from '@/components/Content/OrderDetail';
 import { cardData } from '@/data/select.data';
 import { useUserById } from '@/hooks/trueQuery/users';
@@ -36,16 +37,16 @@ export function Order() {
   const createOrder = useCreateOrder();
   const createOrderDetail = useCreateOrderDetail(cookies.id);
 
-  console.log(orderDetails);
-
   useEffect(() => {
-    const cartToOrder: ICart[] = JSON.parse(localStorage.getItem('cartToOrder'));
+    const cartToOrder: any[] = JSON.parse(localStorage.getItem('cartToOrder'));
     const orderDetail = cartToOrder.map(async (item) => {
       delete item.cartId;
       delete item.userDTO;
       delete item.id;
       delete item.product_id;
       delete item.user_id;
+      delete item.request;
+      delete item.word;
 
       const orderDTOList = await getOrderByUserId(cookies.id);
       const [ orderDTO, ] = orderDTOList.reverse();
@@ -113,13 +114,10 @@ export function Order() {
 
   const onClickPayment = useCallback(() => {
     if (!isPay) {
-      console.log('결제 정보를 입력합니다.');
       setMessage('결제 정보를 입력해주세요.');
       setIsPay(true);
       setButtonValue('결제하기');
     } else {
-      console.log('결제를 진행합니다.');
-
       /**
        * 프론트에서는 결제가 완료되면 주문 데이터를 넘겨준다. 그러면 백엔드에서는 주문 레코드가 생성되고 그 레코드의 식별값을 프론트로 보내준다.
        * 백엔드로부터 받은 식별값을 이용해 order_detail 테이블에 데이터를 추가하기 위해
@@ -149,11 +147,12 @@ export function Order() {
           localStorage.setItem('orderData', JSON.stringify(newOrder));
           navigate('/order/complete');
         },
+        onError: () => {
+          console.log('어떠한 문제를 직면했습니다!');
+        },
       });
     }
-  }, [ isPay, orderDetails, payType, ]);
-
-  console.log('payType >> ', payType);
+  }, [ isPay, orderDetails, payType, userData, ]);
 
   const onChangePayType = useCallback((event: ChangeEvent<HTMLSelectElement>) => {
     setPayType(event.target.value);
@@ -249,7 +248,7 @@ export function Order() {
               <p>가격</p>
             </div>
             {orderDetails.map((item) => (
-              <OrderDetailList key={item.orderDNb} item={item} />
+              <OrderDetailList key={uuid()} item={item} />
             ))}
           </div>
           <Heading3>결제 정보</Heading3>

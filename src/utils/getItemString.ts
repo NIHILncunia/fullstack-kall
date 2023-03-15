@@ -24,6 +24,7 @@ export const getItemString = (selection: ISelection, product: IProduct, item: (I
       nameOption = `${product.name} - 수량: ${item?.amount}`;
       break;
     default:
+      nameOption = '테스트';
       break;
   }
 

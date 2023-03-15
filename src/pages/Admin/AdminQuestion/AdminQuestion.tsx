@@ -10,7 +10,6 @@ export function AdminQuestion() {
 
   const questions = useQuestions();
   const deleteQuestions = useDeleteQuestions();
-  console.log(questions);
 
   const onClickAllCheck = useCallback(() => {
     setItems(questions.map((item) => item.productQId));

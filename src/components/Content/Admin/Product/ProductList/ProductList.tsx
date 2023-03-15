@@ -25,8 +25,6 @@ export function ProductList() {
   const qc = useQueryClient();
   const deleteProducts = useDeleteProducts();
 
-  console.log('items >> ', items);
-
   useEffect(() => {
     if (productData.length !== 0) {
       setItems(productData);

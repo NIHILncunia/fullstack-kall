@@ -33,9 +33,8 @@ export const useCreateAddress = (userId: string) => {
       return data;
     },
     {
-      onSuccess(data) {
+      onSuccess() {
         queryClient.invalidateQueries([ 'getAddressByUser', userId, ]);
-        console.log('반환값 >> ', data);
       },
     }
   );
@@ -49,8 +48,6 @@ export const useUpdateAddress = (id: number, userId: string) => {
 
   const { mutate, } = useMutation<string, AxiosError, IAddress>(
     async (updateData: IAddress) => {
-      console.log('updateData >> ', updateData);
-
       const { data, } = await kallInstance.put<string>(
         `/addresses/${id}`,
         updateData

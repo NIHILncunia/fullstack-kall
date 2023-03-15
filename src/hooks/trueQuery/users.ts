@@ -159,7 +159,6 @@ export const useUpdateUser = (id: string) => {
     {
       onSuccess: async (data) => {
         const userData = await getUserById(id);
-        console.log('반환받은 데이터 >> ', data);
 
         queryClient.setQueryData(
           [ 'getUserById', id, ],

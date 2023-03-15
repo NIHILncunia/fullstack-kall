@@ -113,14 +113,12 @@ export const useCreateProduct = () => {
       return data;
     },
     {
-      onSuccess: async (data) => {
+      onSuccess: async () => {
         const productData = await getProducts();
         queryClient.setQueryData(
           [ 'getProducts', ],
           productData
         );
-
-        console.log(data);
       },
     }
   );

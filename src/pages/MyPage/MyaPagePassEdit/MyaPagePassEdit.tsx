@@ -80,7 +80,6 @@ export function MyaPagePassEdit() {
         .catch((error) => {
           console.error(error);
         });
-      console.log('백엔드로 데이터 전송 >> ', putData);
     }
   }, [ newPass, user, ]);
 

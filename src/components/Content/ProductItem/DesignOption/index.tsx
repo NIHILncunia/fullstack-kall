@@ -10,6 +10,8 @@ import { SelectItem } from '../SelectItem';
 import {
   inputStyle, radioStyle, selectButton, selectedItemStyle
 } from './style';
+import { useUserById } from '@/hooks/trueQuery/users';
+import { useProductById } from '@/hooks/trueQuery/product';
 
 interface IDesignOptionProps {
   name: string;
@@ -34,6 +36,9 @@ export function DesignOption({
   const requestRef = useRef<HTMLInputElement>();
   const request = useInput(requestRef, 'request');
 
+  const user = useUserById(cookies.id);
+  const product = useProductById(id);
+
   const onChangeSheet = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     setSize(event.target.value);
     setSizeLabel(event.target.id);
@@ -51,9 +56,11 @@ export function DesignOption({
 
     setItems((prev) => [ ...prev, {
       selectId: idRef.current++,
-      userId: cookies.id,
+      userDTO: user,
+      productDTO: product,
+      // userId: cookies.id,
       name,
-      productId: id,
+      // productId: id,
       option_size: size,
       request: request.data.value,
       price,

@@ -8,7 +8,6 @@ interface IProductGridProps {
 }
 
 export function ProductGrid({ data, }: IProductGridProps) {
-  console.log(data);
   return (
     <>
       <div css={itemListStyle}>

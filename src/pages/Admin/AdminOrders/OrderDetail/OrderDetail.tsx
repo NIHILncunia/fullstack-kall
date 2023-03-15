@@ -95,11 +95,9 @@ export function OrderDetail() {
       });
 
       console.log(`[PUT /orders/${params.id}]`, updateData);
-      console.log('수정이 완료되었습니다.');
       setIsEdit(false);
       setLabel('수정');
     } else {
-      console.log('수정을 시작합니다.');
       setIsEdit(true);
       setLabel('수정완료');
     }
@@ -113,8 +111,6 @@ export function OrderDetail() {
     });
     console.log(`[DELETE /orders/${id}]`);
   }, [ deleteOrder, params, ]);
-
-  console.log(orderDetail);
 
   return (
     <>

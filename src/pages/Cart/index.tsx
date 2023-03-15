@@ -77,13 +77,10 @@ export function Cart() {
     });
 
     localStorage.setItem('cartToOrder', JSON.stringify(orderItems));
-
-    console.log('selectedCartItems >> ', orderItems);
     navigate('/order');
   }, [ selectedItems, ]);
 
   const onClickOrderAll = useCallback(() => {
-    console.log(cartList);
     localStorage.setItem('cartToOrder', JSON.stringify(cartList));
     navigate('/order');
   }, [ cartList, ]);

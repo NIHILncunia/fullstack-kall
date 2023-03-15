@@ -26,7 +26,6 @@ export function UserManageBlock({ items, setItems, }: IUserManageBlockProps) {
 
   const onDeleteSelectData = useCallback(() => {
     if (items.length !== 0) {
-      console.log(items);
       deleteUsers.mutate(items);
     }
   }, [ items, ]);

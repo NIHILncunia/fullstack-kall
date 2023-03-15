@@ -10,49 +10,33 @@ import { useInput } from '@/hooks';
 import {
   findPasswordPageStyle, formStyle, Message, pStyle
 } from './style';
-import { getUserById } from '@/hooks/trueQuery/users';
+import { kallInstance } from '@/data/axios.data';
 
 export function FindPassword() {
   const [ isOpen, setIsOpen, ] = useState(false);
   const [ error, setError, ] = useState(false);
-  const [ complete, setComplete, ] = useState(false);
+  const [ pass, setPass, ] = useState('');
   const [ message, setMessage, ] = useState(<>비밀번호를 찾고자 하는 아이디를 입력해주세요.</>);
 
   const idRef = useRef<HTMLInputElement>();
-  const passwordRef = useRef<HTMLInputElement>();
-  const passwordCheckRef = useRef<HTMLInputElement>();
 
   const id = useInput(idRef, 'id');
-  const password = useInput(passwordRef, 'password');
-  const passwordCheck = useInput(passwordCheckRef, 'password-check');
 
   const onSubmitOpen = useCallback(async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    try {
-      const res = await getUserById(id.data.value);
-
-      setIsOpen(true);
-      setError(false);
-      setMessage(<>{res.userId}님 비밀번호를 재설정하세요.</>);
-    } catch (error) {
-      setError(true);
-      setMessage(<>일치하는 회원정보가 없습니다. 다시 확인해주세요.</>);
-    }
+    kallInstance.put(`/users/${id.data.value}/password`)
+      .then((res) => {
+        setIsOpen(true);
+        setError(false);
+        setPass(res.data);
+        setMessage(<>{id.data.value}님 임시 비밀번호를 지급합니다. 로그인하세요.</>);
+      })
+      .catch((error) => {
+        setError(true);
+        setMessage(<>일치하는 회원정보가 없습니다. 다시 확인해주세요.</>);
+      });
   }, [ id.data.value, ]);
-
-  const onSubmitForm = useCallback((e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    if (password.data.value === passwordCheck.data.value) {
-      setComplete(true);
-      setMessage((<>비밀번호 재설정이 완료되었습니다.<br />이제 로그인하세요.</>));
-      setError(false);
-    } else {
-      setError(true);
-      setMessage(<>비밀번호가 일치하지 않습니다.</>);
-    }
-  }, [ password.data.value, passwordCheck.data.value, ]);
 
   const globalStyles = css`
     main {
@@ -76,24 +60,10 @@ export function FindPassword() {
               </form>
             </>
           )}
-          {isOpen && !complete && (
-            <form onSubmit={onSubmitForm} css={formStyle}>
-              <input
-                type='password'
-                ref={passwordRef}
-                required
-                placeholder='7자리 이상'
-                {...password.data}
-              />
-              <input
-                type='password'
-                ref={passwordCheckRef}
-                required
-                placeholder='7자리 이상'
-                {...passwordCheck.data}
-              />
-              <button>비밀번호 재설정</button>
-            </form>
+          {isOpen && (
+            <div css={tw`border border-black-200 bg-black-50 p-[10px] flex items-center justify-center mb-[30px]`}>
+              <p css={tw`text-[1.5rem] font-[900]`}>{pass}</p>
+            </div>
           )}
           <Heading3>아이디가 기억나지 않는다면?</Heading3>
           <p css={pStyle} tw='mb-[20px]'>

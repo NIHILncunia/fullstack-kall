@@ -16,8 +16,6 @@ export function UserEditForm() {
   const qString = queryString.parse(location.search);
   const user = useUserById(qString.id as string);
 
-  console.log(user);
-
   const updateUser = useUpdateUser(user.userId);
   const deleteUser = useDeleteUser(user.userId);
 
@@ -62,8 +60,6 @@ export function UserEditForm() {
       role: role.data.value as ('user' | 'admin'),
       status: status.data.value as ('활동계정' | '비활동계정'),
     };
-
-    console.log('유저 데이터 변경 >> ', newData);
 
     updateUser.mutate(newData);
   }, [ id, name, email, phone, birthday, role, updateUser, ]);

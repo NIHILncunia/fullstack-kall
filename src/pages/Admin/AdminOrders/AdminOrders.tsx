@@ -9,7 +9,6 @@ import { useOrders } from '@/hooks/trueQuery/order';
 export function AdminOrders() {
   const [ items, setItems, ] = useState<number[]>([]);
   const orders = useOrders();
-  console.log(orders);
 
   return (
     <>

@@ -1,7 +1,9 @@
+import { IProduct, IUser } from './tables.types';
+
 export interface ISelect {
   selectId?: number;
-  userId?: string;
-  productId?: number;
+  userDTO?: IUser;
+  productDTO?: IProduct;
   name?: string;
   option_sheet?: string;
   option_shape?: string;

@@ -47,9 +47,6 @@ export function UpdateForm({ id, }: IUpdateFormProps) {
       content: text,
     };
 
-    console.log(updateData.userDTO);
-    console.log(updateData.productDTO);
-
     updateQuestion.mutate({ id: Number(id), data: updateData, role: 'admin', });
     const url = role === 'admin' ? '/admin' : '';
     console.log(`[PUT ${url}/questions/${id}]`, updateData);

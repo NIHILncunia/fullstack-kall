@@ -40,7 +40,6 @@ export function AddressForm() {
     event.preventDefault();
 
     let newAddress: IAddress;
-    console.log('user >> ', user);
 
     if ('userId' in user) {
       newAddress = {
@@ -54,7 +53,7 @@ export function AddressForm() {
       };
     }
 
-    console.log('주소 등록 데이터 >> ', newAddress);
+    console.log('[POST /addresses]', newAddress);
     createAddress(newAddress);
   }, [ user, addressName, zipCode, address1, address2, ]);
   return (

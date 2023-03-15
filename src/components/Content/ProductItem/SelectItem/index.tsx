@@ -15,7 +15,7 @@ interface ISelectItemProps {
 export function SelectItem({
   id, item, items, setItems,
 }: ISelectItemProps) {
-  const product = useProductById(item.productId);
+  const product = useProductById(item?.productDTO?.productId);
   const sheet = useCategoryById(item.option_sheet).categoryName;
   const shape = useCategoryById(item.option_shape).categoryName;
   const cream = useCategoryById(item.option_cream).categoryName;

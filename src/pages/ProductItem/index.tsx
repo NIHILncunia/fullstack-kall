@@ -127,8 +127,6 @@ export function ProductItem() {
     const cartArray: ICart[] = [];
 
     items.forEach((item) => {
-      console.log(item);
-
       const cart: ICart = {
         productDTO: product,
         userDTO: user,
@@ -148,7 +146,7 @@ export function ProductItem() {
     createCart.mutate(cartArray);
     console.log('[POST /carts]', cartArray);
     setItems([]);
-  }, [ items, ]);
+  }, [ items, product, user, ]);
 
   const onClickDirectBuy = useCallback(() => {
     localStorage.setItem('cartToOrder', JSON.stringify(items));

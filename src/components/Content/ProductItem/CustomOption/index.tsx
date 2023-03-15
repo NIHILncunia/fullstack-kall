@@ -10,6 +10,8 @@ import {
   fileInputStyle, inputStyle, radioStyle, selectButton, selectedItemStyle
 } from './style';
 import { ISelect } from '@/types/product.select.types';
+import { useUserById } from '@/hooks/trueQuery/users';
+import { useProductById } from '@/hooks/trueQuery/product';
 
 interface ICustomOptionProps {
   name: string;
@@ -45,6 +47,9 @@ export function CustomOption({
   const word = useInput(wordRef, 'word');
   const request = useInput(requestRef, 'request');
 
+  const user = useUserById(cookies.id);
+  const product = useProductById(id);
+
   const onChangeSheet = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     setSheet(event.target.value);
     setSheetLabel(event.target.id);
@@ -76,8 +81,10 @@ export function CustomOption({
 
     setItems((prev) => [ ...prev, {
       selectId: idRef.current++,
-      userId: cookies.id,
-      productId: id,
+      userDTO: user,
+      productDTO: product,
+      // userId: cookies.id,
+      // productId: id,
       name,
       option_sheet: sheet,
       option_shape: shape,
