@@ -56,6 +56,7 @@ export function CommentItem({ item, }: ICommentItemProps) {
   const onClickEdit = useCallback((id: number) => {
     if (isEdit) {
       const updateData: IReviewComment = {
+        reviewCmtId: item.reviewCmtId,
         userDTO: item.userDTO,
         reviewDTO: item.reviewDTO,
         title: title.data.value,
@@ -74,7 +75,7 @@ export function CommentItem({ item, }: ICommentItemProps) {
     } else {
       setIsEdit(true);
     }
-  }, [ isEdit, title, content, ]);
+  }, [ isEdit, title, content, item, ]);
 
   return (
     <>

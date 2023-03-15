@@ -7,6 +7,7 @@ import { AdminLayout, AppLayout } from '@/layouts';
 import { useInput } from '@/hooks';
 import { formStyle } from './style';
 import { useAllNoticeById } from '@/hooks/trueQuery/notice';
+import { INotice } from '@/types/tables.types';
 
 export function NoticeUpdate() {
   const params = useParams();
@@ -46,10 +47,11 @@ export function NoticeUpdate() {
   }, [ text, ]);
 
   const onClickUpdateNotice = useCallback(() => {
-    const updateData = {
+    const updateData: INotice = {
       title: title.data.value,
       content: text,
-      category_id: select,
+      noticeId: Number(params.id),
+      categoryDTO: notice.categoryDTO,
     };
 
     console.log('[PUT /notices]', updateData);

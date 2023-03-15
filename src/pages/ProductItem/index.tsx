@@ -51,6 +51,8 @@ export function ProductItem() {
     enabled: 'productId' in product,
   });
 
+  console.log(productImage);
+
   const wishItem = useWishlistByProductId(product.productId, {
     enabled: 'productId' in product,
   });

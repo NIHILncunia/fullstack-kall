@@ -42,6 +42,7 @@ export function RefundItem() {
   const onClickEdit = useCallback(() => {
     if (isEdit) {
       const updateData: IRefund = {
+        refundId: refund.refundId,
         status,
       };
 

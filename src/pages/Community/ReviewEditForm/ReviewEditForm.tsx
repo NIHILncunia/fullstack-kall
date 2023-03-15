@@ -43,6 +43,7 @@ export function ReviewEditForm() {
 
   const onClickEdit = useCallback(() => {
     const updateData: IReview = {
+      reviewId: review.reviewId,
       title: title.data.value,
       content: text,
       star: parseFloat(rate.data.value),

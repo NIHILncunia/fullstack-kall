@@ -12,6 +12,7 @@ import {
   basicInfoEditStyle, detailImagesEditStyle, imageEditStyle, textAreaInfoStyle
 } from './style';
 import { useProductById } from '@/hooks/trueQuery/product';
+import { IProduct } from '@/types/tables.types';
 
 export function ProductEdit() {
   const [ file, setFile, ] = useState(null);
@@ -122,7 +123,8 @@ export function ProductEdit() {
   }, []);
 
   const onClickDefaultUpdate = useCallback(() => {
-    const updateData = {
+    const updateData: IProduct = {
+      productId: productData.productId,
       name: name.data.value,
       tag: tag.data.value,
       amount: Number(amount.data.value),

@@ -13,6 +13,8 @@ import { kallInstance } from '@/data/axios.data';
 
 export function FindId() {
   const [ findType, setFindType, ] = useState('email');
+  const [ id, setId, ] = useState('');
+  const [ pass, setPass, ] = useState('');
 
   const nameRef = useRef<HTMLInputElement>();
   const emailRef = useRef<HTMLInputElement>();
@@ -37,9 +39,10 @@ export function FindId() {
         email: email.data.value,
       };
 
-      kallInstance.get(`/users/findIdByEmail?name=${resObj.name}&email=${resObj.email}`)
+      kallInstance.get<string>(`/users/findIdByEmail?name=${resObj.name}&email=${resObj.email}`)
         .then((res) => {
           console.log(res.data);
+          setId(res.data);
         })
         .catch((error) => {
           console.log(error.message);
@@ -52,9 +55,10 @@ export function FindId() {
         phoneNb: phone.data.value,
       };
 
-      kallInstance.get(`/users/findIdByPhone?name=${resObj.name}&phoneNb=${resObj.phoneNb}`)
+      kallInstance.get<string>(`/users/findIdByPhone?name=${resObj.name}&phoneNb=${resObj.phoneNb}`)
         .then((res) => {
           console.log(res.data);
+          setPass(res.data);
         })
         .catch((error) => {
           console.log(error.message);
@@ -129,6 +133,10 @@ export function FindId() {
             )}
             <button>아이디 찾기</button>
           </form>
+
+          <div className='result'>
+            <p>{}</p>
+          </div>
         </div>
       </AppLayout>
     </>

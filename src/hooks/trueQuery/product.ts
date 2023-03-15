@@ -159,10 +159,11 @@ export const useDeleteProducts = () => {
 
 // ==================== 상품 상세 이미지 가져오기 ====================
 export const useProductImage = (productId: number, options: IQueryOptions) => {
+  console.log(productId);
   const { data = [], } = useQuery<IProductImage[], AxiosError>(
     [],
     async () => {
-      const { data, } = await kallInstance.get(`/products/product-img/${productId}`);
+      const { data, } = await kallInstance.get<IProductImage[]>(`/products/product-img/${productId}`);
 
       return data;
     },

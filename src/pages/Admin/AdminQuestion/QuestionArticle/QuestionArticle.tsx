@@ -15,6 +15,7 @@ import {
   articleBottomStyle, articleContentStyle, articleTopStyle, commentAdminStyle, goToBackStyle
 } from './style';
 import { useUserById } from '@/hooks/trueQuery/users';
+import { IQuestion } from '@/types/tables.types';
 
 export function QuestionArticle() {
   const [ isEdit, setIsEdit, ] = useState(false);
@@ -80,7 +81,10 @@ export function QuestionArticle() {
       setIsEdit(false);
       setLabel(cond ? '등록' : '수정');
 
-      const updateData = {
+      const updateData: IQuestion = {
+        productQId: question.productQId,
+        productDTO: question.productDTO,
+        userDTO: question.userDTO,
         comment: text,
       };
 

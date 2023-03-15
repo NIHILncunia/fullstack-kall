@@ -50,6 +50,7 @@ export function DirectUpdate() {
 
   const onClickSubmit = useCallback(() => {
     const updateData: IDirect = {
+      usQId: Number(id),
       userDTO: user,
       title,
       content,

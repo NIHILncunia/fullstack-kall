@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { kallInstance } from '@/data/axios.data';
 import { INotice } from '@/types/tables.types';
 import { IQueryOptions } from '@/types/other.types';
@@ -95,4 +95,43 @@ export const useFaqById = (id: number) => {
   );
 
   return data as INotice;
+};
+
+export const useCreateNotice = () => {
+  const { mutate, } = useMutation<void, AxiosError, INotice>(
+    async (createData) => {
+      const { data, } = await kallInstance.post('/admin/notices', createData);
+
+      return data;
+    },
+    {}
+  );
+
+  return { mutate, };
+};
+
+export const useUpdateNotice = (noticeId: number) => {
+  const { mutate, } = useMutation<void, AxiosError, INotice>(
+    async (uData) => {
+      const { data, } = await kallInstance.put(`/admin/notices/${noticeId}`, uData);
+
+      return data;
+    },
+    {}
+  );
+
+  return { mutate, };
+};
+
+export const useDeleteNotice = (noticeId: number) => {
+  const { mutate, } = useMutation<void, AxiosError>(
+    async () => {
+      const { data, } = await kallInstance.delete(`/admin/notices/${noticeId}`);
+
+      return data;
+    },
+    {}
+  );
+
+  return { mutate, };
 };
