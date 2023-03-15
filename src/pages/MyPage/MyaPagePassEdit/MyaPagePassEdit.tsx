@@ -9,15 +9,15 @@ import { PassCheck } from '@/components/Content/MyPage';
 import { Heading2 } from '@/components/Content';
 import { useInput } from '@/hooks';
 import { passEditFormStyle } from './style';
-import { useAuthUserById } from '@/hooks/trueQuery/users';
 import { kallInstance } from '@/data/axios.data';
+import { useUserById } from '@/hooks/trueQuery/users';
 
 export function MyaPagePassEdit() {
   const [ isPassError, setIsPassError, ] = useState(false);
   const [ isNewPassError, setIsNewPassError, ] = useState(false);
   const [ isUser, setIsUser, ] = useState(true);
   const [ cookies, ] = useCookies([ 'id', ]);
-  const user = useAuthUserById(cookies.id);
+  const user = useUserById(cookies.id);
   const navi = useNavigate();
 
   const currentPassRef = useRef<HTMLInputElement>();
