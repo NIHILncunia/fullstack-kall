@@ -70,9 +70,10 @@ export function FindPassword() {
             <Link to='/find/id'>아이디 찾기</Link>로 바로가기
           </p>
           <Heading3>아직 회원이 아니신가요?</Heading3>
-          <p css={pStyle}>
+          <p css={[ pStyle, tw`mb-[30px]`, ]}>
             <Link to='/signup'>회원가입</Link>으로 바로가기
           </p>
+          <Heading3>혹은 <Link to='/signin' css={tw`text-point-link font-[900] hover:text-point-h-link hover:underline`}>로그인</Link>하세요.</Heading3>
         </div>
       </AppLayout>
     </>

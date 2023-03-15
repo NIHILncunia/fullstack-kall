@@ -3,13 +3,15 @@ import React, {
   FormEvent, MouseEvent, useCallback, useRef, useState
 } from 'react';
 import tw, { css } from 'twin.macro';
+import { Link } from 'react-router-dom';
 import { AppLayout } from '@/layouts';
-import { Heading2 } from '@/components/Content';
+import { Heading2, Heading3 } from '@/components/Content';
 import { useInput } from '@/hooks';
 import {
   buttonStyles, EmailButton, findIdFormStyle, findIdPageStyle, messageStyle, PhoneButton
 } from './style';
 import { kallInstance } from '@/data/axios.data';
+import { pStyle } from '../FindPassword/style';
 
 export function FindId() {
   const [ findType, setFindType, ] = useState('email');
@@ -98,7 +100,7 @@ export function FindId() {
             </PhoneButton>
           </div>
 
-          <form onSubmit={onSubmitForm} css={findIdFormStyle}>
+          <form onSubmit={onSubmitForm} css={[ findIdFormStyle, tw`mb-[50px]`, ]}>
             <label htmlFor='name'>
               <span>이름</span>
               <input
@@ -134,10 +136,22 @@ export function FindId() {
             <button>아이디 찾기</button>
           </form>
 
-          <div className='result' css={tw`p-[10px] text-[1.5rem] border border-black-200 bg-black-50`}>
-            {id && (<p css={tw`font-[900]`}>{id}</p>)}
-            {pass && (<p css={tw`font-[900]`}>{pass}</p>)}
-          </div>
+          {(id || pass) && (
+            <div className='result' css={tw`p-[10px] text-[1.5rem] border border-black-200 bg-black-50`}>
+              {id && (<p css={tw`font-[900]`}>{id}</p>)}
+              {pass && (<p css={tw`font-[900]`}>{pass}</p>)}
+            </div>
+          )}
+
+          <Heading3>비밀번호가 기억나지 않는다면?</Heading3>
+          <p css={pStyle} tw='mb-[20px]'>
+            <Link to='/find/password'>비밀번호 찾기</Link>로 바로가기
+          </p>
+          <Heading3>아직 회원이 아니신가요?</Heading3>
+          <p css={[ pStyle, tw`mb-[30px]`, ]}>
+            <Link to='/signup'>회원가입</Link>으로 바로가기
+          </p>
+          <Heading3>혹은 <Link to='/signin' css={tw`text-point-link font-[900] hover:text-point-h-link hover:underline`}>로그인</Link>하세요.</Heading3>
         </div>
       </AppLayout>
     </>
