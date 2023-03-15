@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { AxiosError } from 'axios';
 import { useMemo } from 'react';
 import { kallInstance } from '@/data/axios.data';
-import { IProduct } from '@/types/tables.types';
+import { IProduct, IProductImage } from '@/types/tables.types';
 import { IQueryOptions } from '@/types/other.types';
 import { randomArray } from '@/utils';
 
@@ -155,4 +155,21 @@ export const useDeleteProducts = () => {
   );
 
   return { mutate, };
+};
+
+// ==================== 상품 상세 이미지 가져오기 ====================
+export const useProductImage = (productId: number, options: IQueryOptions) => {
+  const { data = [], } = useQuery<IProductImage[], AxiosError>(
+    [],
+    async () => {
+      const { data, } = await kallInstance.get(`/products/product-img/${productId}`);
+
+      return data;
+    },
+    {
+      enabled: options?.enabled ?? true,
+    }
+  );
+
+  return data;
 };

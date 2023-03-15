@@ -9,7 +9,7 @@ import tw, { css } from 'twin.macro';
 import { useCookies } from 'react-cookie';
 import { useQueryClient } from 'react-query';
 import { AppLayout } from '@/layouts';
-import { useProductById, useRecentProducts } from '@/hooks/trueQuery/product';
+import { useProductById, useProductImage, useRecentProducts } from '@/hooks/trueQuery/product';
 import { Heading3, ItemRate } from '@/components/Content';
 import {
   detailTopStyle, ProductItemPageStyle, sectionStyle, topImageStyle, topInfoStyle
@@ -25,10 +25,10 @@ import { QuestionList } from './QuestionList';
 import {
   useCreateWishlist, useDeleteWishlist, useWishlistByProductId, useWishlistByUserId
 } from '@/hooks/trueQuery/wish';
-import { ICart, IOrderDetail, IWish } from '@/types/tables.types';
+import { ICart, IWish } from '@/types/tables.types';
 import { useUserById } from '@/hooks/trueQuery/users';
 import { useCreateCart } from '@/hooks/trueQuery/cart';
-import { useDirectBuy } from '@/hooks/trueQuery/order';
+// import { useDirectBuy } from '@/hooks/trueQuery/order';
 
 export function ProductItem() {
   // eslint-disable-next-line no-unused-vars
@@ -36,7 +36,7 @@ export function ProductItem() {
   const [ items, setItems, ] = useState<ISelect[]>([]);
   const user = useUserById(id);
   const createCart = useCreateCart(user.userId);
-  const directBuy = useDirectBuy();
+  // const directBuy = useDirectBuy();
 
   const param = useParams();
   const navi = useNavigate();
@@ -47,6 +47,9 @@ export function ProductItem() {
   const products = useRecentProducts(param.category, Number(param.id));
   const wishs = useWishlistByUserId(id);
   const product = useProductById(Number(param.id));
+  const productImage = useProductImage(product.productId, {
+    enabled: 'productId' in product,
+  });
 
   const wishItem = useWishlistByProductId(product.productId, {
     enabled: 'productId' in product,
@@ -258,6 +261,9 @@ export function ProductItem() {
 
               <div className='content'>
                 {/* 여기에 이미지들 들어감 */}
+                {productImage.map((item) => (
+                  <img key={item.productimgid} src={item.imgUrl} alt={item.imgName} />
+                ))}
               </div>
             </section>
             <section id='shipping-info' css={sectionStyle}>
