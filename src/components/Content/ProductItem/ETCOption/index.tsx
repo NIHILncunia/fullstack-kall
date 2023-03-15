@@ -95,7 +95,6 @@ export function ETCOption({
                 type='text'
                 ref={requestRef}
                 {...request.data}
-                placeholder='방문수령 원하시면 1:1 문의를 이용해주세요.'
               />
             </label>
           </div>
