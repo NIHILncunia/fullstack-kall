@@ -138,10 +138,15 @@ export const useDeleteOrderItem = () => {
 };
 
 // ==================== 주문 제거 (상태변경) ====================
-export const useDeleteOrder = () => {
-  const { mutate, } = useMutation(
-    async (id: number) => {
-      const { data, } = await kallInstance.put(`/admin/orders/${id}`);
+export const useDeleteOrder = (id: number) => {
+  interface Update {
+    data: IOrder;
+  }
+
+  const { mutate, } = useMutation<void, AxiosError, Update>(
+    async (updateData) => {
+      const { data: udata, } = updateData;
+      const { data, } = await kallInstance.post(`/admin/orders/${id}`, udata);
 
       return data;
     },

@@ -1,7 +1,7 @@
 import React, {
   useCallback, useEffect, useRef, useState
 } from 'react';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { useCookies } from 'react-cookie';
 import { useQueryClient } from 'react-query';
 import { AdminLayout, AppLayout } from '@/layouts';
@@ -26,7 +26,7 @@ export function OrderDetail() {
   const orderDetail = useOrderDetailByOrderId(Number(params.id));
   const [ { id, role, }, ] = useCookies([ 'id', 'role', ]);
   const user = useUserById(id);
-  console.log(order);
+  const navi = useNavigate();
 
   const userIdRef = useRef<HTMLInputElement>();
   const nameRef = useRef<HTMLInputElement>();
@@ -53,7 +53,7 @@ export function OrderDetail() {
 
   const qc = useQueryClient();
   const updateOrder = useUpdateOrder(Number(params.id));
-  const deleteOrder = useDeleteOrder();
+  const deleteOrder = useDeleteOrder(Number(params.id));
 
   console.log(params.id);
 
@@ -108,13 +108,29 @@ export function OrderDetail() {
   }, [ isEdit, name, userId, phone, zipCode, address1, address2, payment, mileage, price, request, status, user, ]);
 
   const onClickDeleteOrder = useCallback((id: number) => {
-    deleteOrder.mutate(Number(params.id), {
+    const updateData: IOrder = {
+      orderId: Number(params.id),
+      userDTO: user,
+      name: name.data.value,
+      phone_nb: phone.data.value,
+      zip_code: zipCode.data.value,
+      address_1: address1.data.value,
+      address_2: address2.data.value,
+      payment: payment.data.value,
+      mileage: Number(mileage.data.value),
+      price: Number(price.data.value),
+      request: request.data.value,
+      order_status: status,
+    };
+
+    deleteOrder.mutate({ data: updateData, }, {
       onSuccess: () => {
         qc.refetchQueries([ 'getOrderById', Number(params.id), ]);
+        navi('/admin/orders');
       },
     });
     console.log(`[DELETE /orders/${id}]`);
-  }, [ deleteOrder, params, ]);
+  }, [ deleteOrder, params, user, phone, zipCode, address1, address2, payment, mileage, price, status, request, ]);
 
   return (
     <>
