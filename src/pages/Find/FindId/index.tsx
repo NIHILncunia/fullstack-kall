@@ -134,8 +134,9 @@ export function FindId() {
             <button>아이디 찾기</button>
           </form>
 
-          <div className='result'>
-            <p>{}</p>
+          <div className='result' css={tw`p-[10px] text-[1.5rem] border border-black-200 bg-black-50`}>
+            {id && (<p css={tw`font-[900]`}>{id}</p>)}
+            {pass && (<p css={tw`font-[900]`}>{pass}</p>)}
           </div>
         </div>
       </AppLayout>
