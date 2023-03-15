@@ -1,5 +1,6 @@
 import React, { useCallback, useRef } from 'react';
 import { useQueryClient } from 'react-query';
+import { useCookies } from 'react-cookie';
 import { useInput } from '@/hooks';
 import { commentFormStyle } from './style';
 import { IReviewComment } from '@/types/tables.types';
@@ -17,9 +18,10 @@ export function CommentForm({ userId, reviewNb, }: ICommentFormProps) {
   const review = useReviewById(reviewNb);
   const titleRef = useRef<HTMLInputElement>();
   const contentRef = useRef<HTMLInputElement>();
+  const [ { role, }, ] = useCookies([ 'role', ]);
 
   const qc = useQueryClient();
-  const createReviewComment = useCreateReviewComment();
+  const createReviewComment = useCreateReviewComment(role);
 
   const title = useInput(titleRef, 'title');
   const content = useInput(contentRef, 'content');

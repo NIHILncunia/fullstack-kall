@@ -48,7 +48,6 @@ export function FaqArticle() {
   const {
     title, date, content, cnt,
   } = faq;
-  const url = 'faq';
 
   const onClickEdit = useCallback(() => {
     navi(`/admin/notice/${id}/edit`);
@@ -69,15 +68,7 @@ export function FaqArticle() {
       <AppLayout title={title}>
         <div id='community-notice-article-page' css={noticeArticlePageStyle}>
           <div className='go-to-back' css={goToBackStyle}>
-            {
-              pathname.includes('community')
-                ? (
-                  <Link to={`/community/${url}`}>목록으로</Link>
-                )
-                : (
-                  <Link to={`/admin/${url}`}>목록으로</Link>
-                )
-            }
+            <Link to={listUrl}>목록으로</Link>
             {
               role === 'admin' && (
                 <>

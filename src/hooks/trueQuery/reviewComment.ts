@@ -47,10 +47,11 @@ export const useReviewCommentByReviewId = (reviewId: number, role?: string, opti
 };
 
 // ==================== 덧글 추가 ====================
-export const useCreateReviewComment = () => {
+export const useCreateReviewComment = (role?: string) => {
   const { mutate, } = useMutation<void, AxiosError, IReviewComment>(
     async (commentData) => {
-      const { data, } = await kallInstance.post('/reviewcomments', commentData);
+      const url = role === 'admin' ? '/admin' : '';
+      const { data, } = await kallInstance.post(`${url}/reviewcomments`, commentData);
 
       return data;
     },

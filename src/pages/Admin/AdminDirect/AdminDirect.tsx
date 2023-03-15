@@ -33,9 +33,12 @@ export function AdminDirect() {
       onSuccess: () => {
         qc.refetchQueries([ 'getDirects', ]);
       },
+      onError: () => {
+        console.log('에러?');
+      },
     });
     console.log('[DELETE /directs]', items);
-  }, [ items, ]);
+  }, [ items, deleteDirects, ]);
 
   return (
     <>
