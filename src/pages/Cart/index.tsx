@@ -12,12 +12,14 @@ import {
   cartListStyle, cartPageStyle, listStatStyle, orderProgressStyle
 } from './style';
 import { IOrderDetail } from '@/types/tables.types';
-import { useCartByUserId } from '@/hooks/trueQuery/cart';
+import { useCartByUserId, useDeleteCart } from '@/hooks/trueQuery/cart';
 
 export function Cart() {
   const [ cookies, ] = useCookies([ 'id', ]);
   const cartList = useCartByUserId(cookies.id);
   const navigate = useNavigate();
+
+  const deleteCart = useDeleteCart(cookies.id);
 
   const [ selectedItems, setSelectedItems, ] = useState<number[]>([]);
   const [ selectAll, setSelectAll, ] = useState(false);
@@ -57,16 +59,8 @@ export function Cart() {
   const totalPrice = totalItemPrice + deliveryPrice;
 
   const onClickRemove = useCallback(() => {
-  // // 선택된 항목이 없으면 무시
-  //   if (selectedItems.length === 0) return;
-
-    //   // 서버에 선택된 항목을 삭제하는 API를 호출하고, 결과를 받아온다.
-    //   const result = await deleteSelectedItems(selectedItems);
-
-  //   // 결과가 성공적으로 처리되면, 선택된 항목 리스트에서 삭제한다.
-  //   if (result.success) {
-  //     setSelectedItems([]);
-  //   }
+    deleteCart.mutate(selectedItems);
+    console.log('[DELETE /carts]', selectedItems);
   }, [ selectedItems, ]);
 
   const onClickSelectOrder = useCallback(() => {
@@ -89,30 +83,9 @@ export function Cart() {
   }, [ selectedItems, ]);
 
   const onClickOrderAll = useCallback(() => {
-  // // 장바구니에 있는 모든 항목의 id를 가져온다.
-  //   const allItems = cartList.map((item) => item.id);
-
-  //   // 서버에 모든 항목을 주문하는 API를 호출한다.
-  //   fetch('/api/orders', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify({ items: allItems, }),
-  //   })
-  //     .then((response) => {
-  //       if (response.ok) {
-  //       // 주문 성공 시 처리할 로직
-  //         console.log('주문 성공');
-  //       } else {
-  //       // 주문 실패 시 처리할 로직
-  //         console.error('주문 실패');
-  //       }
-  //     })
-  //     .catch((error) => {
-  //     // 주문 실패 시 처리할 로직
-  //       console.error('주문 실패', error);
-  //     });
+    console.log(cartList);
+    localStorage.setItem('cartToOrder', JSON.stringify(cartList));
+    navigate('/order');
   }, [ cartList, ]);
 
   return (

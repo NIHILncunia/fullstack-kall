@@ -76,6 +76,7 @@ export function CustomOption({
 
     setItems((prev) => [ ...prev, {
       selectId: idRef.current++,
+      userId: cookies.id,
       productId: id,
       name,
       option_sheet: sheet,

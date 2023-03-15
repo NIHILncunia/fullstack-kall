@@ -15,6 +15,8 @@ export function OrderDetailList({ item, }: IOrderDetailListProps) {
   const cream = useCategoryById(item.option_cream).categoryName;
   const size = useCategoryById(item.option_size).categoryName;
 
+  console.log('item >> ', item);
+
   const selection = {
     sheet,
     shape,

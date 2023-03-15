@@ -12,11 +12,12 @@ import {
   fromInfoStyle, itemListStyle, orderPageStyle, orderProgressStyle, payInfoStyle, paymentStyle, toInfoButtonStyle, toInfoStyle
 } from './style';
 import { useInput } from '@/hooks';
-import { IOrder, IOrderDetail } from '@/types/tables.types';
+import { ICart, IOrder, IOrderDetail } from '@/types/tables.types';
 import { OrderDetailList } from '@/components/Content/OrderDetail';
 import { cardData } from '@/data/select.data';
 import { useUserById } from '@/hooks/trueQuery/users';
 import { useAddressesByUser } from '@/hooks/trueQuery/address';
+import { getOrderByUserId, useCreateOrder, useCreateOrderDetail } from '@/hooks/trueQuery/order';
 
 export function Order() {
   const [ isDisable, setIsDisable, ] = useState(false);
@@ -32,10 +33,35 @@ export function Order() {
   const [ cookies, ] = useCookies([ 'id', ]);
   const navigate = useNavigate();
   const open = useDaumPostcodePopup();
+  const createOrder = useCreateOrder();
+  const createOrderDetail = useCreateOrderDetail(cookies.id);
+
+  console.log(orderDetails);
 
   useEffect(() => {
-    const cartToOrder = localStorage.getItem('cartToOrder');
-    setOrderDetails(JSON.parse(cartToOrder));
+    const cartToOrder: ICart[] = JSON.parse(localStorage.getItem('cartToOrder'));
+    const orderDetail = cartToOrder.map(async (item) => {
+      delete item.cartId;
+      delete item.userDTO;
+      delete item.id;
+      delete item.product_id;
+      delete item.user_id;
+
+      const orderDTOList = await getOrderByUserId(cookies.id);
+      const [ orderDTO, ] = orderDTOList.reverse();
+
+      const orderDetailDTO: IOrderDetail = { ...item, orderDTO, };
+
+      return orderDetailDTO;
+    });
+
+    Promise.all(orderDetail)
+      .then((results) => {
+        setOrderDetails(results);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }, []);
 
   const userData = useUserById(cookies.id);
@@ -114,9 +140,16 @@ export function Order() {
         payment: payType,
       };
 
-      console.log('주문 테이블 레코드 생성 >> ', newOrder);
-      localStorage.setItem('orderData', JSON.stringify(newOrder));
-      navigate('/order/complete');
+      createOrder.mutate(newOrder);
+      createOrderDetail.mutate(orderDetails, {
+        onSuccess: () => {
+          console.log('[POST /order]', newOrder);
+          console.log(`[POST /orders/details/${cookies.id}]`, orderDetails);
+
+          localStorage.setItem('orderData', JSON.stringify(newOrder));
+          navigate('/order/complete');
+        },
+      });
     }
   }, [ isPay, orderDetails, payType, ]);
 

@@ -25,14 +25,18 @@ import { QuestionList } from './QuestionList';
 import {
   useCreateWishlist, useDeleteWishlist, useWishlistByProductId, useWishlistByUserId
 } from '@/hooks/trueQuery/wish';
-import { ICart, IWish } from '@/types/tables.types';
+import { ICart, IOrderDetail, IWish } from '@/types/tables.types';
 import { useUserById } from '@/hooks/trueQuery/users';
+import { useCreateCart } from '@/hooks/trueQuery/cart';
+import { useDirectBuy } from '@/hooks/trueQuery/order';
 
 export function ProductItem() {
   // eslint-disable-next-line no-unused-vars
   const [ { id, pId, }, setCookie, ] = useCookies([ 'id', 'pId', ]);
   const [ items, setItems, ] = useState<ISelect[]>([]);
   const user = useUserById(id);
+  const createCart = useCreateCart(user.userId);
+  const directBuy = useDirectBuy();
 
   const param = useParams();
   const navi = useNavigate();
@@ -120,12 +124,36 @@ export function ProductItem() {
   }, [ product, queryClient, ]);
 
   const onClickAddCart = useCallback(() => {
-    const newData: ICart = {
+    const cartArray: ICart[] = [];
 
-    };
+    items.forEach((item) => {
+      console.log(item);
 
-    console.log('[POST /carts]', newData);
-  }, []);
+      const cart: ICart = {
+        productDTO: product,
+        userDTO: user,
+        option_sheet: item.option_sheet as 'Ost_01' | 'Ost_02' | 'Ost_03',
+        option_shape: item.option_shape as 'Osp_01' | 'Osp_02' | 'Osp_03',
+        option_cream: item.option_cream as 'Ocrm_01' | 'Ocrm_02' | 'Ocrm_03',
+        option_size: item.option_size as 'Osize_01' | 'Osize_02' | 'Osize_03',
+        option_lettering: item.option_lettering,
+        option_image: item.option_image,
+        amount: item.amount,
+        price: item.price,
+      };
+
+      cartArray.push(cart);
+    });
+
+    createCart.mutate(cartArray);
+    console.log('[POST /carts]', cartArray);
+    setItems([]);
+  }, [ items, ]);
+
+  const onClickDirectBuy = useCallback(() => {
+    localStorage.setItem('cartToOrder', JSON.stringify(items));
+    navi('/order');
+  }, [ items, ]);
 
   return (
     <>
@@ -201,8 +229,8 @@ export function ProductItem() {
                 />
               )}
               <div className='info-bottom'>
-                <button>장바구니</button>
-                <button>바로 구매</button>
+                <button onClick={onClickAddCart}>장바구니</button>
+                <button onClick={onClickDirectBuy}>바로 구매</button>
               </div>
             </div>
           </div>

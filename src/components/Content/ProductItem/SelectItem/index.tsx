@@ -15,10 +15,6 @@ interface ISelectItemProps {
 export function SelectItem({
   id, item, items, setItems,
 }: ISelectItemProps) {
-  console.log(`SelectItem 1. 아이디 >> `, id);
-  console.log(`SelectItem 2. item >> `, item);
-  console.log(`SelectItem 3. items >> `, items);
-
   const product = useProductById(item.productId);
   const sheet = useCategoryById(item.option_sheet).categoryName;
   const shape = useCategoryById(item.option_shape).categoryName;
@@ -34,9 +30,6 @@ export function SelectItem({
 
   const onClickMinus = useCallback(() => {
     const newData = items.map((item) => {
-      console.log('1. item.selectId >> ', item.selectId);
-      console.log('2. id >> ', id);
-
       if (item.selectId === id) {
         return { ...item, amount: item.amount === 1 ? item.amount : item.amount - 1, };
       } else {
@@ -48,9 +41,6 @@ export function SelectItem({
 
   const onClickPlus = useCallback(() => {
     const newData = items.map((item) => {
-      console.log('1. item.selectId >> ', item.selectId);
-      console.log('2. id >> ', id);
-
       if (item.selectId === id) {
         return { ...item, amount: item.amount + 1, };
       } else {

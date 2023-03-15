@@ -49,7 +49,12 @@ export function ETCOption({
       selectId: idRef.current++,
       productId: id,
       name,
-      request: request.data.value,
+      option_sheet: undefined,
+      option_shape: undefined,
+      option_cream: undefined,
+      option_size: undefined,
+      option_lettering: undefined,
+      option_image: undefined,
       amount,
       price,
     }, ]);

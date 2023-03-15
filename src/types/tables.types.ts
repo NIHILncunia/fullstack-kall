@@ -50,7 +50,10 @@ export interface IReviewComment {
 }
 
 export interface ICart {
+  id?: number;
   cartId?: number;
+  user_id?: string;
+  product_id?: number;
   productDTO?: IProduct;
   userDTO?: IUser;
   option_sheet?: 'Ost_01' | 'Ost_02' | 'Ost_03';

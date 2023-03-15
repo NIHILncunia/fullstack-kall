@@ -17,9 +17,6 @@ export function MypageDelivery() {
     item.order_status === '배송완료'
   ));
 
-  console.log(deliveringData);
-  console.log(completeData);
-
   const onClickNotComplete = useCallback(() => {
     setStatus('not-complete');
   }, []);

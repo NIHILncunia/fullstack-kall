@@ -29,9 +29,20 @@ export function Header() {
     navi('/');
   }, []);
 
+  const onClickSimpleLogin = useCallback(() => {
+    // eslint-disable-next-line no-alert
+    const id = window.prompt();
+    // eslint-disable-next-line no-alert
+    const role = window.prompt();
+    setCookie('id', id, { path: '/', });
+    setCookie('role', role, { path: '/', });
+    navi('/');
+  }, []);
+
   return (
     <>
       <header css={headerStyle}>
+        <button onClick={onClickSimpleLogin}>임시 로그인 버튼</button>
         <div css={headerTopStyle}>
           <h1 className='header-logo'>
             <HiddenSpan>KALL</HiddenSpan>

@@ -2,6 +2,7 @@ import React, {
   ChangeEvent, FormEvent, useCallback, useEffect, useRef, useState
 } from 'react';
 import { useLocation } from 'react-router';
+import { useCookies } from 'react-cookie';
 import { useInput } from '@/hooks';
 import { sizeData } from '@/data/select.data';
 import { ISelect } from '@/types/product.select.types';
@@ -25,6 +26,7 @@ export function DesignOption({
   const [ sizeLabel, setSizeLabel, ] = useState(sizeData[0].label);
 
   const { pathname, } = useLocation();
+  const [ cookies, ] = useCookies([ 'id', ]);
 
   const idRef = useRef(1);
   const sizeRef = useRef<HTMLInputElement[]>([]);
@@ -49,6 +51,7 @@ export function DesignOption({
 
     setItems((prev) => [ ...prev, {
       selectId: idRef.current++,
+      userId: cookies.id,
       name,
       productId: id,
       option_size: size,

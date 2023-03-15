@@ -10,8 +10,10 @@ import { useInput } from '@/hooks';
 import { IOrder } from '@/types/tables.types';
 import { orderDetailListStyle, orderUpdateStyle } from './style';
 import { OrderDetailList } from '@/components/Content/Admin';
-import { useDeleteOrder, useOrderById, useUpdateOrder } from '@/hooks/trueQuery/order';
-import { useOrderDetailByOrderId } from '@/hooks/trueQuery/orderDetail';
+import {
+  useDeleteOrder,
+  useDeleteOrderItem, useOrderById, useOrderDetailByOrderId, useUpdateOrder
+} from '@/hooks/trueQuery/order';
 import { useUserById } from '@/hooks/trueQuery/users';
 
 export function OrderDetail() {
@@ -21,9 +23,7 @@ export function OrderDetail() {
 
   const params = useParams();
   const order = useOrderById(Number(params.id), 'admin');
-  const orderDetail = useOrderDetailByOrderId(order?.orderId, {
-    enabled: 'orderId' in order,
-  });
+  const orderDetail = useOrderDetailByOrderId(Number(params.id));
   const [ { id, role, }, ] = useCookies([ 'id', 'role', ]);
   const user = useUserById(id);
 

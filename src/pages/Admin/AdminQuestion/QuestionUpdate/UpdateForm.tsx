@@ -7,6 +7,7 @@ import { Heading2 } from '@/components/Content';
 import { useInput } from '@/hooks';
 import { useQuestionById, useUpdateQuestion } from '@/hooks/trueQuery/question';
 import { updateFormStyle } from './style';
+import { IQuestion } from '@/types/tables.types';
 
 interface IUpdateFormProps {
   id: string;
@@ -39,10 +40,15 @@ export function UpdateForm({ id, }: IUpdateFormProps) {
   }, [ question, ]);
 
   const onClickUpdate = useCallback(() => {
-    const updateData = {
+    const updateData: IQuestion = {
+      userDTO: question?.userDTO,
+      productDTO: question?.productDTO,
       title: title.data.value,
       content: text,
     };
+
+    console.log(updateData.userDTO);
+    console.log(updateData.productDTO);
 
     updateQuestion.mutate({ id: Number(id), data: updateData, role: 'admin', });
     const url = role === 'admin' ? '/admin' : '';
@@ -52,7 +58,7 @@ export function UpdateForm({ id, }: IUpdateFormProps) {
         ? '/mypage/question?current=question'
         : '/admin/question'
     );
-  }, [ id, title, text, pathname, ]);
+  }, [ id, title, text, pathname, question, updateQuestion, ]);
 
   return (
     <>

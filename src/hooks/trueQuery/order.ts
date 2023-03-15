@@ -1,7 +1,7 @@
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { AxiosError } from 'axios';
 import { kallInstance } from '@/data/axios.data';
-import { IOrder } from '@/types/tables.types';
+import { IOrder, IOrderDetail } from '@/types/tables.types';
 import { IQueryOptions } from '@/types/other.types';
 
 export const getOrders = async () => {
@@ -47,6 +47,21 @@ export const useOrderById = (id: number, role?: string, options?: IQueryOptions)
   return data as IOrder;
 };
 
+// ==================== 주문 상세 품목 가져오기 ====================
+export const useOrderDetailByOrderId = (id: number) => {
+  const { data = [], } = useQuery<IOrderDetail[], AxiosError>(
+    [ 'getOrderDetailByOrderid', id, ],
+    async () => {
+      const { data, } = await kallInstance.get<IOrderDetail[]>(`/admin/orders/detail/${id}`);
+
+      return data;
+    },
+    {}
+  );
+
+  return data;
+};
+
 // ==================== 유저 주문 가져오기 ====================
 export const useOrderByUserId = (userId: string, role?: string, options?: IQueryOptions) => {
   const { data = [], } = useQuery<IOrder[], AxiosError>(
@@ -65,6 +80,19 @@ export const useCreateOrder = () => {
   const { mutate, } = useMutation<void, AxiosError, IOrder>(
     async (createData) => {
       const { data, } = await kallInstance.post('/orders', createData);
+
+      return data;
+    }
+  );
+
+  return { mutate, };
+};
+
+// ==================== 주문 아이템 생성 ====================
+export const useCreateOrderDetail = (userId: string) => {
+  const { mutate, } = useMutation<void, AxiosError, IOrderDetail[]>(
+    async (createData) => {
+      const { data, } = await kallInstance.post(`/orders/detail/${userId}`, createData);
 
       return data;
     }
@@ -95,11 +123,11 @@ export const useUpdateOrder = (id: number) => {
   return { mutate, };
 };
 
-// ==================== 주문 수정 (삭제용) ====================
-export const useDeleteOrder = () => {
+// ==================== 주문 아이템 제거 (상태변경) ====================
+export const useDeleteOrderItem = () => {
   const { mutate, } = useMutation(
-    async (id: number) => {
-      const { data, } = await kallInstance.put(`/orders/${id}`);
+    async (orderDNb: number) => {
+      const { data, } = await kallInstance.put(`/admin/orders/pdelete/${orderDNb}`);
 
       return data;
     },
@@ -109,13 +137,25 @@ export const useDeleteOrder = () => {
   return { mutate, };
 };
 
-// ==================== 주문 수정 (일괄 삭제용) ====================
-export const useDeleteOrders = () => {
+// ==================== 주문 제거 (상태변경) ====================
+export const useDeleteOrder = () => {
   const { mutate, } = useMutation(
-    async (ids: number[]) => {
-      const { data, } = await kallInstance.put('/orders', {
-        data: ids,
-      });
+    async (id: number) => {
+      const { data, } = await kallInstance.put(`/admin/orders${id}`);
+
+      return data;
+    },
+    {}
+  );
+
+  return { mutate, };
+};
+
+// ==================== 바로 주문 ====================
+export const useDirectBuy = () => {
+  const { mutate, } = useMutation<void, AxiosError, IOrderDetail[]>(
+    async (detailsArray) => {
+      const { data, } = await kallInstance.post('/orders/directbuy', detailsArray);
 
       return data;
     },

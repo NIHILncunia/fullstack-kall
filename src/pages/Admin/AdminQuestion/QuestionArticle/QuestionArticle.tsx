@@ -37,6 +37,8 @@ export function QuestionArticle() {
     enabled: 'productQId' in question,
   });
 
+  console.log(userData);
+
   const cond = question && question?.comment === null;
 
   const onClickEdit = useCallback(() => {

@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { kallInstance } from '@/data/axios.data';
 import { ICart } from '@/types/tables.types';
 import { IQueryOptions } from '@/types/other.types';
@@ -38,4 +38,44 @@ export const useCartByUserId = (userId: string, options?: IQueryOptions) => {
   );
 
   return data as ICart[];
+};
+
+export const useCreateCart = (userId: string) => {
+  const qc = useQueryClient();
+
+  const { mutate, } = useMutation<void, AxiosError, ICart[]>(
+    async (createData) => {
+      const { data, } = await kallInstance.post('/carts', createData);
+
+      return data;
+    },
+    {
+      onSuccess: () => {
+        qc.refetchQueries([ 'getCartByUserId', userId, ]);
+      },
+    }
+  );
+
+  return { mutate, };
+};
+
+export const useDeleteCart = (userId: string) => {
+  const qc = useQueryClient();
+
+  const { mutate, } = useMutation<void, AxiosError, number[]>(
+    async (deleteData) => {
+      const { data, } = await kallInstance.delete('/carts', {
+        data: deleteData,
+      });
+
+      return data;
+    },
+    {
+      onSuccess: () => {
+        qc.refetchQueries([ 'getCartByUserId', userId, ]);
+      },
+    }
+  );
+
+  return { mutate, };
 };
