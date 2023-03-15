@@ -4,11 +4,13 @@ import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import { useCookies } from 'react-cookie';
+import { useQueryClient } from 'react-query';
 import { AppLayout } from '@/layouts';
 import {
   articleBottomStyle, articleContentStyle, articleTopStyle, goToBackStyle, noticeArticlePageStyle
 } from './style';
 import {
+  useDeleteNotice,
   useFaqById, useFaqs, useNoticeById, useNotices
 } from '@/hooks/trueQuery/notice';
 import { useCategoryById } from '@/hooks/trueQuery/category';
@@ -22,6 +24,8 @@ export function NoticeaArticle() {
   const faqs = useFaqs();
 
   const navi = useNavigate();
+  const qc = useQueryClient();
+  const deleteNotice = useDeleteNotice(notice.noticeId);
   const { pathname, } = useLocation();
 
   const listUrl = pathname.includes('admin')
@@ -55,8 +59,14 @@ export function NoticeaArticle() {
   }, [ id, ]);
 
   const onClickDelete = useCallback(() => {
-    console.log(`[DELETE /notices/${id}]`);
-  }, [ id, ]);
+    deleteNotice.mutate(undefined, {
+      onSuccess: () => {
+        qc.refetchQueries([ 'getNoticeById', notice.noticeId, ]);
+        qc.refetchQueries([ 'getFaqById', notice.noticeId, ]);
+        console.log(`[DELETE /admin/notices/${id}]`);
+      },
+    });
+  }, [ id, notice, deleteNotice, ]);
 
   return (
     <>

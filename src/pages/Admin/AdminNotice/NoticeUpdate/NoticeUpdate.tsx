@@ -2,11 +2,12 @@ import React, {
   useCallback, useEffect, useRef, useState
 } from 'react';
 import { useNavigate, useParams } from 'react-router';
+import { useQueryClient } from 'react-query';
 import { Heading2 } from '@/components/Content';
 import { AdminLayout, AppLayout } from '@/layouts';
 import { useInput } from '@/hooks';
 import { formStyle } from './style';
-import { useAllNoticeById } from '@/hooks/trueQuery/notice';
+import { useAllNoticeById, useUpdateNotice } from '@/hooks/trueQuery/notice';
 import { INotice } from '@/types/tables.types';
 
 export function NoticeUpdate() {
@@ -18,9 +19,11 @@ export function NoticeUpdate() {
 
   const notice = useAllNoticeById(Number(params.id));
   const navi = useNavigate();
+  const updateNotice = useUpdateNotice(notice.noticeId);
 
   const titleRef = useRef<HTMLInputElement>();
   const title = useInput(titleRef, 'title');
+  const qc = useQueryClient();
 
   useEffect(() => {
     if (notice && 'noticeId' in notice) {
@@ -55,8 +58,15 @@ export function NoticeUpdate() {
     };
 
     console.log('[PUT /notices]', updateData);
-    navi('/admin/notice');
-  }, [ title, text, select, ]);
+
+    updateNotice.mutate(updateData, {
+      onSuccess: () => {
+        qc.refetchQueries([ 'getNoticeById', notice.noticeId, ]);
+        qc.refetchQueries([ 'getFaqById', notice.noticeId, ]);
+        navi('/admin/notice');
+      },
+    });
+  }, [ title, text, select, notice, ]);
   return (
     <>
       <AppLayout title='공지 수정'>

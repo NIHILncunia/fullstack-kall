@@ -14,13 +14,7 @@ import { useCreateDirect } from '@/hooks/trueQuery/direct';
 export function DirectForm() {
   const [ cookies, ] = useCookies([ 'id', ]);
   const [ category, setCategory, ] = useState('q_01');
-  const [ content, setContent, ] = useState(
-    `구입하신 날짜:
-
-구입하신 상품:
-
-문의 내용:`.trim()
-  );
+  const [ content, setContent, ] = useState('');
 
   const navi = useNavigate();
   const user = useUserById(cookies.id);

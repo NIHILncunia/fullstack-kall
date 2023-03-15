@@ -1,8 +1,13 @@
 import React, { useCallback, useRef, useState } from 'react';
+import { useQueryClient } from 'react-query';
+import { useNavigate } from 'react-router';
 import { Heading2 } from '@/components/Content';
 import { AdminLayout, AppLayout } from '@/layouts';
 import { useInput } from '@/hooks';
 import { formStyle } from './style';
+import { useCreateNotice } from '@/hooks/trueQuery/notice';
+import { INotice } from '@/types/tables.types';
+import { useCategoryById } from '@/hooks/trueQuery/category';
 
 export function NoticeCreate() {
   const [ text, setText, ] = useState('');
@@ -10,8 +15,13 @@ export function NoticeCreate() {
   const [ titleError, setTitleError, ] = useState(false);
   const [ contentError, setContentError, ] = useState(false);
 
+  const qc = useQueryClient();
   const titleRef = useRef<HTMLInputElement>();
   const title = useInput(titleRef, 'title');
+  const category = useCategoryById(select);
+  const navi = useNavigate();
+
+  const createNotice = useCreateNotice();
 
   const onChangeText = useCallback((event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(event.target.value);
@@ -30,14 +40,21 @@ export function NoticeCreate() {
   }, [ text, ]);
 
   const onClickAddNotice = useCallback(() => {
-    const newData = {
+    const newData: INotice = {
       title: title.data.value,
       content: text,
-      category_id: select,
+      categoryDTO: category,
     };
 
+    createNotice.mutate(newData, {
+      onSuccess: () => {
+        qc.refetchQueries([ 'getNotices', ]);
+        navi('/admin/notice');
+      },
+    });
+
     console.log('[POST /notices]', newData);
-  }, [ title, text, select, ]);
+  }, [ title, text, select, category, ]);
   return (
     <>
       <AppLayout title='공지 등록'>
