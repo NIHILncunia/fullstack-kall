@@ -28,9 +28,10 @@ export function AdminQuestion() {
     deleteQuestions.mutate(items, {
       onSuccess: () => {
         qc.refetchQueries([ 'getQuestions', ]);
+        setItems([]);
       },
     });
-    console.log('[PUT /admin/questions]', items);
+    console.log('[DELETE /admin/questions]', items);
   }, [ items, deleteQuestions, ]);
 
   return (

@@ -30,7 +30,7 @@ export function FaqArticle() {
   console.log('faq >> ', faq);
 
   const listUrl = pathname.includes('admin')
-    ? `/admin/faq`
+    ? `/admin/notice`
     : `/community/faq`;
 
   const category = faq?.categoryDTO?.categoryName;

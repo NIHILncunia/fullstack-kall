@@ -64,7 +64,7 @@ export function QuestionArticle() {
       },
     });
     console.log(`[DELETE /questions/${questionId}]`);
-  }, [ questionId, ]);
+  }, [ questionId, question, ]);
 
   const currentIndex = useMemo(() => {
     return pageCond

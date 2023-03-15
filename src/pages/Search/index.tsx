@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router';
 import queryString from 'query-string';
-import { useCookies } from 'react-cookie';
 import { AppLayout } from '@/layouts';
 import { kallInstance } from '@/data/axios.data';
 import { IProduct } from '@/types/tables.types';
 import { Heading2 } from '@/components/Content';
+import { ProductGrid } from '@/components/Content/ProductItem';
 
 interface QueryString {
   keyword?: string;
@@ -41,6 +41,10 @@ export function Search() {
             <div>
               <p>검색된 결과가 없습니다. 다른 검색어를 입력해보세요.</p>
             </div>
+          )}
+
+          {products && (
+            <ProductGrid data={products} />
           )}
         </div>
       </AppLayout>

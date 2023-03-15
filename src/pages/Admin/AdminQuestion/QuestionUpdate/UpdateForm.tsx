@@ -3,6 +3,7 @@ import React, {
 } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import { useCookies } from 'react-cookie';
+import { useQueryClient } from 'react-query';
 import { Heading2 } from '@/components/Content';
 import { useInput } from '@/hooks';
 import { useQuestionById, useUpdateQuestion } from '@/hooks/trueQuery/question';
@@ -24,6 +25,7 @@ export function UpdateForm({ id, }: IUpdateFormProps) {
 
   const question = useQuestionById(Number(id), role);
   const updateQuestion = useUpdateQuestion();
+  const qc = useQueryClient();
 
   const titleRef = useRef<HTMLInputElement>();
   const title = useInput(titleRef, 'title');
@@ -41,13 +43,19 @@ export function UpdateForm({ id, }: IUpdateFormProps) {
 
   const onClickUpdate = useCallback(() => {
     const updateData: IQuestion = {
+      ...question,
       userDTO: question?.userDTO,
       productDTO: question?.productDTO,
       title: title.data.value,
       content: text,
     };
 
-    updateQuestion.mutate({ id: Number(id), data: updateData, role, });
+    updateQuestion.mutate({ id: Number(id), data: updateData, role, }, {
+      onSuccess: () => {
+        qc.refetchQueries([ 'getQuestions', ]);
+        qc.refetchQueries([ 'getQuestionById', question.productQId, ]);
+      },
+    });
     const url = role === 'admin' ? '/admin' : '';
     console.log(`[PUT ${url}/questions/${id}]`, updateData);
     navi(

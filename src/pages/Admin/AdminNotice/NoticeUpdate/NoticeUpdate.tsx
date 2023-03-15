@@ -64,7 +64,7 @@ export function NoticeUpdate() {
       onSuccess: () => {
         qc.refetchQueries([ 'getNotices', ]);
         qc.refetchQueries([ 'getFaqs', ]);
-
+        qc.refetchQueries([ 'getAllNoticeById', notice.noticeId, ]);
         if (notice?.categoryDTO?.categoryId === 'notice') {
           qc.refetchQueries([ 'getNoticeById', notice.noticeId, ]);
         } else {
@@ -73,8 +73,11 @@ export function NoticeUpdate() {
 
         navi('/admin/notice');
       },
+      onError: (error) => {
+        console.log(error);
+      },
     });
-  }, [ title, text, select, notice, updateNotice, ]);
+  }, [ title, text, select, notice, updateNotice, params, ]);
   return (
     <>
       <AppLayout title='공지 수정'>
