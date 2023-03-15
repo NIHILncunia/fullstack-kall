@@ -13,12 +13,8 @@ export function Header() {
   const keywordRef = useRef<HTMLInputElement>();
   const keyword = useInput(keywordRef, 'keyword');
 
-  const onSubmitSearch = useCallback(() => {
-    navi(`/search?keyword=${keyword.data.value}`);
-  }, [ keyword, ]);
-
   // eslint-disable-next-line no-unused-vars
-  const [ cookies, setCookie, removeCookie, ] = useCookies([ 'id', 'role', ]);
+  const [ cookies, setCookie, removeCookie, ] = useCookies([ 'id', 'role', 'q', ]);
   const { id, role, } = cookies;
 
   const onClickSignOut = useCallback(() => {
@@ -28,6 +24,13 @@ export function Header() {
     localStorage.removeItem('user');
     navi('/');
   }, []);
+
+  const onSubmitSearch = useCallback((event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    navi(`/search?keyword=${keyword.data.value}`);
+    setCookie('q', keyword.data.value, { path: '/', });
+  }, [ keyword, ]);
 
   const onClickSimpleLogin = useCallback(() => {
     // eslint-disable-next-line no-alert

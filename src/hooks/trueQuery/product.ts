@@ -83,6 +83,7 @@ export const useRecentProducts = (categoryId: string, id: number, options?: IQue
 
 // ==================== 카테고리별 데이터 가져오기 ====================
 export const useProductByCategoryId = (categoryId: string, options?: IQueryOptions) => {
+  console.log('categoryId >> ', categoryId);
   const { data = [], } = useQuery<IProduct[], AxiosError>(
     [ 'getProductByCategoryId', categoryId, ],
     () => getProductByCategoryId(categoryId),

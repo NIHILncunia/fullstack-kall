@@ -12,7 +12,7 @@ import { orderDetailListStyle, orderUpdateStyle } from './style';
 import { OrderDetailList } from '@/components/Content/Admin';
 import {
   useDeleteOrder,
-  useDeleteOrderItem, useOrderById, useOrderDetailByOrderId, useUpdateOrder
+  useOrderById, useOrderDetailByOrderId, useUpdateOrder
 } from '@/hooks/trueQuery/order';
 import { useUserById } from '@/hooks/trueQuery/users';
 
@@ -26,6 +26,7 @@ export function OrderDetail() {
   const orderDetail = useOrderDetailByOrderId(Number(params.id));
   const [ { id, role, }, ] = useCookies([ 'id', 'role', ]);
   const user = useUserById(id);
+  console.log(order);
 
   const userIdRef = useRef<HTMLInputElement>();
   const nameRef = useRef<HTMLInputElement>();
@@ -54,6 +55,8 @@ export function OrderDetail() {
   const updateOrder = useUpdateOrder(Number(params.id));
   const deleteOrder = useDeleteOrder();
 
+  console.log(params.id);
+
   const onChangeStatus = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
     setStatus(event.target.value);
   }, []);
@@ -76,6 +79,7 @@ export function OrderDetail() {
   const onClickEdit = useCallback(() => {
     if (isEdit) {
       const updateData: IOrder = {
+        orderId: Number(params.id),
         userDTO: user,
         name: name.data.value,
         phone_nb: phone.data.value,

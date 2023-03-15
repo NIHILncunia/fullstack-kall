@@ -8,6 +8,8 @@ export function QuestionUpdate() {
   const { pathname, } = useLocation();
   const params = useParams();
 
+  console.log(params);
+
   return (
     <>
       <AppLayout title='문의 수정'>

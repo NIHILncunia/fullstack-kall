@@ -54,10 +54,10 @@ export function RefundItem() {
 
       setIsEdit(false);
       setLabel('수정');
+      navi('/admin/refunds');
     } else {
       setIsEdit(true);
       setLabel('수정 완료');
-      navi('/admin/refunds');
     }
   }, [ isEdit, status, ]);
 

@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { AxiosError } from 'axios';
 import { kallInstance } from '@/data/axios.data';
 import { IOrder, IOrderDetail } from '@/types/tables.types';
@@ -141,7 +141,7 @@ export const useDeleteOrderItem = () => {
 export const useDeleteOrder = () => {
   const { mutate, } = useMutation(
     async (id: number) => {
-      const { data, } = await kallInstance.put(`/admin/orders${id}`);
+      const { data, } = await kallInstance.put(`/admin/orders/${id}`);
 
       return data;
     },
