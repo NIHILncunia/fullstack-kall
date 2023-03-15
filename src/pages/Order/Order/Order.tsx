@@ -13,7 +13,7 @@ import {
   fromInfoStyle, itemListStyle, orderPageStyle, orderProgressStyle, payInfoStyle, paymentStyle, toInfoButtonStyle, toInfoStyle
 } from './style';
 import { useInput } from '@/hooks';
-import { IOrder, IOrderDetail } from '@/types/tables.types';
+import { ICart, IOrder, IOrderDetail } from '@/types/tables.types';
 import { OrderDetailList } from '@/components/Content/OrderDetail';
 import { cardData } from '@/data/select.data';
 import { useUserById } from '@/hooks/trueQuery/users';
@@ -38,31 +38,47 @@ export function Order() {
   const createOrderDetail = useCreateOrderDetail(cookies.id);
 
   useEffect(() => {
-    const cartToOrder: any[] = JSON.parse(localStorage.getItem('cartToOrder'));
-    const orderDetail = cartToOrder.map(async (item) => {
-      delete item.cartId;
-      delete item.userDTO;
-      delete item.id;
-      delete item.product_id;
-      delete item.user_id;
-      delete item.request;
-      delete item.word;
+    const carts: ICart[] = JSON.parse(localStorage.getItem('carts'));
 
-      const orderDTOList = await getOrderByUserId(cookies.id);
-      const [ orderDTO, ] = orderDTOList.reverse();
+    const mappedCarts: IOrderDetail[] = carts.map((item) => ({
+      amount: item.amount,
+      price: item.price,
+      productDTO: item.productDTO,
+      option_cream: item.option_cream,
+      option_image: item.option_image,
+      option_lettering: item.option_lettering,
+      option_shape: item.option_shape,
+      option_sheet: item.option_sheet,
+      option_size: item.option_size,
+    }));
 
-      const orderDetailDTO: IOrderDetail = { ...item, orderDTO, };
+    localStorage.setItem('orderDetails', JSON.stringify(mappedCarts));
+    // 이 부분 수정
+    // const cartToOrder: any[] = JSON.parse(localStorage.getItem('cartToOrder'));
+    // const orderDetail = cartToOrder.map(async (item) => {
+    //   delete item.cartId;
+    //   delete item.userDTO;
+    //   delete item.id;
+    //   delete item.product_id;
+    //   delete item.user_id;
+    //   delete item.request;
+    //   delete item.word;
 
-      return orderDetailDTO;
-    });
+    //   const orderDTOList = await getOrderByUserId(cookies.id);
+    //   const [ orderDTO, ] = orderDTOList.reverse();
 
-    Promise.all(orderDetail)
-      .then((results) => {
-        setOrderDetails(results);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    //   const orderDetailDTO: IOrderDetail = { ...item, orderDTO, };
+
+    //   return orderDetailDTO;
+    // });
+
+    // Promise.all(orderDetail)
+    //   .then((results) => {
+    //     setOrderDetails(results);
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //   });
   }, []);
 
   const userData = useUserById(cookies.id);

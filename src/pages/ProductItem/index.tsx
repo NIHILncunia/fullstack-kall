@@ -149,6 +149,7 @@ export function ProductItem() {
     });
 
     createCart.mutate(cartArray);
+    localStorage.setItem('carts', JSON.stringify(cartArray));
     console.log('[POST /carts]', cartArray);
     setItems([]);
   }, [ items, product, user, ]);
