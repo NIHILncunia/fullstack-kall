@@ -94,7 +94,7 @@ export const useCreateOrder = () => {
 export const useCreateOrderDetail = (userId: string) => {
   const { mutate, } = useMutation<void, AxiosError, IOrderDetail[]>(
     async (createData) => {
-      const { data, } = await kallInstance.post(`/orders/detail/${userId}`, createData);
+      const { data, } = await kallInstance.post(`/orders/details/${userId}`, createData);
 
       return data;
     }

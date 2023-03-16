@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router';
 import tw from 'twin.macro';
 import useDaumPostcodePopup from 'react-daum-postcode/lib/useDaumPostcodePopup';
 import { v4 as uuid } from 'uuid';
+import { useQueryClient } from 'react-query';
 import { AppLayout } from '@/layouts';
 import { Heading2, Heading3 } from '@/components/Content';
 import {
@@ -19,6 +20,7 @@ import { cardData } from '@/data/select.data';
 import { useUserById } from '@/hooks/trueQuery/users';
 import { useAddressesByUser } from '@/hooks/trueQuery/address';
 import { getOrderByUserId, useCreateOrder, useCreateOrderDetail } from '@/hooks/trueQuery/order';
+import { useDeleteCart } from '@/hooks/trueQuery/cart';
 
 export function Order() {
   const [ isDisable, setIsDisable, ] = useState(false);
@@ -34,8 +36,10 @@ export function Order() {
   const [ cookies, ] = useCookies([ 'id', ]);
   const navigate = useNavigate();
   const open = useDaumPostcodePopup();
+  const qc = useQueryClient();
   const createOrder = useCreateOrder();
   const createOrderDetail = useCreateOrderDetail(cookies.id);
+  const deleteCart = useDeleteCart(cookies.id);
 
   console.log(localStorage.getItem('orderDetails'));
   console.log('orderDetails >> ', orderDetails);
@@ -58,35 +62,13 @@ export function Order() {
 
     localStorage.setItem('orderDetails', JSON.stringify(mappedCarts));
     setOrderDetails(mappedCarts);
-    // 이 부분 수정
-    // const cartToOrder: any[] = JSON.parse(localStorage.getItem('cartToOrder'));
-    // const orderDetail = cartToOrder.map(async (item) => {
-    //   delete item.cartId;
-    //   delete item.userDTO;
-    //   delete item.id;
-    //   delete item.product_id;
-    //   delete item.user_id;
-    //   delete item.request;
-    //   delete item.word;
 
-    //   const orderDTOList = await getOrderByUserId(cookies.id);
-    //   const [ orderDTO, ] = orderDTOList.reverse();
-
-    //   const orderDetailDTO: IOrderDetail = { ...item, orderDTO, };
-
-    //   return orderDetailDTO;
-    // });
-
-    // Promise.all(orderDetail)
-    //   .then((results) => {
-    //     setOrderDetails(results);
-    //   })
-    //   .catch((error) => {
-    //     console.error(error);
-    //   });
+    console.log('carts >> ', carts);
+    console.log('mappedCarts >> ', mappedCarts);
   }, []);
 
   const userData = useUserById(cookies.id);
+  console.log(userData);
   const [ addressData, ] = useAddressesByUser(cookies.id);
 
   const nameRef = useRef<HTMLInputElement>();
@@ -163,26 +145,32 @@ export function Order() {
 
       createOrder.mutate(newOrder, {
         onSuccess: async () => {
+          console.log('[POST /orders]', newOrder);
           const orderDTOList = await getOrderByUserId(cookies.id);
           const [ orderDTO, ] = orderDTOList.reverse();
+          console.log('orderDTO >> ', orderDTO);
 
           trueOrderDetails = orderDetails.map((item) => ({
             ...item,
             orderDTO,
           }));
-        },
-      });
 
-      createOrderDetail.mutate(trueOrderDetails, {
-        onSuccess: () => {
-          console.log('[POST /orders]', newOrder);
-          console.log(`[POST /orders/details/${cookies.id}]`, orderDetails);
+          createOrderDetail.mutate(trueOrderDetails, {
+            onSuccess: () => {
+              console.log(`[POST /orders/details/${cookies.id}]`, orderDetails);
 
-          localStorage.setItem('orderData', JSON.stringify(newOrder));
-          navigate('/order/complete');
-        },
-        onError: () => {
-          console.log('어떠한 문제를 직면했습니다!');
+              localStorage.setItem('orderData', JSON.stringify(newOrder));
+
+              const ids = JSON.parse(localStorage.getItem('ids'));
+              deleteCart.mutate(ids, {
+                onSuccess: () => {
+                  qc.refetchQueries([ 'getCarts', ]);
+                  console.log('지울 카트 아이디 배열 >> ', ids);
+                  navigate('/order/complete');
+                },
+              });
+            },
+          });
         },
       });
     }

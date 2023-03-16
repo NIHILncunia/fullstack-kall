@@ -31,7 +31,7 @@ export const useCategoryById = (id: string, options?: IQueryOptions) => {
     [ 'getCategoryById', id, ],
     () => getCategoryById(id),
     {
-      enabled: ((id !== undefined) && options?.enabled) ?? true,
+      enabled: id !== undefined && id !== null && (options?.enabled ?? true),
     }
   );
 

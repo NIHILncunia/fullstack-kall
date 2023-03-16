@@ -70,6 +70,8 @@ export function Cart() {
       return;
     }
 
+    // 불러온 카트리스트를 필터링해서 선택한 것만 고름.
+    // 아이디를 붙여서 내보냄.
     const orderItems: IOrderDetail[] = cartList.filter(
       (item) => selectedItems.includes(item.cartId)
     ).map((item, index) => {
@@ -80,7 +82,10 @@ export function Cart() {
 
     console.log('orderItems >> ', orderItems);
 
+    // 오더로 보내기 위해서 임시로 로컬스토리지에 담아둠. 그리고 오더로 이동.
     localStorage.setItem('cartToOrder', JSON.stringify(orderItems));
+    // 나중에 오더가 성공하면 카트의 정보를 지워야 하기 때문에 아이디 배열을 저장해둠.
+    localStorage.setItem('ids', JSON.stringify(selectedItems));
     navigate('/order');
   }, [ selectedItems, ]);
 
