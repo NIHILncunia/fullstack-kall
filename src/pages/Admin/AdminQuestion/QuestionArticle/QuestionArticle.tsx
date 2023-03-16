@@ -60,11 +60,15 @@ export function QuestionArticle() {
       onSuccess: () => {
         qc.refetchQueries([ 'getQuestions', ]);
         qc.refetchQueries([ 'getQuestionByid', question.productQId, ]);
-        navi('/admin/question');
+        navi(
+          role === 'admin'
+            ? `/admin/question?current=question`
+            : `/mypage/question`
+        );
       },
     });
     console.log(`[DELETE /questions/${questionId}]`);
-  }, [ questionId, question, ]);
+  }, [ questionId, question, role, ]);
 
   const currentIndex = useMemo(() => {
     return pageCond
