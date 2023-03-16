@@ -19,6 +19,8 @@ export function Cart() {
   const cartList = useCartByUserId(cookies.id);
   const navigate = useNavigate();
 
+  console.log('cartList >> ', cartList);
+
   const deleteCart = useDeleteCart(cookies.id);
 
   const [ selectedItems, setSelectedItems, ] = useState<number[]>([]);
@@ -72,13 +74,17 @@ export function Cart() {
       (item) => selectedItems.includes(item.cartId)
     ).map((item, index) => {
       // eslint-disable-next-line camelcase
-      const { cartId: id, userDTO: user_id, ...orderItem } = item;
+      const { userDTO, ...orderItem } = item;
       return { id: index + 1, ...orderItem, };
     });
+
+    console.log('orderItems >> ', orderItems);
 
     localStorage.setItem('cartToOrder', JSON.stringify(orderItems));
     navigate('/order');
   }, [ selectedItems, ]);
+
+  console.log(selectedItems);
 
   const onClickOrderAll = useCallback(() => {
     localStorage.setItem('cartToOrder', JSON.stringify(cartList));

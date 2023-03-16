@@ -37,8 +37,12 @@ export function Order() {
   const createOrder = useCreateOrder();
   const createOrderDetail = useCreateOrderDetail(cookies.id);
 
+  console.log(localStorage.getItem('orderDetails'));
+  console.log('orderDetails >> ', orderDetails);
+
   useEffect(() => {
-    const carts: ICart[] = JSON.parse(localStorage.getItem('carts'));
+    // const carts: ICart[] = JSON.parse(localStorage.getItem('carts'));
+    const carts: ICart[] = JSON.parse(localStorage.getItem('cartToOrder'));
 
     const mappedCarts: IOrderDetail[] = carts.map((item) => ({
       amount: item.amount,
@@ -53,6 +57,7 @@ export function Order() {
     }));
 
     localStorage.setItem('orderDetails', JSON.stringify(mappedCarts));
+    setOrderDetails(mappedCarts);
     // 이 부분 수정
     // const cartToOrder: any[] = JSON.parse(localStorage.getItem('cartToOrder'));
     // const orderDetail = cartToOrder.map(async (item) => {
@@ -154,10 +159,23 @@ export function Order() {
         payment: payType,
       };
 
-      createOrder.mutate(newOrder);
-      createOrderDetail.mutate(orderDetails, {
+      let trueOrderDetails: IOrderDetail[];
+
+      createOrder.mutate(newOrder, {
+        onSuccess: async () => {
+          const orderDTOList = await getOrderByUserId(cookies.id);
+          const [ orderDTO, ] = orderDTOList.reverse();
+
+          trueOrderDetails = orderDetails.map((item) => ({
+            ...item,
+            orderDTO,
+          }));
+        },
+      });
+
+      createOrderDetail.mutate(trueOrderDetails, {
         onSuccess: () => {
-          console.log('[POST /order]', newOrder);
+          console.log('[POST /orders]', newOrder);
           console.log(`[POST /orders/details/${cookies.id}]`, orderDetails);
 
           localStorage.setItem('orderData', JSON.stringify(newOrder));
