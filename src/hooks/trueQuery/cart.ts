@@ -62,17 +62,22 @@ export const useCreateCart = (userId: string) => {
 export const useDeleteCart = (userId: string) => {
   const qc = useQueryClient();
 
-  const { mutate, } = useMutation<void, AxiosError, number[]>(
+  interface DeleteRes {
+    count: number;
+  }
+
+  const { mutate, } = useMutation<DeleteRes, AxiosError, number[]>(
     async (deleteData) => {
-      const { data, } = await kallInstance.delete('/carts', {
+      const { data, } = await kallInstance.delete<DeleteRes>('/carts', {
         data: deleteData,
       });
 
       return data;
     },
     {
-      onSuccess: () => {
+      onSuccess: (data) => {
         qc.refetchQueries([ 'getCartByUserId', userId, ]);
+        console.log(data);
       },
     }
   );

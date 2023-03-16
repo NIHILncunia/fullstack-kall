@@ -89,7 +89,7 @@ export function Cart() {
     navigate('/order');
   }, [ selectedItems, ]);
 
-  console.log(selectedItems);
+  console.log('selectedItems >> ', selectedItems);
 
   const onClickOrderAll = useCallback(() => {
     localStorage.setItem('cartToOrder', JSON.stringify(cartList));

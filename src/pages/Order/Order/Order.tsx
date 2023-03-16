@@ -44,10 +44,11 @@ export function Order() {
   console.log(localStorage.getItem('orderDetails'));
   console.log('orderDetails >> ', orderDetails);
 
+  // useEffect to get carts from localStorage and map them into OrderDetails
   useEffect(() => {
-    // const carts: ICart[] = JSON.parse(localStorage.getItem('carts'));
     const carts: ICart[] = JSON.parse(localStorage.getItem('cartToOrder'));
 
+    // maps an array of type ICart into an array of type IOrderDetail.
     const mappedCarts: IOrderDetail[] = carts.map((item) => ({
       amount: item.amount,
       price: item.price,
@@ -60,9 +61,12 @@ export function Order() {
       option_size: item.option_size,
     }));
 
+    // save the mapped cart items to localstorage as orderdetails
     localStorage.setItem('orderDetails', JSON.stringify(mappedCarts));
+    // set the state with the order details
     setOrderDetails(mappedCarts);
 
+    // console log for debugging purposes
     console.log('carts >> ', carts);
     console.log('mappedCarts >> ', mappedCarts);
   }, []);
@@ -155,17 +159,19 @@ export function Order() {
             orderDTO,
           }));
 
+          console.log('trueOrderDetails >> ', trueOrderDetails);
+
           createOrderDetail.mutate(trueOrderDetails, {
             onSuccess: () => {
-              console.log(`[POST /orders/details/${cookies.id}]`, orderDetails);
+              console.log(`[POST /orders/details/${cookies.id}]`, trueOrderDetails);
 
               localStorage.setItem('orderData', JSON.stringify(newOrder));
 
               const ids = JSON.parse(localStorage.getItem('ids'));
+              console.log('지울 카트 아이디 배열 >> ', ids);
               deleteCart.mutate(ids, {
                 onSuccess: () => {
                   qc.refetchQueries([ 'getCarts', ]);
-                  console.log('지울 카트 아이디 배열 >> ', ids);
                   navigate('/order/complete');
                 },
               });
@@ -190,7 +196,7 @@ export function Order() {
 
   return (
     <>
-      <AppLayout title='주문 및 결제'>AppLayout
+      <AppLayout title='주문 및 결제'>
         <div id='order-page' css={orderPageStyle}>
           <Heading2>주문 / 결제</Heading2>
           <div className='order-progress' css={orderProgressStyle}>
