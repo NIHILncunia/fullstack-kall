@@ -33,8 +33,7 @@ export const getAuthUserById = async (id: string) => {
 
 // ==================== 전체 데이터 가져오기 ====================
 export const useUsers = () => {
-  const fallback = [];
-  const { data = fallback, } = useQuery<IUser[], AxiosError>(
+  const { data = [], } = useQuery<IUser[], AxiosError>(
     [ 'getUsers', ],
     getUsers
 
@@ -45,8 +44,7 @@ export const useUsers = () => {
 
 // ==================== 개별 데이터 가져오기 ====================
 export const useUserById = (id: string, options?: IQueryOptions) => {
-  const fallback = {};
-  const { data = fallback, } = useQuery<IUser, AxiosError>(
+  const { data = {}, } = useQuery<IUser, AxiosError>(
     [ 'getUserById', id, ],
     () => getUserById(id),
     {
@@ -60,8 +58,7 @@ export const useUserById = (id: string, options?: IQueryOptions) => {
 
 // ==================== 인증된 회원 정보 가져오기 ====================
 export const useAuthUserById = (id: string, options?: IQueryOptions) => {
-  const fallback = {};
-  const { data = fallback, } = useQuery<IUser, AxiosError>(
+  const { data = {}, } = useQuery<IUser, AxiosError>(
     [ 'getAuthUserById', id, ],
     () => getAuthUserById(id),
     {

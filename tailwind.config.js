@@ -145,12 +145,6 @@ module.exports = {
       },
     },
   },
-  /**
-   * &:first-of-type
-  &:last-of-type
-  &:not(:first-of-type)
-  &:not(:last-of-type)
-   */
   plugins: [
     plugin(({ addVariant, }) => {
       addVariant('first', [ '&:first-of-type', ]);

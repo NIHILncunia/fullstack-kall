@@ -15,7 +15,7 @@ export const AppLayout = ({
 
   const meta: IMetaData = {
     title,
-    url: location.pathname,
+    url: location.pathname + location.search,
     description,
     keywords,
     author,
